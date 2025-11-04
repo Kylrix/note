@@ -287,10 +287,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete }) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="absolute bottom-2 right-2 p-1.5 rounded-lg bg-accent/20 hover:bg-accent/30 transition-colors"
+              className="absolute bottom-3 right-3 p-2 rounded-lg bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/40 transition-all duration-200 shadow-card-light dark:shadow-card-dark hover:shadow-lg"
               title="Open shared note"
             >
-              <ArrowTopRightOnSquareIcon className="h-4 w-4 text-accent" />
+              <ArrowTopRightOnSquareIcon className="h-4 w-4 text-green-600 dark:text-green-400" />
             </a>
           )}
         </CardContent>
