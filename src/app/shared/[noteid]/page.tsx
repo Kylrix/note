@@ -86,6 +86,8 @@ export async function generateMetadata({ params }: { params: { noteid: string } 
 }
 
 export default async function SharedNotePage({ params }: { params: { noteid: string } }) {
+   // Note: Actual note fetching happens client-side with rate limiting & Turnstile verification
+   // This prevents abuse on the API endpoint while keeping metadata generation server-side
    const note = await validatePublicNoteAccess(params.noteid);
 
    if (!note) {
@@ -139,5 +141,5 @@ export default async function SharedNotePage({ params }: { params: { noteid: str
      );
    }
 
-   return <SharedNoteClient note={note} />;
+   return <SharedNoteClient note={note} noteId={params.noteid} />;
 }

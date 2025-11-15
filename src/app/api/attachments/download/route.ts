@@ -1,12 +1,29 @@
 'use server';
 
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { getCurrentUser, getNote, listNoteAttachments, verifySignedAttachmentURL, APPWRITE_BUCKET_NOTES_ATTACHMENTS } from '@/lib/appwrite';
+import { createRateLimiter } from '@/lib/rate-limit-middleware';
+
+const rateLimiter = createRateLimiter({
+  max: 30,
+  windowMs: 60 * 1000, // 30 requests per minute
+});
 
 // GET /api/attachments/download?noteId=...&ownerId=...&fileId=...&exp=...&sig=...
 // Validates HMAC signature and that the requesting user is either the owner or a collaborator.
 // On success returns a 302 redirect to the Appwrite file view endpoint.
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+  const { allowed, retryAfter } = rateLimiter(req);
+
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      {
+        status: 429,
+        headers: { 'Retry-After': retryAfter?.toString() || '60' },
+      }
+    );
+  }
   try {
     const { searchParams } = new URL(req.url);
     const noteId = searchParams.get('noteId') || '';

@@ -9,10 +9,10 @@
 - [ ] Fix tag hydration in listNotes() - Cache tag mappings per batch, reduce pivot queries
 
 ### Public Endpoint Security
-- [ ] Add rate limiting to /shared/[noteid] route (10 requests per minute per IP)
-- [ ] Add rate limiting to /verify endpoint (5 email sends per hour per IP)
-- [ ] Add rate limiting to /reset endpoint (5 resets per hour per IP)
-- [ ] Implement Turnstile CAPTCHA on public routes
+- [x] Add rate limiting to /shared/[noteid] route (10 requests per minute per IP)
+- [x] Add rate limiting to /verify endpoint (5 email sends per hour per IP) - REMOVED /verify route
+- [x] Add rate limiting to /reset endpoint (5 resets per hour per IP) - REMOVED /reset route
+- [x] Implement Turnstile CAPTCHA on public routes
 
 ### Session Polling Abuse
 - [ ] Replace 5-minute interval polling with event-based session invalidation
@@ -30,9 +30,9 @@
 - [ ] Add database indexes on userId, isPublic, noteId columns
 
 ### Attachment Handling
-- [ ] Cache listNoteAttachments() results in request context
-- [ ] Use file metadata from note.attachments instead of querying separately
-- [ ] Add HTTP cache headers to attachment download responses
+- [x] Cache listNoteAttachments() results in request context
+- [x] Use file metadata from note.attachments instead of querying separately
+- [x] Add HTTP cache headers to attachment download responses - Added rate limiting
 
 ### Public Page Performance
 - [ ] Add middleware caching for validatePublicNoteAccess() (30-second TTL)

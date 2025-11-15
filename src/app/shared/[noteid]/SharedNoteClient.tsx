@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
 import type { Notes } from '@/types/appwrite.d';
 import ReactMarkdown from 'react-markdown';
@@ -11,10 +11,12 @@ import { ClockIcon, EyeIcon, TagIcon, ArrowRightIcon } from '@heroicons/react/24
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { useAuth } from '@/components/ui/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { PublicNoteAccess } from '@/components/PublicNoteAccess';
 import Image from 'next/image';
 
 interface SharedNoteClientProps {
-  note: Notes;
+  note: Notes | null;
+  noteId: string;
 }
 
 function SharedNoteHeader() {
@@ -90,7 +92,32 @@ function SharedNoteHeader() {
   );
 }
 
-export default function SharedNoteClient({ note }: SharedNoteClientProps) {
+export default function SharedNoteClient({ note, noteId }: SharedNoteClientProps) {
+  const [verifiedNote, setVerifiedNote] = useState<Notes | null>(note || null);
+  const [error, setError] = useState<string | null>(null);
+
+  if (!verifiedNote) {
+    return (
+      <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center p-4">
+        <div className="max-w-md w-full space-y-6">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-foreground mb-2">Verify Access</h1>
+            <p className="text-muted">Please complete the verification to view this shared note</p>
+          </div>
+          <PublicNoteAccess
+            noteId={noteId}
+            onVerified={setVerifiedNote}
+            onError={setError}
+          />
+          {error && (
+            <div className="bg-red-100/80 dark:bg-red-900/30 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
   const { isAuthenticated, isLoading } = useAuth();
   const [isCopied, setIsCopied] = React.useState(false);
 
