@@ -12,7 +12,8 @@ import { CheckIcon } from '@heroicons/react/24/solid';
 import { useAuth } from '@/components/ui/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { PublicNoteAccess } from '@/components/PublicNoteAccess';
-import { LinkComponent, preProcessMarkdown } from '@/lib/markdown';
+import { LinkComponent } from '@/components/LinkRenderer';
+import { preProcessMarkdown } from '@/lib/markdown';
 import Image from 'next/image';
 
 interface SharedNoteClientProps {
