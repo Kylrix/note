@@ -6,6 +6,9 @@ import { Notes } from '@/types/appwrite';
 import { formatNoteCreatedDate } from '@/lib/date-utils';
 import { useNotes } from '@/contexts/NotesContext';
 import { useSearch } from '@/hooks/useSearch';
+import { useDynamicSidebar } from '@/components/ui/DynamicSidebar';
+import { NoteDetailSidebar } from '@/components/ui/NoteDetailSidebar';
+import { deleteNote } from '@/lib/appwrite';
 
 interface TopBarSearchProps {
   className?: string;
@@ -16,7 +19,7 @@ export function TopBarSearch({ className = '' }: TopBarSearchProps) {
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { notes } = useNotes();
+  const { notes, upsertNote, removeNote } = useNotes();
 
   const searchConfig = {
     searchFields: ['title', 'content', 'tags'],
@@ -77,6 +80,44 @@ export function TopBarSearch({ className = '' }: TopBarSearchProps) {
     setIsOpen(true);
   };
 
+  const handleNoteUpdated = useCallback(
+    (updatedNote: Notes) => {
+      upsertNote(updatedNote);
+    },
+    [upsertNote]
+  );
+
+  const handleNoteDeleted = useCallback(
+    async (noteId: string) => {
+      if (!noteId) return;
+      try {
+        await deleteNote(noteId);
+        removeNote(noteId);
+      } catch (error) {
+        console.error('Failed to delete note from search sidebar:', error);
+      }
+    },
+    [removeNote]
+  );
+
+  const { openSidebar } = useDynamicSidebar();
+
+  const handleResultSelect = useCallback(
+    (note: Notes) => {
+      openSidebar(
+        <NoteDetailSidebar
+          note={note}
+          onUpdate={handleNoteUpdated}
+          onDelete={handleNoteDeleted}
+        />
+      );
+      setIsOpen(false);
+      clearSearch();
+      inputRef.current?.blur();
+    },
+    [clearSearch, handleNoteDeleted, handleNoteUpdated, openSidebar]
+  );
+
   const hasSearchResults = searchResults.length > 0;
   const showDropdown = isOpen && searchQuery.length > 0;
 
@@ -132,11 +173,11 @@ export function TopBarSearch({ className = '' }: TopBarSearchProps) {
               </div>
               <div className="max-h-80 overflow-y-auto">
                 {searchResults.map((note: Notes) => (
-                  <a
+                  <button
                     key={note.$id}
-                    href={`/notes/${note.$id}`}
-                    className="block px-4 py-3 hover:bg-background transition-colors border-b border-border last:border-b-0"
-                    onClick={() => setIsOpen(false)}
+                    type="button"
+                    className="w-full text-left block px-4 py-3 hover:bg-background transition-colors border-b border-border last:border-b-0"
+                    onClick={() => handleResultSelect(note)}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">
@@ -170,7 +211,7 @@ export function TopBarSearch({ className = '' }: TopBarSearchProps) {
                         {formatNoteCreatedDate(note, { year: 'numeric', month: 'short', day: 'numeric' })}
                       </div>
                     </div>
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>
