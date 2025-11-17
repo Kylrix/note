@@ -1,6 +1,8 @@
-import { databases, APPWRITE_DATABASE_ID, ID, Query } from '@/lib/appwrite';
-import { getCurrentUser } from '@/lib/appwrite';
-import type { NoteRevisions } from '@/types/appwrite';
+// Removed unused imports
+const REVISION_LIMITS = {
+  free: 3,
+  paid: 10,
+};
 
 const REVISION_LIMITS = {
   free: 3,

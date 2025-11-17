@@ -1913,22 +1913,6 @@ export function verifySignedAttachmentURL(params: { noteId: string; ownerId: str
 }
 
 
-// --- NOTE REVISIONS UTILITIES ---
-export async function listNoteRevisions(noteId: string, limit: number = 50) {
-  try {
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
-    const res = await databases.listDocuments(
-      APPWRITE_DATABASE_ID,
-      revisionsCollection,
-      [Query.equal('noteId', noteId), Query.orderDesc('revision'), Query.limit(limit)] as any
-    );
-    return res;
-  } catch (e) {
-    console.error('listNoteRevisions failed', e);
-    return { documents: [], total: 0 } as any;
-  }
-}
-
 // --- MAINTENANCE HELPERS (Best-effort, on-demand) ---
 // Backfill tagId on legacy note_tags rows missing tagId for a user's notes
 export async function backfillNoteTagPivots(userId?: string) {
@@ -2299,7 +2283,6 @@ export default {
   uploadNoteAttachment,
   getNoteAttachment,
    deleteNoteAttachment,
-   listNoteRevisions,
    backfillNoteTagPivots,
    reconcileTagUsage,
    auditNoteTagPivots,

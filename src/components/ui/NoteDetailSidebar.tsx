@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Notes } from '@/types/appwrite';
 import DoodleCanvas from '@/components/DoodleCanvas';
 import { PencilIcon, TrashIcon, UserIcon, ClipboardDocumentIcon, PaperClipIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
@@ -10,10 +10,11 @@ import { useToast } from '@/components/ui/Toast';
 import { useRouter } from 'next/navigation';
 import { useDynamicSidebar } from '@/components/ui/DynamicSidebar';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
-import { getNoteWithSharing } from '@/lib/appwrite';
+import { getNoteWithSharing, updateNote } from '@/lib/appwrite';
 import { formatFileSize } from '@/lib/utils';
 import NoteContentDisplay from '@/components/NoteContentDisplay';
 import { NoteContentRenderer } from '@/components/NoteContentRenderer';
+import { useAutosave } from '@/hooks/useAutosave';
 
 interface NoteDetailSidebarProps {
   note: Notes;
@@ -40,6 +41,7 @@ export function NoteDetailSidebar({ note, onUpdate, onDelete }: NoteDetailSideba
   const [attachmentErrors, setAttachmentErrors] = useState<string[]>([]);
   const [currentAttachments, setCurrentAttachments] = useState<any[]>([]);
   const [enhancedNote, setEnhancedNote] = useState<EnhancedNote | null>(null);
+  const wasEditingRef = useRef(isEditing);
 
   const { showSuccess, showError } = useToast();
   const noteFormat = (note.format as 'text' | 'doodle') || 'text';
@@ -77,6 +79,75 @@ export function NoteDetailSidebar({ note, onUpdate, onDelete }: NoteDetailSideba
 
     loadEnhancedNote();
   }, [note.$id]);
+
+  useEffect(() => {
+    setTitle(note.title || '');
+    setContent(note.content || '');
+    setFormat((note.format as 'text' | 'doodle') || 'text');
+    setTags((note.tags || []).join(', '));
+  }, [note.$id, note.title, note.content, note.format, note.tags]);
+
+  const normalizedTags = useMemo(() => {
+    return tags
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }, [tags]);
+
+  const autosaveCandidate = useMemo<Notes>(() => ({
+    ...note,
+    title: title.trim(),
+    content: content.trim(),
+    format,
+    tags: normalizedTags,
+  }), [note, title, content, format, normalizedTags]);
+
+  const saveNote = useCallback(async (candidate: Notes) => {
+    if (!candidate.$id) return candidate;
+    const payload: Partial<Notes> = {
+      title: candidate.title,
+      content: candidate.content,
+      format: candidate.format,
+      tags: candidate.tags,
+      isPublic: candidate.isPublic,
+      status: candidate.status,
+      parentNoteId: candidate.parentNoteId,
+      comments: candidate.comments,
+      extensions: candidate.extensions,
+      collaborators: candidate.collaborators,
+      metadata: candidate.metadata,
+    };
+    const saved = await updateNote(candidate.$id, payload);
+    onUpdate(saved);
+    return saved;
+  }, [onUpdate]);
+
+  const { isSaving: isAutosaving, forceSave } = useAutosave(autosaveCandidate, {
+    enabled: isEditing && !!note.$id,
+    debounceMs: 600,
+    save: saveNote,
+    onSave: () => {
+      // local state already updated via onUpdate
+    },
+    onError: (error) => {
+      showError('Autosave failed', error?.message || 'Could not sync your note');
+    },
+  });
+
+  useEffect(() => {
+    if (wasEditingRef.current && !isEditing && autosaveCandidate.$id) {
+      forceSave(autosaveCandidate);
+    }
+    wasEditingRef.current = isEditing;
+  }, [isEditing, autosaveCandidate, forceSave]);
+
+  useEffect(() => {
+    return () => {
+      if (autosaveCandidate.$id) {
+        forceSave(autosaveCandidate);
+      }
+    };
+  }, [autosaveCandidate, forceSave]);
 
   const handleDoodleSave = (doodleData: string) => {
     setContent(doodleData);
@@ -139,36 +210,11 @@ export function NoteDetailSidebar({ note, onUpdate, onDelete }: NoteDetailSideba
     }
   };
 
-  const handleSave = () => {
-    // Create updated note preserving ID and other system fields
-    // but only updating the fields we've modified
-    const updatedNote: Notes = {
-      $id: note.$id,
-      id: note.id,
-      userId: note.userId,
-      createdAt: note.createdAt,
-      updatedAt: new Date().toISOString(),
-      title: title.trim(),
-      content: content.trim(),
-      format: format as string,
-      tags: tags.split(',').map((tag: string) => tag.trim()).filter(Boolean),
-      isPublic: note.isPublic,
-      status: note.status,
-      parentNoteId: note.parentNoteId,
-      comments: note.comments,
-      extensions: note.extensions,
-      collaborators: note.collaborators,
-      metadata: note.metadata,
-    } as Notes;
-    onUpdate(updatedNote);
-    setIsEditing(false);
-  };
-
   const handleCancel = () => {
-    setTitle(note.title);
-    setContent(note.content);
-    setFormat(note.format as 'text' | 'doodle' || 'text');
-    setTags(note.tags?.join(', ') || '');
+    setTitle(note.title || '');
+    setContent(note.content || '');
+    setFormat((note.format as 'text' | 'doodle') || 'text');
+    setTags((note.tags || []).join(', '));
     setIsEditing(false);
   };
 
@@ -446,11 +492,12 @@ export function NoteDetailSidebar({ note, onUpdate, onDelete }: NoteDetailSideba
 
       {/* Edit Actions */}
       {isEditing && (
-        <div className="flex gap-2 pt-4 border-t border-border">
-          <Button onClick={handleSave} className="flex-1">
-            Save Changes
-          </Button>
-          <Button variant="ghost" onClick={handleCancel}>
+        <div className="flex flex-col gap-3 pt-4 border-t border-border">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>{isAutosaving ? 'Saving changes…' : 'All changes saved'}</span>
+            {isAutosaving && <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />}
+          </div>
+          <Button variant="ghost" onClick={handleCancel} className="w-full">
             Cancel
           </Button>
         </div>

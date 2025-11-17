@@ -10,6 +10,7 @@ interface AutosaveOptions {
   enabled?: boolean;
   onSave?: (note: Notes) => void;
   onError?: (error: Error) => void;
+  save?: (note: Notes) => Promise<Notes>;
 }
 
 function arraysEqual(a?: string[] | null, b?: string[] | null) {
@@ -44,6 +45,13 @@ function shouldSave(
   return false;
 }
 
+async function defaultSave(note: Notes): Promise<Notes> {
+  if (!note.$id) {
+    throw new Error('Missing note id for autosave');
+  }
+  return updateNote(note.$id, note);
+}
+
 export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
   const {
     minChangeThreshold = 0,
@@ -51,6 +59,7 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
     enabled = true,
     onSave,
     onError,
+    save,
   } = options;
 
   const [isSaving, setIsSaving] = useState(false);
@@ -58,9 +67,11 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isSavingRef = useRef(false);
 
+  const saveFn = save ?? defaultSave;
+
   const performSave = useCallback(
-    async (candidate: Notes) => {
-      if (!enabled || isSavingRef.current || !candidate.$id) return;
+    async (candidate: Notes, force = false) => {
+      if ((!enabled && !force) || isSavingRef.current || !candidate.$id) return;
       if (!shouldSave(lastSavedRef.current, candidate, minChangeThreshold)) {
         return;
       }
@@ -69,8 +80,8 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
       setIsSaving(true);
 
       try {
-        const saved = await updateNote(candidate.$id, candidate);
-        lastSavedRef.current = candidate;
+        const saved = await saveFn(candidate);
+        lastSavedRef.current = saved;
         onSave?.(saved);
       } catch (error) {
         console.error('Autosave failed:', error);
@@ -80,8 +91,10 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
         setIsSaving(false);
       }
     },
-    [enabled, minChangeThreshold, onSave, onError]
+    [enabled, minChangeThreshold, onSave, onError, saveFn]
   );
+
+  const forceSave = useCallback((candidate: Notes) => performSave(candidate, true), [performSave]);
 
   useEffect(() => {
     if (!note) {
@@ -118,6 +131,7 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
 
   return {
     isSaving,
+    forceSave,
   };
 }
 

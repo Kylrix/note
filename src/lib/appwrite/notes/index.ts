@@ -193,59 +193,6 @@ export async function updateNote(noteId: string, data: Partial<Notes>) {
     data: updatedData
   }) as any;
 
-  // Revisions logging
-  try {
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
-    const significantFields = ['title', 'content', 'tags'];
-    let changed = false;
-    const changes: Record<string, { before: any; after: any }> = {};
-    for (const f of significantFields) {
-      if (f in (data as any)) {
-        const prevVal = before[f];
-        const newVal = (data as any)[f];
-        const prevSerialized = JSON.stringify(prevVal ?? null);
-        const newSerialized = JSON.stringify(newVal ?? null);
-        if (prevSerialized !== newSerialized) {
-          changed = true;
-          changes[f] = { before: prevVal ?? null, after: newVal ?? null };
-        }
-      }
-    }
-    if (changed) {
-      let revisionNumber = 1;
-      try {
-        const existing = await tablesDB.listRows({
-          databaseId: APPWRITE_DATABASE_ID,
-          tableId: revisionsCollection,
-          queries: [Query.equal('noteId', noteId), Query.orderDesc('revision'), Query.limit(1)] as any
-        });
-        if (existing.rows.length) {
-          revisionNumber = (existing.rows[0] as any).revision + 1;
-        }
-      } catch {}
-      let diffObj = { changes } as any;
-      let diffStr = '';
-      try { diffStr = JSON.stringify(diffObj).slice(0, 7900); } catch { diffStr = ''; }
-      await tablesDB.createRow({
-        databaseId: APPWRITE_DATABASE_ID,
-        tableId: revisionsCollection,
-        rowId: ID.unique(),
-        data: {
-          noteId,
-          revision: revisionNumber,
-          userId: before.userId || null,
-          createdAt: updatedAt,
-          title: doc.title,
-          content: doc.content,
-          diff: diffStr || null,
-          diffFormat: diffStr ? 'json' : null,
-          fullSnapshot: true,
-          cause: 'manual'
-        }
-      });
-    }
-  } catch {}
-
   // Tags update & pivot sync
   try {
     if (Array.isArray((data as any).tags)) {
@@ -451,18 +398,4 @@ export async function getAllNotes(): Promise<{ documents: Notes[]; total: number
     }
   } catch {}
   return { documents: allNotes, total: allNotes.length };
-}
-
-export async function listNoteRevisions(noteId: string, limit: number = 50) {
-  try {
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
-    const res = await tablesDB.listRows({
-      databaseId: APPWRITE_DATABASE_ID,
-      tableId: revisionsCollection,
-      queries: [Query.equal('noteId', noteId), Query.orderDesc('revision'), Query.limit(limit)] as any
-    });
-    return { documents: res.rows, total: res.total } as any;
-  } catch {
-    return { documents: [], total: 0 } as any;
-  }
 }
