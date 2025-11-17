@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
 import type { Notes } from '@/types/appwrite.d';
 import { ClockIcon, EyeIcon, TagIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { useAuth } from '@/components/ui/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { PublicNoteAccess } from '@/components/PublicNoteAccess';
 import { NoteContentRenderer } from '@/components/NoteContentRenderer';
 import Image from 'next/image';
 
@@ -91,25 +90,55 @@ function SharedNoteHeader() {
 export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
   const [verifiedNote, setVerifiedNote] = useState<Notes | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoadingNote, setIsLoadingNote] = useState(true);
   const { isAuthenticated, isLoading } = useAuth();
   const [isCopied, setIsCopied] = React.useState(false);
+
+  const fetchSharedNote = useCallback(async () => {
+    setIsLoadingNote(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/shared/${noteId}`);
+      if (!res.ok) {
+        const payload = await res.json().catch(() => ({}));
+        throw new Error(payload.error || 'Failed to load shared note');
+      }
+      const note = await res.json();
+      setVerifiedNote(note);
+    } catch (err: any) {
+      const message = err?.message || 'An error occurred';
+      setError(message);
+    } finally {
+      setIsLoadingNote(false);
+    }
+  }, [noteId]);
+
+  useEffect(() => {
+    fetchSharedNote();
+  }, [fetchSharedNote]);
 
   if (!verifiedNote) {
     return (
       <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center p-4">
-        <div className="max-w-md w-full space-y-6">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-2">Verify Access</h1>
-            <p className="text-muted">Please complete the verification to view this shared note</p>
-          </div>
-          <PublicNoteAccess
-            noteId={noteId}
-            onVerified={setVerifiedNote}
-            onError={setError}
-          />
-          {error && (
-            <div className="bg-red-100/80 dark:bg-red-900/30 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
-              {error}
+        <div className="max-w-md w-full space-y-6 text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-2">Loading shared note</h1>
+          {error ? (
+            <div className="space-y-4">
+              <p className="text-muted">{error}</p>
+              <button
+                type="button"
+                onClick={fetchSharedNote}
+                className="inline-flex items-center justify-center rounded-lg px-4 py-2 bg-accent text-white text-sm font-medium"
+              >
+                Retry loading note
+              </button>
+            </div>
+          ) : (
+            <p className="text-muted">Fetching the shared note. Please wait.</p>
+          )}
+          {isLoadingNote && (
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
             </div>
           )}
         </div>
