@@ -214,7 +214,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           return;
         }
 
-        const idmUrl = `https://${authSubdomain}.${domain}`;
+        const idmUrl = `https://${authSubdomain}.${domain}/login`;
         const width = 400;
         const height = 600;
         const left = window.screenX + (window.outerWidth - width) / 2;
