@@ -63,6 +63,7 @@ export function DynamicSidebar() {
 
       {/* Sidebar */}
       <div
+        data-dynamic-sidebar
         className={`fixed top-0 right-0 h-full flex flex-col bg-light-bg dark:bg-dark-bg border-l border-light-border dark:border-dark-border z-50 transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } w-full sm:w-96 md:w-[28rem] lg:w-[32rem]`}

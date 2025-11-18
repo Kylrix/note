@@ -11,6 +11,7 @@ interface AutosaveOptions {
   onSave?: (note: Notes) => void;
   onError?: (error: Error) => void;
   save?: (note: Notes) => Promise<Notes>;
+  trigger?: 'continuous' | 'manual';
 }
 
 function arraysEqual(a?: string[] | null, b?: string[] | null) {
@@ -60,6 +61,7 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
     onSave,
     onError,
     save,
+    trigger = 'continuous',
   } = options;
 
   const [isSaving, setIsSaving] = useState(false);
@@ -107,6 +109,7 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
   }, [note?.$id]);
 
   useEffect(() => {
+    if (trigger === 'manual') return;
     if (!enabled || !note) return;
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
@@ -119,7 +122,7 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [note, enabled, debounceMs, performSave]);
+  }, [note, enabled, debounceMs, performSave, trigger]);
 
   useEffect(() => {
     return () => {

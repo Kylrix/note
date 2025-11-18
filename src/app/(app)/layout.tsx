@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DesktopSidebar, MobileBottomNav } from '@/components/Navigation';
 import AppHeader from '@/components/AppHeader';
 import { SidebarProvider, useSidebar } from '@/components/ui/SidebarContext';
@@ -9,7 +9,23 @@ import { NotesProvider } from '@/contexts/NotesContext';
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebar();
-  const { isOpen: isDynamicSidebarOpen } = useDynamicSidebar();
+  const { isOpen: isDynamicSidebarOpen, closeSidebar } = useDynamicSidebar();
+
+  useEffect(() => {
+    if (!isDynamicSidebarOpen) return;
+    const handlePointerDown = (event: PointerEvent) => {
+      const sidebarElement = document.querySelector('[data-dynamic-sidebar]');
+      if (sidebarElement?.contains(event.target as Node)) {
+        return;
+      }
+      closeSidebar();
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isDynamicSidebarOpen, closeSidebar]);
   
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">

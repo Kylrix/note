@@ -30,6 +30,16 @@ interface EnhancedNote extends Notes {
   sharedBy?: { name: string; email: string } | null;
 }
 
+const shallowArrayEqual = (a?: string[] | null, b?: string[] | null) => {
+  if (!a && !b) return true;
+  if (!a || !b) return false;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
 export function NoteDetailSidebar({
   note,
   onUpdate,
@@ -51,13 +61,14 @@ export function NoteDetailSidebar({
   const [attachmentErrors, setAttachmentErrors] = useState<string[]>([]);
   const [currentAttachments, setCurrentAttachments] = useState<any[]>([]);
   const [enhancedNote, setEnhancedNote] = useState<EnhancedNote | null>(null);
-  const wasEditingRef = useRef(isEditing);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
   const titleContainerRef = useRef<HTMLDivElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const titleIdleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const contentIdleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const exitSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevNoteIdRef = useRef(note.$id);
 
   const { showSuccess, showError } = useToast();
   const noteFormat = (note.format as 'text' | 'doodle') || 'text';
@@ -97,13 +108,19 @@ export function NoteDetailSidebar({
   }, [note.$id]);
 
   useEffect(() => {
-    setTitle(note.title || '');
-    setContent(note.content || '');
-    setFormat((note.format as 'text' | 'doodle') || 'text');
-    setTags((note.tags || []).join(', '));
-    setIsEditingTitle(false);
-    setIsEditingContent(false);
-  }, [note.$id, note.title, note.content, note.format, note.tags]);
+    const noteIdChanged = note.$id !== prevNoteIdRef.current;
+    if (noteIdChanged || !isEditing) {
+      setTitle(note.title || '');
+      setContent(note.content || '');
+      setFormat((note.format as 'text' | 'doodle') || 'text');
+      setTags((note.tags || []).join(', '));
+      if (noteIdChanged) {
+        prevNoteIdRef.current = note.$id;
+        setIsEditingTitle(false);
+        setIsEditingContent(false);
+      }
+    }
+  }, [note.$id, note.title, note.content, note.format, note.tags, isEditing]);
 
   const normalizedTags = useMemo(() => {
     return tags
@@ -203,8 +220,9 @@ export function NoteDetailSidebar({
   }, [onUpdate]);
 
   const { isSaving: isAutosaving, forceSave } = useAutosave(autosaveCandidate, {
-    enabled: isEditing && !!note.$id,
+    enabled: !!note.$id,
     debounceMs: 600,
+    trigger: 'manual',
     save: saveNote,
     onSave: () => {
       // local state already updated via onUpdate
@@ -215,19 +233,57 @@ export function NoteDetailSidebar({
   });
 
   useEffect(() => {
-    if (wasEditingRef.current && !isEditing && autosaveCandidate.$id) {
-      forceSave(autosaveCandidate);
+    if (exitSaveTimerRef.current) {
+      clearTimeout(exitSaveTimerRef.current);
+      exitSaveTimerRef.current = null;
     }
-    wasEditingRef.current = isEditing;
+    if (isEditing || !autosaveCandidate.$id) {
+      return;
+    }
+    exitSaveTimerRef.current = setTimeout(() => {
+      forceSave(autosaveCandidate);
+      exitSaveTimerRef.current = null;
+    }, 1200);
+    return () => {
+      if (exitSaveTimerRef.current) {
+        clearTimeout(exitSaveTimerRef.current);
+        exitSaveTimerRef.current = null;
+      }
+    };
   }, [isEditing, autosaveCandidate, forceSave]);
 
   useEffect(() => {
     return () => {
+      if (exitSaveTimerRef.current) {
+        clearTimeout(exitSaveTimerRef.current);
+      }
       if (autosaveCandidate.$id) {
         forceSave(autosaveCandidate);
       }
     };
   }, [autosaveCandidate, forceSave]);
+
+  useEffect(() => {
+    if (!isEditing || !note.$id) return;
+    const trimmedTitle = title.trim();
+    const trimmedContent = content.trim();
+    const tagsMatch = shallowArrayEqual(note.tags || [], normalizedTags);
+    const matchesExisting =
+      (note.title || '') === trimmedTitle &&
+      (note.content || '') === trimmedContent &&
+      (note.format || 'text') === format &&
+      tagsMatch;
+    if (matchesExisting) return;
+
+    onUpdate({
+      ...note,
+      title: trimmedTitle,
+      content: trimmedContent,
+      format,
+      tags: normalizedTags,
+      updatedAt: new Date().toISOString(),
+    });
+  }, [isEditing, title, content, format, normalizedTags, note, onUpdate]);
 
   const handleDoodleSave = (doodleData: string) => {
     setContent(doodleData);
