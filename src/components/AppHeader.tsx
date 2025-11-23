@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { UserCircleIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { Cog6ToothIcon, ArrowRightOnRectangleIcon, SparklesIcon, Squares2X2Icon } from '@heroicons/react/24/outline';
 import { useAuth } from '@/components/ui/AuthContext';
 // AI context removed for lazy loading
 import { TopBarSearch } from '@/components/TopBarSearch';
@@ -10,6 +10,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { useOverlay } from '@/components/ui/OverlayContext';
 import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePreview';
 import { getUserProfilePicId } from '@/lib/utils';
+import { ECOSYSTEM_APPS, getEcosystemUrl, DEFAULT_ECOSYSTEM_LOGO } from '@/constants/ecosystem';
 
 interface AppHeaderProps {
   className?: string;
@@ -21,11 +22,20 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiGenerating, setAiGenerating] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const [isAppsMenuOpen, setIsAppsMenuOpen] = useState(false);
+  const [currentSubdomain, setCurrentSubdomain] = useState<string | null>(null);
   const [smallProfileUrl, setSmallProfileUrl] = useState<string | null>(null);
   const profilePicId = getUserProfilePicId(user);
 
   useEffect(() => {
-    // Component initialization if needed
+    if (typeof window === 'undefined') return;
+    const host = window.location.hostname;
+    const segments = host.split('.');
+    if (segments.length <= 2) {
+      setCurrentSubdomain('app');
+      return;
+    }
+    setCurrentSubdomain(segments[0]);
   }, [isAuthenticated, user]);
 
   useEffect(() => {
@@ -80,6 +90,13 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
     return null;
   }
 
+  const handleAppClick = (subdomain: string | undefined) => {
+    if (!subdomain) return;
+    if (typeof window === 'undefined') return;
+    if (currentSubdomain === subdomain) return;
+    window.location.href = getEcosystemUrl(subdomain);
+  };
+
   return (
     <header className={`fixed top-0 right-0 left-0 z-30 bg-background/80 backdrop-blur-sm border-b border-border ${className}`}>
       <div className="flex items-center justify-between px-6 py-3 gap-4">
@@ -115,6 +132,69 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
               {aiLoading ? 'Loading...' : aiGenerating ? 'Generating...' : 'AI Generate'}
             </Button>
           </div>
+
+          {/* Apps Dropdown Button */}
+          <div className="hidden md:block">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2"
+              onClick={() => setIsAppsMenuOpen((prev) => !prev)}
+              aria-expanded={isAppsMenuOpen}
+            >
+              <Squares2X2Icon className="h-4 w-4" />
+              <span>Apps</span>
+            </Button>
+          </div>
+
+          <button
+            onClick={() => setIsAppsMenuOpen((prev) => !prev)}
+            className="md:hidden flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-card/80 transition-all duration-200"
+          >
+            <Squares2X2Icon className="h-4 w-4" />
+            <span>Apps</span>
+          </button>
+
+          {isAppsMenuOpen && (
+            <>
+              <div 
+                className="fixed inset-0 z-10"
+                onClick={() => setIsAppsMenuOpen(false)}
+              />
+              <div className="absolute top-full right-0 mt-2 w-72 rounded-2xl border border-border bg-card shadow-lg shadow-black/5 z-20">
+                <div className="px-4 py-2 text-xs uppercase font-semibold tracking-wide text-muted-foreground">
+                  Apps
+                </div>
+                <div className="grid grid-cols-3 gap-3 px-3 py-3 text-center">
+                  {ECOSYSTEM_APPS.map((app) => {
+                    const isActive = currentSubdomain === app.subdomain;
+                    return (
+                      <button
+                        key={app.id}
+                        type="button"
+                        onClick={() => handleAppClick(app.subdomain)}
+                        disabled={isActive}
+                        className={`flex flex-col items-center gap-2 rounded-2xl border border-border px-3 py-3 text-center transition-all duration-200 ${
+                          isActive
+                            ? 'bg-muted text-foreground/70 cursor-default'
+                            : 'bg-background hover:border-accent hover:shadow-inner-light dark:hover:shadow-inner-dark'
+                        }`}
+                      >
+                        <img
+                          src={DEFAULT_ECOSYSTEM_LOGO}
+                          alt={`${app.label} logo`}
+                          className={`h-10 w-10 rounded-lg border ${isActive ? 'border-foreground/10' : 'border-border'} object-cover`}
+                        />
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-foreground">
+                          {app.label}
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
 
            {/* Account Menu Button - Mobile Only */}
            <button
