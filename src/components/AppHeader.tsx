@@ -161,11 +161,11 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
                 className="fixed inset-0 z-10"
                 onClick={() => setIsAppsMenuOpen(false)}
               />
-              <div className="absolute top-full right-0 mt-2 w-56 max-h-[70vh] overflow-y-auto rounded-2xl border border-border bg-card shadow-lg shadow-black/5 z-20">
+              <div className="absolute top-full right-0 mt-2 w-48 max-h-[70vh] overflow-y-auto rounded-2xl border border-border bg-card shadow-lg shadow-black/5 z-20">
                 <div className="px-4 py-2 text-[10px] font-semibold text-muted-foreground">
                   Apps
                 </div>
-                <div className="flex flex-wrap justify-center gap-4 px-3 py-3">
+                <div className="flex flex-wrap justify-center gap-3 px-3 py-2">
                   {ECOSYSTEM_APPS.map((app) => {
                     const isActive = currentSubdomain === app.subdomain;
                     return (
@@ -174,16 +174,16 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
                         type="button"
                         onClick={() => handleAppClick(app.subdomain)}
                         disabled={isActive}
-                        className={`flex min-w-[64px] flex-col items-center gap-2 px-1 text-[10px] font-semibold transition-colors duration-150 ${
+                        className={`flex min-w-[60px] flex-col items-center gap-2 rounded-2xl px-1 py-2 text-[10px] font-semibold transition duration-150 shadow-sm shadow-black/20 ${
                           isActive
-                            ? 'text-foreground/70 cursor-default'
-                            : 'text-foreground/70 hover:text-foreground'
+                            ? 'cursor-default opacity-70'
+                            : 'text-foreground hover:text-foreground hover:bg-yellow-50 dark:hover:bg-yellow-500/20 active:bg-yellow-100 dark:active:bg-yellow-400/20'
                         }`}
                       >
                         <img
                           src="/logo/whisperrnote.png"
                           alt="Whisperrnote logo"
-                          className={`h-8 w-8 rounded-full border ${isActive ? 'border-foreground/10' : 'border-border'} object-cover`}
+                          className={`h-8 w-8 rounded-md object-cover shadow-lg shadow-yellow-500/30`}
                         />
                         <p className="text-[9px] font-semibold text-foreground">
                           {app.label}
