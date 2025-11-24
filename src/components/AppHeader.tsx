@@ -174,7 +174,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
                         type="button"
                         onClick={() => handleAppClick(app.subdomain)}
                         disabled={isActive}
-                        className={`flex w-full flex-col items-center gap-1 text-[10px] font-semibold transition-colors duration-150 sm:flex-row sm:justify-center sm:gap-2 sm:text-[11px] ${
+                        className={`flex w-full flex-col items-center gap-1 text-[10px] font-semibold transition-colors duration-150 ${
                           isActive
                             ? 'text-foreground/70 cursor-default'
                             : 'text-foreground/70 hover:text-foreground'
