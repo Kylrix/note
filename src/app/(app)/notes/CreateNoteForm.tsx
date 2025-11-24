@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { createNote as appwriteCreateNote } from '@/lib/appwrite';
 import { useOverlay } from '@/components/ui/OverlayContext';
@@ -16,6 +16,7 @@ import {
   PlusIcon,
   PencilIcon
 } from '@heroicons/react/24/outline';
+import { AUTO_TITLE_CONFIG } from '@/constants/noteTitle';
 
 interface CreateNoteFormProps {
   onNoteCreated: (note: Notes) => void;
@@ -42,6 +43,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
   const [uploadErrors, setUploadErrors] = useState<string[]>([]);
   const [showDoodleEditor, setShowDoodleEditor] = useState(false);
   const { closeOverlay } = useOverlay();
+  const [isTitleManuallyEdited, setIsTitleManuallyEdited] = useState(Boolean(initialContent?.title));
 
   const handleAddTag = () => {
     if (currentTag.trim() && !tags.includes(currentTag.trim())) {
@@ -61,11 +63,26 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
     }
   };
 
+  const handleTitleChange = (value: string) => {
+    setIsTitleManuallyEdited(true);
+    setTitle(value);
+  };
+
   const handleDoodleSave = (doodleData: string) => {
     setContent(doodleData);
     setFormat('doodle');
     setShowDoodleEditor(false);
   };
+
+  useEffect(() => {
+    if (format !== 'text') return;
+    if (isTitleManuallyEdited) return;
+
+    const generatedTitle = buildAutoTitleFromContent(content);
+    if (generatedTitle !== title) {
+      setTitle(generatedTitle);
+    }
+  }, [content, format, isTitleManuallyEdited, title]);
 
   const handleCreateNote = async () => {
     if (!title.trim() || isLoading || uploading) return;
@@ -204,7 +221,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
               type="text"
               placeholder="Give your note a memorable title..."
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => handleTitleChange(e.target.value)}
               className="w-full p-4 bg-light-bg dark:bg-dark-bg border-2 border-light-border dark:border-dark-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-light-fg dark:text-dark-fg placeholder-light-fg/50 dark:placeholder-dark-fg/50 transition-all duration-200"
               maxLength={255}
             />
@@ -542,4 +559,54 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
     </div>
     </>
   );
+}
+
+function buildAutoTitleFromContent(rawContent: string): string {
+  const normalized = rawContent.trim().replace(/\s+/g, ' ');
+  if (!normalized) return '';
+
+  const words = normalized.split(' ').filter(Boolean);
+  if (!words.length) return '';
+
+  const selectedWords: string[] = [];
+  for (let i = 0; i < words.length && selectedWords.length < AUTO_TITLE_CONFIG.maxWords; i++) {
+    const candidateWords = [...selectedWords, words[i]];
+    const candidateText = candidateWords.join(' ');
+    const limit = computeTitleCharacterLimit(candidateWords);
+
+    if (selectedWords.length === 0 || candidateText.length <= limit) {
+      selectedWords.push(words[i]);
+      continue;
+    }
+    break;
+  }
+
+  let titleCandidate = selectedWords.join(' ');
+  if (
+    titleCandidate.length < AUTO_TITLE_CONFIG.minCharLength &&
+    selectedWords.length < Math.min(words.length, AUTO_TITLE_CONFIG.maxWords)
+  ) {
+    let cursor = selectedWords.length;
+    while (
+      titleCandidate.length < AUTO_TITLE_CONFIG.minCharLength &&
+      cursor < words.length &&
+      selectedWords.length < AUTO_TITLE_CONFIG.maxWords
+    ) {
+      selectedWords.push(words[cursor]);
+      cursor += 1;
+      titleCandidate = selectedWords.join(' ');
+    }
+  }
+
+  return titleCandidate;
+}
+
+function computeTitleCharacterLimit(words: string[]): number {
+  if (!words.length) {
+    return AUTO_TITLE_CONFIG.baseCharLimit;
+  }
+
+  const averageLen = words.reduce((sum, word) => sum + word.length, 0) / words.length;
+  const extra = Math.max(0, Math.round(averageLen - AUTO_TITLE_CONFIG.avgWordThreshold)) * AUTO_TITLE_CONFIG.extraPerLongWord;
+  return AUTO_TITLE_CONFIG.baseCharLimit + Math.min(AUTO_TITLE_CONFIG.maxExtraCharLimit, extra);
 }
