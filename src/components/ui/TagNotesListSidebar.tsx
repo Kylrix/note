@@ -71,19 +71,17 @@ export function TagNotesListSidebar({
   const renderContent = () => {
     if (selectedNote) {
       return (
-        <div className="h-full px-4 py-4">
-          <NoteDetailSidebar
-            note={selectedNote}
-            onUpdate={handleNoteUpdate}
-            onDelete={handleNoteDelete}
-            showExpandButton={false}
-          />
-        </div>
+        <NoteDetailSidebar
+          note={selectedNote}
+          onUpdate={handleNoteUpdate}
+          onDelete={handleNoteDelete}
+          showExpandButton={false}
+        />
       );
     }
 
     return (
-      <div className="px-4 py-4 space-y-4">
+      <div className="py-4 space-y-4">
         {loading ? (
           Array.from({ length: 3 }).map((_, index) => (
             <NoteCardSkeleton key={index} />
