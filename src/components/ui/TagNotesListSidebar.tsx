@@ -112,7 +112,7 @@ export function TagNotesListSidebar({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full p-4">
       <div className="flex items-center gap-2 pb-4 border-b border-border">
         <button
           onClick={handleHeaderBack}
@@ -125,7 +125,7 @@ export function TagNotesListSidebar({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 -mr-4 pr-4">
         {renderContent()}
       </div>
     </div>

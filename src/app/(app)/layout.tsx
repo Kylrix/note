@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useEffect } from 'react';
-import { DesktopSidebar, MobileBottomNav } from '@/components/Navigation';
-import AppHeader from '@/components/AppHeader';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { SidebarProvider, useSidebar } from '@/components/ui/SidebarContext';
 import { DynamicSidebarProvider, useDynamicSidebar, DynamicSidebar } from '@/components/ui/DynamicSidebar';
 import { SIDEBAR_IGNORE_ATTR } from '@/constants/sidebar';
 import { NotesProvider } from '@/contexts/NotesContext';
+
+// Lazy load navigation components for faster initial render
+const DesktopSidebar = lazy(() => import('@/components/Navigation').then(m => ({ default: m.DesktopSidebar })));
+const MobileBottomNav = lazy(() => import('@/components/Navigation').then(m => ({ default: m.MobileBottomNav })));
+const AppHeader = lazy(() => import('@/components/AppHeader'));
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebar();
@@ -35,12 +38,16 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Header spans full width */}
-      <AppHeader />
+      <Suspense fallback={<div className="h-16 bg-background border-b border-border" />}>
+        <AppHeader />
+      </Suspense>
       
       {/* Main layout container */}
       <div className="pt-16">
         {/* Sidebar - now fixed positioned */}
-        <DesktopSidebar />
+        <Suspense fallback={null}>
+          <DesktopSidebar />
+        </Suspense>
         
         {/* Main content area - offset to account for fixed sidebar and dynamic sidebar */}
         <main className={`min-w-0 pb-24 md:pb-8 transition-all duration-300 ${
@@ -61,7 +68,9 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
       <DynamicSidebar />
       
       {/* Mobile Bottom Navigation */}
-      <MobileBottomNav />
+      <Suspense fallback={null}>
+        <MobileBottomNav />
+      </Suspense>
     </div>
   );
 }
