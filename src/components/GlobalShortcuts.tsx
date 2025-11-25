@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useRouter } from "next/navigation";
-import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import { useOverlay } from "@/components/ui/OverlayContext";
-import CreateNoteForm from "@/app/(app)/notes/CreateNoteForm";
+
+// Lazy load heavy components
+const KeyboardShortcuts = lazy(() => import("@/components/KeyboardShortcuts"));
 
 
 
@@ -55,7 +56,10 @@ export default function GlobalShortcuts() {
       if (key === "n" && !e.altKey && !typing) {
         e.preventDefault();
         if (window.location.pathname.startsWith("/notes")) {
-          openOverlay(<CreateNoteForm onNoteCreated={() => {}} />);
+          // Dynamically import CreateNoteForm when needed
+          import("@/app/(app)/notes/CreateNoteForm").then(({ default: CreateNoteForm }) => {
+            openOverlay(<CreateNoteForm onNoteCreated={() => {}} />);
+          });
         } else {
           try {
             sessionStorage.setItem("open-create-note", "1");
@@ -71,6 +75,8 @@ export default function GlobalShortcuts() {
   }, [openOverlay, router]);
 
   return (
-    <KeyboardShortcuts open={openShortcuts} onClose={() => setOpenShortcuts(false)} />
+    <Suspense fallback={null}>
+      {openShortcuts && <KeyboardShortcuts open={openShortcuts} onClose={() => setOpenShortcuts(false)} />}
+    </Suspense>
   );
 }

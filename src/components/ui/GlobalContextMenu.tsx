@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useContextMenu } from './ContextMenuContext';
-import { ContextMenu } from './ContextMenu';
+
+// Lazy load context menu only when needed
+const ContextMenu = lazy(() => import('./ContextMenu').then(m => ({ default: m.ContextMenu })));
 
 export const GlobalContextMenu: React.FC = () => {
   const { isOpen, state, closeMenu } = useContextMenu();
   if (!isOpen || !state) return null;
   return (
-    <ContextMenu x={state.x} y={state.y} items={state.items} onCloseAction={closeMenu} />
+    <Suspense fallback={null}>
+      <ContextMenu x={state.x} y={state.y} items={state.items} onCloseAction={closeMenu} />
+    </Suspense>
   );
 };

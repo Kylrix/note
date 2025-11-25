@@ -1,11 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef, lazy, Suspense } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { getCurrentUser } from '@/lib/appwrite';
-import { InitialLoadingScreen } from './InitialLoadingScreen';
-import { EmailVerificationReminder } from './EmailVerificationReminder';
 import { getUser, createUser } from '@/lib/appwrite/user-profile';
+
+// Lazy load heavy visual components
+const InitialLoadingScreen = lazy(() => import('./InitialLoadingScreen').then(m => ({ default: m.InitialLoadingScreen })));
+const EmailVerificationReminder = lazy(() => import('./EmailVerificationReminder').then(m => ({ default: m.EmailVerificationReminder })));
 
 interface User {
   $id: string;
@@ -72,10 +74,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(null);
     } finally {
       setIsLoading(false);
-      // Reduced loading time to prevent excessive flashing
+      // Minimal delay - just enough for smooth transition
       setTimeout(() => {
         setShowInitialLoading(false);
-      }, 800); // Reduced from 1500ms to 800ms
+      }, 150);
     }
   }, []);
 
@@ -339,8 +341,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider value={value}>
       {children}
-      {showInitialLoading && <InitialLoadingScreen show={true} />}
-      <EmailVerificationReminder />
+      <Suspense fallback={null}>
+        {showInitialLoading && <InitialLoadingScreen show={true} />}
+        <EmailVerificationReminder />
+      </Suspense>
     </AuthContext.Provider>
   );
 };
