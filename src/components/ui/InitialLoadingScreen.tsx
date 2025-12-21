@@ -7,35 +7,31 @@ interface InitialLoadingScreenProps {
 }
 
 // Simplified loading screen without framer-motion to reduce initial bundle
-export const InitialLoadingScreen: React.FC<InitialLoadingScreenProps> = ({ 
-  show = true 
+export const InitialLoadingScreen: React.FC<InitialLoadingScreenProps> = ({
+  show = true
 }) => {
   if (!show) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
-      style={{ 
-        backdropFilter: 'blur(12px)',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)'
-      }}
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-void"
     >
-      <div className="bg-light-card/95 dark:bg-dark-card/95 rounded-3xl p-10 shadow-3d-light dark:shadow-3d-dark border border-light-border/20 dark:border-dark-border/20 backdrop-blur-xl max-w-sm w-full mx-4 animate-scale-in">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center shadow-3d-light dark:shadow-3d-dark">
+      <div className="bg-matter border border-border p-12 shadow-tangible max-w-sm w-full mx-4 animate-scale-in">
+        <div className="flex flex-col items-center space-y-6">
+          <div className="w-24 h-24 bg-void border border-border flex items-center justify-center shadow-inner-physical">
             <img
               src="/logo/whisperrnote.png"
               alt="WhisperNote logo"
-              className="w-16 h-16 rounded-full"
+              className="w-18 h-18 opacity-80"
             />
           </div>
 
-          <p className="text-sm font-medium uppercase tracking-[0.3em] text-foreground/70">
-            Loading
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.4em] text-foreground/50">
+            Initializing Void
           </p>
 
-          <div className="w-32 h-2 rounded-full bg-light-border dark:bg-dark-border overflow-hidden">
-            <div className="h-full bg-accent animate-loading-bar" />
+          <div className="w-full h-1 bg-void border border-border overflow-hidden">
+            <div className="h-full bg-sun animate-loading-bar" />
           </div>
         </div>
       </div>

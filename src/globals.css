@@ -4,51 +4,35 @@
 
 @layer base {
   :root {
-    /* Light mode: ash-white bg, very dark brown fg */
-    --background: theme('colors.light-bg');
-    --foreground: theme('colors.light-fg');
-    --card: theme('colors.light-card');
-    --border: theme('colors.light-border');
-    --muted: theme('colors.light-muted');
-    --accent: theme('colors.accent');
-    --accent-rgb: 255, 199, 0;
+    /* The Spectrum */
+    --void: #1B1C20;
+    --matter: #2D2421;
+    --matter-highlight: #484A3B;
+    --tungsten: #FFC107;
+    --shadow-indigo: 26, 35, 126;
+    /* rgba components for shadow */
+
+    --background: var(--void);
+    --foreground: #FAF8F6;
+    --card: var(--matter);
+    --border: #3D3D3D;
+    /* Map accents */
+    --accent: var(--tungsten);
+    --accent-rgb: 255, 193, 7;
   }
 
-  .dark {
-    /* Dark mode: very dark ash bg, brownish white fg */
-    --background: theme('colors.dark-bg');
-    --foreground: theme('colors.dark-fg');
-    --card: theme('colors.dark-card');
-    --border: theme('colors.dark-border');
-    --muted: theme('colors.dark-muted');
-    --accent: theme('colors.accent');
-    --accent-rgb: 255, 199, 0;
+  /* Force dark theme globally as per the new philosophy of "The Void" */
+  html,
+  body {
+    background-color: var(--void);
+    color: var(--foreground);
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply antialiased font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
-    /* Smooth transitions for theme changes */
-    transition: background-color 0.3s ease, color 0.3s ease;
-    /* Prevent horizontal scrolling */
-    overflow-x: hidden;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    /* Prevent horizontal scrolling */
-    overflow-x: hidden;
-  }
-
-  /* Ensure all containers prevent horizontal overflow */
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  .overflow-x-hidden {
-    overflow-x: hidden !important;
+    /* Objects slide into place with physical decay */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   h1,
@@ -57,80 +41,52 @@
   h4,
   h5,
   h6 {
-    @apply font-display;
-    font-weight: 800;
+    @apply font-mono;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   h1 {
-    @apply text-4xl lg:text-5xl tracking-tight;
+    @apply text-4xl lg:text-5xl font-extrabold;
   }
 
   h2 {
-    @apply text-3xl lg:text-4xl tracking-tight;
-    font-weight: 700;
+    @apply text-3xl lg:text-4xl;
   }
 
-  h3 {
-    @apply text-2xl;
-  }
-
-  /* Enhanced 3D styling for UI elements */
+  /* Tangible Realism: High lift, indigo shadows */
   .card-3d {
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.15),
-      0 2px 4px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-
-  /* Glow effects for AI elements */
-  .shadow-glow-accent {
-    box-shadow:
-      0 0 10px rgba(var(--accent-rgb), 0.3),
-      0 0 20px rgba(var(--accent-rgb), 0.15),
-      0 0 30px rgba(var(--accent-rgb), 0.1);
-  }
-
-  @keyframes pulse-glow {
-
-    0%,
-    100% {
-      box-shadow:
-        0 0 10px rgba(var(--accent-rgb), 0.3),
-        0 0 20px rgba(var(--accent-rgb), 0.15);
-    }
-
-    50% {
-      box-shadow:
-        0 0 15px rgba(var(--accent-rgb), 0.5),
-        0 0 30px rgba(var(--accent-rgb), 0.25),
-        0 0 45px rgba(var(--accent-rgb), 0.15);
-    }
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    background-color: var(--matter);
+    border: 1px solid var(--border);
+    box-shadow: 8px 12px 20px rgba(var(--shadow-indigo), 0.4);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .card-3d:hover {
-    @apply shadow-3d-light dark:shadow-3d-dark;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 12px 18px 30px rgba(var(--shadow-indigo), 0.5);
+    border-color: var(--matter-highlight);
   }
 
   .btn-3d {
-    @apply shadow-3d-light dark:shadow-3d-dark;
-    @apply border border-border;
-    @apply rounded-xl;
-    transition: all 0.2s ease;
+    @apply font-mono font-bold uppercase tracking-wider;
+    background-color: var(--tungsten);
+    color: #1B1C20;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    /* Industrial sharp feel */
+    box-shadow: 4px 6px 0 rgba(var(--shadow-indigo), 0.8);
+    transition: all 0.1s ease;
   }
 
   .btn-3d:hover {
-    @apply shadow-3d-elevated;
-    transform: translateY(-2px);
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 8px 0 rgba(var(--shadow-indigo), 0.9);
   }
 
   .btn-3d:active {
-    @apply shadow-inner-light dark:shadow-inner-dark;
-    transform: translateY(0);
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 rgba(var(--shadow-indigo), 0);
   }
 
   html {

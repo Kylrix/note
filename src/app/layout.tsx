@@ -1,4 +1,4 @@
-import { Inter, Outfit } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "../globals.css";
 import { Providers } from "@/components/Providers";
 
@@ -8,9 +8,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const outfit = Outfit({
+const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <Providers>
           {children}

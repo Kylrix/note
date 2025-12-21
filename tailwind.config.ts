@@ -11,88 +11,57 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
-        display: ["var(--font-outfit)", "Outfit", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
+        display: ["var(--font-mono)", "monospace"],
       },
       colors: {
-        // Base color palette (very dark brown & brownish white per UI spec)
-        'brown-darkest': '#1a120e', // very dark brown for dark mode foregrounds
-        'brown-dark': '#2d221e',    // dark brown
-        'brown-medium': '#6b5b4f',  // medium brown
-        'brown-light': '#a69080',   // light brown
-        'brown-lightest': '#f5f2f0', // brownish white for light mode foregrounds
+        // The Void (Background)
+        'void': '#1B1C20',
 
-        // Ash colors (dark ash & ash-white per UI spec) 
-        'ash-darkest': '#0f0f0f',   // very dark ash for dark mode backgrounds
-        'ash-dark': '#1a1a1a',      // dark ash
-        'ash-medium': '#3c3c3c',    // medium ash
-        'ash-light': '#d1d1d1',     // light ash
-        'ash-lightest': '#f8f8f8',  // ash-white for light mode backgrounds
+        // The Matter (Structure/Cards)
+        'matter': {
+          DEFAULT: '#2D2421', // Baked Laterite Base
+          highlight: '#484A3B', // Material Highlight
+          dark: '#1E1917',
+        },
 
-        // Sun yellow accent (as specified for avoiding monotony)
-        'sun-yellow': '#ffc700',
-        'sun-yellow-dark': '#d9a900',
-        'sun-yellow-light': '#ffe066',
+        // The Light (Energy/Actions)
+        'sun': {
+          DEFAULT: '#FFC107', // Tungsten Sun
+          glow: 'rgba(255, 193, 7, 0.4)',
+        },
 
-        // Light mode theme (brownish white fg, ash-white bg)
-        'light-bg': '#f8f8f8',      // ash-white background
-        'light-fg': '#0f0a08',      // much darker brown foreground for stronger contrast
-        'light-card': '#ffffff',    // pure white for cards
-        'light-border': '#e8e8e8',  // very light ash border
-        'light-muted': '#3d2f26',   // darker brown for muted text
+        // The Shadow (Depth)
+        'indigo-shadow': 'rgba(26, 35, 126, 0.4)',
 
-        // Dark mode theme (very dark brown fg, dark ash bg)
-        'dark-bg': '#0f0f0f',       // very dark ash background
-        'dark-fg': '#faf8f6',       // much lighter brownish white foreground for stronger contrast
-        'dark-card': '#1a1a1a',     // dark ash for cards
-        'dark-border': '#2a2a2a',   // medium dark ash border  
-        'dark-muted': '#c4b5a8',    // lighter brown for muted text
+        // The Life (States)
+        'life': '#004D40', // Circuit Teal
 
-        // Accent colors
-        'accent': '#ffc700',        // sun-yellow
-        'accent-hover': '#ffe066',  // lighter sun-yellow
-        'accent-dark': '#d9a900',   // darker sun-yellow
+        // Map to standard tokens for existing components
+        'background': '#1B1C20',
+        'foreground': '#FAF8F6', // Brownish White
+        'card': '#2D2421',
+        'border': '#3D3D3D',
+        'muted': '#A69080',
 
-        // Success, warning, error states
-        'success': '#10b981',
-        'warning': '#f59e0b',
-        'error': '#ef4444',
-        'info': '#3b82f6',
-
-        // CSS variable-based colors for dynamic theming
-        'background': 'var(--background)',
-        'foreground': 'var(--foreground)',
-        'card': 'var(--card)',
-        'border': 'var(--border)',
-        'muted': 'var(--muted)',
-
-        // Additional design system tokens
-        'card-foreground': 'var(--foreground)',
-        'muted-foreground': 'var(--muted)',
+        'accent': '#FFC107',
+        'accent-foreground': '#1B1C20',
       },
       borderRadius: {
-        'xl': '1rem',
-        '2xl': '1.5rem',
-        '3xl': '2rem',
-        '4xl': '2.5rem',
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '10px',
+        'lg': '12px',
+        'xl': '16px',
+        '2xl': '24px',
       },
       boxShadow: {
-        // 3D effect shadows as per UI spec
-        '3d-light': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-        '3d-dark': '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3)',
-        '3d-elevated': '0 20px 40px -12px rgba(0, 0, 0, 0.25)',
-
-        // Inner shadows for sunken effect
-        'inner-light': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'inner-dark': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.3)',
-        'inner-deep': 'inset 0 4px 8px 0 rgba(0, 0, 0, 0.4)',
-
-        // Soft glows
-        'glow-accent': '0 0 20px rgba(255, 199, 0, 0.3)',
-        'glow-soft': '0 0 15px rgba(255, 255, 255, 0.1)',
-
-        // Card shadows with brown/ash tints
-        'card-light': '0 4px 16px rgba(45, 34, 30, 0.1), 0 2px 4px rgba(45, 34, 30, 0.06)',
-        'card-dark': '0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)',
+        // Tangible Realism Shadows (Indigo Tint)
+        'tangible': '8px 12px 20px rgba(26, 35, 126, 0.4)',
+        'tangible-hover': '12px 18px 30px rgba(26, 35, 126, 0.5)',
+        'tangible-sm': '4px 6px 12px rgba(26, 35, 126, 0.3)',
+        'lifted': '0 20px 40px -12px rgba(0, 0, 0, 0.5)',
+        'inner-physical': 'inset 0 2px 6px 0 rgba(0, 0, 0, 0.4)',
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-out',
