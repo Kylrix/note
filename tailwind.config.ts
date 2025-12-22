@@ -14,48 +14,47 @@ const config: Config = {
         mono: ["var(--font-mono)", "monospace"],
         display: ["var(--font-mono)", "monospace"],
       },
-      // The Void / Solar Substrate
-      'void': 'var(--void)',
+      colors: {
+        // The Void / Solar Substrate
+        'void': 'var(--void)',
 
-      // The Matter (Structure/Cards)
-      'matter': {
-        DEFAULT: 'var(--matter)',
-        highlight: 'var(--matter-highlight)',
+        // The Matter (Structure/Cards)
+        'matter': {
+          DEFAULT: 'var(--matter)',
+          highlight: 'var(--matter-highlight)',
+        },
+
+        // The Light (Energy/Actions)
+        'sun': {
+          DEFAULT: 'var(--tungsten)',
+          glow: 'rgba(var(--accent-rgb), 0.4)',
+        },
+
+        // Legacy Semantic Mapping (Adaptive)
+        'light-bg': 'var(--background)',
+        'dark-bg': 'var(--background)',
+        'light-fg': 'var(--foreground)',
+        'dark-fg': 'var(--foreground)',
+        'light-card': 'var(--card)',
+        'dark-card': 'var(--card)',
+        'light-border': 'var(--border)',
+        'dark-border': 'var(--border)',
+        'light-muted': 'var(--muted)',
+        'dark-muted': 'var(--muted)',
+
+        // Map to standard tokens for existing components
+        'background': 'var(--background)',
+        'foreground': 'var(--foreground)',
+        'card': 'var(--card)',
+        'border': 'var(--border)',
+        'muted': 'var(--muted)',
+
+        'accent': 'var(--accent)',
+        'accent-foreground': 'var(--void)',
+
+        // The Life (States)
+        'life': '#004D40', // Circuit Teal
       },
-
-      // The Light (Energy/Actions)
-      'sun': {
-        DEFAULT: 'var(--tungsten)',
-        glow: 'rgba(var(--accent-rgb), 0.4)',
-      },
-
-      // The Shadow (Depth)
-      'indigo-shadow': 'rgba(var(--shadow-indigo), 0.4)',
-
-      // The Life (States)
-      'life': '#004D40', // Circuit Teal
-
-      // Legacy Semantic Mapping (Adaptive)
-      'light-bg': 'var(--background)',
-      'dark-bg': 'var(--background)',
-      'light-fg': 'var(--foreground)',
-      'dark-fg': 'var(--foreground)',
-      'light-card': 'var(--card)',
-      'dark-card': 'var(--card)',
-      'light-border': 'var(--border)',
-      'dark-border': 'var(--border)',
-      'light-muted': 'var(--muted)',
-      'dark-muted': 'var(--muted)',
-
-      // Map to standard tokens for existing components
-      'background': 'var(--background)',
-      'foreground': 'var(--foreground)',
-      'card': 'var(--card)',
-      'border': 'var(--border)',
-      'muted': 'var(--muted)',
-
-      'accent': 'var(--accent)',
-      'accent-foreground': 'var(--void)',
       borderRadius: {
         'sm': '4px',
         'DEFAULT': '8px',
@@ -66,9 +65,9 @@ const config: Config = {
       },
       boxShadow: {
         // Tangible Realism Shadows (Indigo Tint)
-        'tangible': '8px 12px 20px rgba(26, 35, 126, 0.4)',
-        'tangible-hover': '12px 18px 30px rgba(26, 35, 126, 0.5)',
-        'tangible-sm': '4px 6px 12px rgba(26, 35, 126, 0.3)',
+        'tangible': '8px 12px 20px rgba(var(--shadow-indigo), 0.4)',
+        'tangible-hover': '12px 18px 30px rgba(var(--shadow-indigo), 0.5)',
+        'tangible-sm': '4px 6px 12px rgba(var(--shadow-indigo), 0.3)',
         'lifted': '0 20px 40px -12px rgba(0, 0, 0, 0.5)',
         'inner-physical': 'inset 0 2px 6px 0 rgba(0, 0, 0, 0.4)',
       },

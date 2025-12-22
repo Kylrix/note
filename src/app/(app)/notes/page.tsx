@@ -209,11 +209,15 @@ export default function NotesPage() {
             <h1 className="text-4xl font-black text-foreground mb-2">
               Neural Vault
             </h1>
-            <p className="text-lg text-muted">
+            <p className="text-lg text-muted font-medium">
               {allNotes.length < totalNotes && !hasSearchResults ? (
-                <>Syncing <span className="font-mono">{allNotes.length}</span> of <span className="font-mono">{totalNotes}</span> volumes</>
+                <>Syncing <span className="font-mono font-bold text-accent">{allNotes.length}</span> of <span className="font-mono font-bold">{totalNotes}</span> volumes</>
               ) : (
-                <>{hasSearchResults ? `<span className="font-mono">${totalCount}</span> ${totalCount === 1 ? 'fragment' : 'fragments'} identified` : `<span className="font-mono">${totalNotes}</span> ${totalNotes === 1 ? 'sovereign volume' : 'sovereign volumes'} secured`}</>
+                hasSearchResults ? (
+                  <><span className="font-mono font-bold text-accent">{totalCount}</span> {totalCount === 1 ? 'fragment' : 'fragments'} identified</>
+                ) : (
+                  <><span className="font-mono font-bold text-accent">{totalNotes}</span> {totalNotes === 1 ? 'sovereign volume' : 'sovereign volumes'} secured</>
+                )
               )}
             </p>
           </div>

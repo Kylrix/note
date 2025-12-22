@@ -114,22 +114,24 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
   }, [isAppsMenuOpen]);
 
   return (
-    <header className={`fixed top-0 right-0 left-0 z-30 bg-background/80 backdrop-blur-sm border-b border-border ${className}`}>
-      <div className="flex items-center justify-between px-6 py-3 gap-4">
+    <header className={`fixed top-0 right-0 left-0 z-30 bg-background/80 backdrop-blur-md border-b-2 border-border/50 ${className}`}>
+      <div className="flex items-center justify-between px-6 py-3 gap-6">
         {/* Left: Whisperrnote Logo - Always at the edge */}
-        <div className="flex items-center gap-3 shrink-0">
-          <img
-            src="/logo/whisperrnote.png"
-            alt="Whisperrnote Logo"
-            className="w-8 h-8 rounded-lg shadow-lg"
-          />
-          <h1 className="hidden sm:block text-xl font-black text-foreground bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-            Whisperrnote
+        <div className="flex items-center gap-4 shrink-0">
+          <div className="w-10 h-10 bg-card border-2 border-border flex items-center justify-center rounded-xl shadow-tangible overflow-hidden bg-void">
+            <img
+              src="/logo/whisperrnote.png"
+              alt="Whisperrnote Logo"
+              className="w-7 h-7 object-contain"
+            />
+          </div>
+          <h1 className="hidden sm:block text-2xl font-black font-mono tracking-tighter text-foreground">
+            WHISPERR<span className="text-accent">NOTE</span>
           </h1>
         </div>
 
         {/* Center: Search Bar */}
-        <div className="flex-1 max-w-md mx-4">
+        <div className="flex-1 max-w-2xl">
           <TopBarSearch />
         </div>
 

@@ -10,17 +10,17 @@ interface ThemeToggleProps {
   showLabel?: boolean;
 }
 
-export function ThemeToggle({ 
-  className = '', 
-  size = 'md', 
-  showLabel = false 
+export function ThemeToggle({
+  className = '',
+  size = 'md',
+  showLabel = false
 }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
   const sizeClasses = {
     sm: 'w-8 h-5',
-    md: 'w-10 h-6', 
+    md: 'w-10 h-6',
     lg: 'w-12 h-7'
   };
 
@@ -37,7 +37,7 @@ export function ThemeToggle({
           {isDark ? 'Dark' : 'Light'} Mode
         </span>
       )}
-      
+
       <button
         onClick={toggleTheme}
         className={`
@@ -59,25 +59,28 @@ export function ThemeToggle({
           <MoonIcon className="h-3 w-3 text-foreground/70" aria-hidden="true" />
         </span>
         {/* Background gradient */}
-        <div 
+        <div
           className={`
             absolute inset-0 rounded-full transition-all duration-300
-            ${isDark 
-              ? 'bg-gradient-to-r from-dark-card to-accent/20' 
+            ${isDark
+              ? 'bg-gradient-to-r from-dark-card to-accent/20'
               : 'bg-gradient-to-r from-accent/20 to-light-card'
             }
           `}
         />
-        
+
         {/* Toggle knob */}
-        <div 
+        <div
           className={`
             relative ${knobSizeClasses[size]} rounded-full
             border border-border bg-background
             shadow-inner-light dark:shadow-inner-dark
             transition-all duration-300 ease-in-out
             flex items-center justify-center
-            ${isDark ? 'translate-x-0' : 'translate-x-0'}
+            ${isDark
+              ? (size === 'sm' ? 'translate-x-3' : size === 'lg' ? 'translate-x-5' : 'translate-x-4')
+              : 'translate-x-0'
+            }
           `}
         >
           {/* Icon */}

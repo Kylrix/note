@@ -5,7 +5,7 @@ import { AuthProvider } from "@/components/ui/AuthContext";
 import { OverlayProvider } from "@/components/ui/OverlayContext";
 import { SubscriptionProvider } from "@/components/ui/SubscriptionContext";
 import { RouteGuard } from "@/components/ui/RouteGuard";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider as AppThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import Overlay from "@/components/ui/Overlay";
 import { ContextMenuProvider } from "@/components/ui/ContextMenuContext";
@@ -13,13 +13,24 @@ import { GlobalContextMenu } from "@/components/ui/GlobalContextMenu";
 import GlobalShortcuts from "@/components/GlobalShortcuts";
 
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
-import { theme } from "@/theme/theme";
+import { darkTheme, lightTheme } from "@/theme/theme";
+
+function MuiThemeWrapper({ children }: { children: React.ReactNode }) {
+    const { theme } = useTheme();
+    const muiTheme = theme === 'dark' ? darkTheme : lightTheme;
+
+    return (
+        <MuiThemeProvider theme={muiTheme}>
+            <CssBaseline />
+            {children}
+        </MuiThemeProvider>
+    );
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
-        <ThemeProvider>
-            <MuiThemeProvider theme={theme}>
-                <CssBaseline />
+        <AppThemeProvider>
+            <MuiThemeWrapper>
                 <ToastProvider>
                     <AppWithLoading>
                         <AuthProvider>
@@ -38,7 +49,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                         </AuthProvider>
                     </AppWithLoading>
                 </ToastProvider>
-            </MuiThemeProvider>
-        </ThemeProvider>
+            </MuiThemeWrapper>
+        </AppThemeProvider>
     );
 }

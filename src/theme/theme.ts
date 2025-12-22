@@ -9,15 +9,18 @@ const getDesignTokens = (mode: 'light' | 'dark'): ThemeOptions => ({
             main: '#FFC107', // Tungsten Sun
             contrastText: '#1B1C20',
         },
+        secondary: {
+            main: '#1A237E', // Adire Indigo
+        },
         background: {
-            default: '#1B1C20', // The Void
-            paper: '#2D2421',   // The Matter (Baked Laterite)
+            default: mode === 'light' ? '#FAF8F6' : '#1B1C20', // Solar / Void
+            paper: mode === 'light' ? '#EADDD3' : '#2D2421',   // Sand / Laterite
         },
         text: {
-            primary: '#FAF8F6', // Brownish White
-            secondary: '#A69080',
+            primary: mode === 'light' ? '#1B1C20' : '#FAF8F6',
+            secondary: mode === 'light' ? '#5E4E42' : '#A69080',
         },
-        divider: '#3D3D3D',
+        divider: mode === 'light' ? 'rgba(26, 35, 126, 0.1)' : '#3D3D3D',
     },
     typography: {
         fontFamily: 'var(--font-inter), "Inter", sans-serif',
@@ -66,7 +69,7 @@ const getDesignTokens = (mode: 'light' | 'dark'): ThemeOptions => ({
         MuiCssBaseline: {
             styleOverrides: {
                 body: {
-                    backgroundColor: '#1B1C20',
+                    backgroundColor: mode === 'light' ? '#FAF8F6' : '#1B1C20',
                     scrollbarColor: '#FFC107 transparent',
                     '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
                         width: 8,
@@ -88,10 +91,14 @@ const getDesignTokens = (mode: 'light' | 'dark'): ThemeOptions => ({
                     borderRadius: 2,
                     padding: '10px 20px',
                     fontWeight: 800,
-                    boxShadow: '4px 4px 0 rgba(26, 35, 126, 0.8)',
+                    boxShadow: mode === 'light'
+                        ? '4px 4px 0 rgba(26, 35, 126, 0.2)'
+                        : '4px 4px 0 rgba(26, 35, 126, 0.8)',
                     '&:hover': {
                         transform: 'translate(-2px, -2px)',
-                        boxShadow: '6px 6px 0 rgba(26, 35, 126, 0.9)',
+                        boxShadow: mode === 'light'
+                            ? '6px 6px 0 rgba(26, 35, 126, 0.3)'
+                            : '6px 6px 0 rgba(26, 35, 126, 0.9)',
                     },
                     '&:active': {
                         transform: 'translate(2px, 2px)',
@@ -107,10 +114,12 @@ const getDesignTokens = (mode: 'light' | 'dark'): ThemeOptions => ({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#2D2421',
-                    border: '1px solid #3D3D3D',
-                    boxShadow: '8px 12px 20px rgba(26, 35, 126, 0.4)',
-                    backgroundImage: 'none', // Remove MUI default overlay
+                    backgroundColor: mode === 'light' ? '#EADDD3' : '#2D2421',
+                    border: `1px solid ${mode === 'light' ? 'rgba(26, 35, 126, 0.1)' : '#3D3D3D'}`,
+                    boxShadow: mode === 'light'
+                        ? '4px 8px 16px rgba(26, 35, 126, 0.15)'
+                        : '8px 12px 20px rgba(26, 35, 126, 0.4)',
+                    backgroundImage: 'none',
                 },
             },
         },
@@ -118,11 +127,14 @@ const getDesignTokens = (mode: 'light' | 'dark'): ThemeOptions => ({
             styleOverrides: {
                 root: {
                     backgroundImage: 'none',
+                    backgroundColor: mode === 'light' ? '#EADDD3' : '#2D2421',
                 },
             },
         },
     },
 });
 
-export const theme = createTheme(getDesignTokens('dark'));
-export default theme;
+export const lightTheme = createTheme(getDesignTokens('light'));
+export const darkTheme = createTheme(getDesignTokens('dark'));
+
+export default darkTheme;

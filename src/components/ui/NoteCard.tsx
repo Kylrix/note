@@ -24,9 +24,10 @@ interface NoteCardProps {
   onUpdate?: (updatedNote: Notes) => void;
   onDelete?: (noteId: string) => void;
   onNoteSelect?: (note: Notes) => void;
+  className?: string;
 }
 
-const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSelect }) => {
+const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSelect, className }) => {
   // context menu managed globally
   const [showShareModal, setShowShareModal] = useState(false);
   const { openMenu, closeMenu } = useContextMenu();
@@ -93,8 +94,8 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
     openSidebar(
       <NoteDetailSidebar
         note={note}
-        onUpdate={onUpdate || (() => {})}
-        onDelete={onDelete || (() => {})}
+        onUpdate={onUpdate || (() => { })}
+        onDelete={onDelete || (() => { })}
       />,
       note.$id || null
     );
@@ -108,7 +109,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
 
   const handleToggleVisibility = async () => {
     if (!note.$id) return;
-    
+
     try {
       const updatedNote = await toggleNoteVisibility(note.$id);
       if (updatedNote && onUpdate) {
@@ -121,7 +122,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
 
   const handleCopyShareLink = () => {
     if (!note.$id) return;
-    
+
     const shareUrl = getShareableUrl(note.$id);
     navigator.clipboard.writeText(shareUrl);
     setIsCopySuccess(true);
@@ -169,9 +170,9 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
 
   return (
     <>
-      <Card 
+      <Card
         {...sidebarIgnoreProps}
-        className="relative flex flex-col bg-card border border-border note-card h-48 sm:h-52 md:h-56 lg:h-60 cursor-pointer hover:shadow-lg transition-shadow"
+        className={`relative flex flex-col bg-card border-border note-card h-48 sm:h-52 md:h-56 lg:h-60 cursor-pointer ${className || ''}`}
         onClick={handleClick}
         onContextMenu={handleRightClick}
       >
@@ -181,11 +182,11 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
               {note.title}
             </CardTitle>
 
-             <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               {note.attachments && note.attachments.length > 0 && (
-                <div title={`${note.attachments.length} attachment${note.attachments.length>1?'s':''}`}
-                  className="flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-medium">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                <div title={`${note.attachments.length} attachment${note.attachments.length > 1 ? 's' : ''}`}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider border border-secondary/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
                     <path d="M21.44 11.05 12.97 19.5a5 5 0 0 1-7.07-7.07l8.47-8.46a3 3 0 0 1 4.24 4.24l-8.48 8.47a1 1 0 0 1-1.42-1.42l7.78-7.78" />
                   </svg>
                   {note.attachments.length}
@@ -193,7 +194,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
               )}
               {noteIsPublic && (
                 <div className="flex-shrink-0">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-full text-xs font-medium">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-sun/10 text-sun border border-sun/30 rounded-lg text-[10px] font-bold uppercase tracking-wider">
                     <GlobeAltIcon className="h-3 w-3" />
                     Public
                   </span>
@@ -262,7 +263,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
                 e.stopPropagation();
                 handleCopyShareLink();
               }}
-              className="absolute bottom-3 right-3 p-2 rounded-lg bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/40 transition-all duration-200 shadow-card-light dark:shadow-card-dark hover:shadow-lg"
+              className="absolute bottom-3 right-3 p-2 rounded-lg bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/40 transition-all duration-200 shadow-tangible hover:shadow-tangible-hover"
               title={isCopySuccess ? 'Copied!' : 'Copy shared note link'}
             >
               {isCopySuccess ? (
