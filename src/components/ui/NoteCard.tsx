@@ -185,7 +185,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
             <div className="flex items-center gap-2">
               {note.attachments && note.attachments.length > 0 && (
                 <div title={`${note.attachments.length} attachment${note.attachments.length > 1 ? 's' : ''}`}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider border border-secondary/20">
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider border border-secondary/20 shadow-ceramic">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
                     <path d="M21.44 11.05 12.97 19.5a5 5 0 0 1-7.07-7.07l8.47-8.46a3 3 0 0 1 4.24 4.24l-8.48 8.47a1 1 0 0 1-1.42-1.42l7.78-7.78" />
                   </svg>
@@ -194,7 +194,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
               )}
               {noteIsPublic && (
                 <div className="flex-shrink-0">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-sun/10 text-sun border border-sun/30 rounded-lg text-[10px] font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-sun/10 text-sun border border-sun/30 rounded-xl text-[10px] font-bold uppercase tracking-wider shadow-ceramic">
                     <GlobeAltIcon className="h-3 w-3" />
                     Public
                   </span>
@@ -205,6 +205,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
               <Button
                 variant="ghost"
                 size="icon"
+                className="rounded-xl"
                 aria-label="Open note menu"
                 onClick={(e) => {
                   // Prevent parent card click which opens the detail sidebar
@@ -226,7 +227,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
         </CardHeader>
         <CardContent className="flex-1 flex flex-col justify-between min-h-0 overflow-hidden relative">
           {note.format === 'doodle' ? (
-            <div className="flex-1 rounded border border-border overflow-hidden">
+            <div className="flex-1 rounded-xl border border-border overflow-hidden bg-white shadow-inner">
               <canvas
                 ref={canvasRef}
                 width={300}
@@ -244,7 +245,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
               {note.tags.slice(0, 3).map((tag: string, index: number) => (
                 <span
                   key={index}
-                  className="rounded-full bg-accent/20 px-2 py-1 text-xs text-accent whitespace-nowrap"
+                  className="rounded-xl bg-accent/10 px-2 py-1 text-xs text-accent whitespace-nowrap border border-accent/20"
                 >
                   {tag}
                 </span>
@@ -263,13 +264,13 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onNoteSel
                 e.stopPropagation();
                 handleCopyShareLink();
               }}
-              className="absolute bottom-3 right-3 p-2 rounded-lg bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/40 transition-all duration-200 shadow-tangible hover:shadow-tangible-hover"
+              className="absolute bottom-3 right-3 p-2 rounded-xl bg-accent text-void hover:bg-accent/90 transition-all duration-200 shadow-resting hover:shadow-hover hover:-translate-y-0.5"
               title={isCopySuccess ? 'Copied!' : 'Copy shared note link'}
             >
               {isCopySuccess ? (
-                <CheckIcon className="h-4 w-4 text-green-600 dark:text-green-400" />
+                <CheckIcon className="h-4 w-4" />
               ) : (
-                <ClipboardDocumentIcon className="h-4 w-4 text-green-600 dark:text-green-400" />
+                <ClipboardDocumentIcon className="h-4 w-4" />
               )}
             </button>
           )}

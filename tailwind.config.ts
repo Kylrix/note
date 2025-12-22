@@ -56,19 +56,28 @@ const config: Config = {
         'life': '#004D40', // Circuit Teal
       },
       borderRadius: {
-        'sm': '4px',
-        'DEFAULT': '8px',
-        'md': '10px',
-        'lg': '12px',
-        'xl': '16px',
-        '2xl': '24px',
+        'micro': '12px',
+        'macro': '24px',
+        'mega': '32px',
+        'sm': '12px',
+        'DEFAULT': '12px',
+        'md': '24px',
+        'lg': '24px',
+        'xl': '32px',
+        '2xl': '32px',
       },
       boxShadow: {
-        // Tangible Realism Shadows (Indigo Tint)
-        'tangible': '8px 12px 20px rgba(var(--shadow-indigo), 0.4)',
-        'tangible-hover': '12px 18px 30px rgba(var(--shadow-indigo), 0.5)',
-        'tangible-sm': '4px 6px 12px rgba(var(--shadow-indigo), 0.3)',
-        'lifted': '0 20px 40px -12px rgba(0, 0, 0, 0.5)',
+        // Organic Realism Shadows (Indigo Tint)
+        'resting': 'var(--shadow-resting)',
+        'hover': 'var(--shadow-hover)',
+        'floating': 'var(--shadow-floating)',
+        'ceramic': 'var(--shadow-ceramic)',
+
+        // Legacy Support (Mapped to new system)
+        'tangible': 'var(--shadow-resting)',
+        'tangible-hover': 'var(--shadow-hover)',
+        'tangible-sm': 'var(--shadow-resting)',
+        'lifted': 'var(--shadow-floating)',
         'inner-physical': 'inset 0 2px 6px 0 rgba(0, 0, 0, 0.4)',
       },
       animation: {

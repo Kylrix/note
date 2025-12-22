@@ -21,6 +21,19 @@
     --accent: var(--tungsten);
     --accent-rgb: 255, 193, 7;
     --muted: #8D7B6D;
+
+    /* Organic Realism: Radii */
+    --radius-micro: 12px;
+    --radius-macro: 24px;
+    --radius-mega: 32px;
+
+    /* Organic Realism: Shadows (Dual-Layer Adire Indigo) */
+    --shadow-resting: 0px 2px 4px rgba(var(--shadow-indigo), 0.2), 0px 8px 16px rgba(var(--shadow-indigo), 0.1);
+    --shadow-hover: 0px 4px 8px rgba(var(--shadow-indigo), 0.4), 0px 12px 24px rgba(var(--shadow-indigo), 0.2);
+    --shadow-floating: 0px 8px 16px rgba(var(--shadow-indigo), 0.3), 0px 24px 48px rgba(0, 0, 0, 0.2);
+
+    /* Surface Physics: Ceramic Highlight */
+    --shadow-ceramic: inset 0px 1px 0px rgba(255, 193, 7, 0.2);
   }
 
   .dark {
@@ -38,6 +51,10 @@
     --accent: var(--tungsten);
     --accent-rgb: 255, 193, 7;
     --muted: #A69080;
+
+    --shadow-resting: 0px 2px 4px rgba(0, 0, 0, 0.4), 0px 8px 16px rgba(var(--shadow-indigo), 0.2);
+    --shadow-hover: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px 12px 24px rgba(var(--shadow-indigo), 0.4);
+    --shadow-floating: 0px 8px 16px rgba(0, 0, 0, 0.8), 0px 24px 48px rgba(var(--shadow-indigo), 0.6);
   }
 
   /* Adaptive theme substrate (Void / Solar) */
@@ -74,39 +91,40 @@
     @apply text-3xl lg:text-4xl;
   }
 
-  /* Tangible Realism: High lift, indigo shadows */
+  /* Organic Realism: Round Macro Containers */
   .card-3d {
-    background-color: var(--matter);
-    border: 1px solid var(--border);
-    box-shadow: 8px 12px 20px rgba(var(--shadow-indigo), 0.4);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-macro);
+    box-shadow: var(--shadow-resting), var(--shadow-ceramic);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .card-3d:hover {
-    transform: translateY(-2px);
-    box-shadow: 12px 18px 30px rgba(var(--shadow-indigo), 0.5);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover), var(--shadow-ceramic);
     border-color: var(--matter-highlight);
   }
 
+  /* Organic Realism: Soft touch targets */
   .btn-3d {
-    @apply font-mono font-bold uppercase tracking-wider;
+    @apply font-mono font-bold uppercase tracking-widest text-sm;
     background-color: var(--tungsten);
     color: #1B1C20;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
-    /* Industrial sharp feel */
-    box-shadow: 4px 6px 0 rgba(var(--shadow-indigo), 0.8);
-    transition: all 0.1s ease;
+    padding: 0.85rem 1.75rem;
+    border-radius: var(--radius-micro);
+    box-shadow: var(--shadow-resting), var(--shadow-ceramic);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .btn-3d:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 6px 8px 0 rgba(var(--shadow-indigo), 0.9);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover), var(--shadow-ceramic);
   }
 
   .btn-3d:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0 0 0 rgba(var(--shadow-indigo), 0);
+    transform: translateY(0);
+    box-shadow: var(--shadow-resting), var(--shadow-ceramic);
   }
 
   html {
