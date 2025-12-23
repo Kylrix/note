@@ -21,9 +21,9 @@ const features = [
   },
   {
     icon: <CpuChipIcon className="h-8 w-8 text-accent" />,
-    title: 'Blockchain Integration',
+    title: 'Secure Synchronization',
     description:
-      'Securely store and share your notes on-chain with cryptographic verification and decentralized access control.',
+      'Securely store and share your notes with professional-grade encryption and private access control.',
   },
   {
     icon: <ShieldCheckIcon className="h-8 w-8 text-accent" />,
@@ -127,7 +127,7 @@ export default function LandingPage() {
         <section className="relative flex items-center justify-center py-24 text-center md:py-32">
           <div className="container relative z-20 mx-auto px-5">
             <h1 className="mb-4 text-4xl font-black leading-tight tracking-tighter text-light-fg dark:text-dark-fg md:text-6xl">
-              Your notes, AI powered onchain
+              Your notes, elevated by AI
             </h1>
             <p className="mx-auto mb-12 max-w-3xl text-lg text-light-fg/80 dark:text-dark-fg/80 md:text-xl">
               Transform your ideas with AI assistance and secure your notes. 
@@ -157,7 +157,7 @@ export default function LandingPage() {
               </h2>
               <p className="mt-4 text-lg text-light-fg/60 dark:text-dark-fg/60">
                 Experience next-generation note-taking with intelligent content generation, 
-                decentralized storage, and cryptographic security built-in.
+                private cloud storage, and advanced security built-in.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

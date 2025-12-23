@@ -6,7 +6,7 @@ const slides = [
   {
     id: 1,
     title: "Whisperrnote",
-    subtitle: "AI × Blockchain Intelligence",
+    subtitle: "AI × Secure Intelligence",
     content: (
       <div className="space-y-12">
         <div className="w-40 h-40 mx-auto bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-full flex items-center justify-center text-8xl shadow-2xl shadow-blue-500/30 animate-pulse">
@@ -24,7 +24,7 @@ const slides = [
           </div>
           <div className="text-center p-6 bg-white/5 backdrop-blur rounded-2xl border border-white/10">
             <div className="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">0</div>
-            <div className="text-lg opacity-80">AI+Blockchain</div>
+            <div className="text-lg opacity-80">AI+Security</div>
           </div>
         </div>
         
@@ -93,7 +93,7 @@ const slides = [
           <div className="w-48 h-48 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center ml-24 shadow-2xl shadow-purple-500/40">
             <div className="text-center text-white">
               <div className="text-5xl mb-2">🔗</div>
-              <div className="text-lg font-bold">Blockchain</div>
+              <div className="text-lg font-bold">Security</div>
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@ const slides = [
           </div>
           <div className="text-center p-8 bg-white/5 backdrop-blur rounded-3xl border border-white/10">
             <div className="text-6xl font-black bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">$23B</div>
-            <div className="text-xl opacity-80 mt-2">Blockchain</div>
+            <div className="text-xl opacity-80 mt-2">Security</div>
           </div>
         </div>
         
@@ -166,7 +166,7 @@ const slides = [
           <div className="bg-gradient-to-br from-green-500/20 to-emerald-600/20 backdrop-blur border border-white/20 rounded-3xl p-6">
             <div className="text-3xl mb-3">🎯</div>
             <div className="text-xl font-bold mb-2">First Mover</div>
-            <div className="text-lg opacity-90">No AI+Blockchain notes exist</div>
+            <div className="text-lg opacity-90">No AI+Security notes exist</div>
           </div>
           
           <div className="bg-gradient-to-br from-blue-500/20 to-cyan-600/20 backdrop-blur border border-white/20 rounded-3xl p-6">

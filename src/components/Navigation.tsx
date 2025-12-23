@@ -89,7 +89,7 @@ export const DesktopSidebar: React.FC<NavigationProps> = ({ className = '' }) =>
   const isActive = (path: string) => pathname === path || pathname.startsWith(path);
 
   const navItems = [
-    { icon: HomeIcon, label: 'Neural Vault', path: '/notes' },
+    { icon: HomeIcon, label: 'Private Vault', path: '/notes' },
     { icon: ShareIcon, label: 'Sovereign Links', path: '/shared' },
     { icon: TagIcon, label: 'Taxonomy', path: '/tags' },
     { icon: PuzzlePieceIcon, label: 'Capabilities', path: '/extensions' },

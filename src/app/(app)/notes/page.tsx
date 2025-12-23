@@ -207,7 +207,7 @@ export default function NotesPage() {
         <header className="hidden md:flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-black text-foreground mb-2">
-              Neural Vault
+              Private Vault
             </h1>
             <p className="text-lg text-muted font-medium">
               {allNotes.length < totalNotes && !hasSearchResults ? (

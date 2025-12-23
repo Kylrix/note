@@ -142,7 +142,7 @@ export function TopBarSearch({ className = '' }: TopBarSearchProps) {
           id="topbar-search-input"
           ref={inputRef}
           type="text"
-          placeholder="Query Neural Vault..."
+          placeholder="Search Private Vault..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={handleFocus}

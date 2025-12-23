@@ -1,31 +1,31 @@
 <div align="center">
 
 # 🚀 WhisperrNote
-### *Where AI Meets Blockchain Intelligence*
+### *Where AI Meets Secure Intelligence*
 
 <img src="public/logo/whisperrnote.png" alt="Whisperrnote Logo" width="200"/>
 
-**🔮 AI-Powered Note Evolution • 🛡️ Blockchain-Secured Privacy • ⚡ Next-Gen Productivity**
+**🔮 AI-Powered Note Evolution • 🛡️ Advanced Privacy • ⚡ Next-Gen Productivity**
 
 ---
 
 ---
 
 *"Transform your thoughts into intelligent insights with AI automation,*  
-*while blockchain technology guards your privacy like a digital fortress."*
+*while advanced encryption guards your privacy like a digital fortress."*
 
 [![✨ Experience the Future](https://img.shields.io/badge/✨-Experience_the_Future-6366f1?style=for-the-badge)](https://whisperrnote.space)
 [![🧠 AI Powered](https://img.shields.io/badge/🧠-AI_Powered-10b981?style=for-the-badge)](#ai-features)
-[![🔗 Blockchain Secured](https://img.shields.io/badge/🔗-Blockchain_Secured-f59e0b?style=for-the-badge)](#blockchain-security)
+[![🛡️ Securely Encrypted](https://img.shields.io/badge/🛡️-Securely_Encrypted-f59e0b?style=for-the-badge)](#security)
 
 </div>
 
 ---
 
-## 🌟 **Revolutionary AI + Blockchain Synergy**
+## 🌟 **Revolutionary AI + Security Synergy**
 
 > **The Future of Note-Taking Has Arrived**  
-> Whisperrnote isn't just another note app—it's an **intelligent ecosystem** where artificial intelligence amplifies your creativity while blockchain technology ensures your thoughts remain truly yours.
+> Whisperrnote isn't just another note app—it's an **intelligent ecosystem** where artificial intelligence amplifies your creativity while advanced security ensures your thoughts remain truly yours.
 
 ### 🧠 **AI-Powered Intelligence**
 - **Smart Auto-Enhancement**: AI automatically refines and structures your notes
@@ -33,23 +33,23 @@
 - **Contextual Insights**: AI discovers patterns and relationships across your knowledge base
 - **Automated Security Scanning**: AI monitors for sensitive information in real-time
 
-### 🔗 **Blockchain-Secured Foundation**
-- **Decentralized Storage**: Your notes live on the blockchain, not corporate servers
-- **Cryptographic Privacy**: End-to-end encryption meets blockchain immutability
-- **True Ownership**: You control your data through decentralized identity
-- **Censorship Resistance**: No central authority can access or delete your thoughts
+### 🛡️ **Secure Foundation**
+- **Private Cloud Storage**: Your notes live in your private cloud, not corporate servers
+- **Advanced Privacy**: End-to-end encryption meets permanent security
+- **True Ownership**: You control your data through secure identity management
+- **Uncompromising Privacy**: No central authority can access or delete your thoughts
 
 ---
 
-## ✨ **Next-Generation Features**
+## ✨ **Premium Features**
 
 <div align="center">
 
-| 🎯 **AI Intelligence** | 🛡️ **Blockchain Security** | 🚀 **Performance** |
+| 🎯 **AI Intelligence** | 🛡️ **Advanced Security** | 🚀 **Performance** |
 |:---:|:---:|:---:|
 | Smart Auto-Enhancement | End-to-End Encryption | Lightning Fast Sync |
-| Contextual Insights | Decentralized Storage | Real-Time Collaboration |
-| Automated Organization | Cryptographic Privacy | Cross-Platform Native |
+| Contextual Insights | Private Cloud Storage | Real-Time Collaboration |
+| Automated Organization | Advanced Privacy | Cross-Platform Native |
 
 </div>
 
@@ -142,15 +142,15 @@ npm install && npm run build
 
 <div align="center">
 
-*See Whisperrnote's AI and blockchain technologies in action*
+*See Whisperrnote's AI and security technologies in action*
 
 ---
 
-## 🤝 **Join the Revolution**
+## 🤝 **Join the Community**
 
 <div align="center">
 
-**Help us build the future of intelligent, decentralized note-taking**
+**Help us build the future of intelligent, private note-taking**
 
 [![💻 Contribute](https://img.shields.io/badge/💻-Contribute-10b981?style=for-the-badge)](https://whisperrnote.space/contributing)
 [![💬 Discord](https://img.shields.io/badge/💬-Discord-5865f2?style=for-the-badge)](https://discord.gg/YDcm6FzN)
@@ -159,9 +159,9 @@ npm install && npm run build
 </div>
 
 ### **🧪 Test the Future**
-Experience our bleeding-edge blockchain integration:
-- [Test ICP Integration](https://github.com/nathfavour/whisperrnote_icp)
-- Live canister interactions via Candid interfaces
+Experience our bleeding-edge security integration:
+- [Test Secure Integration](https://github.com/nathfavour/whisperrnote_icp)
+- Live interactions via secure interfaces
 
 ---
 
@@ -175,7 +175,7 @@ Whisperrnote is open-source and licensed under the [MIT License](LICENSE).
 
 ### **🌟 Where Your Ideas Meet Tomorrow's Technology**
 
-*Thank you for joining the Whisperrnote revolution. Together, we're building a future where AI amplifies human creativity and blockchain protects digital freedom.*
+*Thank you for joining the Whisperrnote community. Together, we're building a future where AI amplifies human creativity and advanced security protects digital freedom.*
 
 **✨ Experience the synergy. Own your thoughts. Shape the future. ✨**
 
