@@ -1,71 +1,85 @@
 import React from 'react';
+import { Card as MuiCard, CardHeader as MuiCardHeader, CardContent as MuiCardContent, CardActions as MuiCardActions, Typography, Box } from '@mui/material';
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  any
+>(({ className, children, ...props }, ref) => (
+  <MuiCard
     ref={ref}
-    className={`rounded-2xl border-2 border-border bg-card text-foreground shadow-resting hover:shadow-hover hover:-translate-y-1 transition-all duration-300 shadow-ceramic ${className}`}
     {...props}
-  />
+  >
+    {children}
+  </MuiCard>
 ));
 Card.displayName = 'Card';
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  any
+>(({ className, children, ...props }, ref) => (
+  <Box
     ref={ref}
-    className={`flex flex-col space-y-1.5 p-5 ${className}`}
+    sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}
     {...props}
-  />
+  >
+    {children}
+  </Box>
 ));
 CardHeader.displayName = 'CardHeader';
 
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
+  any
+>(({ className, children, ...props }, ref) => (
+  <Typography
     ref={ref}
-    className={`text-xl font-mono font-bold leading-tight tracking-tight ${className}`}
+    variant="h3"
     {...props}
-  />
+  >
+    {children}
+  </Typography>
 ));
 CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
+  any
+>(({ className, children, ...props }, ref) => (
+  <Typography
     ref={ref}
-    className={`text-sm text-muted-foreground ${className}`}
+    variant="body2"
+    color="text.secondary"
     {...props}
-  />
+  >
+    {children}
+  </Typography>
 ));
 CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={`p-6 pt-0 ${className}`} {...props} />
+  any
+>(({ className, children, ...props }, ref) => (
+  <MuiCardContent ref={ref} sx={{ p: 3, pt: 0 }} {...props}>
+    {children}
+  </MuiCardContent>
 ));
 CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  any
+>(({ className, children, ...props }, ref) => (
+  <MuiCardActions
     ref={ref}
-    className={`flex items-center p-6 pt-0 ${className}`}
+    sx={{ p: 3, pt: 0, display: 'flex', alignItems: 'center' }}
     {...props}
-  />
+  >
+    {children}
+  </MuiCardActions>
 ));
 CardFooter.displayName = 'CardFooter';
 
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+
