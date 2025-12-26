@@ -1,9 +1,23 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { DoodleStroke } from '@/types/notes';
-import { Button } from '@/components/ui/Button';
-import { X, Maximize2, Minimize2, RotateCcw, Trash2 } from 'lucide-react';
+import { 
+  Box, 
+  Typography, 
+  Button, 
+  IconButton, 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions, 
+  Stack, 
+  Slider, 
+  Paper,
+  alpha,
+  Tooltip
+} from '@mui/material';
+import { X, Maximize2, Minimize2, RotateCcw, Trash2, Save } from 'lucide-react';
 
 interface DoodleCanvasProps {
   initialData?: string;
@@ -17,7 +31,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [strokes, setStrokes] = useState<DoodleStroke[]>([]);
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState('#00F5FF');
   const [size, setSize] = useState(3);
   const [mode, setMode] = useState<ModalMode>('modal');
   const [pipPosition, setPipPosition] = useState({ x: 20, y: 20 });
@@ -46,7 +60,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     strokesData.forEach((stroke) => {
@@ -124,7 +138,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
     if (canvas) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
     }
@@ -157,256 +171,108 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
     setIsDraggingPip(false);
   };
 
-  // Modal layout
-  if (mode === 'modal') {
-    return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white dark:bg-slate-950 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
-            <h2 className="text-lg font-semibold">Doodle</h2>
-            <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setMode('fullscreen')}
-                title="Expand to fullscreen"
-              >
-                <Maximize2 className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setMode('pip')}
-                title="Minimize to PIP"
-              >
-                <Minimize2 className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onClose}
-                title="Close without saving"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Canvas area */}
-          <div className="flex-1 p-4 overflow-auto">
-            <canvas
-              ref={canvasRef}
-              width={800}
-              height={600}
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={stopDrawing}
-              onMouseLeave={stopDrawing}
-              className="border border-slate-300 dark:border-slate-700 rounded bg-white cursor-crosshair w-full h-auto"
-            />
-          </div>
-
-          {/* Controls */}
-          <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Color:</label>
-                <input
-                  type="color"
-                  value={color}
-                  onChange={(e) => setColor(e.target.value)}
-                  className="w-12 h-8 rounded cursor-pointer"
-                />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Size:</label>
-                <input
-                  type="range"
-                  min="1"
-                  max="20"
-                  value={size}
-                  onChange={(e) => setSize(Number(e.target.value))}
-                  className="w-24"
-                />
-                <span className="text-sm text-slate-500">{size}px</span>
-              </div>
-
-              <div className="flex gap-2 ml-auto">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleUndo}
-                  title="Undo last stroke"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleClear}
-                  title="Clear canvas"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex gap-2 justify-end">
-              <Button variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button onClick={handleSave}>
-                Save Doodle
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Fullscreen layout
-  if (mode === 'fullscreen') {
-    return (
-      <div className="fixed inset-0 bg-white dark:bg-slate-950 z-50 flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
-          <h2 className="text-lg font-semibold">Doodle - Fullscreen</h2>
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setMode('modal')}
-              title="Back to modal"
-            >
-              <Minimize2 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              title="Close without saving"
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Canvas area - full height */}
-        <div className="flex-1 p-4 overflow-auto">
-          <canvas
-            ref={canvasRef}
-            width={1920}
-            height={1080}
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={stopDrawing}
-            onMouseLeave={stopDrawing}
-            className="border border-slate-300 dark:border-slate-700 rounded bg-white cursor-crosshair w-full h-full"
-          />
-        </div>
-
-        {/* Controls */}
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium">Color:</label>
-              <input
-                type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                className="w-12 h-8 rounded cursor-pointer"
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium">Size:</label>
-              <input
-                type="range"
-                min="1"
-                max="20"
-                value={size}
-                onChange={(e) => setSize(Number(e.target.value))}
-                className="w-24"
-              />
-              <span className="text-sm text-slate-500">{size}px</span>
-            </div>
-
-            <div className="flex gap-2 ml-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleUndo}
-                title="Undo last stroke"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClear}
-                title="Clear canvas"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          <div className="flex gap-2 justify-end">
-            <Button variant="outline" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button onClick={handleSave}>
-              Save Doodle
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // PIP layout
-  return (
-    <div
-      className="fixed z-50 animate-in fade-in slide-in-from-bottom-5 duration-300"
-      style={{
-        left: `${pipPosition.x}px`,
-        top: `${pipPosition.y}px`,
-      }}
-      onMouseMove={handlePipDrag}
-      onMouseUp={handlePipDragEnd}
-      onMouseLeave={handlePipDragEnd}
+  const Controls = ({ isPip = false }: { isPip?: boolean }) => (
+    <Stack 
+      direction={isPip ? "column" : "row"} 
+      spacing={2} 
+      alignItems="center" 
+      sx={{ width: '100%', flexWrap: 'wrap' }}
     >
-      <div className="bg-white dark:bg-slate-950 rounded-xl shadow-2xl border border-slate-300 dark:border-slate-700 overflow-hidden w-80">
-        {/* PIP Header - Draggable */}
-        <div
-          data-pip-drag
-          className="bg-slate-100 dark:bg-slate-900 px-4 py-2 flex items-center justify-between cursor-move hover:bg-slate-200 dark:hover:bg-slate-800 transition"
-          onMouseDown={handlePipDragStart}
-        >
-          <span className="text-sm font-medium truncate">Doodle</span>
-          <div className="flex gap-1">
-            <button
-              onClick={() => setMode('modal')}
-              className="p-1 hover:bg-slate-300 dark:hover:bg-slate-700 rounded transition"
-              title="Expand to modal"
-            >
-              <Maximize2 className="w-3 h-3" />
-            </button>
-            <button
-              onClick={onClose}
-              className="p-1 hover:bg-red-200 dark:hover:bg-red-900 rounded transition"
-              title="Close"
-            >
-              <X className="w-3 h-3" />
-            </button>
-          </div>
-        </div>
+      <Stack direction="row" spacing={2} alignItems="center">
+        <Typography variant="caption" sx={{ fontWeight: 700, color: 'rgba(255, 255, 255, 0.5)' }}>COLOR</Typography>
+        <Box 
+          component="input"
+          type="color"
+          value={color}
+          onChange={(e: any) => setColor(e.target.value)}
+          sx={{ 
+            width: 32, 
+            height: 32, 
+            border: 'none', 
+            borderRadius: '8px', 
+            cursor: 'pointer',
+            bgcolor: 'transparent',
+            '&::-webkit-color-swatch-wrapper': { p: 0 },
+            '&::-webkit-color-swatch': { border: 'none', borderRadius: '8px' }
+          }}
+        />
+      </Stack>
 
-        {/* PIP Canvas */}
-        <div className="w-full aspect-video bg-white">
+      <Stack direction="row" spacing={2} alignItems="center" sx={{ flex: 1, minWidth: 150 }}>
+        <Typography variant="caption" sx={{ fontWeight: 700, color: 'rgba(255, 255, 255, 0.5)' }}>SIZE</Typography>
+        <Slider
+          value={size}
+          min={1}
+          max={20}
+          onChange={(_: any, val: any) => setSize(val)}
+          sx={{ 
+            color: '#00F5FF',
+            '& .MuiSlider-thumb': { width: 12, height: 12 },
+            '& .MuiSlider-rail': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
+          }}
+        />
+        <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', minWidth: 24 }}>{size}px</Typography>
+      </Stack>
+
+      <Stack direction="row" spacing={1} sx={{ ml: 'auto' }}>
+        <Tooltip title="Undo">
+          <IconButton onClick={handleUndo} size="small" sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.05)' } }}>
+            <RotateCcw size={18} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Clear">
+          <IconButton onClick={handleClear} size="small" sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: '#FF4D4D', bgcolor: alpha('#FF4D4D', 0.1) } }}>
+            <Trash2 size={18} />
+          </IconButton>
+        </Tooltip>
+      </Stack>
+    </Stack>
+  );
+
+  if (mode === 'pip') {
+    return (
+      <Paper
+        sx={{
+          position: 'fixed',
+          left: pipPosition.x,
+          top: pipPosition.y,
+          zIndex: 2000,
+          width: 320,
+          bgcolor: 'rgba(10, 10, 10, 0.95)',
+          backdropFilter: 'blur(25px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+          backgroundImage: 'none'
+        }}
+        onMouseMove={handlePipDrag}
+        onMouseUp={handlePipDragEnd}
+        onMouseLeave={handlePipDragEnd}
+      >
+        <Box 
+          data-pip-drag
+          onMouseDown={handlePipDragStart}
+          sx={{ 
+            p: 1.5, 
+            bgcolor: 'rgba(255, 255, 255, 0.03)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            cursor: 'move'
+          }}
+        >
+          <Typography variant="caption" sx={{ fontWeight: 800, color: 'rgba(255, 255, 255, 0.6)' }}>DOODLE</Typography>
+          <Stack direction="row" spacing={0.5}>
+            <IconButton size="small" onClick={() => setMode('modal')} sx={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+              <Maximize2 size={14} />
+            </IconButton>
+            <IconButton size="small" onClick={onClose} sx={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+              <X size={14} />
+            </IconButton>
+          </Stack>
+        </Box>
+        <Box sx={{ bgcolor: '#000', aspectRatio: '16/9' }}>
           <canvas
             ref={canvasRef}
             width={320}
@@ -415,56 +281,142 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
             onMouseMove={draw}
             onMouseUp={stopDrawing}
             onMouseLeave={stopDrawing}
-            className="w-full h-full cursor-crosshair"
+            style={{ width: '100%', height: '100%', cursor: 'crosshair' }}
           />
-        </div>
+        </Box>
+        <Box sx={{ p: 2 }}>
+          <Controls isPip />
+          <Button 
+            fullWidth 
+            variant="contained" 
+            size="small" 
+            onClick={handleSave}
+            sx={{ mt: 2, bgcolor: '#00F5FF', color: '#000', fontWeight: 800, borderRadius: '10px' }}
+          >
+            Save
+          </Button>
+        </Box>
+      </Paper>
+    );
+  }
 
-        {/* PIP Controls - Compact */}
-        <div className="bg-slate-50 dark:bg-slate-900 px-3 py-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
-          <div className="flex gap-2 items-center">
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              className="w-8 h-8 rounded cursor-pointer"
-              title="Change color"
-            />
-            <input
-              type="range"
-              min="1"
-              max="20"
-              value={size}
-              onChange={(e) => setSize(Number(e.target.value))}
-              className="flex-1 h-1"
-              title="Change brush size"
-            />
-          </div>
+  return (
+    <Dialog
+      open={true}
+      onClose={onClose}
+      maxWidth={mode === 'fullscreen' ? false : 'md'}
+      fullScreen={mode === 'fullscreen'}
+      PaperProps={{
+        sx: {
+          bgcolor: 'rgba(10, 10, 10, 0.95)',
+          backdropFilter: 'blur(25px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: mode === 'fullscreen' ? 0 : '28px',
+          backgroundImage: 'none',
+          color: 'white',
+          maxHeight: '90vh'
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        p: 3, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+      }}>
+        <Typography variant="h6" sx={{ fontWeight: 900, fontFamily: 'var(--font-space-grotesk)', letterSpacing: '-0.02em' }}>
+          Doodle {mode === 'fullscreen' && '- Fullscreen'}
+        </Typography>
+        <Stack direction="row" spacing={1}>
+          <Tooltip title={mode === 'fullscreen' ? "Exit Fullscreen" : "Fullscreen"}>
+            <IconButton 
+              onClick={() => setMode(mode === 'fullscreen' ? 'modal' : 'fullscreen')}
+              sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.05)' } }}
+            >
+              {mode === 'fullscreen' ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Minimize to PIP">
+            <IconButton 
+              onClick={() => setMode('pip')}
+              sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.05)' } }}
+            >
+              <Minimize2 size={20} />
+            </IconButton>
+          </Tooltip>
+          <IconButton 
+            onClick={onClose}
+            sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.05)' } }}
+          >
+            <X size={20} />
+          </IconButton>
+        </Stack>
+      </DialogTitle>
 
-          <div className="flex gap-1">
-            <button
-              onClick={handleUndo}
-              className="flex-1 p-1 text-xs hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition"
-              title="Undo"
-            >
-              <RotateCcw className="w-3 h-3 mx-auto" />
-            </button>
-            <button
-              onClick={handleClear}
-              className="flex-1 p-1 text-xs hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition"
-              title="Clear"
-            >
-              <Trash2 className="w-3 h-3 mx-auto" />
-            </button>
-            <button
-              onClick={handleSave}
-              className="flex-1 p-1 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded transition text-center"
-              title="Save"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <DialogContent sx={{ p: 4, bgcolor: 'rgba(0, 0, 0, 0.2)' }}>
+        <Box sx={{ 
+          width: '100%', 
+          height: mode === 'fullscreen' ? 'calc(100vh - 200px)' : 500,
+          bgcolor: '#000',
+          borderRadius: '16px',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          overflow: 'hidden',
+          position: 'relative'
+        }}>
+          <canvas
+            ref={canvasRef}
+            width={mode === 'fullscreen' ? 1920 : 800}
+            height={mode === 'fullscreen' ? 1080 : 600}
+            onMouseDown={startDrawing}
+            onMouseMove={draw}
+            onMouseUp={stopDrawing}
+            onMouseLeave={stopDrawing}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              cursor: 'crosshair',
+              display: 'block'
+            }}
+          />
+        </Box>
+      </DialogContent>
+
+      <DialogActions sx={{ 
+        p: 3, 
+        flexDirection: 'column', 
+        gap: 3,
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)'
+      }}>
+        <Controls />
+        <Stack direction="row" spacing={2} sx={{ width: '100%', justifyContent: 'flex-end' }}>
+          <Button 
+            onClick={onClose}
+            sx={{ 
+              color: 'rgba(255, 255, 255, 0.6)', 
+              fontWeight: 700,
+              '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.05)' }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="contained"
+            onClick={handleSave}
+            startIcon={<Save size={18} />}
+            sx={{ 
+              bgcolor: '#00F5FF', 
+              color: '#000', 
+              fontWeight: 800, 
+              borderRadius: '14px',
+              px: 4,
+              '&:hover': { bgcolor: '#00D1DA' }
+            }}
+          >
+            Save Doodle
+          </Button>
+        </Stack>
+      </DialogActions>
+    </Dialog>
   );
 }
