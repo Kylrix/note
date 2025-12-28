@@ -4,7 +4,7 @@ import { Card as MuiCard, CardHeader as MuiCardHeader, CardContent as MuiCardCon
 const Card = React.forwardRef<
   HTMLDivElement,
   any
->(({ className, children, sx, ...props }, ref) => (
+>(({ children, sx, ...props }, ref) => (
   <MuiCard
     ref={ref}
     sx={{
@@ -26,7 +26,7 @@ Card.displayName = 'Card';
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   any
->(({ className, children, sx, ...props }, ref) => (
+>(({ children, sx, ...props }, ref) => (
   <Box
     ref={ref}
     sx={{ 
@@ -46,7 +46,7 @@ CardHeader.displayName = 'CardHeader';
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
   any
->(({ className, children, sx, ...props }, ref) => (
+>(({ children, sx, ...props }, ref) => (
   <Typography
     ref={ref}
     variant="h6"
@@ -67,7 +67,7 @@ CardTitle.displayName = 'CardTitle';
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   any
->(({ className, children, sx, ...props }, ref) => (
+>(({ children, sx, ...props }, ref) => (
   <Typography
     ref={ref}
     variant="body2"
@@ -86,7 +86,7 @@ CardDescription.displayName = 'CardDescription';
 const CardContent = React.forwardRef<
   HTMLDivElement,
   any
->(({ className, children, sx, ...props }, ref) => (
+>(({ children, sx, ...props }, ref) => (
   <MuiCardContent 
     ref={ref} 
     sx={{ 
@@ -104,7 +104,7 @@ CardContent.displayName = 'CardContent';
 const CardFooter = React.forwardRef<
   HTMLDivElement,
   any
->(({ className, children, sx, ...props }, ref) => (
+>(({ children, sx, ...props }, ref) => (
   <MuiCardActions
     ref={ref}
     sx={{ 
