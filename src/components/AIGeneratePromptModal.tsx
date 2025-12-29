@@ -152,7 +152,7 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
                 const isSelected = selectedType === type.id;
                 
                 return (
-                  <Grid item xs={12} md={6} key={type.id}>
+                  <Grid size={{ xs: 12, md: 6 }} key={type.id}>
                     <Paper
                       component="button"
                       onClick={() => setSelectedType(type.id)}

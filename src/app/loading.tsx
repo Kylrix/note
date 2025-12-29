@@ -33,7 +33,7 @@ export default function Loading() {
           {/* Grid skeleton */}
           <Grid container spacing={2}>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <Grid item xs={6} sm={4} md={3} lg={2.4} key={i}>
+              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2.4 }} key={i}>
                 <Skeleton variant="rectangular" width="100%" height={192} sx={{ borderRadius: 4 }} />
               </Grid>
             ))}

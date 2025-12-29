@@ -320,7 +320,7 @@ export default function ExtensionsPage() {
         ) : (
           <Grid container spacing={3}>
             {activeTab === 0 && filteredExtensions.map((extension) => (
-              <Grid item xs={12} md={6} lg={4} key={extension.$id}>
+              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={extension.$id}>
                 <ExtensionCard
                   extension={extension}
                   onToggle={handleToggleExtension}
@@ -330,7 +330,7 @@ export default function ExtensionsPage() {
             ))}
 
             {activeTab === 1 && installedExtensions.map((extension) => (
-              <Grid item xs={12} md={6} lg={4} key={extension.$id}>
+              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={extension.$id}>
                 <ExtensionCard
                   extension={extension}
                   onToggle={handleToggleExtension}
@@ -345,7 +345,7 @@ export default function ExtensionsPage() {
                 template.description.toLowerCase().includes(searchQuery.toLowerCase())
               )
               .map((template) => (
-                <Grid item xs={12} md={6} lg={4} key={template.id}>
+                <Grid size={{ xs: 12, md: 6, lg: 4 }} key={template.id}>
                   <TemplateCard
                     template={template}
                     onUse={() => {

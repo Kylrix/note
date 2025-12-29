@@ -192,7 +192,7 @@ export default function AdminMessages() {
           />
 
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 fullWidth
                 label="User IDs (comma separated)"
@@ -212,7 +212,7 @@ export default function AdminMessages() {
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 fullWidth
                 label="Emails (comma separated)"
@@ -235,7 +235,7 @@ export default function AdminMessages() {
           </Grid>
 
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 fullWidth
                 label="BCC (comma separated)"
@@ -255,7 +255,7 @@ export default function AdminMessages() {
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 fullWidth
                 label="Topic (optional)"

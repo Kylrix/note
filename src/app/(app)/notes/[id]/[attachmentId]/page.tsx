@@ -171,7 +171,7 @@ export default function AttachmentPage() {
 
         {!loading && !error && meta && (
           <Grid container spacing={4}>
-            <Grid item xs={12} lg={3}>
+            <Grid size={{ xs: 12, lg: 3 }}>
               <Paper 
                 sx={{ 
                   p: 3, 
@@ -194,7 +194,7 @@ export default function AttachmentPage() {
                   </Box>
 
                   <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid size={{ xs: 6 }}>
                       <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase', fontWeight: 700, letterSpacing: 1 }}>
                         Size
                       </Typography>
@@ -202,7 +202,7 @@ export default function AttachmentPage() {
                         {formatFileSize(meta.size)}
                       </Typography>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid size={{ xs: 6 }}>
                       <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase', fontWeight: 700, letterSpacing: 1 }}>
                         Type
                       </Typography>
@@ -268,7 +268,7 @@ export default function AttachmentPage() {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} lg={9}>
+            <Grid size={{ xs: 12, lg: 9 }}>
               <Paper 
                 sx={{ 
                   minHeight: '70vh', 

@@ -98,7 +98,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
     <Box sx={{ mt: 2 }}>
       <Grid container spacing={3}>
         {attachments.map((attachment) => (
-          <Grid item xs={12} sm={6} md={4} key={attachment.$id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={attachment.$id}>
             <Card 
               sx={{ 
                 height: '100%',

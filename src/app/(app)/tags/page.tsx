@@ -197,7 +197,7 @@ export default function TagsPage() {
     return (
       <Box sx={{ minHeight: '100vh', bgcolor: '#0a0a0a' }}>
         <Grid container sx={{ height: '100vh' }}>
-          <Grid item xs={12} lg={6} sx={{ display: { xs: 'none', lg: 'block' }, borderRight: '1px solid rgba(255, 255, 255, 0.1)', p: 4, overflowY: 'auto' }}>
+          <Grid size={{ xs: 12, lg: 6 }} sx={{ display: { xs: 'none', lg: 'block' }, borderRight: '1px solid rgba(255, 255, 255, 0.1)', p: 4, overflowY: 'auto' }}>
             <Box sx={{ mb: 4 }}>
               <Typography variant="h3" sx={{ fontWeight: 900, fontFamily: 'var(--font-space-grotesk)', color: 'white', mb: 1 }}>
                 Tags Management
@@ -258,7 +258,7 @@ export default function TagsPage() {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} lg={6} sx={{ height: '100vh', overflow: 'hidden' }}>
+          <Grid size={{ xs: 12, lg: 6 }} sx={{ height: '100vh', overflow: 'hidden' }}>
             <TagNotesListSidebar
               tag={selectedTag}
               onBack={() => setSelectedTag(null)}
@@ -371,7 +371,7 @@ export default function TagsPage() {
         ) : (
           <Grid container spacing={3}>
             {tags.map((tag) => (
-              <Grid item xs={12} md={6} lg={4} key={tag.$id}>
+              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={tag.$id}>
                 <Card
                   onClick={() => setSelectedTag(tag)}
                   sx={{
@@ -559,7 +559,7 @@ export default function TagsPage() {
                 </Typography>
                 <Grid container spacing={1.5} sx={{ mb: 3 }}>
                   {predefinedColors.map((color) => (
-                    <Grid item key={color}>
+                    <Grid size="auto" key={color}>
                       <Tooltip title={color} arrow>
                         <Box
                           onClick={() => setFormData({ ...formData, color })}

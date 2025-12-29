@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       </Box>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper
             component={Link}
             href="/admin/messages"
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper
             sx={{
               p: 4,

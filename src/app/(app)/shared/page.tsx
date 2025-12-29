@@ -185,7 +185,7 @@ export default function SharedNotesPage() {
         ) : (
           <Grid container spacing={3}>
             {currentNotes.map((note) => (
-              <Grid item xs={6} sm={4} md={3} lg={2.4} key={note.$id}>
+              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2.4 }} key={note.$id}>
                 <NoteCard note={note} />
                 {activeTab === 0 && (note as SharedNote).sharedBy && (
                   <Typography variant="caption" sx={{ display: 'block', mt: 1, color: 'text.secondary', textAlign: 'center' }}>

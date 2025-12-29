@@ -193,7 +193,7 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
         </Typography>
         <Grid container spacing={2}>
           {PROMPT_SUGGESTIONS.map((suggestion, index) => (
-            <Grid item xs={12} md={6} key={index}>
+            <Grid size={{ xs: 12, md: 6 }} key={index}>
               <Button
                 fullWidth
                 onClick={() => handleSuggestionClick(suggestion)}

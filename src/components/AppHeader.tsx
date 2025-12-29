@@ -254,7 +254,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
             {ECOSYSTEM_APPS.map((app) => {
               const isActive = currentSubdomain === app.subdomain;
               return (
-                <Grid item xs={4} key={app.id}>
+                <Grid size={4} key={app.id}>
                   <Paper
                     component="button"
                     onClick={() => handleAppClick(app.subdomain)}
