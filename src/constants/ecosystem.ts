@@ -3,19 +3,17 @@ export interface EcosystemApp {
   label: string;
   subdomain: string;
   type: 'app' | 'accounts' | 'support';
+  icon?: string;
 }
 
 export const NEXT_PUBLIC_DOMAIN = process.env.NEXT_PUBLIC_DOMAIN || 'whisperrnote.app';
 
 export const ECOSYSTEM_APPS: EcosystemApp[] = [
-  { id: 'whisperrnote', label: 'Whisperrnote', subdomain: 'app', type: 'app' },
-  { id: 'whisperrtask', label: 'Whisperrtask', subdomain: 'whisperrtask', type: 'app' },
-  { id: 'whisperrmeet', label: 'Whisperrmeet', subdomain: 'whisperrmeet', type: 'app' },
-  { id: 'whisperrcal', label: 'Whisperrcal', subdomain: 'whisperrcal', type: 'app' },
-  { id: 'whisperrevents', label: 'Whisperrevents', subdomain: 'whisperrevents', type: 'app' },
-  { id: 'tenchat', label: 'TenChat', subdomain: 'tenchat', type: 'app' },
-  { id: 'accounts', label: 'Accounts', subdomain: 'accounts', type: 'accounts' },
-  { id: 'support', label: 'Support', subdomain: 'support', type: 'support' },
+  { id: 'note', label: 'Note', subdomain: 'app', type: 'app', icon: '📝' },
+  { id: 'keep', label: 'Keep', subdomain: 'keep', type: 'app', icon: '🔐' },
+  { id: 'flow', label: 'Flow', subdomain: 'flow', type: 'app', icon: '🚀' },
+  { id: 'connect', label: 'Connect', subdomain: 'connect', type: 'app', icon: '💬' },
+  { id: 'accounts', label: 'Identity', subdomain: 'accounts', type: 'accounts', icon: '🛡️' },
 ];
 
 export const DEFAULT_ECOSYSTEM_LOGO = '/logo/rall.svg';
