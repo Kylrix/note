@@ -20,13 +20,15 @@ import {
   Logout as ArrowLeftOnRectangleIcon,
   Login as ArrowRightOnRectangleIcon,
 } from '@mui/icons-material';
-import CreateNoteForm from './CreateNoteForm';
-import { MobileBottomNav } from '@/components/Navigation';
+import dynamic from 'next/dynamic';
 
+const CreateNoteForm = dynamic(() => import('./CreateNoteForm'), { ssr: false });
+const NoteDetailSidebar = dynamic(() => import('@/components/ui/NoteDetailSidebar').then(mod => mod.NoteDetailSidebar), { ssr: false });
+
+import { MobileBottomNav } from '@/components/Navigation';
 import { MobileFAB } from '@/components/MobileFAB';
 import { useSidebar } from '@/components/ui/SidebarContext';
 import { useDynamicSidebar } from '@/components/ui/DynamicSidebar';
-import { NoteDetailSidebar } from '@/components/ui/NoteDetailSidebar';
 import { sidebarIgnoreProps } from '@/constants/sidebar';
 
 import { NotesErrorBoundary } from '@/components/ui/ErrorBoundary';
@@ -316,8 +318,8 @@ export default function NotesPage() {
             {tags.map((tag, index) => (
               <Button
                 key={index}
-                variant={searchQuery === tag ? 'default' : 'secondary'}
-                size="sm"
+                variant={searchQuery === tag ? 'contained' : 'outlined'}
+                size="small"
                 sx={{ whiteSpace: 'nowrap' }}
                 aria-pressed={searchQuery === tag}
                 onClick={() => searchQuery === tag ? clearSearch() : setSearchQuery(tag)}
@@ -328,7 +330,7 @@ export default function NotesPage() {
             ))}
 
             {hasSearchResults && (
-              <Button variant="ghost" size="sm" onClick={clearSearch} sx={{ ml: 1 }} {...sidebarIgnoreProps}>
+              <Button variant="text" size="small" onClick={clearSearch} sx={{ ml: 1 }} {...sidebarIgnoreProps}>
                 Clear
               </Button>
             )}
@@ -431,7 +433,7 @@ export default function NotesPage() {
             </Typography>
             {hasSearchResults ? (
               <Stack direction="row" spacing={2}>
-                <Button variant="secondary" onClick={clearSearch}>
+                <Button variant="outlined" onClick={clearSearch}>
                   Clear Search
                 </Button>
                 <Button onClick={handleCreateNoteClick} startIcon={<PlusCircleIcon />}>
@@ -458,7 +460,7 @@ export default function NotesPage() {
             </Box>
             {hasMore && !isInitialLoading && (
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button variant="secondary" onClick={loadMore} {...sidebarIgnoreProps}>
+                <Button variant="outlined" onClick={loadMore} {...sidebarIgnoreProps}>
                   Load More
                 </Button>
               </Box>
@@ -490,6 +492,6 @@ export default function NotesPage() {
         {/* Mobile FAB */}
         <MobileFAB />
       </Box>
-    </NotesErrorBoundary>
+    </NotesErrorBoundary >
   );
 }

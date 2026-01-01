@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import {
   AppBar,
@@ -152,7 +153,14 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
             overflow: 'hidden',
             boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
           }}>
-            <img src="/logo/whisperrnote.png" alt="Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
+            <Image
+              src="/logo/whisperrnote.png"
+              alt="Logo"
+              width={28}
+              height={28}
+              style={{ objectFit: 'contain' }}
+              priority
+            />
           </Box>
           <Typography
             variant="h6"

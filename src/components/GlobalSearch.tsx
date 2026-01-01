@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from 'react';
-import { 
-  Box, 
-  TextField, 
-  Paper, 
-  List, 
-  ListItem, 
-  ListItemText, 
+import {
+  Box,
+  TextField,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
   ListItemIcon,
   Typography,
   InputAdornment,
@@ -15,15 +15,15 @@ import {
   IconButton,
   alpha
 } from '@mui/material';
-import { 
-  Search as SearchIcon, 
-  NoteOutlined as NoteIcon, 
-  FolderOutlined as FolderIcon, 
+import {
+  Search as SearchIcon,
+  NoteOutlined as NoteIcon,
+  FolderOutlined as FolderIcon,
   LocalOfferOutlined as TagIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import debounce from 'lodash/debounce';
+import { debounce } from 'lodash-es';
 
 type SearchResult = {
   id: string;
@@ -44,7 +44,7 @@ export default function GlobalSearch() {
       setResults([]);
       return;
     }
-    
+
     // TODO: Implement actual search API call
     const mockResults: SearchResult[] = [
       {
@@ -67,7 +67,7 @@ export default function GlobalSearch() {
         title: 'important'
       }
     ];
-    
+
     setResults(mockResults);
   }, 300);
 
@@ -158,9 +158,9 @@ export default function GlobalSearch() {
               marginTop: '12px'
             }}
           >
-            <Paper 
+            <Paper
               elevation={0}
-              sx={{ 
+              sx={{
                 maxHeight: 400,
                 overflow: 'auto',
                 borderRadius: '20px',
@@ -174,10 +174,10 @@ export default function GlobalSearch() {
               {results.length > 0 ? (
                 <List sx={{ p: 1 }}>
                   {results.map((result) => (
-                    <ListItem 
+                    <ListItem
                       key={result.id}
-                      sx={{ 
-                        py: 1.5, 
+                      sx={{
+                        py: 1.5,
                         px: 2,
                         cursor: 'pointer',
                         borderRadius: '12px',
@@ -230,7 +230,7 @@ export default function GlobalSearch() {
                                 key={tag}
                                 label={tag}
                                 size="small"
-                                sx={{ 
+                                sx={{
                                   height: 18,
                                   fontSize: '9px',
                                   fontWeight: 800,
