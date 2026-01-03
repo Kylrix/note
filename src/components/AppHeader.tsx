@@ -1,17 +1,16 @@
 "use client";
 
-import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  Typography,
-  IconButton,
-  Menu,
-  MenuItem,
-  Avatar,
-  Tooltip,
+import { 
+  AppBar, 
+  Toolbar, 
+  Box, 
+  Typography, 
+  IconButton, 
+  Menu, 
+  MenuItem, 
+  Avatar, 
+  Tooltip, 
   Divider,
   ListItemIcon,
   ListItemText,
@@ -33,9 +32,6 @@ import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePrevi
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
 import { TopBarSearch } from '@/components/TopBarSearch';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import dynamic from 'next/dynamic';
-
-const EcosystemPortal = dynamic(() => import('@/components/EcosystemPortal'), { ssr: false });
 
 interface AppHeaderProps {
   className?: string;
@@ -46,22 +42,10 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
   const { openOverlay, closeOverlay } = useOverlay();
   const [aiLoading, setAiLoading] = useState(false);
   const [anchorElAccount, setAnchorElAccount] = useState<null | HTMLElement>(null);
+  const [anchorElApps, setAnchorElApps] = useState<null | HTMLElement>(null);
   const [currentSubdomain, setCurrentSubdomain] = useState<string | null>(null);
   const [smallProfileUrl, setSmallProfileUrl] = useState<string | null>(null);
   const profilePicId = getUserProfilePicId(user);
-
-  const [portalOpen, setPortalOpen] = useState(false);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.code === 'Space') {
-        e.preventDefault();
-        setPortalOpen(prev => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -126,11 +110,18 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
     return null;
   }
 
+  const handleAppClick = (subdomain: string | undefined) => {
+    if (!subdomain) return;
+    if (typeof window === 'undefined') return;
+    if (currentSubdomain === subdomain) return;
+    window.location.href = getEcosystemUrl(subdomain);
+  };
+
   return (
-    <AppBar
-      position="fixed"
+    <AppBar 
+      position="fixed" 
       elevation={0}
-      sx={{
+      sx={{ 
         zIndex: 1201,
         bgcolor: 'rgba(10, 10, 10, 0.95)',
         backdropFilter: 'blur(25px) saturate(180%)',
@@ -141,11 +132,11 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
       <Toolbar sx={{ gap: { xs: 2, md: 4 }, px: { xs: 2, md: 3 }, minHeight: '72px' }}>
         {/* Left: Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0 }}>
-          <Box sx={{
-            width: 42,
-            height: 42,
-            bgcolor: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+          <Box sx={{ 
+            width: 42, 
+            height: 42, 
+            bgcolor: 'rgba(255, 255, 255, 0.03)', 
+            border: '1px solid rgba(255, 255, 255, 0.1)', 
             borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
@@ -153,20 +144,13 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
             overflow: 'hidden',
             boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
           }}>
-            <Image
-              src="/logo/whisperrnote.png"
-              alt="Logo"
-              width={28}
-              height={28}
-              style={{ objectFit: 'contain' }}
-              priority
-            />
+            <img src="/logo/whisperrnote.png" alt="Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
           </Box>
-          <Typography
-            variant="h6"
-            sx={{
+          <Typography 
+            variant="h6" 
+            sx={{ 
               display: { xs: 'none', sm: 'block' },
-              fontWeight: 900,
+              fontWeight: 900, 
               letterSpacing: '-0.05em',
               fontFamily: 'var(--font-space-grotesk)',
               color: 'white'
@@ -184,10 +168,10 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
         {/* Right: Actions */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
           <Tooltip title="AI Generate">
-            <IconButton
+            <IconButton 
               onClick={handleAIGenerateClick}
               disabled={aiLoading}
-              sx={{
+              sx={{ 
                 display: { xs: 'none', md: 'flex' },
                 bgcolor: '#00F5FF',
                 color: '#000',
@@ -203,40 +187,34 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
             </IconButton>
           </Tooltip>
 
-          <IconButton
-            onClick={() => setPortalOpen(true)}
-            sx={{
-              color: '#00F5FF',
-              bgcolor: 'rgba(0, 245, 255, 0.05)',
-              border: '1px solid rgba(0, 245, 255, 0.1)',
+          <IconButton 
+            onClick={(e) => setAnchorElApps(e.currentTarget)}
+            sx={{ 
+              color: 'rgba(255, 255, 255, 0.6)',
+              bgcolor: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
               borderRadius: '12px',
               width: 42,
               height: 42,
-              animation: 'pulse 3s infinite ease-in-out',
-              '@keyframes pulse': {
-                '0%': { boxShadow: '0 0 0 0 rgba(0, 245, 255, 0.4)' },
-                '70%': { boxShadow: '0 0 0 10px rgba(0, 245, 255, 0)' },
-                '100%': { boxShadow: '0 0 0 0 rgba(0, 245, 255, 0)' },
-              },
-              '&:hover': { bgcolor: 'rgba(0, 245, 255, 0.1)', transform: 'translateY(-2px)' }
+              '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.08)', color: 'white' }
             }}
           >
             <AppsIcon sx={{ fontSize: 22 }} />
           </IconButton>
 
-          <IconButton
+          <IconButton 
             onClick={(e) => setAnchorElAccount(e.currentTarget)}
-            sx={{
+            sx={{ 
               p: 0.5,
               '&:hover': { transform: 'scale(1.05)' },
               transition: 'transform 0.2s'
             }}
           >
-            <Avatar
+            <Avatar 
               src={smallProfileUrl || undefined}
-              sx={{
-                width: 38,
-                height: 38,
+              sx={{ 
+                width: 38, 
+                height: 38, 
                 bgcolor: '#00F5FF',
                 fontSize: '0.875rem',
                 fontWeight: 800,
@@ -249,6 +227,70 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
             </Avatar>
           </IconButton>
         </Box>
+
+        {/* Apps Menu */}
+        <Menu
+          anchorEl={anchorElApps}
+          open={Boolean(anchorElApps)}
+          onClose={() => setAnchorElApps(null)}
+          PaperProps={{
+            sx: {
+              mt: 1.5,
+              width: 320,
+              bgcolor: 'rgba(10, 10, 10, 0.95)',
+              backdropFilter: 'blur(25px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '24px',
+              p: 2.5,
+              backgroundImage: 'none',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.6)'
+            }
+          }}
+        >
+          <Typography variant="caption" sx={{ fontWeight: 800, color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', mb: 2.5, display: 'block' }}>
+            Ecosystem Apps
+          </Typography>
+          <Grid container spacing={1.5}>
+            {ECOSYSTEM_APPS.map((app) => {
+              const isActive = currentSubdomain === app.subdomain;
+              return (
+                <Grid size={4} key={app.id}>
+                  <Paper
+                    component="button"
+                    onClick={() => handleAppClick(app.subdomain)}
+                    disabled={isActive}
+                    elevation={0}
+                    sx={{
+                      width: '100%',
+                      aspectRatio: '1/1',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 1,
+                      bgcolor: isActive ? alpha('#00F5FF', 0.05) : 'transparent',
+                      border: '1px solid',
+                      borderColor: isActive ? '#00F5FF' : 'rgba(255, 255, 255, 0.05)',
+                      borderRadius: '16px',
+                      cursor: isActive ? 'default' : 'pointer',
+                      transition: 'all 0.2s',
+                      '&:hover': isActive ? {} : {
+                        bgcolor: 'rgba(255, 255, 255, 0.05)',
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        transform: 'translateY(-2px)'
+                      }
+                    }}
+                  >
+                    <img src="/logo/whisperrnote.png" alt={app.label} style={{ width: 24, height: 24, opacity: isActive ? 0.5 : 1 }} />
+                    <Typography variant="caption" sx={{ fontSize: '10px', fontWeight: 800, color: isActive ? '#00F5FF' : 'rgba(255, 255, 255, 0.6)' }}>
+                      {app.label}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Menu>
 
         {/* Account Menu */}
         <Menu
@@ -279,7 +321,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
           </Box>
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <Box sx={{ py: 1 }}>
-            <MenuItem
+            <MenuItem 
               onClick={() => {
                 window.location.href = `https://${process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN}.${process.env.NEXT_PUBLIC_DOMAIN}/settings?source=${encodeURIComponent(window.location.origin)}`;
                 setAnchorElAccount(null);
@@ -289,7 +331,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
               <ListItemIcon><SettingsIcon fontSize="small" sx={{ color: 'rgba(255, 255, 255, 0.4)' }} /></ListItemIcon>
               <ListItemText primary="Vault Settings" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'white' }} />
             </MenuItem>
-            <MenuItem
+            <MenuItem 
               onClick={() => {
                 alert('Exporting your data to Markdown...');
                 setAnchorElAccount(null);
@@ -303,7 +345,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <Box sx={{ px: 3, py: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant="caption" sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'rgba(255, 255, 255, 0.4)' }}>Mode</Typography>
-            <ThemeToggle />
+            <ThemeToggle size="sm" />
           </Box>
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <MenuItem onClick={handleLogout} sx={{ py: 2, px: 3, color: '#FF4D4D', '&:hover': { bgcolor: alpha('#FF4D4D', 0.05) } }}>
@@ -312,7 +354,6 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
           </MenuItem>
         </Menu>
       </Toolbar>
-      <EcosystemPortal open={portalOpen} onClose={() => setPortalOpen(false)} />
     </AppBar>
   );
 }
