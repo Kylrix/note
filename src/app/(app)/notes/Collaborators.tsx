@@ -53,7 +53,7 @@ export default function CollaboratorsSection({ noteId }: CollaboratorsProps) {
       const collaborator = await createCollaborator({
         noteId,
         userId: user.$id,
-        permission: permission as 'read' | 'write' | 'admin',
+        permission: permission as any,
       });
        setCollaborators(prev => [collaborator as Collaborators, ...prev]);
       setNewCollaboratorEmail('');

@@ -1,7 +1,7 @@
 import { tablesDB, ID, Query } from '../core/client';
 import { APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_TAGS } from '../core/client';
 import type { Tags } from '@/types/appwrite';
-import { getCurrentUser } from '../auth';
+import { getCurrentUser } from '@/lib/appwrite';
 
 // Internal helper exported for reuse by notes module
 export async function adjustTagUsage(userId: string | null | undefined, tagName: string, delta: number) {

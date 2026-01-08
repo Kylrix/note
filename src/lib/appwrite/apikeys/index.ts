@@ -1,7 +1,7 @@
 import { tablesDB, ID, Query } from '../core/client';
 import { APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_APIKEYS } from '../core/client';
 import type { ApiKeys } from '@/types/appwrite';
-import { getCurrentUser } from '../auth';
+import { getCurrentUser } from '@/lib/appwrite';
 
 // Clean Appwrite system fields from data before create/update
 function cleanDocumentData<T>(data: Partial<T>): Record<string, any> {

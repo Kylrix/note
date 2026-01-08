@@ -1,7 +1,7 @@
 import { tablesDB, ID, Query, Permission, Role } from '../core/client';
 import { APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, APPWRITE_TABLE_ID_TAGS } from '../core/client';
 import type { Notes } from '@/types/appwrite';
-import { getCurrentUser } from '../auth';
+import { getCurrentUser } from '@/lib/appwrite';
 import { adjustTagUsage } from '../tags';
 
 // Lazy imports inside functions to avoid circular dependency during gradual refactor

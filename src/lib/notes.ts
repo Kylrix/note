@@ -515,6 +515,8 @@ export async function listNotesClient(userId: string, filters?: any) {
   return notes.sort((a, b) => {
     if (a.is_pinned && !b.is_pinned) return -1;
     if (!a.is_pinned && b.is_pinned) return 1;
-    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+    const timeB = new Date(b.updated_at || (b as any).$updatedAt || 0).getTime();
+    const timeA = new Date(a.updated_at || (a as any).$updatedAt || 0).getTime();
+    return timeB - timeA;
   });
 }

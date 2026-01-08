@@ -97,7 +97,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ not
       return NextResponse.json({ error: errorMsg, code: code || 'UNKNOWN' }, { status: 500 });
     }
   } catch (e: any) {
-    console.error('attachments.upload.unhandled', { noteId: params.noteId, err: e?.message || String(e) });
+    const { noteId } = await params;
+    console.error('attachments.upload.unhandled', { noteId, err: e?.message || String(e) });
     return NextResponse.json({ error: e?.message || 'Upload failed' }, { status: 500 });
   }
 }

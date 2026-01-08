@@ -78,7 +78,7 @@ export async function pruneRevisions(
 /**
  * Get revision history for a note
  */
-export async function getNoteRevision(
+export async function getNoteRevisions(
   noteId: string,
   limit?: number
 ): Promise<NoteRevision[]> {
@@ -96,9 +96,9 @@ export async function getNoteRevision(
       ] as any
     );
 
-    return res.documents as NoteRevision[];
+    return res.documents as unknown as NoteRevision[];
   } catch (e) {
-    console.error('getNoteRevision failed:', e);
+    console.error('getNoteRevisions failed:', e);
     return [];
   }
 }
@@ -123,7 +123,7 @@ export async function getNoteRevision(
       ] as any
     );
 
-    return (res.documents[0] as NoteRevision) || null;
+    return (res.documents[0] as unknown as NoteRevision) || null;
   } catch (e) {
     console.error('getNoteRevision failed:', e);
     return null;
@@ -263,7 +263,7 @@ export async function createRevision(
       }
     );
 
-    return revision as NoteRevision;
+    return revision as unknown as NoteRevision;
   } catch (e) {
     console.error('createRevision failed:', e);
     return null;

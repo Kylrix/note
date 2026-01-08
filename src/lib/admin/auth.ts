@@ -36,8 +36,7 @@ export async function requireAdminFromRequest(req: Request): Promise<{ allowed: 
 export async function requireFounder(): Promise<{ allowed: boolean; reason?: string; user?: any; }> {
   try {
     // Try auth-layer enriched user first, fallback to raw Appwrite
-    let user: any = await getAuthUser();
-    if (!user) user = await getAppwriteUser();
+    let user: any = await getCurrentUser();
     if (!user || !user.$id) return { allowed: false, reason: 'unauthenticated' };
     // Use user preferences for admin gating. Appwrite stores preferences in user.prefs
     const prefs = (user as any).prefs || {};

@@ -292,7 +292,7 @@ export default function NoteInsights({ note, content, onApplySuggestion, onRefre
 
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: 600 }}>Last Accessed</Typography>
-                <Typography variant="caption" sx={{ color: 'white', fontWeight: 800 }}>{new Date(analytics.last_accessed).toLocaleDateString()}</Typography>
+                <Typography variant="caption" sx={{ color: 'white', fontWeight: 800 }}>{analytics.last_accessed ? new Date(analytics.last_accessed).toLocaleDateString() : 'Never'}</Typography>
               </Box>
             </Stack>
           )}

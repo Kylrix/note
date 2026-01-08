@@ -11,10 +11,10 @@ export async function fetchServerAppwriteUser(): Promise<any | null> {
     const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || process.env.NEXT_PUBLIC_APPWRITE_PROJECT || process.env.APPWRITE_PROJECT_ID || process.env.APPWRITE_PROJECT;
     if (!endpoint || !project) return null;
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const all = cookieStore.getAll();
     if (!all.length) return null; // no cookies => likely unauthenticated
-    const headerValue = all.map(c => `${c.name}=${encodeURIComponent(c.value)}`).join('; ');
+    const headerValue = all.map((c: any) => `${c.name}=${encodeURIComponent(c.value)}`).join('; ');
 
     const client = new Client().setEndpoint(endpoint).setProject(project);
     // Forward cookies manually so the backend can resolve session

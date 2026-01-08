@@ -259,7 +259,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
     setUpdatingCollab(collab.collaborationId);
     setSharedUsers(prev => prev.map(u => u.id === collab.id ? { ...u, permission: newPerm } : u));
     try {
-      await updateCollaborator(collab.collaborationId, { permission: newPerm });
+      await updateCollaborator(collab.collaborationId, { permission: newPerm as any });
       setSuccessMsg('Permission updated');
     } catch (err: unknown) {
       const msg = err && typeof err === 'object' && 'message' in err ? String((err as any).message) : String(err);

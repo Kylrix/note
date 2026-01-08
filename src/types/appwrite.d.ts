@@ -167,7 +167,20 @@ export type Users = Models.Document & {
     id: string | null;
     email: string | null;
     name: string | null;
+    username?: string | null;
+    displayName?: string | null;
+    avatarUrl?: string | null;
+    avatarFileId?: string | null;
+    bio?: string | null;
     walletAddress: string | null;
+    authMethod?: string | null;
+    profilePicId?: string | null;
+    walletEth?: string | null;
+    subscriptionTier?: string | 'FREE' | 'PRO' | 'LIFETIME';
+    subscriptionExpiresAt?: string | null;
+    publicProfile?: boolean | null;
+    deletedAt?: string | null;
+    identities?: any[] | null;
     createdAt: string | null;
     updatedAt: string | null;
 }
@@ -649,17 +662,6 @@ export type GiFs = Models.Document & {
     height: number | null;
     usageCount: number;
     createdAt: string | null;
-}
-
-export type Users = Models.Document & {
-    username: string;
-    displayName: string | null;
-    avatarUrl: string | null;
-    avatarFileId: string | null;
-    bio: string | null;
-    walletAddress: string | null;
-    createdAt: string | null;
-    updatedAt: string | null;
 }
 
 export type MediaLibrary = Models.Document & {

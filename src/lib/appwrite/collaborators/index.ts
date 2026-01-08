@@ -1,7 +1,7 @@
 import { tablesDB, ID, Query } from '../core/client';
 import { APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_COLLABORATORS, APPWRITE_TABLE_ID_NOTES, APPWRITE_TABLE_ID_USERS } from '../core/client';
 import type { Collaborators, Notes } from '@/types/appwrite';
-import { getCurrentUser } from '../auth';
+import { getCurrentUser } from '@/lib/appwrite';
 
 function cleanDocumentData<T>(data: Partial<T>): Record<string, any> {
   const { $id, $sequence, $collectionId, $databaseId, $createdAt, $updatedAt, $permissions, id, ...cleanData } = data as any;
