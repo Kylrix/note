@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { 
   AppBar, 
   Toolbar, 
@@ -14,7 +15,7 @@ import {
   Divider,
   ListItemIcon,
   ListItemText,
-  Grid,
+  Grid2 as Grid,
   Paper,
   alpha
 } from '@mui/material';
@@ -37,7 +38,7 @@ interface AppHeaderProps {
   className?: string;
 }
 
-export default function AppHeader({ className = '' }: AppHeaderProps) {
+export default function AppHeader({ }: AppHeaderProps) {
   const { user, isAuthenticated, logout } = useAuth();
   const { openOverlay, closeOverlay } = useOverlay();
   const [aiLoading, setAiLoading] = useState(false);
@@ -144,7 +145,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
             overflow: 'hidden',
             boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
           }}>
-            <img src="/logo/whisperrnote.png" alt="Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
+            <Image src="/logo/whisperrnote.png" alt="Logo" width={28} height={28} style={{ objectFit: 'contain' }} />
           </Box>
           <Typography 
             variant="h6" 
@@ -281,7 +282,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
                       }
                     }}
                   >
-                    <img src="/logo/whisperrnote.png" alt={app.label} style={{ width: 24, height: 24, opacity: isActive ? 0.5 : 1 }} />
+                    <Image src="/logo/whisperrnote.png" alt={app.label} width={24} height={24} style={{ opacity: isActive ? 0.5 : 1 }} />
                     <Typography variant="caption" sx={{ fontSize: '10px', fontWeight: 800, color: isActive ? '#00F5FF' : 'rgba(255, 255, 255, 0.6)' }}>
                       {app.label}
                     </Typography>
@@ -345,7 +346,7 @@ export default function AppHeader({ className = '' }: AppHeaderProps) {
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <Box sx={{ px: 3, py: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant="caption" sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'rgba(255, 255, 255, 0.4)' }}>Mode</Typography>
-            <ThemeToggle size="sm" />
+            <ThemeToggle />
           </Box>
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <MenuItem onClick={handleLogout} sx={{ py: 2, px: 3, color: '#FF4D4D', '&:hover': { bgcolor: alpha('#FF4D4D', 0.05) } }}>
