@@ -26,7 +26,7 @@ Card.displayName = 'Card';
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   any
->(({ children, sx, ...props }, ref) => (
+>(({ children, sx, maxWidth, ...props }, ref) => (
   <Box
     ref={ref}
     sx={{ 
@@ -34,6 +34,7 @@ const CardHeader = React.forwardRef<
       display: 'flex', 
       flexDirection: 'column', 
       gap: 1,
+      maxWidth,
       ...sx 
     }}
     {...props}
@@ -46,7 +47,7 @@ CardHeader.displayName = 'CardHeader';
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
   any
->(({ children, sx, ...props }, ref) => (
+>(({ children, sx, maxWidth, ...props }, ref) => (
   <Typography
     ref={ref}
     variant="h6"
@@ -55,6 +56,7 @@ const CardTitle = React.forwardRef<
       fontWeight: 900,
       color: '#00F5FF',
       letterSpacing: '-0.02em',
+      maxWidth,
       ...sx
     }}
     {...props}
@@ -67,13 +69,14 @@ CardTitle.displayName = 'CardTitle';
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   any
->(({ children, sx, ...props }, ref) => (
+>(({ children, sx, maxWidth, ...props }, ref) => (
   <Typography
     ref={ref}
     variant="body2"
     sx={{
       color: 'rgba(255, 255, 255, 0.5)',
       fontFamily: '"Inter", sans-serif',
+      maxWidth,
       ...sx
     }}
     {...props}
@@ -86,26 +89,27 @@ CardDescription.displayName = 'CardDescription';
 const CardContent = React.forwardRef<
   HTMLDivElement,
   any
->(({ children, sx, ...props }, ref) => (
-  <MuiCardContent 
+>(({ children, sx, maxWidth, ...props }, ref) => (
+  <Box 
     ref={ref} 
     sx={{ 
       p: 3, 
       pt: 0,
+      maxWidth,
       ...sx 
     }} 
     {...props}
   >
     {children}
-  </MuiCardContent>
+  </Box>
 ));
 CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
   any
->(({ children, sx, ...props }, ref) => (
-  <MuiCardActions
+>(({ children, sx, maxWidth, ...props }, ref) => (
+  <Box
     ref={ref}
     sx={{ 
       p: 3, 
@@ -113,12 +117,13 @@ const CardFooter = React.forwardRef<
       display: 'flex', 
       alignItems: 'center',
       gap: 2,
+      maxWidth,
       ...sx 
     }}
     {...props}
   >
     {children}
-  </MuiCardActions>
+  </Box>
 ));
 CardFooter.displayName = 'CardFooter';
 
