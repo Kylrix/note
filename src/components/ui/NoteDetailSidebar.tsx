@@ -887,7 +887,7 @@ export function NoteDetailSidebar({
       {/* Doodle Editor Modal */}
       {showDoodleEditor && (
         <DoodleCanvas
-          initialData={format === 'doodle' ? content : ''}
+          initialData={(format === 'doodle' ? content : '') || ''}
           onSave={handleDoodleSave}
           onClose={() => setShowDoodleEditor(false)}
         />

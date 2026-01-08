@@ -230,7 +230,7 @@ export async function shareNoteWithUser(noteId: string, email: string, permissio
     if (!users.rows.length) throw new Error(`No user found with email: ${email}`);
     const targetUserId = users.rows[0].id || users.rows[0].$id;
     if (!targetUserId) throw new Error('Invalid user record');
-    await createCollaborator({ noteId, userId: targetUserId, permission });
+    await createCollaborator({ noteId, userId: targetUserId, permission: permission as any });
     return { success: true, message: `Note shared with ${email}` };
   } catch (e: any) {
     throw new Error(e?.message || 'Failed to share note');
@@ -249,7 +249,7 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
     }) as any;
     if (note.userId !== currentUser.$id) throw new Error('Only note owner can share notes');
     if (targetUserId === currentUser.$id) throw new Error('Cannot share a note with yourself');
-    await createCollaborator({ noteId, userId: targetUserId, permission });
+    await createCollaborator({ noteId, userId: targetUserId, permission: permission as any });
     return { success: true };
   } catch (e: any) {
     throw new Error(e?.message || 'Failed to share note');
