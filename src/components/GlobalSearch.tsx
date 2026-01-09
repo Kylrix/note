@@ -23,7 +23,7 @@ import {
   Close as CloseIcon
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 
 type SearchResult = {
   id: string;

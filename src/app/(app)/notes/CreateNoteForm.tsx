@@ -25,7 +25,12 @@ import {
   Edit as EditIcon
 } from '@mui/icons-material';
 import { Button } from '@/components/ui/Button';
-import { AUTO_TITLE_CONFIG } from '@/constants/noteTitle';
+import { AUTO_TITLE_CONFIG, buildAutoTitleFromContent } from '@/constants/noteTitle';
+import { useOverlay } from '@/components/ui/OverlayContext';
+import { createNote as appwriteCreateNote } from '@/lib/appwrite';
+import type { Notes } from '@/types/appwrite.d';
+import * as AppwriteTypes from '@/types/appwrite.d';
+import DoodleCanvas from '@/components/DoodleCanvas';
 
 interface CreateNoteFormProps {
   onNoteCreated: (note: Notes) => void;
@@ -105,7 +110,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
       isPublic,
       status,
       parentNoteId: null, // For hierarchical notes
-      attachments: [], // For file attachments
+      attachments: null, // For file attachments
       comments: [], // For collaboration
       extensions: [], // For plugin data
       collaborators: [], // For sharing
@@ -728,7 +733,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                             <DescriptionIcon sx={{ fontSize: 16, color: '#00F5FF' }} />
                           </Box>
                           <Box sx={{ minWidth: 0 }}>
-                            <Typography variant="body2" sx={{ color: 'white', fontWeight: 600, noWrap: true }}>
+                            <Typography variant="body2" noWrap sx={{ color: 'white', fontWeight: 600 }}>
                               {file.name}
                             </Typography>
                             <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)' }}>
@@ -924,7 +929,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
         }}
       >
         <Button 
-          variant="secondary" 
+          variant="outlined" 
           onClick={closeOverlay}
           disabled={isLoading}
           sx={{ px: 4, borderRadius: '14px' }}

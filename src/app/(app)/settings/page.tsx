@@ -57,8 +57,6 @@ import { useSubscription } from "@/components/ui/SubscriptionContext";
 import AIModeSelect from "@/components/AIModeSelect";
 import { AIMode, getAIModeDisplayName, getAIModeDescription } from "@/types/ai";
 import { getUserProfilePicId } from '@/lib/utils';
-import { getMFAStatus, createTOTPFactor, verifyTOTPFactor, deleteTOTPFactor, createEmailMFAFactor, deleteEmailMFAFactor } from '@/lib/mfa';
-import { MFASettingsModal } from '@/components/ui/MFASettingsModal';
 import { SubscriptionTab } from "./SubscriptionTab";
 
 type TabType = 'profile' | 'preferences' | 'subscription' | 'account';
@@ -74,7 +72,6 @@ export default function SettingsPage() {
   const [profilePicUrl, setProfilePicUrl] = useState<string | null>(null);
   const [isRemovingProfilePic, setIsRemovingProfilePic] = useState<boolean>(false);
   const [currentAIMode, setCurrentAIMode] = useState<AIMode>(AIMode.STANDARD);
-  const [mfaStatus, setMfaStatus] = useState({ totp: false, email: false });
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const { userTier } = useSubscription();

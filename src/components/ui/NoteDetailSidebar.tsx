@@ -224,8 +224,8 @@ export function NoteDetailSidebar({
 
   const autosaveCandidate = useMemo<Notes>(() => ({
     ...note,
-    title: title.trim(),
-    content: content.trim(),
+    title: (title ?? '').trim(),
+    content: (content ?? '').trim(),
     format,
     tags: normalizedTags,
   }), [note, title, content, format, normalizedTags]);
@@ -280,8 +280,8 @@ export function NoteDetailSidebar({
 
   useEffect(() => {
     if (!isEditing || !note.$id) return;
-    const trimmedTitle = title.trim();
-    const trimmedContent = content.trim();
+    const trimmedTitle = (title ?? '').trim();
+    const trimmedContent = (content ?? '').trim();
     const tagsMatch = shallowArrayEqual(note.tags || [], normalizedTags);
     const matchesExisting =
       (note.title || '') === trimmedTitle &&
