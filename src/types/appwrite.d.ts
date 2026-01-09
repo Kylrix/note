@@ -25,7 +25,11 @@ export enum Plan {
     ORG = "org"
 }
 
-export type Users = Models.User<any> & {
+export interface Row extends Models.Row {
+    $tableId?: string;
+}
+
+export type Users = Models.User<any> & Partial<Row> & {
     id?: string | null;
     email?: string | null;
     name?: string | null;
@@ -34,6 +38,9 @@ export type Users = Models.User<any> & {
     updatedAt?: string | null;
     prefs?: any;
     emailVerification?: boolean;
+    profilePicId?: string | null;
+    publicProfile?: boolean;
+    deletedAt?: string | null;
 }
 
 export type Notes = Models.Document & {
@@ -54,6 +61,8 @@ export type Notes = Models.Document & {
     format?: string | null;
     attachments?: string | null | string[];
     updated_at?: string;
+    sharedPermission?: string;
+    sharedAt?: string;
 }
 
 export type Tags = Models.Document & {
@@ -101,10 +110,9 @@ export type Collaborators = Models.Document & {
     noteId?: string;
     userId?: string;
     permission?: Permission;
-    createdAt?: string;
-    updatedAt?: string;
-    inviterId?: string;
     collaborationId?: string;
+    invitedAt?: string;
+    accepted?: boolean;
 }
 
 export type ActivityLog = Models.Document & {
@@ -121,6 +129,7 @@ export type Settings = Models.Document & {
     notifications?: boolean | null;
     language?: string | null;
     updatedAt?: string | null;
+    settings?: any;
 }
 
 export type Extensions = Models.Document & {
