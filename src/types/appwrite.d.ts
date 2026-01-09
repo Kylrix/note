@@ -1,4 +1,4 @@
-import type { Models } from 'node-appwrite';
+import type { Models } from 'appwrite';
 
 export enum Status {
     DRAFT = "draft",
@@ -11,7 +11,7 @@ export enum TargetType {
     COMMENT = "comment"
 }
 
-export type Permission = 'read' | 'write' | 'admin';
+export type CollaboratorPermission = 'read' | 'write' | 'admin';
 
 export enum Cause {
     MANUAL = "manual",
@@ -25,11 +25,7 @@ export enum Plan {
     ORG = "org"
 }
 
-export interface Row extends Models.Row {
-    $tableId?: string;
-}
-
-export type Users = Models.User<any> & Partial<Row> & {
+export type Users = Models.User<any> & {
     id?: string | null;
     email?: string | null;
     name?: string | null;
@@ -109,7 +105,7 @@ export type Reactions = Models.Document & {
 export type Collaborators = Models.Document & {
     noteId?: string;
     userId?: string;
-    permission?: Permission;
+    permission?: CollaboratorPermission;
     collaborationId?: string;
     invitedAt?: string;
     accepted?: boolean;
