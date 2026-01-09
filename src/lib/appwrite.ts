@@ -538,7 +538,7 @@ export async function listNotes(queries: any[] = [], limit: number = 100) {
     if (!user || !user.$id) {
       return { documents: [], total: 0 };
     }
-    queries = [Query.equal('userId', user.$id)];
+    queries = [Query.equal('owner_id', user.$id)];
   }
 
   const finalQueries = [
@@ -595,7 +595,7 @@ export async function getAllNotes(): Promise<{ documents: Notes[], total: number
     const notesRes = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_NOTES,
-      [Query.equal('userId', currentUser.$id), Query.limit(1000)]
+      [Query.equal('owner_id', currentUser.$id), Query.limit(1000)]
     );
 
     return { documents: notesRes.documents as unknown as Notes[], total: notesRes.total };
