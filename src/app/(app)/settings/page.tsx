@@ -43,11 +43,6 @@ import {
   Subscriptions as SubscriptionIcon, 
   Edit as EditIcon, 
   Delete as DeleteIcon,
-  Security as SecurityIcon,
-  Lock as LockIcon,
-  Email as EmailIcon,
-  Notifications as NotificationsIcon,
-  Public as PublicIcon,
   AutoAwesome as AIIcon,
   Save as SaveIcon
 } from "@mui/icons-material";
@@ -56,7 +51,7 @@ import { useAuth } from "@/components/ui/AuthContext";
 import { useSubscription } from "@/components/ui/SubscriptionContext";
 import AIModeSelect from "@/components/AIModeSelect";
 import { AIMode, getAIModeDisplayName, getAIModeDescription } from "@/types/ai";
-import { getUserProfilePicId } from '@/lib/utils';
+import { getUserProfilePicId, getUserField } from '@/lib/utils';
 import { SubscriptionTab } from "./SubscriptionTab";
 
 type TabType = 'profile' | 'preferences' | 'subscription' | 'account';
@@ -105,13 +100,6 @@ export default function SettingsPage() {
           setCurrentAIMode((mode as AIMode) || AIMode.STANDARD);
          } catch (error) {
           console.error('Failed to load AI mode:', error);
-        }
-
-        try {
-          const mfa = await getMFAStatus();
-          setMfaStatus(mfa);
-        } catch (error) {
-          console.error('Failed to load MFA status:', error);
         }
       } catch {
         openIDMWindow();
@@ -305,8 +293,6 @@ export default function SettingsPage() {
                 onAIModeChange={handleAIModeChange} 
                 user={user}
                 isVerified={isVerified}
-                mfaStatus={mfaStatus}
-                setMfaStatus={setMfaStatus}
               />
             )}
             {activeTab === 'subscription' && <SubscriptionTab />}
@@ -326,8 +312,6 @@ export default function SettingsPage() {
                 handlePasswordReset={handlePasswordReset}
                 handleCancelPasswordReset={handleCancelPasswordReset}
                 onPublicProfileToggle={handlePublicProfileToggle}
-                mfaStatus={mfaStatus}
-                setMfaStatus={setMfaStatus}
               />
             )}
           </Box>
@@ -438,66 +422,8 @@ const PreferencesTab = ({
   userTier, 
   onAIModeChange,
   user,
-  isVerified,
-  mfaStatus,
-  setMfaStatus
+  isVerified
 }: any) => {
-  const [mfaModalOpen, setMfaModalOpen] = useState(false);
-  const [mfaModalFactor, setMfaModalFactor] = useState<'totp' | 'email'>('totp');
-  const [mfaMFALoading, setMFALoading] = useState(false);
-  const [totpSetupData, setTotpSetupData] = useState<any>(null);
-
-  const handleMFAEnable = async (factor: 'totp' | 'email') => {
-    setMFALoading(true);
-    try {
-      if (factor === 'totp') {
-        const setup = await createTOTPFactor();
-        setTotpSetupData(setup);
-      } else {
-        await createEmailMFAFactor();
-      }
-    } catch (err: any) {
-      console.error('MFA setup error:', err);
-      throw err;
-    } finally {
-      setMFALoading(false);
-    }
-  };
-
-  const handleMFAVerify = async (factor: 'totp' | 'email', otp: string) => {
-    setMFALoading(true);
-    try {
-      if (factor === 'totp') {
-        await verifyTOTPFactor(otp);
-      }
-      const newStatus = await getMFAStatus();
-      setMfaStatus(newStatus);
-    } catch (err: any) {
-      console.error('MFA verification error:', err);
-      throw err;
-    } finally {
-      setMFALoading(false);
-    }
-  };
-
-  const handleMFADisable = async (factor: 'totp' | 'email') => {
-    setMFALoading(true);
-    try {
-      if (factor === 'totp') {
-        await deleteTOTPFactor();
-      } else {
-        await deleteEmailMFAFactor();
-      }
-      const newStatus = await getMFAStatus();
-      setMfaStatus(newStatus);
-    } catch (err: any) {
-      console.error('MFA disable error:', err);
-      throw err;
-    } finally {
-      setMFALoading(false);
-    }
-  };
-
   return (
     <Box>
       <Typography variant="h4" sx={{ fontWeight: 900, mb: 6, fontFamily: 'var(--font-space-grotesk)', color: 'white' }}>
@@ -545,49 +471,6 @@ const PreferencesTab = ({
               <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>{getAIModeDescription(currentAIMode)}</Typography>
             </Box>
           </Paper>
-        </Box>
-
-        {/* Security Section */}
-        <Box>
-          <Typography variant="h6" sx={{ fontWeight: 800, color: 'white', mb: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <SecurityIcon sx={{ color: '#00F5FF' }} /> Security
-          </Typography>
-          <Stack spacing={3}>
-            <Paper sx={{ p: 4, borderRadius: '24px', bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: 'white' }}>Authenticator App (TOTP)</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
-                    {mfaStatus.totp ? 'Enabled • Verified' : 'Not enabled'}
-                  </Typography>
-                </Box>
-                <Button 
-                  variant="outlined" 
-                  onClick={() => { setMfaModalFactor('totp'); setMfaModalOpen(true); }}
-                  sx={{ borderRadius: '12px', color: '#00F5FF', borderColor: 'rgba(0, 245, 255, 0.3)' }}
-                >
-                  {mfaStatus.totp ? 'Manage' : 'Enable'}
-                </Button>
-              </Stack>
-            </Paper>
-            <Paper sx={{ p: 4, borderRadius: '24px', bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: 'white' }}>Email OTP</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
-                    {mfaStatus.email ? 'Enabled • Verified' : 'Not enabled'}
-                  </Typography>
-                </Box>
-                <Button 
-                  variant="outlined" 
-                  onClick={() => { setMfaModalFactor('email'); setMfaModalOpen(true); }}
-                  sx={{ borderRadius: '12px', color: '#00F5FF', borderColor: 'rgba(0, 245, 255, 0.3)' }}
-                >
-                  {mfaStatus.email ? 'Manage' : 'Enable'}
-                </Button>
-              </Stack>
-            </Paper>
-          </Stack>
         </Box>
 
         {/* App Settings */}
@@ -678,18 +561,6 @@ const PreferencesTab = ({
           </Box>
         )}
       </Stack>
-
-      <MFASettingsModal
-        isOpen={mfaModalOpen}
-        onClose={() => { setMfaModalOpen(false); setTotpSetupData(null); }}
-        factor={mfaModalFactor}
-        isEnabled={mfaModalFactor === 'totp' ? mfaStatus.totp : mfaStatus.email}
-        onEnable={handleMFAEnable}
-        onDisable={handleMFADisable}
-        onVerify={handleMFAVerify}
-        totpQrCode={totpSetupData?.qrCode}
-        totpManualEntry={totpSetupData?.secret}
-      />
     </Box>
   );
 };
@@ -815,70 +686,13 @@ const SettingsTab = ({
   resetEmailSent,
   handlePasswordReset,
   handleCancelPasswordReset,
-  onPublicProfileToggle,
-  mfaStatus,
-  setMfaStatus
+  onPublicProfileToggle
 }: any) => {
   const [showDelete, setShowDelete] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState('');
   const [deleteSuccess, setDeleteSuccess] = useState('');
-  const [mfaModalOpen, setMfaModalOpen] = useState(false);
-  const [mfaModalFactor, setMfaModalFactor] = useState<'totp' | 'email'>('totp');
-  const [mfaMFALoading, setMFALoading] = useState(false);
-  const [totpSetupData, setTotpSetupData] = useState<any>(null);
-
-  const handleMFAEnable = async (factor: 'totp' | 'email') => {
-    setMFALoading(true);
-    try {
-      if (factor === 'totp') {
-        const setup = await createTOTPFactor();
-        setTotpSetupData(setup);
-      } else {
-        await createEmailMFAFactor();
-      }
-    } catch (err: any) {
-      console.error('MFA setup error:', err);
-      throw err;
-    } finally {
-      setMFALoading(false);
-    }
-  };
-
-  const handleMFAVerify = async (factor: 'totp' | 'email', otp: string) => {
-    setMFALoading(true);
-    try {
-      if (factor === 'totp') {
-        await verifyTOTPFactor(otp);
-      }
-      const newStatus = await getMFAStatus();
-      setMfaStatus(newStatus);
-    } catch (err: any) {
-      console.error('MFA verification error:', err);
-      throw err;
-    } finally {
-      setMFALoading(false);
-    }
-  };
-
-  const handleMFADisable = async (factor: 'totp' | 'email') => {
-    setMFALoading(true);
-    try {
-      if (factor === 'totp') {
-        await deleteTOTPFactor();
-      } else {
-        await deleteEmailMFAFactor();
-      }
-      const newStatus = await getMFAStatus();
-      setMfaStatus(newStatus);
-    } catch (err: any) {
-      console.error('MFA disable error:', err);
-      throw err;
-    } finally {
-      setMFALoading(false);
-    }
-  };
 
   const handleDeleteAccount = async () => {
     if (!user) return;
@@ -939,49 +753,6 @@ const SettingsTab = ({
             )}
           </Stack>
         </Paper>
-
-        {/* MFA Section */}
-        <Box>
-          <Typography variant="h6" sx={{ fontWeight: 800, color: 'white', mb: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <SecurityIcon sx={{ color: '#00F5FF' }} /> Multi-Factor Authentication
-          </Typography>
-          <Stack spacing={3}>
-            <Paper sx={{ p: 4, borderRadius: '24px', bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: 'white' }}>Authenticator App (TOTP)</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
-                    {mfaStatus.totp ? 'Enabled • Verified' : 'Not enabled'}
-                  </Typography>
-                </Box>
-                <Button 
-                  variant="outlined" 
-                  onClick={() => { setMfaModalFactor('totp'); setMfaModalOpen(true); }}
-                  sx={{ borderRadius: '12px', color: '#00F5FF', borderColor: 'rgba(0, 245, 255, 0.3)' }}
-                >
-                  {mfaStatus.totp ? 'Manage' : 'Enable'}
-                </Button>
-              </Stack>
-            </Paper>
-            <Paper sx={{ p: 4, borderRadius: '24px', bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: 'white' }}>Email OTP</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
-                    {mfaStatus.email ? 'Enabled • Verified' : 'Not enabled'}
-                  </Typography>
-                </Box>
-                <Button 
-                  variant="outlined" 
-                  onClick={() => { setMfaModalFactor('email'); setMfaModalOpen(true); }}
-                  sx={{ borderRadius: '12px', color: '#00F5FF', borderColor: 'rgba(0, 245, 255, 0.3)' }}
-                >
-                  {mfaStatus.email ? 'Manage' : 'Enable'}
-                </Button>
-              </Stack>
-            </Paper>
-          </Stack>
-        </Box>
 
         {/* Password Section */}
         <Box>
@@ -1104,18 +875,6 @@ const SettingsTab = ({
           </Paper>
         </Box>
       </Stack>
-
-      <MFASettingsModal
-        isOpen={mfaModalOpen}
-        onClose={() => { setMfaModalOpen(false); setTotpSetupData(null); }}
-        factor={mfaModalFactor}
-        isEnabled={mfaModalFactor === 'totp' ? mfaStatus.totp : mfaStatus.email}
-        onEnable={handleMFAEnable}
-        onDisable={handleMFADisable}
-        onVerify={handleMFAVerify}
-        totpQrCode={totpSetupData?.qrCode}
-        totpManualEntry={totpSetupData?.secret}
-      />
     </Box>
   );
 };

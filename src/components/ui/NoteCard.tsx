@@ -15,7 +15,7 @@ import { useContextMenu } from './ContextMenuContext';
 import { useDynamicSidebar } from './DynamicSidebar';
 import { NoteDetailSidebar } from './NoteDetailSidebar';
 import { ShareNoteModal } from '../ShareNoteModal';
-import { toggleNoteVisibility, getShareableUrl, isNotePublic } from '@/lib/appwrite/permissions/notes';
+import { toggleNoteVisibility, getShareableUrl, isNotePublic } from '@/lib/appwrite';
 import type { Notes } from '@/types/appwrite';
 import { DoodleStroke } from '@/types/notes';
 import {

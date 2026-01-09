@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { validatePublicNoteAccess } from '@/lib/appwrite/permissions/notes';
+import { validatePublicNoteAccess } from '@/lib/appwrite';
 import { createRateLimiter } from '@/lib/rate-limit-middleware';
 
 const rateLimiter = createRateLimiter({

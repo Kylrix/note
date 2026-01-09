@@ -44,6 +44,10 @@ export type Notes = Models.Document & {
     createdAt?: string | null;
     updatedAt?: string | null;
     userId?: string | null;
+    owner_id?: string | null;
+    created_at?: string | null;
+    updated_at?: string | null;
+    is_deleted?: boolean | null;
     isPublic?: boolean | null;
     status?: Status | null;
     parentNoteId?: string | null;

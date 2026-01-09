@@ -1,4 +1,4 @@
-import { Client, Account, Databases, Storage, Functions, ID, Query, Permission, Role, TablesDB, OAuthProvider } from 'appwrite';
+import { Client, Account, Databases, Storage, Functions, ID, Query, Permission, Role, OAuthProvider } from 'appwrite';
 import type {
   Users,
   Notes,
@@ -12,18 +12,6 @@ import type {
   Settings,
 } from '../types/appwrite';
 
-import {
-    createUser,
-    getUser,
-    updateUser,
-    deleteUser,
-    listUsers,
-    searchUsers,
-} from './appwrite/user-profile';
-
-// Named re-exports for user profile helpers
-export { createUser, getUser, updateUser, deleteUser, listUsers, searchUsers };
-
 export const APPWRITE_ENDPOINT = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ?? 'https://fra.cloud.appwrite.io/v1';
 export const APPWRITE_PROJECT_ID = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID ?? '67fe9627001d97e37ef3';
 const client = new Client()
@@ -32,7 +20,6 @@ const client = new Client()
 
 const account = new Account(client);
 const databases = new Databases(client);
-const tablesDB = new TablesDB(client);
 const storage = new Storage(client);
 const functions = new Functions(client);
 
@@ -59,7 +46,7 @@ export const APPWRITE_BUCKET_EXTENSION_ASSETS = process.env.NEXT_PUBLIC_APPWRITE
 export const APPWRITE_BUCKET_BACKUPS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_BACKUPS!;
 export const APPWRITE_BUCKET_TEMP_UPLOADS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_TEMP_UPLOADS!;
 
-export { client, account, databases, tablesDB, storage, functions, ID, Query, Permission, Role, OAuthProvider };
+export { client, account, databases, storage, functions, ID, Query, Permission, Role, OAuthProvider };
 
 // Simple in-memory cache for query results with TTL
 const queryCache = new Map<string, { data: any; expiresAt: number }>();
@@ -101,6 +88,92 @@ if (typeof window === 'undefined') {
 function cleanDocumentData<T>(data: Partial<T>): Record<string, any> {
   const { $id, $sequence, $collectionId, $databaseId, $createdAt, $updatedAt, $permissions, ...cleanData } = data as any;
   return cleanData;
+}
+
+export async function createUser(data: Partial<Users>) {
+  const now = new Date().toISOString();
+  const userData = {
+    ...cleanDocumentData(data),
+    createdAt: now,
+    updatedAt: now
+  };
+  return databases.createDocument(
+    APPWRITE_DATABASE_ID,
+    APPWRITE_TABLE_ID_USERS,
+    data.id || ID.unique(),
+    userData
+  );
+}
+
+export async function getUser(userId: string): Promise<Users> {
+  return databases.getDocument(
+    APPWRITE_DATABASE_ID,
+    APPWRITE_TABLE_ID_USERS,
+    userId
+  ) as unknown as Promise<Users>;
+}
+
+export async function updateUser(userId: string, data: Partial<Users>) {
+  return databases.updateDocument(
+    APPWRITE_DATABASE_ID,
+    APPWRITE_TABLE_ID_USERS,
+    userId,
+    cleanDocumentData(data)
+  );
+}
+
+export async function deleteUser(userId: string) {
+  return databases.deleteDocument(
+    APPWRITE_DATABASE_ID,
+    APPWRITE_TABLE_ID_USERS,
+    userId
+  );
+}
+
+export async function listUsers(queries: any[] = []) {
+  const res = await databases.listDocuments(
+    APPWRITE_DATABASE_ID,
+    APPWRITE_TABLE_ID_USERS,
+    queries
+  );
+  return { ...res, documents: res.documents };
+}
+
+// Search users by partial name or email with privacy constraints
+export async function searchUsers(query: string, limit: number = 5) {
+  try {
+    if (!query.trim()) return [];
+
+    const isEmail = /@/.test(query) && /\./.test(query);
+
+    const queries: any[] = [Query.limit(limit)];
+
+    if (isEmail) {
+      // Exact email match only
+      queries.push(Query.equal('email', query.toLowerCase()));
+    } else {
+      // Name search
+      queries.push(Query.equal('name', query));
+      // Only include users who have explicitly made their profile public
+      queries.push(Query.equal('publicProfile', true));
+    }
+
+    const res = await databases.listDocuments(
+      APPWRITE_DATABASE_ID,
+      APPWRITE_TABLE_ID_USERS,
+      queries
+    );
+
+    return res.documents.map((doc: any) => ({
+      id: doc.id || doc.$id,
+      name: doc.name,
+      email: isEmail ? doc.email : undefined,
+      avatar: doc.profilePicId || (doc.prefs && (doc.prefs as any).profilePicId) || doc.avatar || null
+    }));
+  } catch (error) {
+    console.error('searchUsers error:', error);
+    return [];
+  }
 }
 
 // --- USER SESSION ---
@@ -202,20 +275,15 @@ export async function createNote(data: Partial<Notes>) {
     ID.unique(),
     {
       ...noteData,
-      userId: user.$id,
-      id: null,
-      createdAt: now,
-      updatedAt: now,
+      owner_id: user.$id,
+      created_at: now,
+      updated_at: now,
+      is_deleted: false,
       attachments: null
     },
     initialPermissions
   );
-  await databases.updateDocument(
-    APPWRITE_DATABASE_ID,
-    APPWRITE_TABLE_ID_NOTES,
-    doc.$id,
-    { id: doc.$id }
-  );
+  // Re-sync tag logic if needed, but keeping existing structure for now.
   // Dual-write tags to note_tags pivot including tagId resolution
   try {
     const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
@@ -322,9 +390,9 @@ export async function getNote(noteId: string): Promise<Notes> {
 
 export async function updateNote(noteId: string, data: Partial<Notes>) {
   const cleanData = cleanDocumentData(data);
-  const { id, userId, ...rest } = cleanData;
+  const { id, userId, owner_id, ...rest } = cleanData;
   const updatedAt = new Date().toISOString();
-  const updatedData = { ...rest, updatedAt };
+  const updatedData = { ...rest, updated_at: updatedAt };
   const before = await databases.getDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, noteId) as any;
   const doc = await databases.updateDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, noteId, updatedData) as any;
   
@@ -1100,7 +1168,12 @@ export async function getNotesByTag(tagId: string): Promise<Notes[]> {
     const notesRes = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_NOTES,
-      [Query.equal('$id', noteIds), Query.equal('userId', user.$id), Query.orderDesc('$createdAt')] as any
+      [
+        Query.equal('$id', noteIds), 
+        Query.equal('owner_id', user.$id), 
+        Query.equal('is_deleted', false),
+        Query.orderDesc('created_at')
+      ] as any
     );
 
     const notes = notesRes.documents as unknown as Notes[];
@@ -1143,7 +1216,10 @@ export async function getNotesByTag(tagId: string): Promise<Notes[]> {
 }
 
 export async function listNotesByUser(userId: string) {
-  return databases.listDocuments(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, [Query.equal('userId', userId)]);
+  return databases.listDocuments(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, [
+    Query.equal('owner_id', userId),
+    Query.equal('is_deleted', false)
+  ]);
 }
 
 
@@ -1151,7 +1227,11 @@ export async function listPublicNotesByUser(userId: string) {
   return databases.listDocuments(
     APPWRITE_DATABASE_ID,
     APPWRITE_TABLE_ID_NOTES,
-    [Query.equal('isPublic', true), Query.equal('userId', userId)]
+    [
+      Query.equal('isPublic', true), 
+      Query.equal('owner_id', userId),
+      Query.equal('is_deleted', false)
+    ]
   );
 }
 
@@ -1164,7 +1244,7 @@ export async function shareNoteWithUser(noteId: string, email: string, permissio
 
     // First check if note exists and user owns it
     const note = await getNote(noteId);
-    if (note.userId !== currentUser.$id) {
+    if (note.owner_id !== currentUser.$id && note.userId !== currentUser.$id) {
       throw new Error("Only note owner can share notes");
     }
 
@@ -1196,7 +1276,7 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
     if (!currentUser) throw new Error("User not authenticated");
 
     const note = await getNote(noteId);
-    if (note.userId !== currentUser.$id) {
+    if (note.owner_id !== currentUser.$id && note.userId !== currentUser.$id) {
       throw new Error("Only note owner can share notes");
     }
 
@@ -2123,13 +2203,17 @@ export async function listNotesPaginated(options: ListNotesPaginatedOptions = {}
     if (!effectiveUserId) {
       return { documents: [], total: 0, nextCursor: null, hasMore: false };
     }
-    baseQueries = [Query.equal('userId', effectiveUserId)];
+    // Reverted to owner_id and added is_deleted false filter for legacy compatibility
+    baseQueries = [
+      Query.equal('owner_id', effectiveUserId),
+      Query.equal('is_deleted', false)
+    ];
   }
 
   const finalQueries: any[] = [
     ...baseQueries,
     Query.limit(limit),
-    Query.orderDesc('$createdAt'),
+    Query.orderDesc('created_at'),
   ];
   if (cursor) finalQueries.push(Query.cursorAfter(cursor));
 
@@ -2181,11 +2265,69 @@ export async function listNotesPaginated(options: ListNotesPaginatedOptions = {}
   };
 }
 
+// --- PERMISSIONS HELPERS ---
+
+export function isNotePublic(note: Notes): boolean {
+  return note.isPublic === true;
+}
+
+export async function isNoteOwner(note: Notes): Promise<boolean> {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return false;
+  return currentUser.$id === note.owner_id || currentUser.$id === note.userId;
+}
+
+export function getShareableUrl(noteId: string): string {
+  const baseUrl = typeof window !== 'undefined' 
+    ? window.location.origin 
+    : process.env.NEXT_PUBLIC_APP_URI || 'http://localhost:3000';
+  return `${baseUrl}/shared/${noteId}`;
+}
+
+export async function toggleNoteVisibility(noteId: string): Promise<Notes | null> {
+  try {
+    const note = await getNote(noteId);
+    if (!(await isNoteOwner(note))) throw new Error('Permission denied');
+    
+    const newIsPublic = !isNotePublic(note);
+    const userId = note.owner_id || note.userId;
+    if (!userId) throw new Error('Note has no owner');
+
+    const permissions = [
+      Permission.read(Role.user(userId)),
+      Permission.update(Role.user(userId)),
+      Permission.delete(Role.user(userId))
+    ];
+    if (newIsPublic) permissions.push(Permission.read(Role.any()));
+
+    const updated = await databases.updateDocument(
+      APPWRITE_DATABASE_ID,
+      APPWRITE_TABLE_ID_NOTES,
+      noteId,
+      { isPublic: newIsPublic, updated_at: new Date().toISOString() },
+      permissions
+    );
+    return updated as unknown as Notes;
+  } catch (error) {
+    console.error('toggleNoteVisibility error:', error);
+    return null;
+  }
+}
+
+export async function validatePublicNoteAccess(noteId: string): Promise<Notes | null> {
+  try {
+    const note = await getNote(noteId);
+    if (!isNotePublic(note)) return null;
+    return note;
+  } catch {
+    return null;
+  }
+}
+
 export default {
   client,
   account,
   databases,
-  tablesDB,
   storage,
   // IDs
   APPWRITE_DATABASE_ID,

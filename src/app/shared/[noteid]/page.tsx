@@ -1,5 +1,5 @@
 import React from 'react';
-import { validatePublicNoteAccess } from '@/lib/appwrite/permissions/notes';
+import { validatePublicNoteAccess } from '@/lib/appwrite';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
 import type { Notes } from '@/types/appwrite.d';
 import { preProcessMarkdown } from '@/lib/markdown';
