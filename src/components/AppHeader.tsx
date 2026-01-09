@@ -32,7 +32,6 @@ import { getUserProfilePicId } from '@/lib/utils';
 import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePreview';
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
 import { TopBarSearch } from '@/components/TopBarSearch';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface AppHeaderProps {
   className?: string;
@@ -308,11 +307,6 @@ export default function AppHeader({ className }: AppHeaderProps) {
               <ListItemIcon><FileDownloadIcon fontSize="small" sx={{ color: 'rgba(255, 255, 255, 0.4)' }} /></ListItemIcon>
               <ListItemText primary="Export Data" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'white' }} />
             </MenuItem>
-          </Box>
-          <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
-          <Box sx={{ px: 3, py: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant="caption" sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'rgba(255, 255, 255, 0.4)' }}>Mode</Typography>
-            <ThemeToggle />
           </Box>
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <MenuItem onClick={handleLogout} sx={{ py: 2, px: 3, color: '#FF4D4D', '&:hover': { bgcolor: alpha('#FF4D4D', 0.05) } }}>

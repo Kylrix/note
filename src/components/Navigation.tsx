@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/components/ui/AuthContext';
 import { useSidebar } from '@/components/ui/SidebarContext';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePreview';
 import { getUserProfilePicId } from '@/lib/utils';
 
@@ -247,15 +246,6 @@ export const DesktopSidebar: React.FC<NavigationProps> = () => {
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: isCollapsed ? 'center' : 'space-between',
-          mb: 4,
-          px: isCollapsed ? 0 : 1
-        }}>
-          {!isCollapsed && (
-            <Typography variant="caption" sx={{ fontWeight: 800, letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase' }}>
-              Mode
-            </Typography>
-          )}
-          <ThemeToggle />
         </Box>
 
         {isAuthenticated && user && (

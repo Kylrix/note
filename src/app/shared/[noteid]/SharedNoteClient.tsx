@@ -12,7 +12,6 @@ import {
   ContentCopy as CopyIcon
 } from '@mui/icons-material';
 import { useAuth } from '@/components/ui/AuthContext';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { NoteContentRenderer } from '@/components/NoteContentRenderer';
 import Image from 'next/image';
 import { 
@@ -91,7 +90,7 @@ function SharedNoteHeader() {
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <ThemeToggle />
+          
 
           <Button
             onClick={handleOpenMenu}
