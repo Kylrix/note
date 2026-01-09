@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useRef, useCallback, ReactNode } from 'react';
 import { listNotesPaginated } from '@/lib/appwrite';
-import type { Notes } from '@/types/appwrite.d';
+import type { Notes } from '@/types/appwrite';
 import { useAuth } from '@/components/ui/AuthContext';
 
 interface NotesContextType {

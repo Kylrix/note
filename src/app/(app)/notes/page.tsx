@@ -8,7 +8,7 @@ import { useNotes } from '@/contexts/NotesContext';
 import { useOverlay } from '@/components/ui/OverlayContext';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import type { Notes } from '@/types/appwrite.d';
+import type { Notes } from '@/types/appwrite';
 import NoteCard from '@/components/ui/NoteCard';
 import { NoteGridSkeleton } from '@/components/ui/NoteCardSkeleton';
 import { Button } from '@/components/ui/Button';

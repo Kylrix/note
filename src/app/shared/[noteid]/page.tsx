@@ -1,7 +1,7 @@
 import React from 'react';
 import { validatePublicNoteAccess } from '@/lib/appwrite';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
-import type { Notes } from '@/types/appwrite.d';
+import type { Notes } from '@/types/appwrite';
 import { preProcessMarkdown } from '@/lib/markdown';
 import SharedNoteClient from './SharedNoteClient';
 import { headers } from 'next/headers';

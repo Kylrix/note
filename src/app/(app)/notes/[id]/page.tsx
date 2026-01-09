@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getNote, updateNote, deleteNote } from '@/lib/appwrite';
-import type { Notes } from '@/types/appwrite.d';
+import type { Notes } from '@/types/appwrite';
 import { NoteDetailSidebar } from '@/components/ui/NoteDetailSidebar';
 import { 
   Box, 

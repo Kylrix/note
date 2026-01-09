@@ -18,32 +18,31 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { useAuth } from '@/components/ui/AuthContext';
-import { AIHeroInput } from '@/components/AIHeroInput';
 import {
-  AutoAwesome as SparklesIcon,
-  Memory as CpuChipIcon,
+  Description as DescriptionIcon,
+  CloudUpload as CloudIcon,
   VerifiedUser as ShieldCheckIcon,
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
 const features = [
   {
-    icon: <SparklesIcon style={{ height: 32, width: 32 }} />,
-    title: 'AI-Powered Creation',
+    icon: <DescriptionIcon style={{ height: 32, width: 32 }} />,
+    title: 'Secure Note Taking',
     description:
-      "Generate comprehensive notes, research summaries, and creative content with advanced AI assistance in seconds.",
+      "Capture your ideas with professional-grade note taking tools and comprehensive organizing features.",
   },
   {
-    icon: <CpuChipIcon style={{ height: 32, width: 32 }} />,
+    icon: <CloudIcon style={{ height: 32, width: 32 }} />,
     title: 'Secure Synchronization',
     description:
       'Securely store and share your notes with professional-grade encryption and private access control.',
   },
   {
     icon: <ShieldCheckIcon style={{ height: 32, width: 32 }} />,
-    title: 'Smart Collaboration',
+    title: 'Smart Organization',
     description:
-      'Real-time collaborative editing with AI insights and secure note management.',
+      'Organize your thoughts with tags, search, and secure cloud management.',
   },
 ];
 
@@ -68,19 +67,6 @@ export default function LandingPage() {
       return user.email.slice(0, 2).toUpperCase();
     }
     return 'U';
-  };
-
-  // Handle AI prompt selection with smart routing
-  const handlePromptSelect = async (prompt: string) => {
-    if (isAuthenticated) {
-      // User is logged in - go directly to notes with AI generation
-      router.push(`/notes?ai-prompt=${encodeURIComponent(prompt)}`);
-    } else {
-      // User not logged in - show auth modal, then proceed
-      openIDMWindow();
-      // Store prompt in sessionStorage for after login
-      sessionStorage.setItem('pending-ai-prompt', prompt);
-    }
   };
 
   return (
@@ -198,7 +184,7 @@ export default function LandingPage() {
               }}
             >
               Your notes, <br />
-              <Box component="span" sx={{ color: '#00F5FF', WebkitTextFillColor: '#00F5FF' }}>elevated by AI</Box>
+              <Box component="span" sx={{ color: '#00F5FF', WebkitTextFillColor: '#00F5FF' }}>Secured</Box>
             </Typography>
             <Typography 
               variant="body1" 
@@ -212,8 +198,8 @@ export default function LandingPage() {
                 lineHeight: 1.6
               }}
             >
-              Transform your ideas with AI assistance and secure your notes. 
-              Generate comprehensive content instantly, collaborate seamlessly, and own your data forever.
+              Transform your ideas with professional note taking and secure your notes. 
+              Capture comprehensive content instantly, collaborate seamlessly, and own your data forever.
             </Typography>
 
             <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 10 }}>
@@ -242,8 +228,6 @@ export default function LandingPage() {
                 Get Started Free
               </Button>
             </Stack>
-            
-            <AIHeroInput onPromptSelectAction={handlePromptSelect} />
           </Container>
         </Box>
 
@@ -261,7 +245,7 @@ export default function LandingPage() {
                   fontSize: { xs: '2rem', md: '3.5rem' }
                 }}
               >
-                AI-powered notes <br />
+                Secure notes <br />
                 <Box component="span" sx={{ color: '#00F5FF' }}>for the future</Box>
               </Typography>
               <Typography 
@@ -272,7 +256,7 @@ export default function LandingPage() {
                   fontSize: '1.1rem'
                 }}
               >
-                Experience next-generation note-taking with intelligent content generation, 
+                Experience next-generation note-taking with intelligent organization, 
                 private cloud storage, and advanced security built-in.
               </Typography>
             </Box>

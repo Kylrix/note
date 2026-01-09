@@ -275,10 +275,7 @@ export async function createNote(data: Partial<Notes>) {
     ID.unique(),
     {
       ...noteData,
-      owner_id: user.$id,
-      created_at: now,
-      updated_at: now,
-      is_deleted: false,
+      userId: user.$id,
       attachments: null
     },
     initialPermissions
@@ -390,7 +387,7 @@ export async function getNote(noteId: string): Promise<Notes> {
 
 export async function updateNote(noteId: string, data: Partial<Notes>) {
   const cleanData = cleanDocumentData(data);
-  const { id, userId, owner_id, ...rest } = cleanData;
+  const { id, userId, ...rest } = cleanData;
   const updatedAt = new Date().toISOString();
   const updatedData = { ...rest, updated_at: updatedAt };
   const before = await databases.getDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, noteId) as any;
@@ -538,7 +535,7 @@ export async function listNotes(queries: any[] = [], limit: number = 100) {
     if (!user || !user.$id) {
       return { documents: [], total: 0 };
     }
-    queries = [Query.equal('owner_id', user.$id)];
+    queries = [Query.equal('userId', user.$id)];
   }
 
   const finalQueries = [
@@ -595,7 +592,7 @@ export async function getAllNotes(): Promise<{ documents: Notes[], total: number
     const notesRes = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_NOTES,
-      [Query.equal('owner_id', currentUser.$id), Query.limit(1000)]
+      [Query.equal('userId', currentUser.$id), Query.limit(1000)]
     );
 
     return { documents: notesRes.documents as unknown as Notes[], total: notesRes.total };
@@ -1170,9 +1167,8 @@ export async function getNotesByTag(tagId: string): Promise<Notes[]> {
       APPWRITE_TABLE_ID_NOTES,
       [
         Query.equal('$id', noteIds), 
-        Query.equal('owner_id', user.$id), 
-        Query.equal('is_deleted', false),
-        Query.orderDesc('created_at')
+        Query.equal('userId', user.$id), 
+        Query.orderDesc('$createdAt')
       ] as any
     );
 
@@ -1217,8 +1213,7 @@ export async function getNotesByTag(tagId: string): Promise<Notes[]> {
 
 export async function listNotesByUser(userId: string) {
   return databases.listDocuments(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, [
-    Query.equal('owner_id', userId),
-    Query.equal('is_deleted', false)
+    Query.equal('userId', userId)
   ]);
 }
 
@@ -1229,8 +1224,7 @@ export async function listPublicNotesByUser(userId: string) {
     APPWRITE_TABLE_ID_NOTES,
     [
       Query.equal('isPublic', true), 
-      Query.equal('owner_id', userId),
-      Query.equal('is_deleted', false)
+      Query.equal('userId', userId)
     ]
   );
 }
@@ -1244,7 +1238,7 @@ export async function shareNoteWithUser(noteId: string, email: string, permissio
 
     // First check if note exists and user owns it
     const note = await getNote(noteId);
-    if (note.owner_id !== currentUser.$id && note.userId !== currentUser.$id) {
+    if (note.userId !== currentUser.$id) {
       throw new Error("Only note owner can share notes");
     }
 
@@ -1276,7 +1270,7 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
     if (!currentUser) throw new Error("User not authenticated");
 
     const note = await getNote(noteId);
-    if (note.owner_id !== currentUser.$id && note.userId !== currentUser.$id) {
+    if (note.userId !== currentUser.$id) {
       throw new Error("Only note owner can share notes");
     }
 
@@ -1662,23 +1656,8 @@ function normalizeNoteAttachmentsField(note: any): EmbeddedAttachmentMeta[] {
 }
 
 async function enforceAttachmentPlanLimit(userId: string, _currentCount: number, fileSizeBytes?: number) {
-  try {
-    const { getActivePlan } = await import('./subscriptions/index');
-    const { plan } = await getActivePlan(userId);
-    const { planPolicies } = await import('./subscriptions/policy');
-    const policy: any = (planPolicies as any)[plan];
-    if (fileSizeBytes) {
-      const perFileLimitMB: number = policy.attachmentSizeMB;
-      if (fileSizeBytes > perFileLimitMB * 1024 * 1024) {
-        const err: any = new Error(`Attachment exceeds plan per-file limit (${perFileLimitMB}MB)`);
-        err.code = 'ATTACHMENT_SIZE_LIMIT';
-        err.limitMB = perFileLimitMB;
-        throw err;
-      }
-    }
-  } catch (e: any) {
-    if (e?.code === 'ATTACHMENT_SIZE_LIMIT') throw e;
-  }
+  // Plan limit enforcement removed: notes are now unlimited across all plans.
+  return;
 }
 
 // Public helpers to manage attachment association to a note
@@ -2203,17 +2182,15 @@ export async function listNotesPaginated(options: ListNotesPaginatedOptions = {}
     if (!effectiveUserId) {
       return { documents: [], total: 0, nextCursor: null, hasMore: false };
     }
-    // Reverted to owner_id and added is_deleted false filter for legacy compatibility
     baseQueries = [
-      Query.equal('owner_id', effectiveUserId),
-      Query.equal('is_deleted', false)
+      Query.equal('userId', effectiveUserId)
     ];
   }
 
   const finalQueries: any[] = [
     ...baseQueries,
     Query.limit(limit),
-    Query.orderDesc('created_at'),
+    Query.orderDesc('$createdAt'),
   ];
   if (cursor) finalQueries.push(Query.cursorAfter(cursor));
 
@@ -2274,7 +2251,7 @@ export function isNotePublic(note: Notes): boolean {
 export async function isNoteOwner(note: Notes): Promise<boolean> {
   const currentUser = await getCurrentUser();
   if (!currentUser) return false;
-  return currentUser.$id === note.owner_id || currentUser.$id === note.userId;
+  return currentUser.$id === note.userId;
 }
 
 export function getShareableUrl(noteId: string): string {
@@ -2290,7 +2267,7 @@ export async function toggleNoteVisibility(noteId: string): Promise<Notes | null
     if (!(await isNoteOwner(note))) throw new Error('Permission denied');
     
     const newIsPublic = !isNotePublic(note);
-    const userId = note.owner_id || note.userId;
+    const userId = note.userId;
     if (!userId) throw new Error('Note has no owner');
 
     const permissions = [

@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
-import type { Notes } from '@/types/appwrite.d';
+import type { Notes } from '@/types/appwrite';
 import { 
   AccessTime as ClockIcon, 
   Visibility as EyeIcon, 
