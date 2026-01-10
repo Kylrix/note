@@ -7,22 +7,15 @@ import {
   Box, 
   IconButton, 
   Chip, 
-  Tooltip,
-  alpha,
-  useTheme
 } from '@mui/material';
 import { useContextMenu } from './ContextMenuContext';
 import { useDynamicSidebar } from './DynamicSidebar';
 import { NoteDetailSidebar } from './NoteDetailSidebar';
 import { useNotes } from '@/contexts/NotesContext';
-import { deleteNote } from '@/lib/appwrite';
 import type { Notes } from '@/types/appwrite';
 import { DoodleStroke } from '@/types/notes';
 import {
   Delete as TrashIcon,
-  ContentCopy as ClipboardDocumentIcon,
-  MoreVert as EllipsisVerticalIcon,
-  Check as CheckIcon,
   AttachFile as AttachFileIcon,
   PushPin as PinIcon,
   PushPinOutlined as PinOutlinedIcon
@@ -35,18 +28,14 @@ interface NoteCardProps {
   onUpdate?: (updatedNote: Notes) => void;
   onDelete?: (noteId: string) => void;
   onNoteSelect?: (note: Notes) => void;
-  className?: string;
 }
 
-const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete, onNoteSelect, className }) => {
-  const [showShareModal, setShowShareModal] = useState(false);
-  const { openMenu, closeMenu } = useContextMenu();
+const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete, onNoteSelect }) => {
+  const { openMenu } = useContextMenu();
   const { openSidebar } = useDynamicSidebar();
   const { isPinned, pinNote, unpinNote } = useNotes();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const copyFeedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isCopySuccess, setIsCopySuccess] = useState(false);
-  const theme = useTheme();
 
   const pinned = isPinned(note.$id);
 

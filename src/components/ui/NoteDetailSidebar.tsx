@@ -17,25 +17,18 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Chip,
-  Divider,
   Tooltip,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  alpha,
-  useTheme,
   CircularProgress
 } from '@mui/material';
 import {
   Delete as TrashIcon,
-  Person as UserIcon,
   ContentCopy as ClipboardDocumentIcon,
   AttachFile as PaperClipIcon,
   OpenInNew as ArrowTopRightOnSquareIcon,
-  Edit as EditIcon,
-  Save as SaveIcon,
-  Close as CloseIcon,
   PushPin as PinIcon,
   PushPinOutlined as PinOutlinedIcon
 } from '@mui/icons-material';
@@ -95,7 +88,6 @@ export function NoteDetailSidebar({
   const contentIdleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wasEditingRef = useRef(isEditing);
   const prevNoteIdRef = useRef(note.$id);
-  const theme = useTheme();
 
   const { showSuccess, showError } = useToast();
   const router = useRouter();
@@ -648,7 +640,7 @@ export function NoteDetailSidebar({
                     try {
                       await navigator.clipboard.writeText(displayContent);
                       showSuccess('Copied', 'Content copied to clipboard');
-                    } catch (err) {
+                    } catch {
                       showError('Copy failed', 'Could not copy content to clipboard');
                     }
                   }}

@@ -14,9 +14,7 @@ import {
   Grid,
   CircularProgress,
   Container,
-  IconButton,
-  useTheme,
-  alpha
+  IconButton
 } from '@mui/material';
 import {
   Search as SearchIcon,
@@ -36,7 +34,6 @@ export default function SharedNotesPage() {
   const [publicNotes, setPublicNotes] = useState<Notes[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
-  const theme = useTheme();
   const { isPinned } = useNotes();
 
   // Fetch shared and public notes once on mount
