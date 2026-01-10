@@ -37,14 +37,22 @@ export async function GET(
        return lines[0] || plain;
     };
 
-    const truncate = (s: string | undefined, n: number) => {
-       if (!s) return '';
-       return s.length > n ? s.slice(0, n).trim() + '…' : s;
+    const smartTruncate = (s: string | undefined, n: number) => {
+       if (!s) return '...';
+       const cleaned = s.trim();
+       // Always end in ellipses as requested
+       if (cleaned.length <= n) return cleaned + '...';
+       let truncated = cleaned.slice(0, n);
+       const lastSpace = truncated.lastIndexOf(' ');
+       if (lastSpace > 0) truncated = truncated.slice(0, lastSpace);
+       return truncated.trim() + '...';
     };
 
     const title = note.title && note.title.trim() 
-      ? truncate(note.title.trim(), 70) 
-      : truncate(firstParagraph(note.content || undefined), 70) || 'Untitled Note';
+      ? smartTruncate(note.title.trim(), 50) 
+      : smartTruncate(firstParagraph(note.content || undefined), 50);
+    
+    const tags = ((note as any).tags || []) as string[];
     
     const date = new Date(note.$createdAt).toLocaleDateString('en-US', {
       month: 'long',
@@ -60,11 +68,11 @@ export async function GET(
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#000000',
-            backgroundImage: 'radial-gradient(circle at 0% 0%, #141414 0%, #000000 100%)',
-            padding: '80px',
+            backgroundImage: 'radial-gradient(circle at 50% 50%, #141414 0%, #000000 100%)',
+            padding: '100px',
             position: 'relative',
           }}
         >
@@ -72,46 +80,37 @@ export async function GET(
           <div
             style={{
               position: 'absolute',
-              top: '-150px',
-              right: '-150px',
-              width: '500px',
-              height: '500px',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '800px',
+              height: '800px',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, rgba(0, 240, 255, 0) 70%)',
-              filter: 'blur(60px)',
+              background: 'radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, rgba(0, 240, 255, 0) 70%)',
+              filter: 'blur(100px)',
             }}
           />
 
-          {/* Top Left Branding */}
+          {/* Simple Secondary Text instead of logo */}
           <div
             style={{
               position: 'absolute',
-              top: 50,
-              left: 60,
+              top: 60,
               display: 'flex',
               alignItems: 'center',
             }}
           >
-            <div
-              style={{
-                width: 28,
-                height: 28,
-                backgroundColor: '#00F0FF',
-                borderRadius: '6px',
-                marginRight: '14px',
-                boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)',
-              }}
-            />
             <span
               style={{
-                color: '#F2F2F2',
-                fontSize: 26,
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
+                color: '#404040',
+                fontSize: 22,
+                fontWeight: 600,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
                 fontFamily: 'sans-serif',
               }}
             >
-              Whisperrnote
+              Whisperrnote • Protected Note
             </span>
           </div>
 
@@ -120,48 +119,20 @@ export async function GET(
             style={{
               display: 'flex',
               flexDirection: 'column',
-              marginTop: '40px',
+              alignItems: 'center',
+              textAlign: 'center',
               zIndex: 10,
+              maxWidth: '900px',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '20px',
-              }}
-            >
-              <div
-                style={{
-                  height: '2px',
-                  width: '40px',
-                  backgroundColor: '#00F0FF',
-                  marginRight: '15px',
-                }}
-              />
-              <span
-                style={{
-                  color: '#00F0FF',
-                  fontSize: 20,
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  fontFamily: 'sans-serif',
-                }}
-              >
-                Shared Note
-              </span>
-            </div>
-            
             <h1
               style={{
-                fontSize: 84,
-                fontWeight: 800,
+                fontSize: 72,
+                fontWeight: 900,
                 color: '#F2F2F2',
-                lineHeight: 1.1,
-                marginBottom: '32px',
+                lineHeight: 1.2,
+                marginBottom: '40px',
                 letterSpacing: '-0.04em',
-                maxWidth: '1000px',
                 fontFamily: 'sans-serif',
                 wordBreak: 'break-word',
               }}
@@ -169,52 +140,74 @@ export async function GET(
               {title}
             </h1>
 
+            {/* Date and Security Metadata */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 color: '#A1A1AA',
-                fontSize: 28,
+                fontSize: 24,
                 fontFamily: 'sans-serif',
+                marginBottom: tags.length > 0 ? '40px' : '0',
               }}
             >
               <span>{date}</span>
               <div
                 style={{
-                  width: 1,
-                  height: 24,
-                  backgroundColor: '#404040',
-                  margin: '0 24px',
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  backgroundColor: '#00F0FF',
+                  margin: '0 20px',
                 }}
               />
-              <span style={{ color: '#F2F2F2', opacity: 0.8 }}>Securely encrypted access</span>
+              <span style={{ color: '#00F0FF', opacity: 0.9 }}>Encrypted</span>
             </div>
+
+            {/* Tags (Optional) */}
+            {tags.length > 0 && (
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  gap: '12px',
+                }}
+              >
+                {tags.slice(0, 3).map((tag) => (
+                  <div
+                    key={tag}
+                    style={{
+                      padding: '6px 16px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      borderRadius: '100px',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: '#F2F2F2',
+                      fontSize: 18,
+                      fontWeight: 500,
+                      fontFamily: 'sans-serif',
+                    }}
+                  >
+                    #{tag}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Bottom Right Badge */}
+          {/* Subtle bottom detail */}
           <div
             style={{
               position: 'absolute',
               bottom: 60,
-              right: 60,
-              display: 'flex',
-              padding: '16px 32px',
-              background: 'rgba(10, 10, 10, 0.7)',
-              borderRadius: '16px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              alignItems: 'center',
+              color: '#141414',
+              fontSize: 16,
+              fontWeight: 700,
+              fontFamily: 'sans-serif',
+              letterSpacing: '0.5em',
             }}
           >
-            <span
-              style={{
-                color: '#F2F2F2',
-                fontSize: 20,
-                fontWeight: 500,
-                fontFamily: 'sans-serif',
-              }}
-            >
-               Cognitive Extension
-            </span>
+            THE GLASS MONOLITH
           </div>
         </div>
       ),

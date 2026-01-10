@@ -29,9 +29,15 @@ function firstParagraph(md?: string) {
    return lines[0] || plain;
 }
 
-function truncate(s: string | undefined, n: number) {
-   if (!s) return '';
-   return s.length > n ? s.slice(0, n).trim() + '…' : s;
+function smartTruncate(s: string | undefined, n: number) {
+   if (!s) return '...';
+   const cleaned = s.trim();
+   // Always end in ellipses as requested
+   if (cleaned.length <= n) return cleaned + '...';
+   let truncated = cleaned.slice(0, n);
+   const lastSpace = truncated.lastIndexOf(' ');
+   if (lastSpace > 0) truncated = truncated.slice(0, lastSpace);
+   return truncated.trim() + '...';
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ noteid: string }> }) {
@@ -47,8 +53,8 @@ export async function generateMetadata({ params }: { params: Promise<{ noteid: s
        };
      }
 
-     const titleText = note.title && note.title.trim() ? truncate(note.title.trim(), 70) : truncate(firstParagraph(note.content || undefined), 70);
-     const description = truncate(firstParagraph(note.content || undefined) || 'Shared via Whisperrnote', 160);
+     const titleText = note.title && note.title.trim() ? smartTruncate(note.title.trim(), 60) : smartTruncate(firstParagraph(note.content || undefined), 60);
+     const description = smartTruncate(firstParagraph(note.content || undefined) || 'Shared via Whisperrnote', 160);
      const url = `${baseUrl}/shared/${noteid}`;
      const image = `${baseUrl}/api/og/note/${noteid}`;
 
