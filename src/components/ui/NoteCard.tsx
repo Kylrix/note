@@ -27,7 +27,7 @@ import {
 } from '@mui/icons-material';
 import { sidebarIgnoreProps } from '@/constants/sidebar';
 import { ShareNoteModal } from '../ShareNoteModal';
-import { updateNote, createNote } from '@/lib/appwrite';
+import { updateNote, createNote, toggleNoteVisibility } from '@/lib/appwrite';
 import { useToast } from './Toast';
 
 interface NoteCardProps {
@@ -90,9 +90,13 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
 
   const handleTogglePublic = async () => {
     try {
-      const updated = await updateNote(note.$id, { isPublic: !note.isPublic });
-      upsertNote(updated as Notes);
-      showSuccess(note.isPublic ? 'Note made private' : 'Note made public');
+      const updated = await toggleNoteVisibility(note.$id);
+      if (updated) {
+        upsertNote(updated);
+        showSuccess(updated.isPublic ? 'Note made public' : 'Note made private');
+      } else {
+        throw new Error('Failed to update visibility');
+      }
     } catch (err: any) {
       showError(err.message || 'Failed to update visibility');
     }

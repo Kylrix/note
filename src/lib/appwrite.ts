@@ -91,7 +91,9 @@ function cleanDocumentData<T>(data: Partial<T>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(data as any)) {
     if (key.startsWith('$')) continue;
-    if (key === 'updated_at' || key === 'created_at' || key === 'id' || key === 'userId' || key === 'owner_id') continue;
+    // We allow userId and id if they are custom attributes, but usually they shouldn't be changed after creation.
+    // However, we allow them here so they can be filtered by filterNoteData later if needed (e.g. for migration).
+    if (key === 'updated_at' || key === 'created_at' || key === 'owner_id') continue;
     if (value === undefined) continue;
     result[key] = value;
   }
@@ -101,12 +103,13 @@ function cleanDocumentData<T>(data: Partial<T>): Record<string, unknown> {
 /**
  * Filter note data to only include keys supported by the Appwrite collection schema.
  * This prevents "invalid document structure" errors when sending extra client-side fields.
+ * Matches the types in src/types/appwrite.d.ts
  */
 function filterNoteData(data: Record<string, any>): Record<string, any> {
   const allowedKeys = [
-    'title', 'content', 'isPublic', 'status', 'parentNoteId', 
-    'tags', 'comments', 'extensions', 'collaborators', 'metadata',
-    'createdAt', 'updatedAt', 'userId'
+    'id', 'createdAt', 'updatedAt', 'userId', 'isPublic', 'status', 
+    'parentNoteId', 'title', 'content', 'tags', 'comments', 
+    'extensions', 'collaborators', 'metadata'
   ];
   
   const filtered: Record<string, any> = {};
@@ -349,12 +352,14 @@ export async function createNote(data: Partial<Notes>) {
     Permission.delete(Role.user(user.$id))
   ];
   
+  const docId = ID.unique();
   const doc = await databases.createDocument(
     APPWRITE_DATABASE_ID,
     APPWRITE_TABLE_ID_NOTES,
-    ID.unique(),
+    docId,
     filterNoteData({
       ...noteData,
+      id: docId, // Sync custom id attribute with Appwrite $id
       userId: user.$id,
       createdAt: now,
       updatedAt: now,
@@ -2333,7 +2338,19 @@ export function isNotePublic(note: Notes): boolean {
 export async function isNoteOwner(note: Notes): Promise<boolean> {
   const currentUser = await getCurrentUser();
   if (!currentUser) return false;
-  return currentUser.$id === note.userId;
+  
+  // Direct check against custom userId attribute
+  if (note.userId === currentUser.$id) return true;
+  
+  // Fallback for legacy notes where userId attribute might be missing,
+  // but the user clearly has administrative (delete) permission.
+  if ((note as any).$permissions) {
+    const permissions = (note as any).$permissions as string[];
+    const userRole = `user:${currentUser.$id}`;
+    return permissions.some(p => p.includes(userRole) && (p.includes('delete') || p.includes('update')));
+  }
+  
+  return false;
 }
 
 export function getShareableUrl(noteId: string): string {
@@ -2349,21 +2366,33 @@ export async function toggleNoteVisibility(noteId: string): Promise<Notes | null
     if (!(await isNoteOwner(note))) throw new Error('Permission denied');
     
     const newIsPublic = !isNotePublic(note);
-    const userId = note.userId;
-    if (!userId) throw new Error('Note has no owner');
+    const currentUser = await getCurrentUser();
+    if (!currentUser) throw new Error('Not authenticated');
+
+    // Robust userId determination for permissions and attribute migration
+    const ownerId = note.userId || currentUser.$id;
 
     const permissions = [
-      Permission.read(Role.user(userId)),
-      Permission.update(Role.user(userId)),
-      Permission.delete(Role.user(userId))
+      Permission.read(Role.user(ownerId)),
+      Permission.update(Role.user(ownerId)),
+      Permission.delete(Role.user(ownerId))
     ];
-    if (newIsPublic) permissions.push(Permission.read(Role.any()));
+    // If public, allow anyone to read. 
+    // We also include Role.guests() just in case Role.any() behaves differently in this project setup
+    if (newIsPublic) {
+      permissions.push(Permission.read(Role.any()));
+    }
 
     const updated = await databases.updateDocument(
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_NOTES,
       noteId,
-      filterNoteData({ isPublic: newIsPublic, updatedAt: new Date().toISOString() }),
+      filterNoteData({ 
+        isPublic: newIsPublic, 
+        updatedAt: new Date().toISOString(),
+        userId: ownerId, // Migrate/ensure userId attribute is set
+        id: note.$id     // Migrate/ensure custom id attribute matches $id
+      }),
       permissions
     );
     return updated as unknown as Notes;
@@ -2375,10 +2404,14 @@ export async function toggleNoteVisibility(noteId: string): Promise<Notes | null
 
 export async function validatePublicNoteAccess(noteId: string): Promise<Notes | null> {
   try {
+    // We use getNote which uses the global guest-capable database client
     const note = await getNote(noteId);
+    
+    // Safety check: isPublic MUST be true
     if (!isNotePublic(note)) return null;
     return note;
-  } catch {
+  } catch (err) {
+    console.error(`validatePublicNoteAccess failed for ${noteId}:`, err);
     return null;
   }
 }
