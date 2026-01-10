@@ -303,7 +303,7 @@ export function TopBarSearch() {
               </Box>
               <Typography variant="h6" sx={{ fontWeight: 900, letterSpacing: '-0.02em', mb: 0.5 }}>NO_RESULTS</Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                No results matched "{searchQuery}"
+                No results matched &quot;{searchQuery}&quot;
               </Typography>
               <Button size="small" variant="outlined" onClick={handleClear}>
                 Reset Search

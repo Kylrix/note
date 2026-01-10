@@ -9,7 +9,6 @@ import {
   Tabs,
   Tab,
   alpha,
-  Stack,
   Container
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';

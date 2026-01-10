@@ -122,7 +122,7 @@ export const NotesErrorBoundary: React.FC<{ children: ReactNode }> = ({ children
         <DescriptionIcon sx={{ fontSize: 32, color: 'warning.main', mb: 2 }} />
         <Typography variant="h6" sx={{ fontWeight: 800, mb: 1 }}>Notes Unavailable</Typography>
         <Typography variant="body2" color="text.secondary">
-          We're having trouble loading your notes. This might be a temporary issue.
+          We&apos;re having trouble loading your notes. This might be a temporary issue.
         </Typography>
       </Box>
     }

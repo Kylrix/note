@@ -8,24 +8,18 @@ import {
   IconButton, 
   TextField, 
   Chip, 
-  LinearProgress, 
-  Alert,
   ToggleButton,
   ToggleButtonGroup,
-  Tooltip
 } from '@mui/material';
 import { 
   Close as CloseIcon,
   Description as DescriptionIcon,
   LocalOffer as TagIcon,
-  Public as GlobeAltIcon,
-  Lock as LockClosedIcon,
   Add as PlusIcon,
   Brush as PencilIcon,
-  Edit as EditIcon
 } from '@mui/icons-material';
 import { Button } from '@/components/ui/Button';
-import { AUTO_TITLE_CONFIG, buildAutoTitleFromContent as buildAutoTitleUtils } from '@/constants/noteTitle';
+import { AUTO_TITLE_CONFIG } from '@/constants/noteTitle';
 import { useOverlay } from '@/components/ui/OverlayContext';
 import { createNote as appwriteCreateNote } from '@/lib/appwrite';
 import type { Notes } from '@/types/appwrite';
@@ -48,13 +42,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
   const [format, setFormat] = useState<'text' | 'doodle'>(initialFormat);
   const [tags, setTags] = useState<string[]>(initialContent?.tags || []);
   const [currentTag, setCurrentTag] = useState('');
-  const [isPublic, setIsPublic] = useState(false);
-  const [status, setStatus] = useState<AppwriteTypes.Status>(AppwriteTypes.Status.DRAFT);
   const [isLoading, setIsLoading] = useState(false);
-  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<{ uploaded: number; total: number }>({ uploaded: 0, total: 0 });
-  const [uploadErrors, setUploadErrors] = useState<string[]>([]);
   const [showDoodleEditor, setShowDoodleEditor] = useState(false);
   const { closeOverlay } = useOverlay();
   const [isTitleManuallyEdited, setIsTitleManuallyEdited] = useState(Boolean(initialContent?.title));
@@ -609,7 +597,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
         </Button>
         <Button 
           onClick={handleCreateNote}
-          disabled={!title.trim() || !content.trim() || isLoading || uploading}
+          disabled={!title.trim() || !content.trim() || isLoading}
           sx={{ 
             px: 4, 
             borderRadius: '14px',
@@ -623,7 +611,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             }
           }}
         >
-          {(isLoading || uploading) ? (
+          {isLoading ? (
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Box
                 sx={{
@@ -640,7 +628,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 }}
               />
               <Typography variant="button" sx={{ fontWeight: 800 }}>
-                {uploading && uploadProgress.total > 0 ? `Uploading ${uploadProgress.uploaded}/${uploadProgress.total}` : 'Creating...'}
+                Creating...
               </Typography>
             </Stack>
           ) : (
@@ -651,7 +639,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 <DescriptionIcon sx={{ fontSize: 18 }} />
               )}
               <Typography variant="button" sx={{ fontWeight: 800 }}>
-                {pendingFiles.length ? `Create & Upload (${pendingFiles.length})` : `Create ${format === 'doodle' ? 'Doodle' : 'Note'}`}
+                {`Create ${format === 'doodle' ? 'Doodle' : 'Note'}`}
               </Typography>
             </Stack>
           )}
