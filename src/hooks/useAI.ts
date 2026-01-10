@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccount } from '@/contexts/AccountContext';
+import { useAuth } from '@/components/ui/AuthContext';
 
 export interface AIChatMessage {
   role: 'user' | 'assistant';
@@ -8,7 +8,7 @@ export interface AIChatMessage {
 }
 
 export const useAI = () => {
-  const { user } = useAccount();
+  const { user } = useAuth();
 
   const generate = async (prompt: string, options: { 
     history?: AIChatMessage[], 

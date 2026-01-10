@@ -23,7 +23,8 @@ import {
   Settings as SettingsIcon,
   Logout as LogoutIcon,
   Apps as AppsIcon,
-  FileDownload as FileDownloadIcon
+  FileDownload as FileDownloadIcon,
+  AutoAwesome as WandIcon
 } from '@mui/icons-material';
 import { useAuth } from '@/components/ui/AuthContext';
 
@@ -32,6 +33,7 @@ import { getUserProfilePicId } from '@/lib/utils';
 import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePreview';
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
 import { TopBarSearch } from '@/components/TopBarSearch';
+import { AICommandModal } from '@/components/ai/AICommandModal';
 
 interface AppHeaderProps {
   className?: string;
@@ -42,6 +44,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
   const { openOverlay, closeOverlay } = useOverlay();
   const [anchorElAccount, setAnchorElAccount] = useState<null | HTMLElement>(null);
   const [anchorElApps, setAnchorElApps] = useState<null | HTMLElement>(null);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   const [currentSubdomain, setCurrentSubdomain] = useState<string | null>(null);
   const [smallProfileUrl, setSmallProfileUrl] = useState<string | null>(null);
@@ -150,6 +153,27 @@ export default function AppHeader({ className }: AppHeaderProps) {
 
         {/* Right: Actions */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
+          <Tooltip title="Cognitive Link (AI)">
+            <IconButton 
+              onClick={() => setIsAIModalOpen(true)}
+              sx={{ 
+                color: '#00F5FF',
+                bgcolor: alpha('#00F5FF', 0.03),
+                border: '1px solid',
+                borderColor: alpha('#00F5FF', 0.1),
+                borderRadius: '12px',
+                width: 42,
+                height: 42,
+                '&:hover': { 
+                  bgcolor: alpha('#00F5FF', 0.08), 
+                  boxShadow: '0 0 15px rgba(0, 245, 255, 0.2)' 
+                }
+              }}
+            >
+              <WandIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
+
           <IconButton 
             onClick={(e) => setAnchorElApps(e.currentTarget)}
             sx={{ 
@@ -314,6 +338,11 @@ export default function AppHeader({ className }: AppHeaderProps) {
             <ListItemText primary="Sign Out" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
           </MenuItem>
         </Menu>
+
+        <AICommandModal 
+          isOpen={isAIModalOpen} 
+          onClose={() => setIsAIModalOpen(false)} 
+        />
       </Toolbar>
     </AppBar>
   );
