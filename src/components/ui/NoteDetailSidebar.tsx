@@ -431,14 +431,17 @@ export function NoteDetailSidebar({
             </IconButton>
           </Tooltip>
         )}
-              sx={{
-                color: pinned ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
-                '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
-              }}
-            >
-              {pinned ? <PinIcon fontSize="small" /> : <PinOutlinedIcon fontSize="small" />}
-            </IconButton>
-          </Tooltip>
+        <Tooltip title={pinned ? "Unpin note" : "Pin note"}>
+          <IconButton
+            onClick={handlePinToggle}
+            sx={{
+              color: pinned ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
+              '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+            }}
+          >
+            {pinned ? <PinIcon fontSize="small" /> : <PinOutlinedIcon fontSize="small" />}
+          </IconButton>
+        </Tooltip>
 
           {showHeaderDeleteButton && (
             <Tooltip title="Delete note">
