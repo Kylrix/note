@@ -45,9 +45,10 @@ interface CommentItemProps {
   onDelete: (commentId: string) => Promise<void>;
   depth?: number;
   userMap: Record<string, Users>;
+  noteId: string;
 }
 
-function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap }: CommentItemProps) {
+function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap, noteId }: CommentItemProps) {
   const { user } = useAuth();
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -271,7 +272,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
                       }
                     }}
                   >
-                    <NoteReactions targetId={comment.$id} targetType={TargetType.COMMENT} size="small" />
+                    <NoteReactions targetId={comment.$id} targetType={TargetType.COMMENT} size="small" noteId={noteId} />
                   </Popover>
                 </Box>
               )}
@@ -310,6 +311,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
               onDelete={onDelete}
               depth={depth + 1} 
               userMap={userMap} 
+              noteId={noteId}
             />
           ))}
         </Box>
@@ -475,6 +477,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
               onUpdate={handleUpdateComment}
               onDelete={handleDeleteComment}
               userMap={userMap}
+              noteId={noteId}
             />
             <Divider variant="fullWidth" sx={{ my: 1 }} />
           </div>

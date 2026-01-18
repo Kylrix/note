@@ -412,6 +412,7 @@ export async function createNote(data: Partial<Notes>) {
 
   if (data.isPublic) {
     initialPermissions.push(Permission.read(Role.any()));
+    initialPermissions.push(Permission.read(Role.guests()));
   }
   
   const docId = ID.unique();
@@ -554,6 +555,7 @@ export async function updateNote(noteId: string, data: Partial<Notes>) {
     ];
     if (data.isPublic) {
       permissions.push(Permission.read(Role.any()));
+      permissions.push(Permission.read(Role.guests()));
     }
   }
 
@@ -998,6 +1000,7 @@ export async function createComment(noteId: string, content: string, parentComme
 
   if (isPublicNote) {
     permissions.push(Permission.read(Role.any()));
+    permissions.push(Permission.read(Role.guests()));
   }
 
   return databases.createDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_COMMENTS, ID.unique(), data, permissions);
@@ -1159,10 +1162,11 @@ export async function createReaction(data: Partial<Reactions>) {
   const permissions = userId
     ? [
         Permission.read(isTargetPublic ? Role.any() : Role.user(userId)),
+        ...(isTargetPublic ? [Permission.read(Role.guests())] : []),
         Permission.update(Role.user(userId)),
         Permission.delete(Role.user(userId)),
       ]
-    : [Permission.read(Role.any())];
+    : [Permission.read(Role.any()), Permission.read(Role.guests())];
   return databases.createDocument(
     APPWRITE_DATABASE_ID,
     APPWRITE_TABLE_ID_REACTIONS,
@@ -2599,7 +2603,7 @@ async function syncNoteVisibilityChildren(noteId: string, ownerId: string, isPub
         const commentUserId = comment.userId || ownerId;
         const permissions = [
           Permission.read(Role.user(ownerId)),
-          ...(isPublic ? [Permission.read(Role.any())] : []),
+          ...(isPublic ? [Permission.read(Role.any()), Permission.read(Role.guests())] : []),
           Permission.update(Role.user(commentUserId)),
           Permission.delete(Role.user(commentUserId))
         ];
@@ -2632,7 +2636,7 @@ async function syncNoteVisibilityChildren(noteId: string, ownerId: string, isPub
         const reactionUserId = reaction.userId || ownerId;
         const permissions = [
           Permission.read(Role.user(ownerId)),
-          ...(isPublic ? [Permission.read(Role.any())] : []),
+          ...(isPublic ? [Permission.read(Role.any()), Permission.read(Role.guests())] : []),
           Permission.update(Role.user(reactionUserId)),
           Permission.delete(Role.user(reactionUserId))
         ];
@@ -2666,7 +2670,7 @@ async function syncNoteVisibilityChildren(noteId: string, ownerId: string, isPub
           const reactionUserId = reaction.userId || ownerId;
           const permissions = [
             Permission.read(Role.user(ownerId)),
-            ...(isPublic ? [Permission.read(Role.any())] : []),
+            ...(isPublic ? [Permission.read(Role.any()), Permission.read(Role.guests())] : []),
             Permission.update(Role.user(reactionUserId)),
             Permission.delete(Role.user(reactionUserId))
           ];
@@ -2710,6 +2714,7 @@ export async function toggleNoteVisibility(noteId: string): Promise<Notes | null
     // We also include Role.guests() just in case Role.any() behaves differently in this project setup
     if (newIsPublic) {
       permissions.push(Permission.read(Role.any()));
+      permissions.push(Permission.read(Role.guests()));
     }
 
     const updated = await databases.updateDocument(

@@ -30,18 +30,40 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ note
     );
   }
 
+  const searchParams = req.nextUrl.searchParams;
+  const targetId = searchParams.get('targetId') || noteid;
+  const targetType = searchParams.get('targetType') || TargetType.NOTE;
+
   try {
     const client = new Client()
       .setEndpoint(APPWRITE_ENDPOINT)
       .setProject(APPWRITE_PROJECT_ID);
+    
+    // Optionally use API key if available
+    if (process.env.APPWRITE_API_KEY) {
+      client.setKey(process.env.APPWRITE_API_KEY);
+    }
 
     const databases = new Databases(client);
+
+    // 1. Verify note is public
+    const note = await databases.getDocument(
+      APPWRITE_DATABASE_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTES!,
+      noteid
+    );
+
+    if (!note || !note.isPublic) {
+      return NextResponse.json({ error: 'Note not found or not public' }, { status: 404 });
+    }
+
+    // 2. Fetch reactions for the specific target
     const res = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_REACTIONS,
       [
-        Query.equal('targetType', TargetType.NOTE),
-        Query.equal('targetId', noteid),
+        Query.equal('targetType', targetType),
+        Query.equal('targetId', targetId),
         Query.orderAsc('createdAt'),
         Query.limit(500),
       ]

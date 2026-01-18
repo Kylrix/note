@@ -14,9 +14,10 @@ interface ReactionsProps {
   targetId: string;
   targetType?: TargetType;
   size?: 'small' | 'medium';
+  noteId?: string;
 }
 
-export default function NoteReactions({ targetId, targetType = TargetType.NOTE, size = 'medium' }: ReactionsProps) {
+export default function NoteReactions({ targetId, targetType = TargetType.NOTE, size = 'medium', noteId }: ReactionsProps) {
   const { user } = useAuth();
   const [reactions, setReactions] = useState<Reactions[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -39,10 +40,11 @@ export default function NoteReactions({ targetId, targetType = TargetType.NOTE, 
       console.error('Failed to fetch reactions via client SDK:', err);
     }
 
-    // Only notes have shared API currently
-    if (targetType === TargetType.NOTE) {
+    // Try shared API fallback for guests/public notes
+    const effectiveNoteId = targetType === TargetType.NOTE ? targetId : noteId;
+    if (effectiveNoteId) {
       try {
-        const res = await fetch(`/api/shared/${targetId}/reactions`);
+        const res = await fetch(`/api/shared/${effectiveNoteId}/reactions?targetId=${targetId}&targetType=${targetType}`);
         if (!res.ok) throw new Error('Failed to fetch shared reactions');
         const payload = await res.json();
         setReactions((payload?.documents || []) as Reactions[]);
