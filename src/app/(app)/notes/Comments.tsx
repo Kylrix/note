@@ -139,8 +139,10 @@ export default function CommentsSection({ noteId }: CommentsProps) {
   const [comments, setComments] = useState<Comments[]>([]);
   const [newComment, setNewComment] = useState('');
   const [userMap, setUserMap] = useState<Record<string, Users>>({});
+  const [commentsError, setCommentsError] = useState<string | null>(null);
 
   const fetchComments = async () => {
+    setCommentsError(null);
     try {
       const res = await listComments(noteId);
       const docs = res.documents as unknown as Comments[];
@@ -161,8 +163,34 @@ export default function CommentsSection({ noteId }: CommentsProps) {
         });
         setUserMap(map);
       }
+      return;
     } catch (error) {
-      console.error('Failed to fetch comments:', error);
+      console.error('Failed to fetch comments via client SDK:', error);
+    }
+
+    // Fallback for shared notes where public permissions may block client SDK
+    try {
+      const res = await fetch(`/api/shared/${noteId}/comments`);
+      if (!res.ok) throw new Error('Failed to fetch shared comments');
+      const payload = await res.json();
+      const docs = (payload?.documents || []) as Comments[];
+      const sorted = docs.sort(
+        (a, b) => new Date(a.$createdAt).getTime() - new Date(b.$createdAt).getTime()
+      );
+      setComments(sorted);
+
+      const uniqueUserIds = Array.from(new Set(docs.map(c => c.userId)));
+      if (uniqueUserIds.length > 0) {
+        const users = await getUsersByIds(uniqueUserIds);
+        const map: Record<string, Users> = {};
+        users.forEach(u => {
+          if (u.$id) map[u.$id] = u;
+        });
+        setUserMap(map);
+      }
+    } catch (fallbackError) {
+      console.error('Failed to fetch comments via shared API:', fallbackError);
+      setCommentsError('Comments are unavailable right now.');
     }
   };
 
@@ -216,6 +244,11 @@ export default function CommentsSection({ noteId }: CommentsProps) {
         </Button>
       </Box>
       <Divider />
+      {commentsError && (
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+          {commentsError}
+        </Typography>
+      )}
       <List>
         {commentTree.map((comment) => (
           <div key={comment.$id}>

@@ -941,7 +941,12 @@ export async function createComment(noteId: string, content: string, parentComme
     createdAt: new Date().toISOString(),
     parentCommentId,
   };
-  return databases.createDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_COMMENTS, ID.unique(), data);
+  const permissions = [
+    Permission.read(Role.any()),
+    Permission.update(Role.user(user.$id)),
+    Permission.delete(Role.user(user.$id)),
+  ];
+  return databases.createDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_COMMENTS, ID.unique(), data, permissions);
 }
 
 export async function getComment(commentId: string): Promise<Comments> {
@@ -1068,7 +1073,21 @@ export async function createReaction(data: Partial<Reactions>) {
   } catch (guardErr) {
     console.error('createReaction duplicate guard failed', guardErr);
   }
-  return databases.createDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_REACTIONS, ID.unique(), cleanDocumentData(data));
+  const userId = (data as any)?.userId as string | undefined;
+  const permissions = userId
+    ? [
+        Permission.read(Role.any()),
+        Permission.update(Role.user(userId)),
+        Permission.delete(Role.user(userId)),
+      ]
+    : [Permission.read(Role.any())];
+  return databases.createDocument(
+    APPWRITE_DATABASE_ID,
+    APPWRITE_TABLE_ID_REACTIONS,
+    ID.unique(),
+    cleanDocumentData(data),
+    permissions
+  );
 }
 
 export async function getReaction(reactionId: string): Promise<Reactions> {
