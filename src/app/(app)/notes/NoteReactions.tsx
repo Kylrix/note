@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import { Query } from 'appwrite';
 import { useAuth } from '@/components/ui/AuthContext';
-import { createReaction, listReactions } from '@/lib/appwrite';
+import { createReaction, listReactions, deleteReaction } from '@/lib/appwrite';
 import type { Reactions } from '@/types/appwrite';
 import { TargetType } from '@/types/appwrite';
 
@@ -62,20 +62,29 @@ export default function NoteReactions({ noteId }: NoteReactionsProps) {
     return counts;
   }, [reactions]);
 
+  const userReactions = useMemo(() => {
+    return new Set(reactions.filter(r => r.userId === user?.$id).map(r => r.emoji));
+  }, [reactions, user?.$id]);
+
   const handleReact = async (emoji: string) => {
     if (!user?.$id) return;
     try {
-      await createReaction({
-        targetType: TargetType.NOTE,
-        targetId: noteId,
-        emoji,
-        userId: user.$id,
-        createdAt: new Date().toISOString(),
-      });
+      const existing = reactions.find(r => r.userId === user.$id && r.emoji === emoji);
+      if (existing) {
+        await deleteReaction(existing.$id);
+      } else {
+        await createReaction({
+          targetType: TargetType.NOTE,
+          targetId: noteId,
+          emoji,
+          userId: user.$id,
+          createdAt: new Date().toISOString(),
+        });
+      }
       await fetchReactions();
     } catch (err) {
-      console.error('Failed to add reaction:', err);
-      setError('Failed to add reaction.');
+      console.error('Failed to update reaction:', err);
+      setError('Failed to update reaction.');
     }
   };
 
@@ -89,20 +98,27 @@ export default function NoteReactions({ noteId }: NoteReactionsProps) {
       </Stack>
 
       <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
-        {DEFAULT_REACTIONS.map((emoji) => (
-          <Chip
-            key={emoji}
-            label={`${emoji} ${reactionCounts[emoji] || 0}`}
-            onClick={() => handleReact(emoji)}
-            clickable={!!user?.$id}
-            sx={{
-              borderRadius: 3,
-              bgcolor: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              fontWeight: 600,
-            }}
-          />
-        ))}
+        {DEFAULT_REACTIONS.map((emoji) => {
+          const isSelected = userReactions.has(emoji);
+          return (
+            <Chip
+              key={emoji}
+              label={`${emoji} ${reactionCounts[emoji] || 0}`}
+              onClick={() => handleReact(emoji)}
+              clickable={!!user?.$id}
+              sx={{
+                borderRadius: 3,
+                bgcolor: isSelected ? 'primary.main' : 'rgba(255,255,255,0.06)',
+                border: isSelected ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                fontWeight: 600,
+                color: isSelected ? 'primary.contrastText' : 'inherit',
+                '&:hover': {
+                  bgcolor: isSelected ? 'primary.dark' : 'rgba(255,255,255,0.1)',
+                }
+              }}
+            />
+          );
+        })}
       </Stack>
 
       {!user?.$id && (

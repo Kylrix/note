@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Box, Typography, TextField, Button, List, ListItem, ListItemText, Divider, IconButton, Collapse, Avatar, Link } from '@mui/material';
-import { Reply as ReplyIcon, ExpandMore, ExpandLess } from '@mui/icons-material';
-import { listComments, createComment, getUsersByIds } from '@/lib/appwrite';
+import { Reply as ReplyIcon, ExpandMore, ExpandLess, Edit as EditIcon, Delete as DeleteIcon, MoreVert as MoreIcon } from '@mui/icons-material';
+import { listComments, createComment, getUsersByIds, updateComment, deleteComment } from '@/lib/appwrite';
 import type { Comments, Users } from '@/types/appwrite';
 import { getEffectiveDisplayName, getEffectiveUsername } from '@/lib/utils';
+import { useAuth } from '@/components/ui/AuthContext';
+import { Menu, MenuItem, ListItemIcon } from '@mui/material';
 
 interface CommentsProps {
   noteId: string;
@@ -37,16 +39,23 @@ function buildCommentTree(flatComments: Comments[]): CommentWithChildren[] {
 interface CommentItemProps {
   comment: CommentWithChildren;
   onReply: (parentId: string, content: string) => Promise<void>;
+  onUpdate: (commentId: string, content: string) => Promise<void>;
+  onDelete: (commentId: string) => Promise<void>;
   depth?: number;
   userMap: Record<string, Users>;
 }
 
-function CommentItem({ comment, onReply, depth = 0, userMap }: CommentItemProps) {
+function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap }: CommentItemProps) {
+  const { user } = useAuth();
   const [isReplying, setIsReplying] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [replyContent, setReplyContent] = useState('');
+  const [editContent, setEditContent] = useState(comment.content);
   const [showChildren, setShowChildren] = useState(true);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const commentUser = userMap[comment.userId];
+  const isOwner = user?.$id === comment.userId;
   
   // Efficient identity fallback using canonized helpers
   const displayName = getEffectiveDisplayName(commentUser);
@@ -61,15 +70,52 @@ function CommentItem({ comment, onReply, depth = 0, userMap }: CommentItemProps)
     setShowChildren(true);
   };
 
+  const handleEditSubmit = async () => {
+    if (!editContent.trim()) return;
+    await onUpdate(comment.$id, editContent);
+    setIsEditing(false);
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ ml: depth * 3, mt: 1, borderLeft: depth > 0 ? '1px solid #ddd' : 'none', pl: depth > 0 ? 2 : 0 }}>
       <ListItem
         alignItems="flex-start"
         secondaryAction={
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton size="small" onClick={() => setIsReplying(!isReplying)}>
               <ReplyIcon fontSize="small" />
             </IconButton>
+            
+            {isOwner && (
+              <>
+                <IconButton size="small" onClick={handleMenuOpen}>
+                  <MoreIcon fontSize="small" />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={() => { setIsEditing(true); handleMenuClose(); }}>
+                    <ListItemIcon><EditIcon fontSize="small" /></ListItemIcon>
+                    Edit
+                  </MenuItem>
+                  <MenuItem onClick={() => { onDelete(comment.$id); handleMenuClose(); }} sx={{ color: 'error.main' }}>
+                    <ListItemIcon><DeleteIcon fontSize="small" color="error" /></ListItemIcon>
+                    Delete
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+
             {comment.children.length > 0 && (
               <IconButton size="small" onClick={() => setShowChildren(!showChildren)}>
                 {showChildren ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
@@ -85,7 +131,24 @@ function CommentItem({ comment, onReply, depth = 0, userMap }: CommentItemProps)
           {displayName.charAt(0).toUpperCase()}
         </Avatar>
         <ListItemText
-          primary={comment.content}
+          primary={
+            isEditing ? (
+              <Box sx={{ mt: 1 }}>
+                <TextField
+                  fullWidth
+                  multiline
+                  size="small"
+                  value={editContent}
+                  onChange={(e) => setEditContent(e.target.value)}
+                  autoFocus
+                />
+                <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+                  <Button size="small" variant="contained" onClick={handleEditSubmit}>Save</Button>
+                  <Button size="small" onClick={() => setIsEditing(false)}>Cancel</Button>
+                </Box>
+              </Box>
+            ) : comment.content
+          }
           secondary={
             <Box component="span" sx={{ display: 'block', mt: 0.5 }}>
               <Typography variant="caption" color="text.secondary">
@@ -130,7 +193,15 @@ function CommentItem({ comment, onReply, depth = 0, userMap }: CommentItemProps)
       <Collapse in={showChildren}>
         <Box>
           {comment.children.map((child) => (
-            <CommentItem key={child.$id} comment={child} onReply={onReply} depth={depth + 1} userMap={userMap} />
+            <CommentItem 
+              key={child.$id} 
+              comment={child} 
+              onReply={onReply} 
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+              depth={depth + 1} 
+              userMap={userMap} 
+            />
           ))}
         </Box>
       </Collapse>
@@ -222,6 +293,26 @@ export default function CommentsSection({ noteId }: CommentsProps) {
     }
   };
 
+  const handleUpdateComment = async (commentId: string, content: string) => {
+    try {
+      await updateComment(commentId, { content });
+      setComments(prev => 
+        prev.map(c => c.$id === commentId ? { ...c, content } as Comments : c)
+      );
+    } catch (error) {
+      console.error('Failed to update comment:', error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      await deleteComment(commentId);
+      setComments(prev => prev.filter(c => c.$id !== commentId));
+    } catch (error) {
+      console.error('Failed to delete comment:', error);
+    }
+  };
+
   const commentTree = useMemo(() => buildCommentTree(comments), [comments]);
 
   return (
@@ -258,6 +349,8 @@ export default function CommentsSection({ noteId }: CommentsProps) {
             <CommentItem 
               comment={comment} 
               onReply={(parentId, content) => handleAddComment(parentId, content)} 
+              onUpdate={handleUpdateComment}
+              onDelete={handleDeleteComment}
               userMap={userMap}
             />
             <Divider variant="fullWidth" sx={{ my: 1 }} />
