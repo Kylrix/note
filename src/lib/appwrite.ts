@@ -2810,6 +2810,7 @@ const appwrite = {
   updateReaction,
   deleteReaction,
   listReactions,
+  deleteReactionsForTarget,
   createCollaborator,
   getCollaborator,
   updateCollaborator,
