@@ -58,10 +58,11 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
 
   const commentUser = userMap[comment.userId];
   const isOwner = user?.$id === comment.userId;
+  const isDeleted = comment.content === '[Deleted]';
   
   // Efficient identity fallback using canonized helpers
-  const displayName = getEffectiveDisplayName(commentUser);
-  const username = getEffectiveUsername(commentUser);
+  const displayName = isDeleted ? 'Deleted' : getEffectiveDisplayName(commentUser);
+  const username = isDeleted ? null : getEffectiveUsername(commentUser);
   const profileLink = username ? `https://connect.whisperrnote.space/u/${username}` : '#';
 
   const handleReplySubmit = async () => {
@@ -92,11 +93,13 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
         alignItems="flex-start"
         secondaryAction={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton size="small" onClick={() => setIsReplying(!isReplying)}>
-              <ReplyIcon fontSize="small" />
-            </IconButton>
+            {!isDeleted && (
+              <IconButton size="small" onClick={() => setIsReplying(!isReplying)}>
+                <ReplyIcon fontSize="small" />
+              </IconButton>
+            )}
             
-            {isOwner && (
+            {isOwner && !isDeleted && (
               <>
                 <IconButton size="small" onClick={handleMenuOpen}>
                   <MoreIcon fontSize="small" />
@@ -127,8 +130,16 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
         }
       >
         <Avatar 
-          src={commentUser?.avatarUrl || undefined}
-          sx={{ width: 32, height: 32, mr: 2, mt: 0.5, bgcolor: 'primary.main', fontSize: 14 }}
+          src={!isDeleted ? commentUser?.avatarUrl || undefined : undefined}
+          sx={{ 
+            width: 32, 
+            height: 32, 
+            mr: 2, 
+            mt: 0.5, 
+            bgcolor: isDeleted ? 'grey.500' : 'primary.main', 
+            fontSize: 14,
+            opacity: isDeleted ? 0.6 : 1
+          }}
         >
           {displayName.charAt(0).toUpperCase()}
         </Avatar>
@@ -149,6 +160,10 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
                   <Button size="small" onClick={() => setIsEditing(false)}>Cancel</Button>
                 </Box>
               </Box>
+            ) : isDeleted ? (
+              <Typography variant="body2" sx={{ color: 'text.disabled', fontStyle: 'italic', py: 0.5 }}>
+                This comment was deleted by the author but replies remain.
+              </Typography>
             ) : comment.content
           }
           secondary={
@@ -168,7 +183,9 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap 
                   {username ? `@${username}` : displayName}
                 </Link> • {new Date(comment.$createdAt).toLocaleString()}
               </Typography>
-              <NoteReactions targetId={comment.$id} targetType={TargetType.COMMENT} size="small" />
+              {!isDeleted && (
+                <NoteReactions targetId={comment.$id} targetType={TargetType.COMMENT} size="small" />
+              )}
             </Box>
           }
         />
@@ -309,8 +326,20 @@ export default function CommentsSection({ noteId }: CommentsProps) {
 
   const handleDeleteComment = async (commentId: string) => {
     try {
-      await deleteComment(commentId);
-      setComments(prev => prev.filter(c => c.$id !== commentId));
+      const hasChildren = comments.some(c => c.parentCommentId === commentId);
+      
+      if (hasChildren) {
+        // Soft delete: preservation of tree structure for Reddit-like behavior
+        // We redact the content to [Deleted] instead of hard-deleting the document
+        await updateComment(commentId, { content: '[Deleted]' });
+        setComments(prev => 
+          prev.map(c => c.$id === commentId ? { ...c, content: '[Deleted]' } as Comments : c)
+        );
+      } else {
+        // Hard delete: No children, safe to remove completely
+        await deleteComment(commentId);
+        setComments(prev => prev.filter(c => c.$id !== commentId));
+      }
     } catch (error) {
       console.error('Failed to delete comment:', error);
     }
