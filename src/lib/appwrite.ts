@@ -912,7 +912,7 @@ export async function listApiKeys(queries: any[] = []) {
 
 // --- COMMENTS CRUD ---
 
-export async function createComment(noteId: string, content: string) {
+export async function createComment(noteId: string, content: string, parentCommentId: string | null = null) {
   const user = await getCurrentUser();
   if (!user || !user.$id) throw new Error("User not authenticated");
   const data = {
@@ -920,6 +920,7 @@ export async function createComment(noteId: string, content: string) {
     content,
     userId: user.$id,
     createdAt: new Date().toISOString(),
+    parentCommentId,
   };
   return databases.createDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_COMMENTS, ID.unique(), data);
 }
