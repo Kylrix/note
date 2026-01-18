@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material';
 import { useToast } from '@/components/ui/Toast';
 import CommentsSection from '@/app/(app)/notes/Comments';
+import NoteReactions from '@/app/(app)/notes/NoteReactions';
 
 export default function NoteEditorPage() {
   const { id } = useParams();
@@ -182,7 +183,10 @@ export default function NoteEditorPage() {
         </Box>
 
         <Box sx={{ mt: 6, pt: 4, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          <CommentsSection noteId={id as string} />
+          <NoteReactions noteId={id as string} />
+          <Box sx={{ mt: 3 }}>
+            <CommentsSection noteId={id as string} />
+          </Box>
         </Box>
       </Container>
 

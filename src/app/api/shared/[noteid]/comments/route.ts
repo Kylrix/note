@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { Client, Databases, Query } from 'appwrite';
+import { Client, Databases, Query } from 'node-appwrite';
 import { createRateLimiter } from '@/lib/rate-limit-middleware';
 
 const rateLimiter = createRateLimiter({
