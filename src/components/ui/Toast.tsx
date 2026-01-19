@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { Snackbar, Alert, AlertTitle, Stack, Box } from '@mui/material';
+import { useIsland, IslandType } from './DynamicIsland';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -38,13 +39,22 @@ interface ToastProviderProps {
 
 export function ToastProvider({ children }: ToastProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const { showIsland } = useIsland();
 
   const showToast = useCallback((type: ToastType, title: string, message?: string, duration = 5000) => {
+    // Also trigger Dynamic Island for a better UX
+    showIsland({
+      type: type as IslandType,
+      title,
+      message,
+      duration
+    });
+
     const id = Date.now().toString();
     const toast: Toast = { id, type, title, message, duration };
     
     setToasts(prev => [...prev, toast]);
-  }, []);
+  }, [showIsland]);
 
   const dismissToast = useCallback((id: string) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
@@ -78,56 +88,10 @@ export function ToastProvider({ children }: ToastProviderProps) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <Stack spacing={2} sx={{ position: 'fixed', top: 24, right: 24, zIndex: 9999, width: '100%', maxWidth: 400 }}>
-        {toasts.map((toast) => (
-          <Snackbar
-            key={toast.id}
-            open={true}
-            autoHideDuration={toast.duration}
-            onClose={() => dismissToast(toast.id)}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            sx={{ position: 'relative' }}
-          >
-            <Alert 
-              onClose={() => dismissToast(toast.id)} 
-              severity={toast.type} 
-              sx={{ 
-                width: '100%', 
-                borderRadius: '16px',
-                boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
-                bgcolor: 'rgba(10, 10, 10, 0.95)',
-                backdropFilter: 'blur(25px) saturate(180%)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#FFFFFF',
-                '& .MuiAlert-icon': {
-                  color: toast.type === 'success' ? '#00F5FF' : 
-                         toast.type === 'error' ? '#FF453A' : 
-                         toast.type === 'warning' ? '#FFA500' : '#00F5FF'
-                },
-                '& .MuiAlert-action': {
-                  color: 'rgba(255, 255, 255, 0.5)'
-                }
-              }}
-            >
-              <AlertTitle sx={{ 
-                fontWeight: 900, 
-                fontFamily: '"Space Grotesk", sans-serif',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                fontSize: '0.85rem',
-                color: toast.type === 'success' ? '#00F5FF' : 
-                       toast.type === 'error' ? '#FF453A' : 
-                       toast.type === 'warning' ? '#FFA500' : '#00F5FF'
-              }}>
-                {toast.title}
-              </AlertTitle>
-              <Box sx={{ fontFamily: '"Inter", sans-serif', fontSize: '0.9rem', opacity: 0.8 }}>
-                {toast.message}
-              </Box>
-            </Alert>
-          </Snackbar>
-        ))}
-      </Stack>
+      {/* Old Toast System replaced by Dynamic Island */}
+      {/* <Stack spacing={2} sx={{ position: 'fixed', top: 24, right: 24, zIndex: 9999, width: '100%', maxWidth: 400 }}>
+        ...
+      </Stack> */}
     </ToastContext.Provider>
   );
 }

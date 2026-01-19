@@ -638,32 +638,60 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
           display: 'flex',
           justifyContent: 'end',
           gap: 2,
-          p: 3,
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          bgcolor: 'rgba(255, 255, 255, 0.02)'
+          p: { xs: 2.5, sm: 3 },
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'rgba(255, 255, 255, 0.02)',
+          backdropFilter: 'blur(10px)',
+          mt: 'auto'
         }}
       >
         <Button 
           variant="outlined" 
           onClick={closeOverlay}
           disabled={isLoading}
-          sx={{ px: 4, borderRadius: '14px' }}
+          sx={{ 
+            px: { xs: 2.5, sm: 4 }, 
+            borderRadius: '12px',
+            borderColor: 'rgba(255,255,255,0.1)',
+            color: 'rgba(255,255,255,0.5)',
+            '&:hover': {
+              borderColor: 'rgba(255,255,255,0.3)',
+              bgcolor: 'rgba(255,255,255,0.05)',
+              color: 'white'
+            }
+          }}
         >
-          Cancel
+          Discard
         </Button>
         <Button 
-          onClick={handleCreateNote}
+          onClick={(e) => {
+            e.preventDefault();
+            handleCreateNote();
+          }}
           disabled={!title.trim() || !content.trim() || isLoading}
           sx={{ 
-            px: 4, 
-            borderRadius: '14px',
+            px: { xs: 4, sm: 6 }, 
+            py: { xs: 1.5, sm: 2 },
+            borderRadius: '16px',
             bgcolor: '#00F5FF',
             color: 'black',
-            fontWeight: 800,
-            '&:hover': { bgcolor: '#00E5EE' },
+            fontWeight: 900,
+            fontSize: { xs: '0.9rem', sm: '1rem' },
+            boxShadow: '0 8px 32px rgba(0, 245, 255, 0.25)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            '&:hover': { 
+              bgcolor: '#00D1DA',
+              boxShadow: '0 12px 40px rgba(0, 245, 255, 0.4)',
+              transform: 'translateY(-2px)'
+            },
+            '&:active': {
+              transform: 'translateY(0)',
+              filter: 'brightness(0.9)'
+            },
             '&.Mui-disabled': {
-              bgcolor: 'rgba(0, 245, 255, 0.3)',
-              color: 'rgba(0, 0, 0, 0.3)'
+              bgcolor: 'rgba(0, 245, 255, 0.1)',
+              color: 'rgba(0, 0, 0, 0.3)',
+              boxShadow: 'none'
             }
           }}
         >
@@ -671,31 +699,31 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Box
                 sx={{
-                  width: 16,
-                  height: 16,
+                  width: 18,
+                  height: 18,
                   border: '2px solid rgba(0, 0, 0, 0.1)',
                   borderTopColor: 'black',
                   borderRadius: '50%',
-                  animation: 'spin 1s linear infinite',
+                  animation: 'spin 0.8s linear infinite',
                   '@keyframes spin': {
                     '0%': { transform: 'rotate(0deg)' },
                     '100%': { transform: 'rotate(360deg)' }
                   }
                 }}
               />
-              <Typography variant="button" sx={{ fontWeight: 800 }}>
-                Creating...
+              <Typography variant="button" sx={{ fontWeight: 900 }}>
+                Synthesizing
               </Typography>
             </Stack>
           ) : (
             <Stack direction="row" spacing={1} alignItems="center">
               {format === 'doodle' ? (
-                <PencilIcon sx={{ fontSize: 18 }} />
+                <PencilIcon sx={{ fontSize: 20 }} />
               ) : (
-                <DescriptionIcon sx={{ fontSize: 18 }} />
+                <DescriptionIcon sx={{ fontSize: 20 }} />
               )}
-              <Typography variant="button" sx={{ fontWeight: 800 }}>
-                {`Create ${format === 'doodle' ? 'Doodle' : 'Note'}`}
+              <Typography variant="button" sx={{ fontWeight: 900 }}>
+                {`Publish ${format === 'doodle' ? 'Doodle' : 'Note'}`}
               </Typography>
             </Stack>
           )}

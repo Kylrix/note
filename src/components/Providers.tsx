@@ -6,6 +6,7 @@ import { LoadingProvider } from "@/components/ui/LoadingContext";
 import { RouteGuard } from "@/components/ui/RouteGuard";
 import { ThemeProvider as AppThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
+import { IslandProvider } from "@/components/ui/DynamicIsland";
 import Overlay from "@/components/ui/Overlay";
 import { ContextMenuProvider } from "@/components/ui/ContextMenuContext";
 import { GlobalContextMenu } from "@/components/ui/GlobalContextMenu";
@@ -31,21 +32,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <MuiThemeWrapper>
                 <KernelProvider>
                     <ToastProvider>
-                        <AuthProvider>
-                            <OverlayProvider>
-                                <LoadingProvider>
-                                    <ContextMenuProvider>
-                                        <RouteGuard>
-                                            {children}
-                                        </RouteGuard>
-                                        <Overlay />
-                                        <GlobalContextMenu />
-                                        <GlobalShortcuts />
-                                        <EcosystemPortal />
-                                    </ContextMenuProvider>
-                                </LoadingProvider>
-                            </OverlayProvider>
-                        </AuthProvider>
+                        <IslandProvider>
+                            <AuthProvider>
+                                <OverlayProvider>
+                                    <LoadingProvider>
+                                        <ContextMenuProvider>
+                                            <RouteGuard>
+                                                {children}
+                                            </RouteGuard>
+                                            <Overlay />
+                                            <GlobalContextMenu />
+                                            <GlobalShortcuts />
+                                            <EcosystemPortal />
+                                        </ContextMenuProvider>
+                                    </LoadingProvider>
+                                </OverlayProvider>
+                            </AuthProvider>
+                        </IslandProvider>
                     </ToastProvider>
                 </KernelProvider>
             </MuiThemeWrapper>
