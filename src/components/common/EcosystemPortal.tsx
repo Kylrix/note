@@ -20,7 +20,7 @@ import {
 import { motion } from 'framer-motion';
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
 import { EcosystemWidgets } from '@/ecosystem/integration/Widgets';
-import { useWindowing } from '@/ecosystem/integration/WindowingSystem';
+import { useKernel } from '@/ecosystem/kernel/EcosystemKernel';
 import { EcosystemBridge } from '@/lib/ecosystem/bridge';
 
 interface EcosystemPortalProps {
@@ -30,18 +30,24 @@ interface EcosystemPortalProps {
 
 export default function EcosystemPortal({ open, onClose }: EcosystemPortalProps) {
     const [search, setSearch] = useState('');
-    const { openWindow } = useWindowing();
+    const { launchWindow } = useKernel();
 
     const filteredApps = ECOSYSTEM_APPS.filter(app =>
         app.label.toLowerCase().includes(search.toLowerCase()) ||
         app.description.toLowerCase().includes(search.toLowerCase())
     );
 
-    const handleAppClick = (subdomain: string, label: string) => {
-        // Shift + Click opens in a window
+    const handleAppClick = (subdomain: string, label: string, appId: string) => {
+        // Shift + Click opens in a virtual window
         if (typeof window !== 'undefined' && (window.event as MouseEvent)?.shiftKey) {
             const url = getEcosystemUrl(subdomain);
-            openWindow(label, `${url}?is_embedded=true`);
+            launchWindow({
+                title: label,
+                url: `${url}?is_embedded=true`,
+                mode: 'remote',
+                appId,
+                dimensions: { width: 500, height: 700 }
+            });
             onClose();
             return;
         }
@@ -161,7 +167,7 @@ export default function EcosystemPortal({ open, onClose }: EcosystemPortalProps)
                                 <Grid size={{ xs: 12, sm: 6 }} key={app.id}>
                                     <Box
                                         component="button"
-                                        onClick={() => handleAppClick(app.subdomain, app.label)}
+                                        onClick={() => handleAppClick(app.subdomain, app.label, app.id)}
                                         sx={{
                                             width: '100%',
                                             display: 'flex',

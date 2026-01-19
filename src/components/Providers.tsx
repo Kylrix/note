@@ -10,7 +10,7 @@ import Overlay from "@/components/ui/Overlay";
 import { ContextMenuProvider } from "@/components/ui/ContextMenuContext";
 import { GlobalContextMenu } from "@/components/ui/GlobalContextMenu";
 import GlobalShortcuts from "@/components/GlobalShortcuts";
-import { WindowProvider } from "@/ecosystem/integration/WindowingSystem";
+import { KernelProvider } from "@/ecosystem/kernel/EcosystemKernel";
 import { EcosystemPortal } from "@/components/common/EcosystemPortal";
 
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
@@ -29,7 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <AppThemeProvider>
             <MuiThemeWrapper>
-                <WindowProvider>
+                <KernelProvider>
                     <ToastProvider>
                         <AuthProvider>
                             <OverlayProvider>
@@ -47,7 +47,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                             </OverlayProvider>
                         </AuthProvider>
                     </ToastProvider>
-                </WindowProvider>
+                </KernelProvider>
             </MuiThemeWrapper>
         </AppThemeProvider>
     );
