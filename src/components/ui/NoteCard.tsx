@@ -27,8 +27,16 @@ import {
 } from '@mui/icons-material';
 import { sidebarIgnoreProps } from '@/constants/sidebar';
 import { ShareNoteModal } from '../ShareNoteModal';
-import { updateNote, createNote, toggleNoteVisibility } from '@/lib/appwrite';
+import { updateNote, createNote, toggleNoteVisibility, createTaskFromNote } from '@/lib/appwrite';
 import { useToast } from './Toast';
+import { useAuth } from './AuthContext';
+import { generateAIAction } from '@/lib/ai-actions';
+import {
+  AutoFixHigh as AIIcon,
+  PlaylistAdd as TodoIcon,
+  Summarize as SummarizeIcon,
+  Spellcheck as GrammarIcon,
+} from '@mui/icons-material';
 
 interface NoteCardProps {
   note: Notes;
@@ -41,10 +49,51 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
   const { openMenu } = useContextMenu();
   const { openSidebar } = useDynamicSidebar();
   const { isPinned, pinNote, unpinNote, upsertNote } = useNotes();
-  const { showSuccess, showError } = useToast();
+  const { user } = useAuth();
+  const { showSuccess, showError, showInfo } = useToast();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
-  
+  const [isAIProcessing, setIsAIProcessing] = React.useState(false);
+
+  const isPro = user?.prefs?.subscriptionTier === 'PRO' || 
+                user?.prefs?.subscriptionTier === 'ORG' || 
+                user?.prefs?.subscriptionTier === 'LIFETIME';
+
+  const handleAIAction = async (action: 'summarize' | 'grammar' | 'expand') => {
+    if (isAIProcessing) return;
+    setIsAIProcessing(true);
+    showInfo(`AI is ${action === 'grammar' ? 'fixing' : action + 'ing'} your note...`);
+    
+    try {
+      const result = await generateAIAction(note, action);
+      const updated = await updateNote(note.$id, {
+        content: result,
+        updatedAt: new Date().toISOString()
+      });
+      upsertNote(updated);
+      showSuccess(`Note ${action}d successfully`);
+    } catch (err: any) {
+      showError(err.message || `Failed to ${action} note`);
+    } finally {
+      setIsAIProcessing(false);
+    }
+  };
+
+  const handleCreateTodo = async () => {
+    if (isAIProcessing) return;
+    setIsAIProcessing(true);
+    showInfo('Converting note to task in WhisperrFlow...');
+
+    try {
+      await createTaskFromNote(note);
+      showSuccess('Linked task created in WhisperrFlow');
+    } catch (err: any) {
+      showError(err.message || 'Failed to create task');
+    } finally {
+      setIsAIProcessing(false);
+    }
+  };
+
   const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartPosRef = useRef<{ x: number, y: number } | null>(null);
   const isLongPressActive = useRef(false);
@@ -239,6 +288,23 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       icon: <DuplicateIcon sx={{ fontSize: 18 }} />,
       onClick: () => { handleDuplicate(); }
     },
+    ...(isPro ? [
+      {
+        label: 'AI Summarize',
+        icon: <SummarizeIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+        onClick: () => { handleAIAction('summarize'); }
+      },
+      {
+        label: 'AI Fix Grammar',
+        icon: <GrammarIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+        onClick: () => { handleAIAction('grammar'); }
+      },
+      {
+        label: 'Convert To Todo',
+        icon: <TodoIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+        onClick: () => { handleCreateTodo(); }
+      }
+    ] : []),
     {
       label: 'Share with...',
       icon: <ShareIcon sx={{ fontSize: 18 }} />,
