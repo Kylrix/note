@@ -29,7 +29,8 @@ import {
   Extension as ExtensionIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-  Logout as LogoutIcon
+  Logout as LogoutIcon,
+  Bolt as PulseIcon
 } from '@mui/icons-material';
 
 interface NavigationProps {
@@ -240,6 +241,44 @@ export const DesktopSidebar: React.FC<NavigationProps> = () => {
           );
         })}
       </List>
+
+      {!isCollapsed && (
+        <Box sx={{ px: 3, mb: 4 }}>
+          <Typography variant="overline" sx={{ fontWeight: 800, color: 'rgba(255, 255, 255, 0.2)', letterSpacing: '0.1em' }}>
+            Ecosystem Pulse
+          </Typography>
+          <Box sx={{ 
+            mt: 2, 
+            p: 2, 
+            borderRadius: '16px', 
+            bgcolor: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2
+          }}>
+            <Box sx={{ position: 'relative' }}>
+              <Avatar sx={{ width: 32, height: 32, bgcolor: '#7c3aed', fontSize: '0.75rem', fontWeight: 800 }}>AR</Avatar>
+              <Box sx={{ 
+                position: 'absolute', 
+                bottom: 0, 
+                right: 0, 
+                width: 10, 
+                height: 10, 
+                bgcolor: '#10b981', 
+                borderRadius: '50%',
+                border: '2px solid #0a0a0a'
+              }} />
+            </Box>
+            <Box sx={{ minWidth: 0 }}>
+              <Typography sx={{ fontSize: '0.75rem', fontWeight: 800, color: 'white' }}>Connect</Typography>
+              <Typography sx={{ fontSize: '0.7rem', color: 'rgba(255, 255, 255, 0.4)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                Alex sent a message
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      )}
 
       <Box sx={{ p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
         {isAuthenticated && user && (
