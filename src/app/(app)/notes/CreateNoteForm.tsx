@@ -94,7 +94,16 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
   }, [content, format, isTitleManuallyEdited, title]);
 
   const handleCreateNote = async () => {
-    const finalTitle = title.trim() || (format === 'doodle' ? `Sketch ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '');
+    let finalTitle = title.trim();
+    
+    // Auto-generate title if missing
+    if (!finalTitle) {
+      if (format === 'doodle') {
+        finalTitle = `Sketch ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      } else if (content.trim()) {
+        finalTitle = buildAutoTitleFromContent(content) || 'Untitled Thought';
+      }
+    }
     
     if (!finalTitle || isLoading) return;
 
@@ -678,7 +687,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             e.preventDefault();
             handleCreateNote();
           }}
-          disabled={(!title.trim() && format === 'text') || !content.trim() || isLoading}
+          disabled={!content.trim() || isLoading}
           sx={{ 
             px: { xs: 4, sm: 6 }, 
             py: { xs: 1.5, sm: 2 },

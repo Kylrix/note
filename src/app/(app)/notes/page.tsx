@@ -108,7 +108,10 @@ export default function NotesPage() {
 
   const handleNoteCreated = useCallback((newNote: Notes) => {
     upsertNote(newNote);
-  }, [upsertNote]);
+    // Ensure the new note is visible by resetting search and going to page 1
+    clearSearch();
+    goToPage(1);
+  }, [upsertNote, clearSearch, goToPage]);
 
   // Removed AI generation logic from core page to fully decouple.
   // URL ai-prompt parameter no longer auto-triggers AI generation.
