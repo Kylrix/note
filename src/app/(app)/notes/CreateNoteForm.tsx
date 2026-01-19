@@ -10,6 +10,8 @@ import {
   Chip, 
   ToggleButton,
   ToggleButtonGroup,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { 
   Close as CloseIcon,
@@ -46,6 +48,8 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
   const [isLoading, setIsLoading] = useState(false);
   const [showDoodleEditor, setShowDoodleEditor] = useState(false);
   const { closeOverlay } = useOverlay();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isTitleManuallyEdited, setIsTitleManuallyEdited] = useState(Boolean(initialContent?.title));
 
   const handleAddTag = () => {
