@@ -120,7 +120,12 @@ export default function AppHeader({ className }: AppHeaderProps) {
         backgroundImage: 'none'
       }}
     >
-      <Toolbar sx={{ gap: { xs: 2, md: 4 }, px: { xs: 2, md: 3 }, minHeight: '72px' }}>
+      <Toolbar sx={{ 
+        gap: 2, 
+        '@media (min-width: 900px)': { gap: 4 },
+        px: { xs: 2, md: 3 }, 
+        minHeight: '72px' 
+      }}>
         {/* Left: Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0 }}>
           <Box sx={{ 
