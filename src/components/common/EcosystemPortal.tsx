@@ -19,6 +19,7 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
+import { EcosystemWidgets } from '@/ecosystem/integration/Widgets';
 
 interface EcosystemPortalProps {
     open: boolean;
@@ -201,43 +202,9 @@ export default function EcosystemPortal({ open, onClose }: EcosystemPortalProps)
                             ))}
                         </Grid>
 
-                        {/* Quick Actions Placeholder */}
+                        {/* Ecosystem Widgets Integration */}
                         {search.length === 0 && (
-                            <Box sx={{ mt: 4 }}>
-                                <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', mb: 2, display: 'block' }}>
-                                    Ecosystem Pulse
-                                </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                    <Box sx={{ 
-                                        display: 'flex', 
-                                        alignItems: 'center', 
-                                        gap: 2, 
-                                        p: 2, 
-                                        borderRadius: '16px', 
-                                        bgcolor: 'rgba(0, 240, 255, 0.03)',
-                                        border: '1px solid rgba(0, 240, 255, 0.1)'
-                                    }}>
-                                        <Box sx={{ 
-                                            width: 8, 
-                                            height: 8, 
-                                            bgcolor: '#00F0FF', 
-                                            borderRadius: '50%',
-                                            boxShadow: '0 0 10px #00F0FF',
-                                            animation: 'pulse 2s infinite'
-                                        }} />
-                                        <Typography variant="caption" sx={{ color: 'white', fontWeight: 700, opacity: 0.8 }}>
-                                            Synchronized with Whisperr Identity Cluster
-                                        </Typography>
-                                        <style jsx global>{`
-                                            @keyframes pulse {
-                                                0% { transform: scale(1); opacity: 1; }
-                                                50% { transform: scale(1.5); opacity: 0.5; }
-                                                100% { transform: scale(1); opacity: 1; }
-                                            }
-                                        `}</style>
-                                    </Box>
-                                </Box>
-                            </Box>
+                            <EcosystemWidgets />
                         )}
                     </Box>
 
