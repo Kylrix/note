@@ -217,7 +217,12 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 '& .MuiToggleButton-root': {
                   border: 'none',
                   borderRadius: '8px',
-                  px: { xs: 1.5, sm: 2 },
+                  paddingLeft: theme.spacing(1.5),
+                  paddingRight: theme.spacing(1.5),
+                  [theme.breakpoints.up('sm')]: {
+                    paddingLeft: theme.spacing(2),
+                    paddingRight: theme.spacing(2),
+                  },
                   py: 0.5,
                   color: 'rgba(255, 255, 255, 0.5)',
                   '&.Mui-selected': {

@@ -389,7 +389,13 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                 fontSize: '0.75rem',
                 lineHeight: 1.5,
                 display: '-webkit-box',
-                WebkitLineClamp: { xs: 3, sm: 4, md: 5 },
+                WebkitLineClamp: 3,
+                '@media (min-width: 600px)': {
+                  WebkitLineClamp: 4,
+                },
+                '@media (min-width: 900px)': {
+                  WebkitLineClamp: 5,
+                },
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 whiteSpace: 'pre-wrap'
