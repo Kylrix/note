@@ -3,8 +3,8 @@
 import React from 'react';
 import { Grid, Box, Typography, alpha, IconButton } from '@mui/material';
 import { QuickNote } from '../contributions/QuickNote';
-import { Maximize2 } from 'lucide-react';
-import { useWindowing } from './WindowingSystem';
+import { Maximize2, MessageSquare, Shield, Zap, FileText } from 'lucide-react';
+import { useKernel } from '../kernel/EcosystemKernel';
 import { getEcosystemUrl } from '@/constants/ecosystem';
 
 // In a real monorepo, these would be imported from @whisperr/[app]
@@ -66,7 +66,7 @@ const WidgetWrapper = ({
 );
 
 export const EcosystemWidgets = () => {
-    const { openWindow } = useWindowing();
+    const { launchWindow } = useKernel();
 
     return (
         <Box sx={{ mt: 4 }}>
@@ -81,22 +81,65 @@ export const EcosystemWidgets = () => {
             </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <WidgetWrapper title="QuickNote" onExpand={() => openWindow('QuickNote', `${getEcosystemUrl('note')}?is_embedded=true`)}>
+                    <WidgetWrapper 
+                        title="QuickNote" 
+                        onExpand={() => launchWindow({
+                            title: 'QuickNote',
+                            url: `${getEcosystemUrl('note')}?is_embedded=true`,
+                            mode: 'remote',
+                            appId: 'note',
+                            icon: <FileText size={14} />,
+                            dimensions: { width: 480, height: 600 }
+                        })}
+                    >
                         <QuickNote />
                     </WidgetWrapper>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <WidgetWrapper title="MiniChat" appColor="#FF00F5" onExpand={() => openWindow('WhisperrConnect', `${getEcosystemUrl('connect')}?is_embedded=true`)}>
+                    <WidgetWrapper 
+                        title="MiniChat" 
+                        appColor="#FF00F5" 
+                        onExpand={() => launchWindow({
+                            title: 'WhisperrConnect',
+                            url: `${getEcosystemUrl('connect')}?is_embedded=true`,
+                            mode: 'remote',
+                            appId: 'connect',
+                            icon: <MessageSquare size={14} />,
+                            dimensions: { width: 400, height: 700 }
+                        })}
+                    >
                         <MiniChat />
                     </WidgetWrapper>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <WidgetWrapper title="VaultStatus" appColor="#FACC15" onExpand={() => openWindow('WhisperrKeep', `${getEcosystemUrl('keep')}?is_embedded=true`)}>
+                    <WidgetWrapper 
+                        title="VaultStatus" 
+                        appColor="#FACC15" 
+                        onExpand={() => launchWindow({
+                            title: 'WhisperrKeep',
+                            url: `${getEcosystemUrl('keep')}?is_embedded=true`,
+                            mode: 'remote',
+                            appId: 'keep',
+                            icon: <Shield size={14} />,
+                            dimensions: { width: 500, height: 600 }
+                        })}
+                    >
                         <VaultStatus />
                     </WidgetWrapper>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <WidgetWrapper title="FocusStatus" appColor="#4ADE80" onExpand={() => openWindow('WhisperrFlow', `${getEcosystemUrl('flow')}?is_embedded=true`)}>
+                    <WidgetWrapper 
+                        title="FocusStatus" 
+                        appColor="#4ADE80" 
+                        onExpand={() => launchWindow({
+                            title: 'WhisperrFlow',
+                            url: `${getEcosystemUrl('flow')}?is_embedded=true`,
+                            mode: 'remote',
+                            appId: 'flow',
+                            icon: <Zap size={14} />,
+                            dimensions: { width: 450, height: 500 }
+                        })}
+                    >
                         <FocusStatus />
                     </WidgetWrapper>
                 </Grid>
