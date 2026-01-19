@@ -65,6 +65,8 @@ export const KernelProvider = ({ children }: { children: ReactNode }) => {
   const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
   const [maxZIndex, setMaxZIndex] = useState(1000);
   const [meshNodes, setMeshNodes] = useState<NodeIdentity[]>(MeshProtocol.getNodes());
+  const [activeNodesInfo, setActiveNodesInfo] = useState<Record<string, { lastSeen: number, load: number }>>({});
+  const [isKernelLocked, setIsKernelLocked] = useState(false);
 
   /**
    * Node Pulse & Discovery (Mesh Integration)
@@ -72,6 +74,13 @@ export const KernelProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsub = MeshProtocol.subscribe((msg: MeshMessage) => {
       if (msg.type === 'PULSE') {
+        setActiveNodesInfo(prev => ({
+          ...prev,
+          [msg.sourceNode]: {
+            lastSeen: Date.now(),
+            load: msg.payload?.load || 0
+          }
+        }));
         setMeshNodes(prev => prev.map(n => 
           n.id === msg.sourceNode ? { ...n, status: 'online' as const } : n
         ));
@@ -81,16 +90,35 @@ export const KernelProvider = ({ children }: { children: ReactNode }) => {
       if (msg.type === 'RPC_REQUEST') {
         console.log(`[Mesh] RPC Request from ${msg.sourceNode}:`, msg.payload);
       }
+
+      // Global Command Handler
+      if (msg.type === 'COMMAND') {
+        switch (msg.payload.action) {
+          case 'LOCK_SYSTEM':
+            setIsKernelLocked(true);
+            setWindows(prev => prev.map(w => ({ ...w, status: 'locked' })));
+            break;
+          case 'UNLOCK_SYSTEM':
+            setIsKernelLocked(false);
+            setWindows(prev => prev.map(w => w.status === 'locked' ? { ...w, status: 'normal' } : w));
+            break;
+        }
+      }
     });
 
     // Send initial pulse as 'note' node (Host)
-    MeshProtocol.broadcast({
-      type: 'PULSE',
-      targetNode: 'all',
-      payload: { health: 1.0 }
-    }, 'note');
+    const pulseId = setInterval(() => {
+      MeshProtocol.broadcast({
+        type: 'PULSE',
+        targetNode: 'all',
+        payload: { health: 1.0, load: Math.random() * 0.2 }
+      }, 'note');
+    }, 5000);
 
-    return unsub;
+    return () => {
+      unsub();
+      clearInterval(pulseId);
+    };
   }, []);
 
   const focusWindow = useCallback((id: string) => {
