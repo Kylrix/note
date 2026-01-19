@@ -34,6 +34,7 @@ import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePrevi
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
 import { TopBarSearch } from '@/components/TopBarSearch';
 import { AICommandModal } from '@/components/ai/AICommandModal';
+import EcosystemPortal from '@/components/common/EcosystemPortal';
 
 interface AppHeaderProps {
   className?: string;
@@ -43,12 +44,23 @@ export default function AppHeader({ className }: AppHeaderProps) {
   const { user, isAuthenticated, logout } = useAuth();
   const { openOverlay, closeOverlay } = useOverlay();
   const [anchorElAccount, setAnchorElAccount] = useState<null | HTMLElement>(null);
-  const [anchorElApps, setAnchorElApps] = useState<null | HTMLElement>(null);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [isEcosystemPortalOpen, setIsEcosystemPortalOpen] = useState(false);
 
   const [currentSubdomain, setCurrentSubdomain] = useState<string | null>(null);
   const [smallProfileUrl, setSmallProfileUrl] = useState<string | null>(null);
   const profilePicId = getUserProfilePicId(user);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.code === 'Space') {
+        e.preventDefault();
+        setIsEcosystemPortalOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -94,13 +106,6 @@ export default function AppHeader({ className }: AppHeaderProps) {
     return null;
   }
 
-
-  const handleAppClick = (subdomain: string | undefined) => {
-    if (!subdomain) return;
-    if (typeof window === 'undefined') return;
-    if (currentSubdomain === subdomain) return;
-    window.location.href = getEcosystemUrl(subdomain);
-  };
 
   return (
     <AppBar 
@@ -174,21 +179,33 @@ export default function AppHeader({ className }: AppHeaderProps) {
             </IconButton>
           </Tooltip>
 
-          <IconButton 
-            onClick={(e) => setAnchorElApps(e.currentTarget)}
-            sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)',
-
-              bgcolor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '12px',
-              width: 42,
-              height: 42,
-              '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.08)', color: 'white' }
-            }}
-          >
-            <AppsIcon sx={{ fontSize: 22 }} />
-          </IconButton>
+          <Tooltip title="Whisperr Portal (Ctrl+Space)">
+            <IconButton 
+              onClick={() => setIsEcosystemPortalOpen(true)}
+              sx={{ 
+                color: '#00F5FF',
+                bgcolor: alpha('#00F5FF', 0.05),
+                border: '1px solid',
+                borderColor: alpha('#00F5FF', 0.1),
+                borderRadius: '12px',
+                width: 42,
+                height: 42,
+                animation: 'pulse-slow 4s infinite ease-in-out',
+                '@keyframes pulse-slow': {
+                  '0%': { boxShadow: '0 0 0 0 rgba(0, 245, 255, 0.2)' },
+                  '70%': { boxShadow: '0 0 0 10px rgba(0, 245, 255, 0)' },
+                  '100%': { boxShadow: '0 0 0 0 rgba(0, 245, 255, 0)' },
+                },
+                '&:hover': { 
+                  bgcolor: alpha('#00F5FF', 0.1), 
+                  borderColor: '#00F5FF',
+                  boxShadow: '0 0 15px rgba(0, 245, 255, 0.3)' 
+                }
+              }}
+            >
+              <AppsIcon sx={{ fontSize: 22 }} />
+            </IconButton>
+          </Tooltip>
 
           <IconButton 
             onClick={(e) => setAnchorElAccount(e.currentTarget)}
@@ -215,72 +232,6 @@ export default function AppHeader({ className }: AppHeaderProps) {
             </Avatar>
           </IconButton>
         </Box>
-
-        {/* Apps Menu */}
-        <Menu
-          anchorEl={anchorElApps}
-          open={Boolean(anchorElApps)}
-          onClose={() => setAnchorElApps(null)}
-          PaperProps={{
-            sx: {
-              mt: 1.5,
-              width: 320,
-              bgcolor: 'rgba(10, 10, 10, 0.95)',
-              backdropFilter: 'blur(25px) saturate(180%)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              p: 2.5,
-              backgroundImage: 'none',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.6)'
-            }
-          }}
-        >
-          <Typography variant="caption" sx={{ fontWeight: 800, color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', mb: 2.5, display: 'block' }}>
-            Ecosystem Apps
-          </Typography>
-          <Grid container spacing={1.5}>
-            {ECOSYSTEM_APPS.map((app) => {
-              const isActive = currentSubdomain === app.subdomain;
-              return (
-                <Grid size={4} key={app.id}>
-                  <Paper
-                    component="button"
-                    onClick={() => handleAppClick(app.subdomain)}
-                    disabled={isActive}
-                    elevation={0}
-                    sx={{
-                      width: '100%',
-                      aspectRatio: '1/1',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 1,
-                      bgcolor: isActive ? alpha('#00F5FF', 0.05) : 'transparent',
-                      border: '1px solid',
-                      borderColor: isActive ? '#00F5FF' : 'rgba(255, 255, 255, 0.05)',
-                      borderRadius: '16px',
-                      cursor: isActive ? 'default' : 'pointer',
-                      transition: 'all 0.2s',
-                      '&:hover': isActive ? {} : {
-                        bgcolor: 'rgba(255, 255, 255, 0.05)',
-                        borderColor: 'rgba(255, 255, 255, 0.2)',
-                        transform: 'translateY(-2px)'
-                      }
-                    }}
-                  >
-                    <Box sx={{ fontSize: '20px', opacity: isActive ? 0.5 : 1 }}>
-                      {app.icon}
-                    </Box>
-                    <Typography variant="caption" sx={{ fontSize: '10px', fontWeight: 800, color: isActive ? '#00F5FF' : 'rgba(255, 255, 255, 0.6)' }}>
-                      {app.label}
-                    </Typography>
-                  </Paper>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Menu>
 
         {/* Account Menu */}
         <Menu
@@ -313,7 +264,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
           <Box sx={{ py: 1 }}>
             <MenuItem 
               onClick={() => {
-                window.location.href = `https://${process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN}.${process.env.NEXT_PUBLIC_DOMAIN}/settings?source=${encodeURIComponent(window.location.origin)}`;
+                window.location.href = `https://${process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN || 'id'}.${process.env.NEXT_PUBLIC_DOMAIN || 'whisperrnote.space'}/settings?source=${encodeURIComponent(window.location.origin)}`;
                 setAnchorElAccount(null);
               }}
               sx={{ py: 1.5, px: 3, '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.05)' } }}
@@ -342,6 +293,11 @@ export default function AppHeader({ className }: AppHeaderProps) {
         <AICommandModal 
           isOpen={isAIModalOpen} 
           onClose={() => setIsAIModalOpen(false)} 
+        />
+
+        <EcosystemPortal 
+          open={isEcosystemPortalOpen} 
+          onClose={() => setIsEcosystemPortalOpen(false)} 
         />
       </Toolbar>
     </AppBar>
