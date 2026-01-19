@@ -269,7 +269,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
               }}
               sx={{ py: 1.5, px: 3, '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.05)' } }}
             >
-              <ListItemIcon><Settings size={18} strokeWidth={1.5} sx={{ color: 'rgba(255, 255, 255, 0.4)' }} /></ListItemIcon>
+              <ListItemIcon><Settings size={18} strokeWidth={1.5} color="rgba(255, 255, 255, 0.4)" /></ListItemIcon>
               <ListItemText primary="Settings" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'white' }} />
             </MenuItem>
             <MenuItem 
@@ -279,13 +279,13 @@ export default function AppHeader({ className }: AppHeaderProps) {
               }}
               sx={{ py: 1.5, px: 3, '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.05)' } }}
             >
-              <ListItemIcon><Download size={18} strokeWidth={1.5} sx={{ color: 'rgba(255, 255, 255, 0.4)' }} /></ListItemIcon>
+              <ListItemIcon><Download size={18} strokeWidth={1.5} color="rgba(255, 255, 255, 0.4)" /></ListItemIcon>
               <ListItemText primary="Export Data" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'white' }} />
             </MenuItem>
           </Box>
           <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
           <MenuItem onClick={handleLogout} sx={{ py: 2, px: 3, color: '#FF4D4D', '&:hover': { bgcolor: alpha('#FF4D4D', 0.05) } }}>
-            <ListItemIcon><LogOut size={18} strokeWidth={1.5} sx={{ color: '#FF4D4D' }} /></ListItemIcon>
+            <ListItemIcon><LogOut size={18} strokeWidth={1.5} color="#FF4D4D" /></ListItemIcon>
             <ListItemText primary="Sign Out" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
           </MenuItem>
         </Menu>
