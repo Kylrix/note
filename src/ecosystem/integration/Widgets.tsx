@@ -80,7 +80,7 @@ export const EcosystemWidgets = () => {
                 Ecosystem Command Center
             </Typography>
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <WidgetWrapper 
                         title="QuickNote" 
                         onExpand={() => launchWindow({
@@ -95,7 +95,7 @@ export const EcosystemWidgets = () => {
                         <QuickNote />
                     </WidgetWrapper>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <WidgetWrapper 
                         title="MiniChat" 
                         appColor="#FF00F5" 
@@ -111,7 +111,7 @@ export const EcosystemWidgets = () => {
                         <MiniChat />
                     </WidgetWrapper>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <WidgetWrapper 
                         title="VaultStatus" 
                         appColor="#FACC15" 
@@ -127,7 +127,7 @@ export const EcosystemWidgets = () => {
                         <VaultStatus />
                     </WidgetWrapper>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <WidgetWrapper 
                         title="FocusStatus" 
                         appColor="#4ADE80" 

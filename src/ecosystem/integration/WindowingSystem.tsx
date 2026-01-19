@@ -70,7 +70,7 @@ export const WindowProvider = ({ children }: { children: ReactNode }) => {
           {windows.map((win, idx) => (
             <MiniWindow 
               key={win.id} 
-              window={win} 
+              win={win} 
               index={idx}
               onClose={() => closeWindow(win.id)}
               onFocus={() => focusWindow(win.id)}
@@ -83,12 +83,12 @@ export const WindowProvider = ({ children }: { children: ReactNode }) => {
 };
 
 const MiniWindow = ({ 
-  window, 
+  win, 
   onClose,
   onFocus,
   index 
 }: { 
-  window: WindowInstance, 
+  win: WindowInstance, 
   onClose: () => void,
   onFocus: () => void,
   index: number
@@ -148,7 +148,7 @@ const MiniWindow = ({
           <Stack direction="row" spacing={1.5} alignItems="center">
             <GripHorizontal size={14} style={{ opacity: 0.3 }} />
             <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '0.8rem', color: 'rgba(255,255,255,0.8)' }}>
-              {window.title}
+              {win.title}
             </Typography>
           </Stack>
           
@@ -156,7 +156,7 @@ const MiniWindow = ({
             <IconButton size="small" onClick={() => setIsMaximized(!isMaximized)} sx={{ color: 'rgba(255,255,255,0.4)' }}>
               {isMaximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
             </IconButton>
-            <IconButton size="small" onClick={() => window.open(window.url, '_blank')} sx={{ color: 'rgba(255,255,255,0.4)' }}>
+            <IconButton size="small" onClick={() => globalThis.window.open(win.url, '_blank')} sx={{ color: 'rgba(255,255,255,0.4)' }}>
               <ExternalLink size={14} />
             </IconButton>
             <IconButton size="small" onClick={onClose} sx={{ '&:hover': { color: '#ff4444' }, color: 'rgba(255,255,255,0.4)' }}>
@@ -168,14 +168,14 @@ const MiniWindow = ({
         {/* Content Area */}
         <Box sx={{ flex: 1, position: 'relative', background: '#0a0a0a' }}>
            <iframe 
-            src={window.url}
+            src={win.url}
             style={{ 
               width: '100%', 
               height: '100%', 
               border: 'none',
               borderRadius: '0 0 16px 16px'
             }}
-            title={window.title}
+            title={win.title}
            />
         </Box>
       </Paper>
