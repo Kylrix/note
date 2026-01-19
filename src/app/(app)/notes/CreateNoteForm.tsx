@@ -259,7 +259,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
         '&::-webkit-scrollbar': { width: '4px' },
         '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '10px' }
       }}>
-        <Stack spacing={{ xs: 3, sm: 4 }}>
+        <Stack sx={{ gap: { xs: 3, sm: 4 } }}>
           {/* Title Input */}
           <Box>
             <Typography
