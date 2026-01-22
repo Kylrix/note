@@ -9,8 +9,15 @@ const nextConfig: NextConfig = {
   },
   transpilePackages: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
   compress: true,
+  poweredByHeader: false,
+  reactCompiler: true,
   experimental: {
     optimizePackageImports: [
+      '@mui/material',
+      '@mui/icons-material',
+      '@emotion/react',
+      '@emotion/styled',
+      'lucide-react',
       'lodash-es',
       'date-fns',
       'framer-motion',
