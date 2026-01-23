@@ -33,7 +33,8 @@ import {
   PushPin as PinIcon,
   PushPinOutlined as PinOutlinedIcon,
   ArrowBack as BackIcon,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Lock as LockIcon
 } from '@mui/icons-material';
 import { useToast } from '@/components/ui/Toast';
 import { useRouter } from 'next/navigation';
@@ -418,30 +419,52 @@ export function NoteDetailSidebar({
               </IconButton>
             </Tooltip>
           )}
-        {note.isPublic && (
-          <Tooltip title="Copy share link">
+
+          <Tooltip title={note.isPublic ? "Make private" : "Make public"}>
             <IconButton
-              onClick={handleCopyShareLink}
+              onClick={async () => {
+                try {
+                  const updated = await updateNote(note.$id, { isPublic: !note.isPublic });
+                  onUpdate(updated);
+                  showSuccess(updated.isPublic ? 'Note is now Public' : 'Note is now Private');
+                } catch (err: any) {
+                  showError('Failed to update visibility', err.message);
+                }
+              }}
               sx={{
-                color: 'rgba(255, 255, 255, 0.5)',
+                color: note.isPublic ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
                 '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
               }}
             >
-              <LinkIcon fontSize="small" />
+              {note.isPublic ? <LinkIcon fontSize="small" /> : <LockIcon fontSize="small" />}
             </IconButton>
           </Tooltip>
-        )}
-        <Tooltip title={pinned ? "Unpin note" : "Pin note"}>
-          <IconButton
-            onClick={handlePinToggle}
-            sx={{
-              color: pinned ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
-              '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
-            }}
-          >
-            {pinned ? <PinIcon fontSize="small" /> : <PinOutlinedIcon fontSize="small" />}
-          </IconButton>
-        </Tooltip>
+
+          {note.isPublic && (
+            <Tooltip title="Copy share link">
+              <IconButton
+                onClick={handleCopyShareLink}
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+                }}
+              >
+                <ClipboardDocumentIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+
+          <Tooltip title={pinned ? "Unpin note" : "Pin note"}>
+            <IconButton
+              onClick={handlePinToggle}
+              sx={{
+                color: pinned ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
+                '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+              }}
+            >
+              {pinned ? <PinIcon fontSize="small" /> : <PinOutlinedIcon fontSize="small" />}
+            </IconButton>
+          </Tooltip>
 
           {showHeaderDeleteButton && (
             <Tooltip title="Delete note">
