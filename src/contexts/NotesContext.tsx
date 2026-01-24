@@ -2,7 +2,15 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useState, useEffect, useRef, useCallback, ReactNode, useMemo } from 'react';
-import { listNotesPaginated, getPinnedNoteIds, pinNote as appwritePinNote, unpinNote as appwriteUnpinNote } from '@/lib/appwrite';
+import { 
+  listNotesPaginated, 
+  getPinnedNoteIds, 
+  pinNote as appwritePinNote, 
+  unpinNote as appwriteUnpinNote,
+  realtime,
+  APPWRITE_DATABASE_ID,
+  APPWRITE_TABLE_ID_NOTES
+} from '@/lib/appwrite';
 import type { Notes } from '@/types/appwrite';
 import { useAuth } from '@/components/ui/AuthContext';
 
