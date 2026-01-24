@@ -159,14 +159,21 @@ export function NotesProvider({ children }: { children: ReactNode }) {
       const payload = response.payload as Notes;
       
       // Only handle notes belonging to the current user (or public notes)
-      // Note: Appwrite RLS should handle this, but payload might contain public notes from others
       if (payload.userId !== user.$id && !payload.isPublic) return;
 
-      if (response.events.some(e => e.includes('.create'))) {
-        upsertNote(payload);
-      } else if (response.events.some(e => e.includes('.update'))) {
-        upsertNote(payload);
-      } else if (response.events.some(e => e.includes('.delete'))) {
+      const isCreate = response.events.some(e => e.includes('.create'));
+      const isUpdate = response.events.some(e => e.includes('.update'));
+      const isDelete = response.events.some(e => e.includes('.delete'));
+
+      if (isCreate) {
+        setNotes(prev => {
+          if (prev.some(n => n.$id === payload.$id)) return prev;
+          return [payload, ...prev];
+        });
+        setTotalNotes(prev => prev + 1);
+      } else if (isUpdate) {
+        setNotes(prev => prev.map(n => n.$id === payload.$id ? payload : n));
+      } else if (isDelete) {
         removeNote(payload.$id);
       }
     });
