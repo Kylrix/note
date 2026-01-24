@@ -81,6 +81,7 @@ export function NoteDetailSidebar({
   const [content, setContent] = useState(note.content);
   const [format, setFormat] = useState<'text' | 'doodle'>(note.format as 'text' | 'doodle' || 'text');
   const [tags, setTags] = useState(note.tags?.join(', ') || '');
+  const [isPublic, setIsPublic] = useState(note.isPublic);
   const [isUploadingAttachment, setIsUploadingAttachment] = useState(false);
   const [attachmentErrors, setAttachmentErrors] = useState<string[]>([]);
   const [currentAttachments, setCurrentAttachments] = useState<any[]>([]);
@@ -143,9 +144,10 @@ export function NoteDetailSidebar({
     setContent(note.content || '');
     setFormat((note.format as 'text' | 'doodle') || 'text');
     setTags((note.tags || []).join(', '));
+    setIsPublic(note.isPublic);
     setIsEditingTitle(false);
     setIsEditingContent(false);
-  }, [note.$id, note.title, note.content, note.format, note.tags]);
+  }, [note.$id, note.title, note.content, note.format, note.tags, note.isPublic]);
 
   const normalizedTags = useMemo(() => {
     return tags
@@ -420,27 +422,30 @@ export function NoteDetailSidebar({
             </Tooltip>
           )}
 
-          <Tooltip title={note.isPublic ? "Make private" : "Make public"}>
+          <Tooltip title={isPublic ? "Make private" : "Make public"}>
             <IconButton
               onClick={async () => {
+                const newStatus = !isPublic;
+                setIsPublic(newStatus); // Optimistic update
                 try {
-                  const updated = await updateNote(note.$id, { isPublic: !note.isPublic });
+                  const updated = await updateNote(note.$id, { isPublic: newStatus });
                   onUpdate(updated);
                   showSuccess(updated.isPublic ? 'Note is now Public' : 'Note is now Private');
                 } catch (err: any) {
+                  setIsPublic(!newStatus); // Rollback
                   showError('Failed to update visibility', err.message);
                 }
               }}
               sx={{
-                color: note.isPublic ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
+                color: isPublic ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
                 '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
               }}
             >
-              {note.isPublic ? <LinkIcon fontSize="small" /> : <LockIcon fontSize="small" />}
+              {isPublic ? <LinkIcon fontSize="small" /> : <LockIcon fontSize="small" />}
             </IconButton>
           </Tooltip>
 
-          {note.isPublic && (
+          {isPublic && (
             <Tooltip title="Copy share link">
               <IconButton
                 onClick={handleCopyShareLink}
