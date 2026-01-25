@@ -49,6 +49,10 @@ export const FLOW_DATABASE_ID = 'whisperrflow';
 export const FLOW_COLLECTION_ID_TASKS = 'tasks';
 export const FLOW_COLLECTION_ID_EVENTS = 'events';
 
+// Ecosystem: WhisperrKeep
+export const KEEP_DATABASE_ID = 'passwordManagerDb';
+export const KEEP_COLLECTION_ID_CREDENTIALS = 'credentials';
+
 export const APPWRITE_BUCKET_PROFILE_PICTURES = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_PROFILE_PICTURES!;
 export const APPWRITE_BUCKET_NOTES_ATTACHMENTS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_NOTES_ATTACHMENTS!;
 export const APPWRITE_BUCKET_EXTENSION_ASSETS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_EXTENSION_ASSETS!;
@@ -1449,6 +1453,27 @@ export async function listFlowEvents(queries: any[] = []) {
   return databases.listDocuments(
     FLOW_DATABASE_ID,
     FLOW_COLLECTION_ID_EVENTS,
+    finalQueries
+  );
+}
+
+/**
+ * Lists credentials from WhisperrKeep.
+ */
+export async function listKeepCredentials(queries: any[] = []) {
+  const user = await getCurrentUser();
+  if (!user || !user.$id) throw new Error("User not authenticated");
+
+  const finalQueries = [
+    ...queries,
+    Query.equal('userId', user.$id),
+    Query.limit(100),
+    Query.orderDesc('$updatedAt')
+  ];
+
+  return databases.listDocuments(
+    KEEP_DATABASE_ID,
+    KEEP_COLLECTION_ID_CREDENTIALS,
     finalQueries
   );
 }

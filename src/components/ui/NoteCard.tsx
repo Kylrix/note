@@ -29,6 +29,7 @@ import { sidebarIgnoreProps } from '@/constants/sidebar';
 import { ShareNoteModal } from '../ShareNoteModal';
 import { TaskSelectorModal } from './TaskSelectorModal';
 import { EventSelectorModal } from './EventSelectorModal';
+import { CredentialSelectorModal } from './CredentialSelectorModal';
 import { updateNote, createNote, toggleNoteVisibility, createTaskFromNote } from '@/lib/appwrite';
 import { useToast } from './Toast';
 import { useAuth } from './AuthContext';
@@ -39,6 +40,7 @@ import {
   Summarize as SummarizeIcon,
   Spellcheck as GrammarIcon,
   Event as EventIcon,
+  VpnKey as KeyIcon,
 } from '@mui/icons-material';
 
 interface NoteCardProps {
@@ -58,6 +60,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = React.useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = React.useState(false);
+  const [isCredentialModalOpen, setIsCredentialModalOpen] = React.useState(false);
   const [isAIProcessing, setIsAIProcessing] = React.useState(false);
 
   const isPro = user?.prefs?.subscriptionTier === 'PRO' || 
@@ -105,6 +108,36 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       showSuccess('Event attached successfully');
     } catch (err: any) {
       showError(err.message || 'Failed to attach event');
+    }
+  };
+
+  const handleAttachCredential = async (credentialId: string) => {
+    setIsCredentialModalOpen(false);
+    try {
+      const currentSecrets = Array.isArray((note as any).linkedCredentialIds) 
+        ? (note as any).linkedCredentialIds 
+        : ((note as any).linkedCredentialId ? [(note as any).linkedCredentialId] : []);
+      
+      if (currentSecrets.includes(credentialId)) {
+        showInfo('Secret already attached to this note');
+        return;
+      }
+
+      const updates: any = {
+        linkedCredentialIds: [...currentSecrets, credentialId]
+      };
+
+      // Mandatorily make private if secret attached
+      if (note.isPublic) {
+        updates.isPublic = false;
+        showInfo('Note has been made private for security.');
+      }
+
+      const updated = await updateNote(note.$id, updates);
+      upsertNote(updated);
+      showSuccess('Secret attached successfully');
+    } catch (err: any) {
+      showError(err.message || 'Failed to attach secret');
     }
   };
 
@@ -363,6 +396,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       label: 'Attach Existing Event',
       icon: <EventIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
       onClick: () => { setIsEventModalOpen(true); }
+    },
+    {
+      label: 'Attach Secret (Keep)',
+      icon: <KeyIcon sx={{ fontSize: 18, color: '#FFD700' }} />,
+      onClick: () => { setIsCredentialModalOpen(true); }
     },
     {
       label: 'Share with...',
