@@ -433,6 +433,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
         onClose={() => setIsEventModalOpen(false)}
         onSelect={handleAttachEvent}
       />
+      <CredentialSelectorModal
+        isOpen={isCredentialModalOpen}
+        onClose={() => setIsCredentialModalOpen(false)}
+        onSelect={handleAttachCredential}
+      />
       <Card
         {...sidebarIgnoreProps}
         onClick={handleClick}
