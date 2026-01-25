@@ -114,12 +114,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Merge DB info into user state so fields like 'username' are available
         const syncedUser = { ...currentUser, ...dbUser };
         setUser(syncedUser);
+        sessionStorage.setItem('whisperr_auth_hint', 'true');
 
         // Sync to Global Identity Directory (WhisperrConnect)
         const { ensureGlobalIdentity } = await import('@/lib/ecosystem/identity');
         ensureGlobalIdentity(syncedUser);
       } else {
         setUser(null);
+        sessionStorage.removeItem('whisperr_auth_hint');
       }
       setIsLoading(false);
       return currentUser;
@@ -211,8 +213,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initAuthStarted.current = true;
 
     const initAuth = async () => {
+      // Step 1: Check session storage hint for instant app feel
+      const hint = typeof window !== 'undefined' ? sessionStorage.getItem('whisperr_auth_hint') : null;
+      if (hint === 'true') {
+        // Optimistically keep loading true but prepared for user
+        console.log('Optimistic auth hint detected');
+      }
+
       const localUser = await refreshUser();
-      if (!localUser) {
+
+      if (localUser) {
+        sessionStorage.setItem('whisperr_auth_hint', 'true');
+      } else {
+        sessionStorage.removeItem('whisperr_auth_hint');
         // Only attempt silent discovery if we definitely don't have a session locally
         await attemptSilentAuth();
       }

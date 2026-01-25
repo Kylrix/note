@@ -190,20 +190,29 @@ export async function createUser(data: Partial<Users>) {
 }
 
 export async function getUser(userId: string): Promise<Users> {
-  return databases.getDocument(
+  const cacheKey = getCacheKey('user', { userId });
+  const cached = getCached<Users>(cacheKey);
+  if (cached) return cached;
+
+  const user = await databases.getDocument(
     APPWRITE_DATABASE_ID,
     APPWRITE_TABLE_ID_USERS,
     userId
-  ) as unknown as Promise<Users>;
+  ) as unknown as Users;
+
+  setCached(cacheKey, user, 60000); // 1 min cache for users
+  return user;
 }
 
 export async function updateUser(userId: string, data: Partial<Users>) {
-  return databases.updateDocument(
+  const res = await databases.updateDocument(
     APPWRITE_DATABASE_ID,
     APPWRITE_TABLE_ID_USERS,
     userId,
     cleanDocumentData(data)
   );
+  queryCache.delete(getCacheKey('user', { userId }));
+  return res;
 }
 
 export async function deleteUser(userId: string) {
@@ -247,6 +256,10 @@ export async function searchUsers(query: string, limit: number = 5) {
   try {
     if (!query.trim()) return [];
 
+    const cacheKey = getCacheKey('searchUsers', { query, limit });
+    const cached = getCached<any[]>(cacheKey);
+    if (cached) return cached;
+
     const isEmail = /@/.test(query) && /\./.test(query);
 
     const queries: any[] = [Query.limit(limit)];
@@ -267,12 +280,14 @@ export async function searchUsers(query: string, limit: number = 5) {
       queries
     );
 
-    return res.documents.map((doc: any) => ({
+    const mappedResults = res.documents.map((doc: any) => ({
       id: doc.id || doc.$id,
       name: doc.name,
       email: isEmail ? doc.email : undefined,
       avatar: doc.profilePicId || (doc.prefs && (doc.prefs as any).profilePicId) || doc.avatar || null
     }));
+    setCached(getCacheKey('searchUsers', { query, limit }), mappedResults, 10000);
+    return mappedResults;
   } catch (error) {
     console.error('searchUsers error:', error);
     return [];
