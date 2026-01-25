@@ -28,6 +28,7 @@ import {
 import { sidebarIgnoreProps } from '@/constants/sidebar';
 import { ShareNoteModal } from '../ShareNoteModal';
 import { TaskSelectorModal } from './TaskSelectorModal';
+import { EventSelectorModal } from './EventSelectorModal';
 import { updateNote, createNote, toggleNoteVisibility, createTaskFromNote } from '@/lib/appwrite';
 import { useToast } from './Toast';
 import { useAuth } from './AuthContext';
@@ -37,6 +38,7 @@ import {
   PlaylistAdd as TodoIcon,
   Summarize as SummarizeIcon,
   Spellcheck as GrammarIcon,
+  Event as EventIcon,
 } from '@mui/icons-material';
 
 interface NoteCardProps {
@@ -55,6 +57,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = React.useState(false);
+  const [isEventModalOpen, setIsEventModalOpen] = React.useState(false);
   const [isAIProcessing, setIsAIProcessing] = React.useState(false);
 
   const isPro = user?.prefs?.subscriptionTier === 'PRO' || 
@@ -80,6 +83,28 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       showSuccess('Task attached successfully');
     } catch (err: any) {
       showError(err.message || 'Failed to attach task');
+    }
+  };
+
+  const handleAttachEvent = async (eventId: string) => {
+    setIsEventModalOpen(false);
+    try {
+      const currentEvents = Array.isArray((note as any).linkedEventIds) 
+        ? (note as any).linkedEventIds 
+        : ((note as any).linkedEventId ? [(note as any).linkedEventId] : []);
+      
+      if (currentEvents.includes(eventId)) {
+        showInfo('Event already attached to this note');
+        return;
+      }
+
+      const updated = await updateNote(note.$id, {
+        linkedEventIds: [...currentEvents, eventId]
+      });
+      upsertNote(updated);
+      showSuccess('Event attached successfully');
+    } catch (err: any) {
+      showError(err.message || 'Failed to attach event');
     }
   };
 
@@ -335,6 +360,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       onClick: () => { setIsTaskModalOpen(true); }
     },
     {
+      label: 'Attach Existing Event',
+      icon: <EventIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+      onClick: () => { setIsEventModalOpen(true); }
+    },
+    {
       label: 'Share with...',
       icon: <ShareIcon sx={{ fontSize: 18 }} />,
       onClick: () => setIsShareModalOpen(true)
@@ -359,6 +389,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
         isOpen={isTaskModalOpen}
         onClose={() => setIsTaskModalOpen(false)}
         onSelect={handleAttachTask}
+      />
+      <EventSelectorModal
+        isOpen={isEventModalOpen}
+        onClose={() => setIsEventModalOpen(false)}
+        onSelect={handleAttachEvent}
       />
       <Card
         {...sidebarIgnoreProps}

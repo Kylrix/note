@@ -47,6 +47,7 @@ export const APPWRITE_TABLE_ID_SUBSCRIPTIONS = process.env.NEXT_PUBLIC_APPWRITE_
 // Ecosystem: WhisperrFlow
 export const FLOW_DATABASE_ID = 'whisperrflow';
 export const FLOW_COLLECTION_ID_TASKS = 'tasks';
+export const FLOW_COLLECTION_ID_EVENTS = 'events';
 
 export const APPWRITE_BUCKET_PROFILE_PICTURES = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_PROFILE_PICTURES!;
 export const APPWRITE_BUCKET_NOTES_ATTACHMENTS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_NOTES_ATTACHMENTS!;
@@ -1427,6 +1428,27 @@ export async function listFlowTasks(queries: any[] = []) {
   return databases.listDocuments(
     FLOW_DATABASE_ID,
     FLOW_COLLECTION_ID_TASKS,
+    finalQueries
+  );
+}
+
+/**
+ * Lists events from WhisperrFlow.
+ */
+export async function listFlowEvents(queries: any[] = []) {
+  const user = await getCurrentUser();
+  if (!user || !user.$id) throw new Error("User not authenticated");
+
+  const finalQueries = [
+    ...queries,
+    Query.equal('userId', user.$id),
+    Query.limit(100),
+    Query.orderDesc('startTime')
+  ];
+
+  return databases.listDocuments(
+    FLOW_DATABASE_ID,
+    FLOW_COLLECTION_ID_EVENTS,
     finalQueries
   );
 }

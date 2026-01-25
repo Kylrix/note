@@ -41,11 +41,12 @@ import { useRouter } from 'next/navigation';
 import { useDynamicSidebar } from '@/components/ui/DynamicSidebar';
 import { useNotes } from '@/contexts/NotesContext';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
-import { updateNote, listFlowTasks, Query } from '@/lib/appwrite';
+import { updateNote, listFlowTasks, listFlowEvents, Query } from '@/lib/appwrite';
 import { formatFileSize } from '@/lib/utils';
 import {
   PlaylistAddCheck as TaskIcon,
   OpenInNew as OpenIcon,
+  Event as EventIcon,
 } from '@mui/icons-material';
 import { useAutosave } from '@/hooks/useAutosave';
 
@@ -90,7 +91,9 @@ export function NoteDetailSidebar({
   const [attachmentErrors, setAttachmentErrors] = useState<string[]>([]);
   const [currentAttachments, setCurrentAttachments] = useState<any[]>([]);
   const [linkedTasks, setLinkedTasks] = useState<any[]>([]);
+  const [linkedEvents, setLinkedEvents] = useState<any[]>([]);
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
+  const [isLoadingEvents, setIsLoadingEvents] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   
   // Fetch linked tasks from WhisperrFlow
@@ -115,6 +118,29 @@ export function NoteDetailSidebar({
 
     fetchLinkedTasks();
   }, [note.$id, (note as any).linkedTaskIds, (note as any).linkedTaskId]);
+
+  // Fetch linked events from WhisperrFlow
+  useEffect(() => {
+    const fetchLinkedEvents = async () => {
+      const eventIds = (note as any).linkedEventIds || ((note as any).linkedEventId ? [(note as any).linkedEventId] : []);
+      if (!eventIds || eventIds.length === 0) {
+        setLinkedEvents([]);
+        return;
+      }
+
+      setIsLoadingEvents(true);
+      try {
+        const res = await listFlowEvents([Query.equal('$id', eventIds)]);
+        setLinkedEvents(res.documents);
+      } catch (err) {
+        console.error('Failed to fetch linked events:', err);
+      } finally {
+        setIsLoadingEvents(false);
+      }
+    };
+
+    fetchLinkedEvents();
+  }, [note.$id, (note as any).linkedEventIds, (note as any).linkedEventId]);
   const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
   const titleContainerRef = useRef<HTMLDivElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
@@ -973,6 +999,63 @@ export function NoteDetailSidebar({
           </Box>
         ) : (
           <Typography variant="body2" sx={{ fontStyle: 'italic', color: 'rgba(255, 255, 255, 0.3)', fontFamily: '"Inter", sans-serif' }}>No linked tasks</Typography>
+        )}
+      </Box>
+
+      {/* Linked Events */}
+      <Box>
+        <Typography
+          variant="caption"
+          sx={{
+            display: 'block',
+            mb: 2,
+            color: '#00F5FF',
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            fontFamily: '"Space Grotesk", sans-serif'
+          }}
+        >
+          Linked Events (Flow)
+        </Typography>
+        {isLoadingEvents ? (
+          <CircularProgress size={20} sx={{ color: '#00F5FF', ml: 1 }} />
+        ) : linkedEvents.length > 0 ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {linkedEvents.map((event) => (
+              <Box key={event.$id} sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 2,
+                p: 2,
+                borderRadius: '16px',
+                bgcolor: 'rgba(0, 245, 255, 0.03)',
+                border: '1px solid rgba(0, 245, 255, 0.1)',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  bgcolor: 'rgba(0, 245, 255, 0.06)',
+                  borderColor: 'rgba(0, 245, 255, 0.3)'
+                }
+              }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
+                  <EventIcon sx={{ color: '#00F5FF', fontSize: 18 }} />
+                  <Typography variant="body2" sx={{ fontWeight: 700, color: '#FFFFFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+                    {event.title}
+                  </Typography>
+                </Box>
+                <IconButton
+                  size="small"
+                  onClick={() => window.open(`https://flow.whisperrnote.space/events?eventId=${event.$id}`, '_blank')}
+                  sx={{ color: '#00F5FF' }}
+                >
+                  <OpenIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          <Typography variant="body2" sx={{ fontStyle: 'italic', color: 'rgba(255, 255, 255, 0.3)', fontFamily: '"Inter", sans-serif' }}>No linked events</Typography>
         )}
       </Box>
 
