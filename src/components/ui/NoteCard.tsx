@@ -327,13 +327,13 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
         label: 'Convert To Todo',
         icon: <TodoIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
         onClick: () => { handleCreateTodo(); }
-      },
-      {
-        label: 'Attach Existing Task',
-        icon: <AttachFileIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
-        onClick: () => { setIsTaskModalOpen(true); }
       }
     ] : []),
+    {
+      label: 'Attach Existing Task',
+      icon: <AttachFileIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+      onClick: () => { setIsTaskModalOpen(true); }
+    },
     {
       label: 'Share with...',
       icon: <ShareIcon sx={{ fontSize: 18 }} />,
