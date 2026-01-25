@@ -1439,13 +1439,9 @@ export async function createTaskFromNote(note: Notes) {
       userId: user.$id,
       createdAt: now,
       updatedAt: now,
-      description: note.content || '',
-      // Add ecosystem metadata for deep linking
-      metadata: JSON.stringify({
-        sourceApp: 'whisperrnote',
-        sourceId: note.$id,
-        convertedAt: now
-      })
+      description: `${note.content || ''}\n\n--- Converted from WhisperrNote ---`,
+      // Use tags for ecosystem deep linking since metadata column doesn't exist
+      tags: [`source:whisperrnote:${note.$id}`]
     }
   );
 
