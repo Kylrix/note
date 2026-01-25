@@ -41,12 +41,13 @@ import { useRouter } from 'next/navigation';
 import { useDynamicSidebar } from '@/components/ui/DynamicSidebar';
 import { useNotes } from '@/contexts/NotesContext';
 import { formatNoteCreatedDate, formatNoteUpdatedDate } from '@/lib/date-utils';
-import { updateNote, listFlowTasks, listFlowEvents, Query } from '@/lib/appwrite';
+import { updateNote, listFlowTasks, listFlowEvents, listKeepCredentials, Query } from '@/lib/appwrite';
 import { formatFileSize } from '@/lib/utils';
 import {
   PlaylistAddCheck as TaskIcon,
   OpenInNew as OpenIcon,
   Event as EventIcon,
+  VpnKey as KeyIcon,
 } from '@mui/icons-material';
 import { useAutosave } from '@/hooks/useAutosave';
 
@@ -92,8 +93,10 @@ export function NoteDetailSidebar({
   const [currentAttachments, setCurrentAttachments] = useState<any[]>([]);
   const [linkedTasks, setLinkedTasks] = useState<any[]>([]);
   const [linkedEvents, setLinkedEvents] = useState<any[]>([]);
+  const [linkedSecrets, setLinkedSecrets] = useState<any[]>([]);
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
+  const [isLoadingSecrets, setIsLoadingSecrets] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   
   // Fetch linked tasks from WhisperrFlow
@@ -141,6 +144,29 @@ export function NoteDetailSidebar({
 
     fetchLinkedEvents();
   }, [note.$id, (note as any).linkedEventIds, (note as any).linkedEventId]);
+
+  // Fetch linked secrets from WhisperrKeep
+  useEffect(() => {
+    const fetchLinkedSecrets = async () => {
+      const secretIds = (note as any).linkedCredentialIds || ((note as any).linkedCredentialId ? [(note as any).linkedCredentialId] : []);
+      if (!secretIds || secretIds.length === 0) {
+        setLinkedSecrets([]);
+        return;
+      }
+
+      setIsLoadingSecrets(true);
+      try {
+        const res = await listKeepCredentials([Query.equal('$id', secretIds)]);
+        setLinkedSecrets(res.documents);
+      } catch (err) {
+        console.error('Failed to fetch linked secrets:', err);
+      } finally {
+        setIsLoadingSecrets(false);
+      }
+    };
+
+    fetchLinkedSecrets();
+  }, [note.$id, (note as any).linkedCredentialIds, (note as any).linkedCredentialId]);
   const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
   const titleContainerRef = useRef<HTMLDivElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
@@ -1056,6 +1082,63 @@ export function NoteDetailSidebar({
           </Box>
         ) : (
           <Typography variant="body2" sx={{ fontStyle: 'italic', color: 'rgba(255, 255, 255, 0.3)', fontFamily: '"Inter", sans-serif' }}>No linked events</Typography>
+        )}
+      </Box>
+
+      {/* Linked Secrets */}
+      <Box>
+        <Typography
+          variant="caption"
+          sx={{
+            display: 'block',
+            mb: 2,
+            color: '#FFD700',
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            fontFamily: '"Space Grotesk", sans-serif'
+          }}
+        >
+          Linked Secrets (Keep)
+        </Typography>
+        {isLoadingSecrets ? (
+          <CircularProgress size={20} sx={{ color: '#FFD700', ml: 1 }} />
+        ) : linkedSecrets.length > 0 ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {linkedSecrets.map((secret) => (
+              <Box key={secret.$id} sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 2,
+                p: 2,
+                borderRadius: '16px',
+                bgcolor: 'rgba(255, 215, 0, 0.03)',
+                border: '1px solid rgba(255, 215, 0, 0.1)',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  bgcolor: 'rgba(255, 215, 0, 0.06)',
+                  borderColor: 'rgba(255, 215, 0, 0.3)'
+                }
+              }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
+                  <KeyIcon sx={{ color: '#FFD700', fontSize: 18 }} />
+                  <Typography variant="body2" sx={{ fontWeight: 700, color: '#FFFFFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+                    {secret.name}
+                  </Typography>
+                </Box>
+                <IconButton
+                  size="small"
+                  onClick={() => window.open(`https://keep.whisperrnote.space/vault?id=${secret.$id}`, '_blank')}
+                  sx={{ color: '#FFD700' }}
+                >
+                  <OpenIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          <Typography variant="body2" sx={{ fontStyle: 'italic', color: 'rgba(255, 255, 255, 0.3)', fontFamily: '"Inter", sans-serif' }}>No linked secrets</Typography>
         )}
       </Box>
 
