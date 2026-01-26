@@ -10,10 +10,11 @@ import { IslandProvider } from "@/components/ui/DynamicIsland";
 import Overlay from "@/components/ui/Overlay";
 import { ContextMenuProvider } from "@/components/ui/ContextMenuContext";
 import { GlobalContextMenu } from "@/components/ui/GlobalContextMenu";
-import GlobalShortcuts from "@/components/GlobalShortcuts";
+import { GlobalShortcuts } from "@/components/GlobalShortcuts";
 import { KernelProvider } from "@/ecosystem/kernel/EcosystemKernel";
 import { EcosystemPortal } from "@/components/common/EcosystemPortal";
 import { EcosystemEvents } from "@/components/common/EcosystemEvents";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { darkTheme } from "@/theme/theme";
@@ -32,26 +33,28 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <AppThemeProvider>
             <MuiThemeWrapper>
                 <AuthProvider>
-                    <KernelProvider>
-                        <IslandProvider>
-                            <ToastProvider>
-                                <OverlayProvider>
-                                    <LoadingProvider>
-                                        <ContextMenuProvider>
-                                            <RouteGuard>
-                                                {children}
-                                            </RouteGuard>
-                                            <Overlay />
-                                            <GlobalContextMenu />
-                                            <GlobalShortcuts />
-                                            <EcosystemPortal />
-                                            <EcosystemEvents />
-                                        </ContextMenuProvider>
-                                    </LoadingProvider>
-                                </OverlayProvider>
-                            </ToastProvider>
-                        </IslandProvider>
-                    </KernelProvider>
+                    <NotificationProvider>
+                        <KernelProvider>
+                            <IslandProvider>
+                                <ToastProvider>
+                                    <OverlayProvider>
+                                        <LoadingProvider>
+                                            <ContextMenuProvider>
+                                                <RouteGuard>
+                                                    {children}
+                                                </RouteGuard>
+                                                <Overlay />
+                                                <GlobalContextMenu />
+                                                <GlobalShortcuts />
+                                                <EcosystemPortal />
+                                                <EcosystemEvents />
+                                            </ContextMenuProvider>
+                                        </LoadingProvider>
+                                    </OverlayProvider>
+                                </ToastProvider>
+                            </IslandProvider>
+                        </KernelProvider>
+                    </NotificationProvider>
                 </AuthProvider>
             </MuiThemeWrapper>
         </AppThemeProvider>

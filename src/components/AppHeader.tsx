@@ -24,9 +24,14 @@ import {
   LogOut,
   LayoutGrid,
   Download,
-  Sparkles
+  Sparkles,
+  Bell,
+  CheckCircle,
+  XCircle,
+  Clock
 } from 'lucide-react';
 import { useAuth } from '@/components/ui/AuthContext';
+import { useNotifications } from '@/contexts/NotificationContext';
 
 import { useOverlay } from '@/components/ui/OverlayContext';
 import { getUserProfilePicId } from '@/lib/utils';
@@ -42,8 +47,10 @@ interface AppHeaderProps {
 
 export default function AppHeader({ className }: AppHeaderProps) {
   const { user, isAuthenticated, logout } = useAuth();
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const { openOverlay, closeOverlay } = useOverlay();
   const [anchorElAccount, setAnchorElAccount] = useState<null | HTMLElement>(null);
+  const [anchorElNotifications, setAnchorElNotifications] = useState<null | HTMLElement>(null);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const [isEcosystemPortalOpen, setIsEcosystemPortalOpen] = useState(false);
 
@@ -163,6 +170,49 @@ export default function AppHeader({ className }: AppHeaderProps) {
 
         {/* Right: Actions */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
+          <Tooltip title="Notifications">
+            <IconButton 
+              onClick={(e) => setAnchorElNotifications(e.currentTarget)}
+              sx={{ 
+                color: unreadCount > 0 ? '#00F5FF' : 'rgba(255, 255, 255, 0.4)',
+                bgcolor: alpha('#00F5FF', 0.03),
+                border: '1px solid',
+                borderColor: unreadCount > 0 ? alpha('#00F5FF', 0.3) : alpha('#00F5FF', 0.1),
+                borderRadius: '12px',
+                width: 42,
+                height: 42,
+                position: 'relative',
+                '&:hover': { 
+                  bgcolor: alpha('#00F5FF', 0.08), 
+                  boxShadow: '0 0 15px rgba(0, 245, 255, 0.2)' 
+                }
+              }}
+            >
+              <Bell size={20} strokeWidth={1.5} />
+              {unreadCount > 0 && (
+                <Box sx={{
+                  position: 'absolute',
+                  top: -4,
+                  right: -4,
+                  bgcolor: '#FF4D4D',
+                  color: 'white',
+                  fontSize: '0.65rem',
+                  fontWeight: 900,
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '2px solid #0A0A0A',
+                  boxShadow: '0 0 10px rgba(255, 77, 77, 0.4)'
+                }}>
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </Box>
+              )}
+            </IconButton>
+          </Tooltip>
+
           <Tooltip title="Cognitive Link (AI)">
             <IconButton 
               onClick={() => setIsAIModalOpen(true)}
@@ -292,6 +342,104 @@ export default function AppHeader({ className }: AppHeaderProps) {
           <MenuItem onClick={handleLogout} sx={{ py: 2, px: 3, color: '#FF4D4D', '&:hover': { bgcolor: alpha('#FF4D4D', 0.05) } }}>
             <ListItemIcon><LogOut size={18} strokeWidth={1.5} color="#FF4D4D" /></ListItemIcon>
             <ListItemText primary="Sign Out" primaryTypographyProps={{ variant: 'caption', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
+          </MenuItem>
+        </Menu>
+
+        {/* Notifications Menu */}
+        <Menu
+          anchorEl={anchorElNotifications}
+          open={Boolean(anchorElNotifications)}
+          onClose={() => setAnchorElNotifications(null)}
+          PaperProps={{
+            sx: {
+              mt: 1.5,
+              width: 360,
+              bgcolor: 'rgba(10, 10, 10, 0.95)',
+              backdropFilter: 'blur(25px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '24px',
+              backgroundImage: 'none',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+              overflow: 'hidden'
+            }
+          }}
+        >
+          <Box sx={{ px: 3, py: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: 'rgba(255, 255, 255, 0.02)' }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, color: 'white', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              Intelligence Feed
+            </Typography>
+            {unreadCount > 0 && (
+              <Typography 
+                variant="caption" 
+                onClick={() => { markAllAsRead(); setAnchorElNotifications(null); }}
+                sx={{ cursor: 'pointer', fontWeight: 800, color: '#00F5FF', '&:hover': { textDecoration: 'underline' } }}
+              >
+                MARK ALL READ
+              </Typography>
+            )}
+          </Box>
+          <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
+          <Box sx={{ maxHeight: 400, overflowY: 'auto' }}>
+            {notifications.length === 0 ? (
+              <Box sx={{ p: 4, textAlign: 'center' }}>
+                <Clock size={32} color="rgba(255, 255, 255, 0.1)" style={{ marginBottom: 12 }} />
+                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: 600 }}>
+                  No recent activity detected
+                </Typography>
+              </Box>
+            ) : (
+              notifications.slice(0, 10).map((notif) => {
+                const isRead = !!localStorage.getItem(`read_notif_${notif.$id}`);
+                return (
+                  <MenuItem 
+                    key={notif.$id} 
+                    onClick={() => { markAsRead(notif.$id); setAnchorElNotifications(null); }}
+                    sx={{ 
+                      py: 2, 
+                      px: 3, 
+                      gap: 2,
+                      borderLeft: isRead ? 'none' : '3px solid #00F5FF',
+                      bgcolor: isRead ? 'transparent' : alpha('#00F5FF', 0.03),
+                      '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.05)' } 
+                    }}
+                  >
+                    <Box sx={{ 
+                      width: 40, 
+                      height: 40, 
+                      borderRadius: '12px', 
+                      bgcolor: 'rgba(255, 255, 255, 0.03)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      {notif.action.toLowerCase().includes('delete') ? (
+                        <XCircle size={20} color="#FF4D4D" />
+                      ) : (
+                        <CheckCircle size={20} color="#00F5FF" />
+                      )}
+                    </Box>
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography variant="caption" sx={{ fontWeight: 800, color: 'white', display: 'block' }}>
+                        {notif.action.toUpperCase()}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem', noWrap: true, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {notif.targetType}: {notif.details || notif.targetId}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.2)', fontSize: '0.65rem', fontWeight: 700 }}>
+                        {new Date(notif.timestamp).toLocaleString()}
+                      </Typography>
+                    </Box>
+                  </MenuItem>
+                );
+              })
+            )}
+          </Box>
+          <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
+          <MenuItem sx={{ py: 2, justifyContent: 'center' }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, color: 'rgba(255, 255, 255, 0.4)', letterSpacing: '0.05em' }}>
+              VIEW ALL ACTIVITY
+            </Typography>
           </MenuItem>
         </Menu>
 
