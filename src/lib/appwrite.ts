@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Client, Account, Databases, Storage, Functions, ID, Query, Permission, Role, OAuthProvider } from 'appwrite';
+import { Client, Account, Databases, Storage, Functions, ID, Query, Permission, Role, OAuthProvider, Realtime } from 'appwrite';
 import type {
   Users,
   Notes,
@@ -25,6 +25,7 @@ const account = new Account(client);
 const databases = new Databases(client);
 const storage = new Storage(client);
 const functions = new Functions(client);
+const realtime = new Realtime(client);
 
 // export app public uri
  export const APP_URI = process.env.NEXT_PUBLIC_APP_URI ?? 'http://localhost:3000';
@@ -46,6 +47,15 @@ export const APPWRITE_TABLE_ID_SUBSCRIPTIONS = process.env.NEXT_PUBLIC_APPWRITE_
 // Ecosystem: WhisperrFlow
 export const FLOW_DATABASE_ID = 'whisperrflow';
 export const FLOW_COLLECTION_ID_TASKS = 'tasks';
+export const FLOW_COLLECTION_ID_EVENTS = 'events';
+
+// Ecosystem: WhisperrKeep
+export const KEEP_DATABASE_ID = 'passwordManagerDb';
+export const KEEP_COLLECTION_ID_CREDENTIALS = 'credentials';
+
+// Ecosystem: WhisperrConnect
+export const CONNECT_DATABASE_ID = 'chat';
+export const CONNECT_COLLECTION_ID_USERS = 'users';
 
 export const APPWRITE_BUCKET_PROFILE_PICTURES = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_PROFILE_PICTURES!;
 export const APPWRITE_BUCKET_NOTES_ATTACHMENTS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_NOTES_ATTACHMENTS!;
@@ -53,7 +63,7 @@ export const APPWRITE_BUCKET_EXTENSION_ASSETS = process.env.NEXT_PUBLIC_APPWRITE
 export const APPWRITE_BUCKET_BACKUPS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_BACKUPS!;
 export const APPWRITE_BUCKET_TEMP_UPLOADS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_TEMP_UPLOADS!;
 
-export { client, account, databases, storage, functions, ID, Query, Permission, Role, OAuthProvider };
+export { client, account, databases, storage, functions, ID, Query, Permission, Role, OAuthProvider, realtime };
 
 // Simple in-memory cache for query results with TTL
 const queryCache = new Map<string, { data: any; expiresAt: number }>();
@@ -2922,5 +2932,19 @@ const appwrite = {
     generateSignedAttachmentURL,
     verifySignedAttachmentURL,
 };
+
+// Ecosystem: Flow
+export async function listFlowTasks(queries: any[] = []) {
+  return databases.listDocuments(FLOW_DATABASE_ID, FLOW_COLLECTION_ID_TASKS, queries);
+}
+
+export async function listFlowEvents(queries: any[] = []) {
+  return databases.listDocuments(FLOW_DATABASE_ID, FLOW_COLLECTION_ID_EVENTS, queries);
+}
+
+// Ecosystem: Keep
+export async function listKeepCredentials(queries: any[] = []) {
+  return databases.listDocuments(KEEP_DATABASE_ID, KEEP_COLLECTION_ID_CREDENTIALS, queries);
+}
 
 export default appwrite;

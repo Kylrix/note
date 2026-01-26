@@ -10,7 +10,7 @@ import { IslandProvider } from "@/components/ui/DynamicIsland";
 import Overlay from "@/components/ui/Overlay";
 import { ContextMenuProvider } from "@/components/ui/ContextMenuContext";
 import { GlobalContextMenu } from "@/components/ui/GlobalContextMenu";
-import { GlobalShortcuts } from "@/components/GlobalShortcuts";
+import GlobalShortcuts from "@/components/GlobalShortcuts";
 import { KernelProvider } from "@/ecosystem/kernel/EcosystemKernel";
 import { EcosystemPortal } from "@/components/common/EcosystemPortal";
 import { EcosystemEvents } from "@/components/common/EcosystemEvents";
