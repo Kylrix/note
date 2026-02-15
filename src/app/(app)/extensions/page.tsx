@@ -251,7 +251,7 @@ export default function ExtensionsPage() {
               Extensions Marketplace
             </Typography>
             <Typography variant="h6" sx={{ opacity: 0.6, fontWeight: 400 }}>
-              Extend Whisperrnote with powerful plugins and automations
+              Extend Kylrix Note with powerful plugins and automations
             </Typography>
           </Box>
           <Button

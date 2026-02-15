@@ -1,15 +1,15 @@
-# Whisperrnote – Your Ideas, Superpowered (and Actually Yours)
+# Kylrix Note – Your Ideas, Superpowered (and Actually Yours)
 
-Imagine if Notion, ChatGPT, and a personal vault had a baby that respected your privacy, never held your thoughts hostage, and helped you think clearer, faster, and braver. That’s Whisperrnote.
+Imagine if Notion, ChatGPT, and a personal vault had a baby that respected your privacy, never held your thoughts hostage, and helped you think clearer, faster, and braver. That’s Kylrix Note.
 
 ## In Plain Words
-Whisperrnote is where you:
+Kylrix Note is where you:
 - Turn a fuzzy thought into a polished note in seconds with built‑in AI.
 - Keep ownership of everything because your data is anchored with web3 tech (no silent lock-in, no data mining).
 - Collaborate, brainstorm, and grow an actual knowledge base that *feels alive*.
 
 ## Why It’s Different (Not Just Another “AI Notes App”)
-**Most apps either farm your data or overwhelm you. Whisperrnote does neither.** It quietly:
+**Most apps either farm your data or overwhelm you. Kylrix Note does neither.** It quietly:
 1. **Helps you start** – Stuck? Type a seed like “urban farming” and get a structured draft (title, body, tags) you can immediately refine.
 2. **Keeps going when others fail** – Multiple AI brains under the hood. If one model stumbles, a fallback answers. You don’t even notice the switchover.
 3. **Respects your privacy** – Notes aren’t trapped in a corporate silo; secure integration means your content path can be verifiable and portable.
@@ -50,10 +50,10 @@ You don’t need to “understand the technology.” Here’s what you feel:
 - You can walk away with your knowledge—and that’s a feature, not a threat.
 
 ## The Emotional Pitch
-Most tools make you feel like you’re feeding a machine. Whisperrnote flips that: it *feeds you back*. It catches sparks before they fade, grows them into something useful, and protects them like assets—not throwaway scraps.
+Most tools make you feel like you’re feeding a machine. Kylrix Note flips that: it *feeds you back*. It catches sparks before they fade, grows them into something useful, and protects them like assets—not throwaway scraps.
 
 ## Why Now
-People are waking up: raw AI isn’t enough, and “cloud storage” isn’t real ownership. Whisperrnote sits exactly at the intersection of *creative acceleration* and *digital privacy*.
+People are waking up: raw AI isn’t enough, and “cloud storage” isn’t real ownership. Kylrix Note sits exactly at the intersection of *creative acceleration* and *digital privacy*.
 
 ## One-Line Taglines (Pick Your Flavor)
 - Your thinking, accelerated—and still yours.
@@ -65,4 +65,4 @@ People are waking up: raw AI isn’t enough, and “cloud storage” isn’t rea
 Try it. Type the messiest thought you had today. Watch it become something you can share, ship, or build on—without giving up control.
 
 ---
-**Whisperrnote** – Where intelligence meets integrity.
+**Kylrix Note** – Where intelligence meets integrity.

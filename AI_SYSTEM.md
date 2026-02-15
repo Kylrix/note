@@ -1,8 +1,8 @@
-# Whisperrnote AI System Architecture
+# Kylrix Note AI System Architecture
 
 ## Overview
 
-Whisperrnote now features a robust, pluggable AI system that allows for easy integration of multiple AI providers. The system is designed to be extensible, fault-tolerant, and easily configurable.
+Kylrix Note now features a robust, pluggable AI system that allows for easy integration of multiple AI providers. The system is designed to be extensible, fault-tolerant, and easily configurable.
 
 ## Architecture Components
 

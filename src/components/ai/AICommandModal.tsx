@@ -65,7 +65,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
     try {
       const result = await generate(prompt, { 
         history: history,
-        systemInstruction: "You are Whisperrbot. Act as a high-end, intelligent note-taking companion. Be concise, insightful, and respect the user's privacy. When helping move from thought to note, offer structure. Always maintain the 'Quiet Power' persona."
+        systemInstruction: "You are Kylrixbot. Act as a high-end, intelligent note-taking companion. Be concise, insightful, and respect the user's privacy. When helping move from thought to note, offer structure. Always maintain the 'Quiet Power' persona."
       });
       
       const assistantMessage: AIChatMessage = { role: 'assistant', content: result };
@@ -274,7 +274,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
             />
           </form>
           <Typography variant="caption" sx={{ display: 'block', mt: 1.5, color: 'rgba(255, 255, 255, 0.3)', textAlign: 'center' }}>
-            Powered by WhisperrAI • Results may vary based on context
+            Powered by KylrixAI • Results may vary based on context
           </Typography>
         </Box>
       </DialogContent>

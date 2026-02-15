@@ -430,12 +430,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } else {
           const windowRef = window.open(
             idmUrl,
-            'WhisperrNoteIDM',
+            'Kylrix NoteIDM',
             `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
           );
 
           if (!windowRef) {
-            console.warn('Popup blocked, falling back to redirect in whisperrnote');
+            console.warn('Popup blocked, falling back to redirect in kylrixnote');
             window.location.assign(mobileTargetUrl);
             return;
           }

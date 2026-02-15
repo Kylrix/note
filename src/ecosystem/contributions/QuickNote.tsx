@@ -29,12 +29,12 @@ export const QuickNote = () => {
     const handleSave = async () => {
         if (!note.trim()) return;
         setIsSaving(true);
-        // Simulate saving to WhisperrNote API
+        // Simulate saving to Kylrix Note API
         console.log('Saving note to ecosystem:', note);
         setTimeout(() => {
             setNote('');
             setIsSaving(false);
-            alert('Note saved to WhisperrNote!');
+            alert('Note saved to Kylrix Note!');
         }, 800);
     };
 
@@ -48,11 +48,11 @@ export const QuickNote = () => {
                 params: {
                     title: `Task from Note: ${note.substring(0, 30)}...`,
                     description: note,
-                    source: 'whisperrnote'
+                    source: 'kylrixnote'
                 }
             }
         }, 'note');
-        alert('Task request sent to WhisperrFlow mesh node!');
+        alert('Task request sent to Kylrix Flow mesh node!');
     };
 
     return (

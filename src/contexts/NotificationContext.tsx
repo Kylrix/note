@@ -92,9 +92,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         }
         
         if (Notification.permission === 'granted') {
-          new Notification(`Whisperr ${payload.targetType}`, {
+          new Notification(`Kylrix ${payload.targetType}`, {
             body: payload.action,
-            icon: '/logo/whisperrnote.png'
+            icon: '/logo/kylrixnote.png'
           });
         }
       } else if (isUpdate) {

@@ -21,8 +21,8 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "WhisperrNote - High-End Note Taking",
-  description: "Experience the next generation of note taking with WhisperrNote.",
+  title: "Kylrix Note - High-End Note Taking",
+  description: "Experience the next generation of note taking with Kylrix Note.",
 };
 
 export default function RootLayout({

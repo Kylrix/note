@@ -7,23 +7,23 @@ import { Maximize2, MessageSquare, Shield, Zap, FileText } from 'lucide-react';
 import { useKernel } from '../kernel/EcosystemKernel';
 import { getEcosystemUrl } from '@/constants/ecosystem';
 
-// In a real monorepo, these would be imported from @whisperr/[app]
+// In a real monorepo, these would be imported from @kylrix/[app]
 // For this environment, we'll implement them as "Integrated Contributions"
 
 /* --- Integrated Components from other apps --- */
 
 /**
- * Integrated MiniChat (from WhisperrConnect)
+ * Integrated MiniChat (from Kylrix Connect)
  */
 import { MiniChat } from './MiniChat';
 
 /**
- * Integrated VaultStatus (from WhisperrKeep)
+ * Integrated VaultStatus (from Kylrix Vault)
  */
 import { VaultStatus } from './VaultStatus';
 
 /**
- * Integrated FocusStatus (from WhisperrFlow)
+ * Integrated FocusStatus (from Kylrix Flow)
  */
 import { FocusStatus } from './FocusStatus';
 
@@ -100,7 +100,7 @@ export const EcosystemWidgets = () => {
                         title="MiniChat" 
                         appColor="#FF00F5" 
                         onExpand={() => launchWindow({
-                            title: 'WhisperrConnect',
+                            title: 'Kylrix Connect',
                             url: `${getEcosystemUrl('connect')}?is_embedded=true`,
                             mode: 'remote',
                             appId: 'connect',
@@ -116,7 +116,7 @@ export const EcosystemWidgets = () => {
                         title="VaultStatus" 
                         appColor="#FACC15" 
                         onExpand={() => launchWindow({
-                            title: 'WhisperrKeep',
+                            title: 'Kylrix Vault',
                             url: `${getEcosystemUrl('keep')}?is_embedded=true`,
                             mode: 'remote',
                             appId: 'keep',
@@ -132,7 +132,7 @@ export const EcosystemWidgets = () => {
                         title="FocusStatus" 
                         appColor="#4ADE80" 
                         onExpand={() => launchWindow({
-                            title: 'WhisperrFlow',
+                            title: 'Kylrix Flow',
                             url: `${getEcosystemUrl('flow')}?is_embedded=true`,
                             mode: 'remote',
                             appId: 'flow',

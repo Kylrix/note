@@ -5,7 +5,7 @@ import { MeshProtocol } from '@/lib/ecosystem/mesh';
 
 /**
  * useEcosystemNode - Registers this application as a node in the distributed mesh.
- * @param nodeId The unique ID of this node (e.g., 'keep', 'flow')
+ * @param nodeId The unique ID of this node (e.g., 'vault', 'flow')
  */
 export const useEcosystemNode = (nodeId: string) => {
   useEffect(() => {

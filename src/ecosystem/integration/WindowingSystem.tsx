@@ -57,7 +57,7 @@ export const WindowProvider = ({ children }: { children: ReactNode }) => {
   return (
     <WindowContext.Provider value={{ windows, openWindow, closeWindow, focusWindow }}>
       {children}
-      <div id="whisperr-window-root" style={{ 
+      <div id="kylrix-window-root" style={{ 
         position: 'fixed', 
         top: 0, 
         left: 0, 

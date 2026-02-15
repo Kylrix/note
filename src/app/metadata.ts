@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "WhisperNote",
   description: "A modern note-taking app",
   icons: {
-    icon: '/logo/whisperrnote.png',
+    icon: '/logo/kylrixnote.png',
   },
   viewport: {
     width: 'device-width',

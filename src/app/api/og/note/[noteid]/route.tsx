@@ -110,7 +110,7 @@ export async function GET(
                 fontFamily: 'sans-serif',
               }}
             >
-              Whisperrnote • Protected Note
+              Kylrix Note • Protected Note
             </span>
           </div>
 

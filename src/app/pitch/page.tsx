@@ -10,7 +10,7 @@ import {
 const slides = [
   {
     id: 1,
-    title: "Whisperrnote",
+    title: "Kylrix Note",
     subtitle: "AI × Secure Intelligence",
     content: (
       <Stack spacing={6} alignItems="center">
@@ -481,7 +481,7 @@ const slides = [
         <Stack direction="row" spacing={3}>
           <Box 
             component="a" 
-            href="https://whisperrnote.space" 
+            href="https://kylrixnote.space" 
             sx={{ 
               display: 'inline-block', 
               background: 'linear-gradient(90deg, #00F5FF, #A855F7)', 
@@ -500,7 +500,7 @@ const slides = [
           </Box>
           <Box 
             component="a" 
-            href="mailto:team@whisperrnote.space" 
+            href="mailto:team@kylrixnote.space" 
             sx={{ 
               display: 'inline-block', 
               bgcolor: 'rgba(255, 255, 255, 0.05)', 

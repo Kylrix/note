@@ -9,7 +9,7 @@ interface SidebarContextType {
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'whisperrnote_sidebar_collapsed';
+const STORAGE_KEY = 'kylrixnote_sidebar_collapsed';
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(() => {

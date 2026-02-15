@@ -48,13 +48,13 @@ export async function generateMetadata({ params }: { params: Promise<{ noteid: s
 
      if (!note) {
        return {
-         title: 'Note Not Found • Whisperrnote',
+         title: 'Note Not Found • Kylrix Note',
          description: 'This note is not available or is not public.'
        };
      }
 
      const titleText = note.title && note.title.trim() ? smartTruncate(note.title.trim(), 60) : smartTruncate(firstParagraph(note.content || undefined), 60);
-     const description = smartTruncate(firstParagraph(note.content || undefined) || 'Shared via Whisperrnote', 160);
+     const description = smartTruncate(firstParagraph(note.content || undefined) || 'Shared via Kylrix Note', 160);
      const url = `${baseUrl}/shared/${noteid}`;
      const image = `${baseUrl}/api/og/note/${noteid}`;
 
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ noteid: s
              height: 630
            }
          ],
-         siteName: 'Whisperrnote',
+         siteName: 'Kylrix Note',
          type: 'article'
        },
        twitter: {
@@ -85,8 +85,8 @@ export async function generateMetadata({ params }: { params: Promise<{ noteid: s
      } as any;
    } catch (err) {
      return {
-       title: 'Shared Note • Whisperrnote',
-       description: 'A note shared via Whisperrnote.'
+       title: 'Shared Note • Kylrix Note',
+       description: 'A note shared via Kylrix Note.'
      };
    }
 }

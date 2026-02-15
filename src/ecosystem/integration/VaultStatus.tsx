@@ -42,7 +42,7 @@ export const VaultStatus = () => {
                         <Shield size={20} strokeWidth={1.5} />
                     </Box>
                     <Typography sx={{ fontWeight: 800, fontSize: '0.875rem', color: 'white' }}>
-                        Keep Vault
+                        Kylrix Vault
                     </Typography>
                 </Box>
                 <Box sx={{ 

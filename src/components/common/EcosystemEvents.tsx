@@ -7,7 +7,7 @@ import { useAuth } from '@/components/ui/AuthContext';
 const PRO_TIPS = [
   {
     title: 'Elite Encryption Active',
-    message: 'Upgrade to Whisperr PRO for post-quantum mesh security on all nodes.',
+    message: 'Upgrade to Kylrix PRO for post-quantum mesh security on all nodes.',
     actionLabel: 'Go PRO',
     type: 'pro' as const,
   },
@@ -19,7 +19,7 @@ const PRO_TIPS = [
   },
   {
     title: 'Ecosystem Sync',
-    message: 'Sync notes instantly across WhisperrKeep and WhisperrConnect with PRO.',
+    message: 'Sync notes instantly across Kylrix Vault and Kylrix Connect with PRO.',
     actionLabel: 'Unlock',
     type: 'pro' as const,
   },

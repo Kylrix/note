@@ -43,8 +43,8 @@ export default function GlobalError({
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
                 <Box
                   component="img"
-                  src="/logo/whisperrnote.png"
-                  alt="WhisperrNote Logo"
+                  src="/logo/kylrixnote.png"
+                  alt="Kylrix Note Logo"
                   sx={{
                     width: 64,
                     height: 64,

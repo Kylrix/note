@@ -29,7 +29,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({
   children,
   defaultTheme = 'dark',
-  storageKey = 'whisperrnote-theme',
+  storageKey = 'kylrixnote-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);

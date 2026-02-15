@@ -1,11 +1,11 @@
 import { databases, CONNECT_DATABASE_ID, CONNECT_COLLECTION_ID_USERS, Query, Permission, Role } from '../appwrite';
 import { getEffectiveUsername, getEffectiveDisplayName } from '../utils';
 
-const PROFILE_SYNC_KEY = 'whisperr_identity_synced_v2';
-const SESSION_SYNC_KEY = 'whisperr_session_identity_ok';
+const PROFILE_SYNC_KEY = 'kylrix_identity_synced_v2';
+const SESSION_SYNC_KEY = 'kylrix_session_identity_ok';
 
 /**
- * Ensures the user has a record in the global WhisperrConnect Directory.
+ * Ensures the user has a record in the global Kylrix Connect Directory.
  * This is the 'Universal Identity Hook' that enables ecosystem discovery.
  */
 export async function ensureGlobalIdentity(user: any, force = false) {

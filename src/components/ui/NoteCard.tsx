@@ -82,11 +82,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
   const handleCreateTodo = async () => {
     if (isAIProcessing) return;
     setIsAIProcessing(true);
-    showInfo('Converting note to task in WhisperrFlow...');
+    showInfo('Converting note to task in Kylrix Flow...');
 
     try {
       await createTaskFromNote(note);
-      showSuccess('Linked task created in WhisperrFlow');
+      showSuccess('Linked task created in Kylrix Flow');
     } catch (err: any) {
       showError(err.message || 'Failed to create task');
     } finally {

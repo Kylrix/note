@@ -198,7 +198,7 @@ export default function GlobalSearch({
         )
       );
 
-      // People search uses Global Directory (WhisperrConnect)
+      // People search uses Global Directory (Kylrix Connect)
       let globalPeople: SearchResult[] = [];
       try {
         const { searchGlobalUsers } = await import('@/lib/ecosystem/identity');

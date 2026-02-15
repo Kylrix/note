@@ -99,7 +99,7 @@ export function NoteDetailSidebar({
   const [isLoadingSecrets, setIsLoadingSecrets] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   
-  // Fetch linked tasks from WhisperrFlow
+  // Fetch linked tasks from Kylrix Flow
   useEffect(() => {
     const fetchLinkedTasks = async () => {
       const taskIds = (note as any).linkedTaskIds || ((note as any).linkedTaskId ? [(note as any).linkedTaskId] : []);
@@ -122,7 +122,7 @@ export function NoteDetailSidebar({
     fetchLinkedTasks();
   }, [note.$id, (note as any).linkedTaskIds, (note as any).linkedTaskId]);
 
-  // Fetch linked events from WhisperrFlow
+  // Fetch linked events from Kylrix Flow
   useEffect(() => {
     const fetchLinkedEvents = async () => {
       const eventIds = (note as any).linkedEventIds || ((note as any).linkedEventId ? [(note as any).linkedEventId] : []);
@@ -145,7 +145,7 @@ export function NoteDetailSidebar({
     fetchLinkedEvents();
   }, [note.$id, (note as any).linkedEventIds, (note as any).linkedEventId]);
 
-  // Fetch linked secrets from WhisperrKeep
+  // Fetch linked secrets from Kylrix Vault
   useEffect(() => {
     const fetchLinkedSecrets = async () => {
       const secretIds = (note as any).linkedCredentialIds || ((note as any).linkedCredentialId ? [(note as any).linkedCredentialId] : []);
@@ -1015,7 +1015,7 @@ export function NoteDetailSidebar({
                 </Box>
                 <IconButton
                   size="small"
-                  onClick={() => window.open(`https://flow.whisperrnote.space/tasks?taskId=${task.$id}`, '_blank')}
+                  onClick={() => window.open(`https://flow.kylrixnote.space/tasks?taskId=${task.$id}`, '_blank')}
                   sx={{ color: '#00F5FF' }}
                 >
                   <OpenIcon fontSize="small" />
@@ -1072,7 +1072,7 @@ export function NoteDetailSidebar({
                 </Box>
                 <IconButton
                   size="small"
-                  onClick={() => window.open(`https://flow.whisperrnote.space/events?eventId=${event.$id}`, '_blank')}
+                  onClick={() => window.open(`https://flow.kylrixnote.space/events?eventId=${event.$id}`, '_blank')}
                   sx={{ color: '#00F5FF' }}
                 >
                   <OpenIcon fontSize="small" />
@@ -1129,7 +1129,7 @@ export function NoteDetailSidebar({
                 </Box>
                 <IconButton
                   size="small"
-                  onClick={() => window.open(`https://keep.whisperrnote.space/vault?id=${secret.$id}`, '_blank')}
+                  onClick={() => window.open(`https://keep.kylrixnote.space/vault?id=${secret.$id}`, '_blank')}
                   sx={{ color: '#FFD700' }}
                 >
                   <OpenIcon fontSize="small" />

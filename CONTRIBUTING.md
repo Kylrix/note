@@ -57,8 +57,8 @@ merod --node-name sharing-coordinator init --server-port 2429 --swarm-port 2529
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/whisperrnote.git
-   cd whisperrnote
+   git clone https://github.com/your-username/kylrixnote.git
+   cd kylrixnote
    ```
 
 2. **Install Required Tools:**
@@ -233,9 +233,9 @@ When contributing new features, follow these architectural principles:
 
 ## Need Help?
 
-- Join our [Discord](https://discord.gg/whisperrnote)
-- Check our [Documentation](https://docs.whisperrnote.space)
-- Visit our [Application](https://whisperrnote.space)
+- Join our [Discord](https://discord.gg/kylrixnote)
+- Check our [Documentation](https://docs.kylrixnote.space)
+- Visit our [Application](https://kylrixnote.space)
 - Create an issue on GitHub
 
 Thank you for contributing to WhisperNote! 🚀

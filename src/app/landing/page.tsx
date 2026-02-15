@@ -92,8 +92,8 @@ export default function LandingPage() {
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Box 
               component="img"
-              src="/logo/whisperrnote.png" 
-              alt="Whisperrnote Logo" 
+              src="/logo/kylrixnote.png" 
+              alt="Kylrix Note Logo" 
               sx={{ height: 32, width: 32, borderRadius: '8px' }}
             />
             <Typography 
@@ -106,7 +106,7 @@ export default function LandingPage() {
                 color: '#00F5FF'
               }}
             >
-              Whisperrnote
+              Kylrix Note
             </Typography>
           </Stack>
           
@@ -361,7 +361,7 @@ export default function LandingPage() {
                 fontSize: '0.7rem'
               }}
             >
-              © 2025 Whisperrnote. All rights reserved.
+              © 2025 Kylrix Note. All rights reserved.
             </Typography>
           </Stack>
         </Container>

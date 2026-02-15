@@ -56,7 +56,7 @@ export const InitialLoadingScreen: React.FC<InitialLoadingScreenProps> = ({
           }}
         >
           <img
-            src="/logo/whisperrnote.png"
+            src="/logo/kylrixnote.png"
             alt="WhisperNote logo"
             style={{ width: 72, height: 72, opacity: 0.8 }}
           />

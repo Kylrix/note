@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
   //       has: [
   //         {
   //           type: 'host',
-  //           value: 'app.whisperrnote.space',
+  //           value: 'app.kylrixnote.space',
   //         },
   //       ],
   //     },
@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
   //       has: [
   //         {
   //           type: 'host',
-  //           value: 'auth.whisperrnote.space',
+  //           value: 'auth.kylrixnote.space',
   //         },
   //       ],
   //     },
@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
   //       has: [
   //         {
   //           type: 'host',
-  //           value: 'send.whisperrnote.space',
+  //           value: 'send.kylrixnote.space',
   //         },
   //       ],
   //     },

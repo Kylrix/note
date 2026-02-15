@@ -104,7 +104,7 @@ export const IslandProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             type: 'connect' as IslandType,
             title: userName || "Stay Connected",
             message: "Share a quick snippet of what you're working on with someone in Connect.",
-            action: { label: "Go to Connect", onClick: () => window.location.href = 'https://connect.whisperrnote.space' },
+            action: { label: "Go to Connect", onClick: () => window.location.href = 'https://connect.kylrixnote.space' },
             majestic: true,
             personal: !!userName
           },

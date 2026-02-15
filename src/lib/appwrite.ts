@@ -44,16 +44,16 @@ export const APPWRITE_TABLE_ID_ACTIVITYLOG = process.env.NEXT_PUBLIC_APPWRITE_TA
 export const APPWRITE_TABLE_ID_SETTINGS = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_SETTINGS!;
 export const APPWRITE_TABLE_ID_SUBSCRIPTIONS = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_SUBSCRIPTIONS!;
 
-// Ecosystem: WhisperrFlow
-export const FLOW_DATABASE_ID = 'whisperrflow';
+// Ecosystem: Kylrix Flow
+export const FLOW_DATABASE_ID = 'kylrixflow';
 export const FLOW_COLLECTION_ID_TASKS = 'tasks';
 export const FLOW_COLLECTION_ID_EVENTS = 'events';
 
-// Ecosystem: WhisperrKeep
+// Ecosystem: Kylrix Vault
 export const KEEP_DATABASE_ID = 'passwordManagerDb';
 export const KEEP_COLLECTION_ID_CREDENTIALS = 'credentials';
 
-// Ecosystem: WhisperrConnect
+// Ecosystem: Kylrix Connect
 export const CONNECT_DATABASE_ID = 'chat';
 export const CONNECT_COLLECTION_ID_USERS = 'users';
 
@@ -1413,7 +1413,7 @@ export async function listFiles(bucketId: string, queries: any[] = []) {
 // --- CROSS-ECOSYSTEM ACTIONS ---
 
 /**
- * Creates a task in WhisperrFlow based on a note.
+ * Creates a task in Kylrix Flow based on a note.
  * Stores the task ID in the note's metadata for linking.
  */
 export async function createTaskFromNote(note: Notes) {
@@ -1429,7 +1429,7 @@ export async function createTaskFromNote(note: Notes) {
   const taskId = ID.unique();
   const now = new Date().toISOString();
 
-  // Create document in WhisperrFlow tasks collection
+  // Create document in Kylrix Flow tasks collection
   // Collection schema: title, description, status, priority, userId, parentId, etc.
   const taskDoc = await databases.createDocument(
     FLOW_DATABASE_ID,
@@ -1443,14 +1443,14 @@ export async function createTaskFromNote(note: Notes) {
       createdAt: now,
       updatedAt: now,
       // No metadata column in tasks collection, using description to reference note
-      description: `${note.content || ''}\n\n--- Origin: WhisperrNote (${note.$id}) ---`
+      description: `${note.content || ''}\n\n--- Origin: Kylrix Note (${note.$id}) ---`
     }
   );
 
   // Link the task back to the note
   await updateNote(note.$id, {
     linkedTaskId: taskId,
-    linkedSource: 'whisperrflow'
+    linkedSource: 'kylrixflow'
   });
 
   return taskDoc;

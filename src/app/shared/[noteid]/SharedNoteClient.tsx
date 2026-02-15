@@ -70,8 +70,8 @@ function SharedNoteHeader() {
         <Box component={Link} href="/" sx={{ display: 'flex', alignItems: 'center', gap: 1.5, textDecoration: 'none' }}>
           <Box 
             component="img"
-            src="/logo/whisperrnote.png" 
-            alt="Whisperrnote Logo" 
+            src="/logo/kylrixnote.png" 
+            alt="Kylrix Note Logo" 
             sx={{ width: 32, height: 32, borderRadius: 1, boxShadow: '0 4px 12px rgba(0, 245, 255, 0.2)' }}
           />
           <Typography 
@@ -85,7 +85,7 @@ function SharedNoteHeader() {
               WebkitTextFillColor: 'transparent'
             }}
           >
-            Whisperrnote
+            Kylrix Note
           </Typography>
         </Box>
 
@@ -334,7 +334,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
             Last updated {formatNoteUpdatedDate(verifiedNote, { month: 'short', day: 'numeric', year: 'numeric' })}
           </Typography>
           <Typography variant="caption" sx={{ color: '#00F5FF', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            Shared via Whisperrnote
+            Shared via Kylrix Note
           </Typography>
         </Box>
       </Box>
@@ -411,9 +411,9 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
       >
         <Toolbar sx={{ justifyContent: 'space-between', maxWidth: 'lg', mx: 'auto', width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Image src="/logo/whisperrnote.png" alt="Whisperrnote" width={32} height={32} style={{ borderRadius: '8px' }} />
+            <Image src="/logo/kylrixnote.png" alt="Kylrix Note" width={32} height={32} style={{ borderRadius: '8px' }} />
             <Typography variant="h6" sx={{ fontWeight: 900, letterSpacing: '-0.02em', fontFamily: 'var(--font-space-grotesk)', color: 'white' }}>
-              Whisperrnote
+              Kylrix Note
             </Typography>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 2 }}>
@@ -480,7 +480,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
               Create Your Own Notes
             </Typography>
             <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.6)', mb: 4, maxWidth: 500, mx: 'auto' }}>
-              Join thousands of users who trust Whisperrnote to capture, organize, and share their thoughts.
+              Join thousands of users who trust Kylrix Note to capture, organize, and share their thoughts.
             </Typography>
             <Button
               component={Link}
