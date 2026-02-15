@@ -225,18 +225,18 @@ export const KernelProvider = ({ children }: { children: ReactNode }) => {
       if (!type) return;
 
       switch (type) {
-        case 'WHISPERR_LAUNCH_WINDOW':
+        case 'KYLRIX_LAUNCH_WINDOW':
           launchWindow(payload);
           break;
-        case 'WHISPERR_LOCK_SYSTEM':
+        case 'KYLRIX_LOCK_SYSTEM':
           // Identify which window sent this or lock all?
           // For now, let's lock the active window
           if (activeWindowId) lockWindow(activeWindowId);
           break;
-        case 'WHISPERR_UNLOCK_SYSTEM':
+        case 'KYLRIX_UNLOCK_SYSTEM':
           if (activeWindowId) unlockWindow(activeWindowId);
           break;
-        case 'WHISPERR_CLOSE_SELF':
+        case 'KYLRIX_CLOSE_SELF':
           const target = windows.find(w => w.url?.includes(event.origin));
           if (target) closeWindow(target.id);
           break;

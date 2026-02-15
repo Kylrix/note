@@ -159,7 +159,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
               color: 'white'
             }}
           >
-            WHISPERR<Box component="span" sx={{ color: '#00F5FF' }}>NOTE</Box>
+            KYLRIX<Box component="span" sx={{ color: '#00F5FF' }}>NOTE</Box>
           </Typography>
         </Box>
 
