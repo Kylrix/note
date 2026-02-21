@@ -28,6 +28,7 @@ import {
 import { useToast } from '@/components/ui/Toast';
 import CommentsSection from '@/app/(app)/notes/Comments';
 import NoteReactions from '@/app/(app)/notes/NoteReactions';
+import SudoGuard from '@/components/ui/SudoGuard';
 
 export default function NoteEditorPage() {
   const { id } = useParams();
@@ -173,13 +174,15 @@ export default function NoteEditorPage() {
         </Box>
         
         <Box component="main">
-          <NoteDetailSidebar
-            note={note}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
-            showExpandButton={false}
-            showHeaderDeleteButton={false}
-          />
+          <SudoGuard>
+            <NoteDetailSidebar
+              note={note}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+              showExpandButton={false}
+              showHeaderDeleteButton={false}
+            />
+          </SudoGuard>
         </Box>
 
         <Box sx={{ mt: 6, pt: 4, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
