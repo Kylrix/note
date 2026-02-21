@@ -1,3 +1,5 @@
+import { getEcosystemUrl } from "@/constants/ecosystem";
+
 /**
  * Ecosystem Bridge
  * Standardizes cross-app communication via URL "Intents" and shared schemas.
@@ -24,7 +26,7 @@ export const EcosystemBridge = {
    * Constructs a URL for another ecosystem app with an intent payload.
    */
   generateIntentUrl: (subdomain: string, payload: IntentPayload) => {
-    const baseUrl = `https://${subdomain}.kylrix.space`;
+    const baseUrl = getEcosystemUrl(subdomain);
     const params = new URLSearchParams();
     params.set('is_embedded', 'true');
     params.set('intent', payload.intent);
