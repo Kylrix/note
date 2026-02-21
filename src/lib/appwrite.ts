@@ -450,7 +450,7 @@ export async function createNote(data: Partial<Notes>) {
   // Re-sync tag logic if needed, but keeping existing structure for now.
   // Dual-write tags to note_tags pivot including tagId resolution
   try {
-    const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+    const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
     const tagsCollection = APPWRITE_TABLE_ID_TAGS;
     const rawTags: string[] = Array.isArray((data as any).tags) ? (data as any).tags.filter(Boolean) : [];
     if (rawTags.length) {
@@ -537,7 +537,7 @@ export async function getNote(noteId: string): Promise<Notes> {
   hydrateVirtualAttributes(doc);
 
   try {
-    const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+    const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
     const pivot = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       noteTagsCollection,
@@ -581,7 +581,7 @@ export async function updateNote(noteId: string, data: Partial<Notes>) {
   // Handle tags if provided
   try {
     if (Array.isArray((data as any).tags)) {
-      const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+      const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
       const tagsCollection = APPWRITE_TABLE_ID_TAGS;
       const incomingRaw: string[] = (data as any).tags.filter(Boolean).map((t: string) => t.trim());
       const normalizedIncoming = Array.from(new Set(incomingRaw)).filter(Boolean);
@@ -763,7 +763,7 @@ export async function listNotes(queries: any[] = [], limit: number = 100) {
   // Hydrate tags from pivot collection in batch (best-effort)
   try {
     if (notes.length) {
-      const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+      const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
       const noteIds = notes.map((n: any) => n.$id || (n as any).id).filter(Boolean);
       if (noteIds.length) {
         // Appwrite supports passing array to Query.equal for multiple values
@@ -1498,7 +1498,7 @@ export async function getNotesByTag(tagId: string): Promise<Notes[]> {
       return [];
     }
 
-    const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+    const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
     const pivotRes = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       noteTagsCollection,
@@ -2338,7 +2338,7 @@ export async function backfillNoteTagPivots(userId?: string) {
   try {
     const currentUser = userId ? { $id: userId } as any : await getCurrentUser();
     if (!currentUser?.$id) throw new Error('User not authenticated');
-    const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+    const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
     const tagsCollection = APPWRITE_TABLE_ID_TAGS;
     // Fetch tag docs for user
     const tagDocsRes = await databases.listDocuments(
@@ -2388,7 +2388,7 @@ export async function reconcileTagUsage(userId?: string) {
   try {
     const currentUser = userId ? { $id: userId } as any : await getCurrentUser();
     if (!currentUser?.$id) throw new Error('User not authenticated');
-    const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+    const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
     const tagsCollection = APPWRITE_TABLE_ID_TAGS;
     // Fetch all user tag docs
     const tagDocsRes = await databases.listDocuments(
@@ -2443,7 +2443,7 @@ export async function auditNoteTagPivots(userId?: string) {
   try {
     const currentUser = userId ? { $id: userId } as any : await getCurrentUser();
     if (!currentUser?.$id) throw new Error('User not authenticated');
-    const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+    const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
 
     // Fetch pivots (bounded)
     const pivotsRes = await databases.listDocuments(
@@ -2567,7 +2567,7 @@ export async function listNotesPaginated(options: ListNotesPaginatedOptions = {}
 
   if (hydrateTags && notes.length) {
     try {
-      const noteTagsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTETAGS || 'note_tags';
+      const noteTagsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_TAGS || 'note_tags';
       const noteIds = notes.map((n: any) => n.$id || (n as any).id).filter(Boolean);
       if (noteIds.length) {
         const pivotRes = await databases.listDocuments(
