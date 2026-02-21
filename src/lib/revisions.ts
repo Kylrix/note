@@ -1,5 +1,6 @@
 import { databases, APPWRITE_DATABASE_ID, Query, ID } from './appwrite';
 import type { NoteRevisions } from '@/types/appwrite';
+import { APPWRITE_CONFIG } from './appwrite/config';
 
 const REVISION_LIMITS = {
   free: 3,
@@ -34,7 +35,7 @@ export async function pruneRevisions(
 ): Promise<void> {
   try {
     const limit = await getRevisionLimit(userId);
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
+    const revisionsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_REVISIONS || 'note_revisions';
 
     // Get all revisions for this note, ordered by revision DESC
     const allRevisions = await databases.listDocuments(
@@ -83,7 +84,7 @@ export async function getNoteRevisions(
   limit?: number
 ): Promise<NoteRevisions[]> {
   try {
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
+    const revisionsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_REVISIONS || 'note_revisions';
     const effectiveLimit = limit || (await getRevisionLimit());
 
     const res = await databases.listDocuments(
@@ -111,7 +112,7 @@ export async function getNoteRevision(
   revisionNumber: number
 ): Promise<NoteRevisions | null> {
   try {
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
+    const revisionsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_REVISIONS || 'note_revisions';
 
     const res = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
@@ -183,7 +184,7 @@ export async function createRevision(
   cause: 'manual' | 'ai' | 'collab' = 'manual'
 ): Promise<NoteRevisions | null> {
   try {
-    const revisionsCollection = process.env.NEXT_PUBLIC_APPWRITE_TABLE_ID_NOTEREVISIONS || 'note_revisions';
+    const revisionsCollection = APPWRITE_CONFIG.TABLES.NOTE.NOTE_REVISIONS || 'note_revisions';
     const significantFields = ['title', 'content', 'tags', 'format'];
 
     // Check if anything actually changed
