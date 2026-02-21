@@ -26,5 +26,40 @@ export function getEcosystemUrl(subdomain: string) {
   if (!subdomain) {
     return '#';
   }
-  return `https://${subdomain}.${NEXT_PUBLIC_DOMAIN}`;
+
+  if (typeof window === 'undefined') {
+    return `https://${subdomain}.kylrix.space`;
+  }
+
+  const hostname = window.location.hostname;
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+  const isKylrixDomain = hostname.endsWith('kylrix.space');
+
+  if (isLocalhost) {
+    const ports: Record<string, number> = {
+      accounts: 3000,
+      note: 3001,
+      vault: 3002,
+      flow: 3003,
+      connect: 3004
+    };
+    // Map some common subdomains to their logical app IDs if they differ
+    const subdomainToAppId: Record<string, string> = {
+      app: 'note',
+      id: 'accounts',
+      keep: 'vault'
+    };
+    const appId = subdomainToAppId[subdomain] || subdomain;
+    return `http://localhost:${ports[appId] || 3000}`;
+  }
+
+  if (isKylrixDomain) {
+    return `https://${subdomain}.kylrix.space`;
+  }
+
+  // For other domains (e.g. Vercel previews), we usually want to stay on the same domain
+  // but if we are trying to jump to another app, we might just use the production URL
+  // as a fallback or return a relative path if it's a monorepo-style deployment.
+  // Given the requirement, we'll just return the production URL.
+  return `https://${subdomain}.kylrix.space`;
 }
