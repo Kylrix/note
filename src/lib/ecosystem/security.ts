@@ -107,18 +107,6 @@ export class EcosystemSecurity {
 
       this.isUnlocked = true;
 
-      // If we are ID, broadcast the key to other nodes in the mesh
-      if (this.nodeId === 'id') {
-        MeshProtocol.broadcast({
-          type: 'COMMAND',
-          targetNode: 'all',
-          payload: { 
-            action: 'SYNC_MASTERPASS_KEY', 
-            keyBytes: mekBytes 
-          }
-        }, 'id');
-      }
-
       return true;
     } catch (e) {
       console.error("[Security] Unlock failed", e);
