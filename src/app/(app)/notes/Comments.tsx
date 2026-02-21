@@ -7,6 +7,7 @@ import { listComments, createComment, getUsersByIds, updateComment, deleteCommen
 import type { Comments, Users } from '@/types/appwrite';
 import { getEffectiveDisplayName, getEffectiveUsername } from '@/lib/utils';
 import { useAuth } from '@/components/ui/AuthContext';
+import { getEcosystemUrl } from '@/constants/ecosystem';
 import { Menu, MenuItem, ListItemIcon } from '@mui/material';
 import NoteReactions from './NoteReactions';
 import { TargetType } from '@/types/appwrite';
@@ -67,7 +68,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
   // Efficient identity fallback using canonized helpers
   const displayName = isDeleted ? 'Deleted' : getEffectiveDisplayName(commentUser);
   const username = isDeleted ? null : getEffectiveUsername(commentUser);
-  const profileLink = username ? `https://connect.kylrix.space/u/${username}` : '#';
+  const profileLink = username ? `${getEcosystemUrl('connect')}/u/${username}` : '#';
 
   const handleReplySubmit = async () => {
     if (!replyContent.trim()) return;

@@ -18,6 +18,7 @@ import {
   Assignment as TaskIcon,
   Description as NoteIcon
 } from '@mui/icons-material';
+import { getEcosystemUrl } from '@/constants/ecosystem';
 
 export type IslandType = 'success' | 'error' | 'warning' | 'info' | 'pro' | 'system' | 'suggestion' | 'connect';
 
@@ -104,7 +105,7 @@ export const IslandProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             type: 'connect' as IslandType,
             title: userName || "Stay Connected",
             message: "Share a quick snippet of what you're working on with someone in Connect.",
-            action: { label: "Go to Connect", onClick: () => window.location.href = 'https://connect.kylrix.space' },
+            action: { label: "Go to Connect", onClick: () => window.location.href = getEcosystemUrl('connect') },
             majestic: true,
             personal: !!userName
           },
