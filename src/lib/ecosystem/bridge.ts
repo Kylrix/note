@@ -24,7 +24,7 @@ export const EcosystemBridge = {
    * Constructs a URL for another ecosystem app with an intent payload.
    */
   generateIntentUrl: (subdomain: string, payload: IntentPayload) => {
-    const baseUrl = `https://${subdomain}.kylrixnote.space`;
+    const baseUrl = `https://${subdomain}.kylrix.space`;
     const params = new URLSearchParams();
     params.set('is_embedded', 'true');
     params.set('intent', payload.intent);

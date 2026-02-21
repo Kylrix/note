@@ -2,16 +2,16 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const hostname = request.headers.get('host') || 'kylrixnote.space';
+  const hostname = request.headers.get('host') || 'kylrix.space';
   const { pathname } = request.nextUrl;
 
   // Root domain: no rewrites
-  if (hostname === 'kylrixnote.space' || hostname === 'www.kylrixnote.space') {
+  if (hostname === 'kylrix.space' || hostname === 'www.kylrix.space') {
     return NextResponse.next();
   }
 
   // App subdomain: only rewrite root to /notes to avoid loops
-  if (hostname === 'app.kylrixnote.space') {
+  if (hostname === 'note.kylrix.space') {
     if (pathname === '/' || pathname === '') {
       return NextResponse.rewrite(new URL('/notes', request.url));
     }
@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Auth subdomain: only rewrite root to /login (guard against loops)
-  if (hostname === 'auth.kylrixnote.space') {
+  if (hostname === 'accounts.kylrix.space') {
     if (pathname === '/' || pathname === '') {
       return NextResponse.rewrite(new URL('/login', request.url));
     }
@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Send subdomain: only rewrite root to /send (guard against loops)
-  if (hostname === 'send.kylrixnote.space') {
+  if (hostname === 'send.kylrix.space') {
     if (pathname === '/' || pathname === '') {
       return NextResponse.rewrite(new URL('/send', request.url));
     }

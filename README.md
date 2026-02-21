@@ -14,7 +14,7 @@
 *"Transform your thoughts into intelligent insights with AI automation,*  
 *while advanced encryption guards your privacy like a digital fortress."*
 
-[![✨ Experience the Future](https://img.shields.io/badge/✨-Experience_the_Future-6366f1?style=for-the-badge)](https://kylrixnote.space)
+[![✨ Experience the Future](https://img.shields.io/badge/✨-Experience_the_Future-6366f1?style=for-the-badge)](https://kylrix.space)
 [![🧠 AI Powered](https://img.shields.io/badge/🧠-AI_Powered-10b981?style=for-the-badge)](#ai-features)
 [![🛡️ Securely Encrypted](https://img.shields.io/badge/🛡️-Securely_Encrypted-f59e0b?style=for-the-badge)](#security)
 
@@ -76,7 +76,7 @@ Experience seamless synchronization across every device in your digital ecosyste
 
 **Ready to experience the future of note-taking?**
 
-[![🚀 Launch Web App](https://img.shields.io/badge/🚀-Launch_Web_App-6366f1?style=for-the-badge&logoColor=white)](https://kylrixnote.space)
+[![🚀 Launch Web App](https://img.shields.io/badge/🚀-Launch_Web_App-6366f1?style=for-the-badge&logoColor=white)](https://kylrix.space)
 
 *Or build locally:*
 
@@ -152,7 +152,7 @@ npm install && npm run build
 
 **Help us build the future of intelligent, private note-taking**
 
-[![💻 Contribute](https://img.shields.io/badge/💻-Contribute-10b981?style=for-the-badge)](https://kylrixnote.space/contributing)
+[![💻 Contribute](https://img.shields.io/badge/💻-Contribute-10b981?style=for-the-badge)](https://kylrix.space/contributing)
 [![💬 Discord](https://img.shields.io/badge/💬-Discord-5865f2?style=for-the-badge)](https://discord.gg/YDcm6FzN)
 [![📜 License](https://img.shields.io/badge/📜-MIT_License-f59e0b?style=for-the-badge)](#license)
 

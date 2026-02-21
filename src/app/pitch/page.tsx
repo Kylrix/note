@@ -481,7 +481,7 @@ const slides = [
         <Stack direction="row" spacing={3}>
           <Box 
             component="a" 
-            href="https://kylrixnote.space" 
+            href="https://kylrix.space" 
             sx={{ 
               display: 'inline-block', 
               background: 'linear-gradient(90deg, #00F5FF, #A855F7)', 
@@ -500,7 +500,7 @@ const slides = [
           </Box>
           <Box 
             component="a" 
-            href="mailto:team@kylrixnote.space" 
+            href="mailto:team@kylrix.space" 
             sx={{ 
               display: 'inline-block', 
               bgcolor: 'rgba(255, 255, 255, 0.05)', 

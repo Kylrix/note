@@ -234,8 +234,8 @@ When contributing new features, follow these architectural principles:
 ## Need Help?
 
 - Join our [Discord](https://discord.gg/kylrixnote)
-- Check our [Documentation](https://docs.kylrixnote.space)
-- Visit our [Application](https://kylrixnote.space)
+- Check our [Documentation](https://docs.kylrix.space)
+- Visit our [Application](https://kylrix.space)
 - Create an issue on GitHub
 
 Thank you for contributing to WhisperNote! 🚀

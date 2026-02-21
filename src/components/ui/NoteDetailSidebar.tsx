@@ -1015,7 +1015,7 @@ export function NoteDetailSidebar({
                 </Box>
                 <IconButton
                   size="small"
-                  onClick={() => window.open(`https://flow.kylrixnote.space/tasks?taskId=${task.$id}`, '_blank')}
+                  onClick={() => window.open(`https://flow.kylrix.space/tasks?taskId=${task.$id}`, '_blank')}
                   sx={{ color: '#00F5FF' }}
                 >
                   <OpenIcon fontSize="small" />
@@ -1072,7 +1072,7 @@ export function NoteDetailSidebar({
                 </Box>
                 <IconButton
                   size="small"
-                  onClick={() => window.open(`https://flow.kylrixnote.space/events?eventId=${event.$id}`, '_blank')}
+                  onClick={() => window.open(`https://flow.kylrix.space/events?eventId=${event.$id}`, '_blank')}
                   sx={{ color: '#00F5FF' }}
                 >
                   <OpenIcon fontSize="small" />
@@ -1129,7 +1129,7 @@ export function NoteDetailSidebar({
                 </Box>
                 <IconButton
                   size="small"
-                  onClick={() => window.open(`https://keep.kylrixnote.space/vault?id=${secret.$id}`, '_blank')}
+                  onClick={() => window.open(`https://vault.kylrix.space/vault?id=${secret.$id}`, '_blank')}
                   sx={{ color: '#FFD700' }}
                 >
                   <OpenIcon fontSize="small" />

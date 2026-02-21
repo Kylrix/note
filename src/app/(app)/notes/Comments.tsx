@@ -67,7 +67,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
   // Efficient identity fallback using canonized helpers
   const displayName = isDeleted ? 'Deleted' : getEffectiveDisplayName(commentUser);
   const username = isDeleted ? null : getEffectiveUsername(commentUser);
-  const profileLink = username ? `https://connect.kylrixnote.space/u/${username}` : '#';
+  const profileLink = username ? `https://connect.kylrix.space/u/${username}` : '#';
 
   const handleReplySubmit = async () => {
     if (!replyContent.trim()) return;

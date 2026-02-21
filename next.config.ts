@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
   //       has: [
   //         {
   //           type: 'host',
-  //           value: 'app.kylrixnote.space',
+  //           value: 'app.kylrix.space',
   //         },
   //       ],
   //     },
@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
   //       has: [
   //         {
   //           type: 'host',
-  //           value: 'auth.kylrixnote.space',
+  //           value: 'auth.kylrix.space',
   //         },
   //       ],
   //     },
@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
   //       has: [
   //         {
   //           type: 'host',
-  //           value: 'send.kylrixnote.space',
+  //           value: 'send.kylrix.space',
   //         },
   //       ],
   //     },
