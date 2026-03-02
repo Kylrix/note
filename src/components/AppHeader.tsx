@@ -40,6 +40,7 @@ import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
 import { TopBarSearch } from '@/components/TopBarSearch';
 import { AICommandModal } from '@/components/ai/AICommandModal';
 import { EcosystemPortal } from '@/components/common/EcosystemPortal';
+import Logo from '@/components/common/Logo';
 
 interface AppHeaderProps {
   className?: string;
