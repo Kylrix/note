@@ -24,6 +24,7 @@ import {
   VerifiedUser as ShieldCheckIcon,
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import Logo from '@/components/common/Logo';
 
 const features = [
   {
@@ -90,24 +91,14 @@ export default function LandingPage() {
       >
         <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 5 }, height: 80 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <Box 
-              component="img"
-              src="/logo/kylrixnote.png" 
-              alt="Kylrix Note Logo" 
-              sx={{ height: 32, width: 32, borderRadius: '8px' }}
+            <Logo 
+              app="note" 
+              size={36} 
+              variant="full" 
+              href="/"
+              component="a"
+              sx={{ '&:hover': { opacity: 0.8 } }}
             />
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                fontWeight: 900, 
-                fontFamily: '"Space Grotesk", sans-serif',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                color: '#00F5FF'
-              }}
-            >
-              Kylrix Note
-            </Typography>
           </Stack>
           
           <Stack direction="row" spacing={4} sx={{ display: { xs: 'none', md: 'flex' }, flex: 1, justifyContent: 'center' }}>
