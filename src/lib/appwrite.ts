@@ -2773,10 +2773,8 @@ export async function toggleNoteVisibility(noteId: string): Promise<Notes | null
       Permission.delete(Role.user(ownerId))
     ];
     // If public, allow anyone to read. 
-    // We also include Role.guests() just in case Role.any() behaves differently in this project setup
     if (newIsPublic) {
       permissions.push(Permission.read(Role.any()));
-      permissions.push(Permission.read(Role.guests()));
     }
 
     const updated = await databases.updateDocument(
