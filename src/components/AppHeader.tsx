@@ -371,14 +371,33 @@ export default function AppHeader({ className }: AppHeaderProps) {
                                   p: 2, mb: 1, borderRadius: '16px', bgcolor: 'rgba(10, 10, 10, 0.4)', 
                                   border: '1px solid rgba(255, 255, 255, 0.05)',
                                   '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.05)', borderColor: alpha('#A855F7', 0.2) },
-                                  cursor: 'pointer'
+                                  cursor: 'pointer',
+                                  position: 'relative'
                                 }}
                               >
+                                <Tooltip title="Copy Content">
+                                  <IconButton
+                                    size="small"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      navigator.clipboard.writeText(`${notif.title}: ${notif.message || ''}`);
+                                    }}
+                                    sx={{ 
+                                      position: 'absolute', 
+                                      top: 8, 
+                                      right: 8, 
+                                      color: 'rgba(255, 255, 255, 0.2)',
+                                      '&:hover': { color: '#00F5FF', bgcolor: alpha('#00F5FF', 0.1) }
+                                    }}
+                                  >
+                                    <Download size={14} />
+                                  </IconButton>
+                                </Tooltip>
                                 <Stack direction="row" spacing={2} alignItems="flex-start">
                                   <Box sx={{ width: 36, height: 36, borderRadius: '10px', bgcolor: alpha('#A855F7', 0.1), display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                     <Info size={18} color="#A855F7" />
                                   </Box>
-                                  <Box sx={{ minWidth: 0 }}>
+                                  <Box sx={{ minWidth: 0, pr: 3 }}>
                                     <Typography variant="caption" sx={{ fontWeight: 900, color: 'white', display: 'block', mb: 0.5 }}>
                                       {notif.title.toUpperCase()}
                                     </Typography>
