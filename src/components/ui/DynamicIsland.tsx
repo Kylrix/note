@@ -176,10 +176,17 @@ const DynamicIslandOverlay: React.FC<{
   // Hide island if user is focusing on content
   const isHiddenRoute = pathname?.includes('/edit') || pathname?.includes('/n/');
 
+  const currentId = current?.id;
+
   useEffect(() => {
-    if (current) {
+    if (currentId) {
       setIsExpanded(false);
       setCopied(false);
+    }
+  }, [currentId]);
+
+  useEffect(() => {
+    if (current) {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       
       // Auto-dismiss logic (only if not expanded)
@@ -209,7 +216,7 @@ const DynamicIslandOverlay: React.FC<{
         });
       }
     }
-  }, [current, onDismiss, controls, isExpanded]);
+  }, [current?.id, onDismiss, controls, isExpanded]);
 
   if (!current || isHiddenRoute) return null;
 
@@ -503,75 +510,6 @@ const DynamicIslandOverlay: React.FC<{
                     >
                       <CloseIcon fontSize="small" />
                     </IconButton>
-                  </Stack>
-                </Stack>
-              </Box>
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
-      </Box>
-    </>
-  );
-};
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                          Ecosystem Pulse
-                        </Typography>
-                      )}
-                    </Box>
-                  </Stack>
-
-                  {current.message && (
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        lineHeight: 1.6,
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      {current.message}
-                    </Typography>
-                  )}
-
-                  <Stack direction="row" spacing={1} justifyContent="flex-end">
-                    <Button
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDismiss(current.id);
-                      }}
-                      sx={{
-                        color: 'rgba(255, 255, 255, 0.4)',
-                        textTransform: 'none',
-                        fontWeight: 700,
-                        '&:hover': { color: 'white' }
-                      }}
-                    >
-                      Later
-                    </Button>
-                    {current.action && (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          current.action?.onClick();
-                          onDismiss(current.id);
-                        }}
-                        sx={{
-                          background: current.majestic ? `linear-gradient(135deg, ${style.color} 0%, #FFFFFF 200%)` : style.color,
-                          color: 'black',
-                          fontWeight: 900,
-                          borderRadius: '10px',
-                          textTransform: 'none',
-                          boxShadow: `0 4px 14px ${style.color}40`
-                        }}
-                      >
-                        {current.action.label}
-                      </Button>
-                    )}
                   </Stack>
                 </Stack>
               </Box>
