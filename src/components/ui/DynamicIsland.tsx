@@ -142,11 +142,21 @@ const DynamicIslandOverlay: React.FC<{
 }> = ({ notifications, onDismiss, isMobile }) => {
   const current = notifications[notifications.length - 1]; // Show most recent
   const [isExpanded, setIsExpanded] = useState(false);
+  const [lastSeenId, setLastSeenId] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const islandRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const pathname = usePathname();
+
+  // Reset expansion ONLY when the notification ID actually changes
+  useEffect(() => {
+    if (current?.id && current.id !== lastSeenId) {
+      setIsExpanded(false);
+      setLastSeenId(current.id);
+      setCopied(false);
+    }
+  }, [current?.id, lastSeenId]);
 
   // Handle outside click and ESC key
   useEffect(() => {
@@ -175,15 +185,6 @@ const DynamicIslandOverlay: React.FC<{
 
   // Hide island if user is focusing on content
   const isHiddenRoute = pathname?.includes('/edit') || pathname?.includes('/n/');
-
-  const currentId = current?.id;
-
-  useEffect(() => {
-    if (currentId) {
-      setIsExpanded(false);
-      setCopied(false);
-    }
-  }, [currentId]);
 
   useEffect(() => {
     if (current) {
@@ -290,7 +291,8 @@ const DynamicIslandOverlay: React.FC<{
             onHoverEnd={() => {}}
             onClick={(e) => {
               e.stopPropagation();
-              setIsExpanded(!isExpanded);
+              // Toggle expanded state - this should persist until outside click or ESC
+              setIsExpanded(true);
             }}
             ref={islandRef}
             style={{ pointerEvents: 'auto', cursor: 'pointer' }}
