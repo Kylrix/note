@@ -195,7 +195,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
                   multiline
                   size="small"
                   value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
+                  onChange={(_e) => setEditContent(e.target.value)}
                   autoFocus
                 />
                 <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
@@ -239,7 +239,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
                   <Tooltip title="Reactions">
                     <IconButton
                       size="small"
-                      onClick={(event) => {
+                      onClick={(_event) => {
                         if (isReactionsOpen) {
                           closeReactions();
                         } else {
@@ -291,7 +291,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
             rows={2}
             placeholder={`Reply to ${displayName}...`}
             value={replyContent}
-            onChange={(e) => setReplyContent(e.target.value)}
+            onChange={(_e) => setReplyContent(e.target.value)}
             autoFocus
           />
           <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
@@ -350,7 +350,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
         setUserMap(map);
       }
       return;
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to fetch comments via client SDK:', error);
     }
 
@@ -400,7 +400,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
       }
       
       if (!parentId) setNewComment('');
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to add comment:', error);
     }
   };
@@ -411,7 +411,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
       setComments(prev => 
         prev.map(c => c.$id === commentId ? { ...c, content } as Comments : c)
       );
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to update comment:', error);
     }
   };
@@ -434,7 +434,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
         await deleteComment(commentId);
         setComments(prev => prev.filter(c => c.$id !== commentId));
       }
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to delete comment:', error);
     }
   };
@@ -452,7 +452,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
           label="Add a top-level comment"
           placeholder="Share your thoughts..."
           value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
+          onChange={(_e) => setNewComment(e.target.value)}
         />
         <Button
           variant="contained"

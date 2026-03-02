@@ -123,7 +123,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
         onNoteCreated(newNote);
       }
       closeOverlay();
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to create note:', error);
     } finally {
       setIsLoading(false);
@@ -293,7 +293,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
               fullWidth
               placeholder="Title your odyssey..."
               value={title}
-              onChange={(e) => handleTitleChange(e.target.value)}
+              onChange={(_e) => handleTitleChange(e.target.value)}
               variant="outlined"
               inputProps={{ maxLength: 255 }}
               autoComplete="off"
@@ -386,7 +386,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 rows={isMobile ? 5 : 8}
                 placeholder="Transcribe your consciousness..."
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={(_e) => setContent(e.target.value)}
                 variant="outlined"
                 inputProps={{ maxLength: 65000 }}
                 sx={{
@@ -584,7 +584,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 size="small"
                 placeholder="Add a tag..."
                 value={currentTag}
-                onChange={(e) => setCurrentTag(e.target.value)}
+                onChange={(_e) => setCurrentTag(e.target.value)}
                 onKeyPress={handleKeyPress}
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -683,7 +683,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
           Discard
         </Button>
         <Button 
-          onClick={(e) => {
+          onClick={(_e) => {
             e.preventDefault();
             handleCreateNote();
           }}

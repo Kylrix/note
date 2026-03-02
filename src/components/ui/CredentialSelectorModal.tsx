@@ -59,7 +59,7 @@ export function CredentialSelectorModal({ isOpen, onClose, onSelect }: Credentia
         try {
           const res = await listKeepCredentials();
           setCredentials(res.documents as any[]);
-        } catch (err: any) {
+        } catch (_err: unknown) {
           showError(err.message || 'Failed to fetch credentials from Kylrix Vault');
           onClose();
         } finally {
@@ -88,7 +88,7 @@ export function CredentialSelectorModal({ isOpen, onClose, onSelect }: Credentia
           size="small"
           placeholder="Search credentials..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(_e) => setSearch(e.target.value)}
           sx={{
             mb: 2,
             '& .MuiOutlinedInput-root': {

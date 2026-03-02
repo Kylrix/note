@@ -36,7 +36,7 @@ export default function NoteReactions({ targetId, targetType = TargetType.NOTE, 
       setReactions(res.documents as unknown as Reactions[]);
       setIsLoading(false);
       return;
-    } catch (err) {
+    } catch (_err: unknown) {
       console.error('Failed to fetch reactions via client SDK:', err);
     }
 
@@ -102,7 +102,7 @@ export default function NoteReactions({ targetId, targetType = TargetType.NOTE, 
       });
       
       await fetchReactions();
-    } catch (err) {
+    } catch (_err: unknown) {
       console.error('Failed to update reaction:', err);
       setError('Failed to update reaction.');
     }

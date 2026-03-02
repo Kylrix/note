@@ -9,43 +9,7 @@
      · optimizePackageImports
 
    Creating an optimized production build ...
- ⚠ Compiled with warnings in 9.0s
-
-./src/components/overlays/SudoModal.tsx
-Attempted import error: 'AppwriteService' is not exported from '@/lib/appwrite' (imported as 'AppwriteService').
-
-Import trace for requested module:
-./src/components/overlays/SudoModal.tsx
-./src/contexts/SudoContext.tsx
-./src/components/Providers.tsx
-
-./src/components/overlays/SudoModal.tsx
-Attempted import error: 'AppwriteService' is not exported from '@/lib/appwrite' (imported as 'AppwriteService').
-
-Import trace for requested module:
-./src/components/overlays/SudoModal.tsx
-./src/contexts/SudoContext.tsx
-./src/components/Providers.tsx
-
- ⚠ Compiled with warnings in 6.0s
-
-./src/components/overlays/SudoModal.tsx
-Attempted import error: 'AppwriteService' is not exported from '@/lib/appwrite' (imported as 'AppwriteService').
-
-Import trace for requested module:
-./src/components/overlays/SudoModal.tsx
-./src/contexts/SudoContext.tsx
-./src/components/Providers.tsx
-
-./src/components/overlays/SudoModal.tsx
-Attempted import error: 'AppwriteService' is not exported from '@/lib/appwrite' (imported as 'AppwriteService').
-
-Import trace for requested module:
-./src/components/overlays/SudoModal.tsx
-./src/contexts/SudoContext.tsx
-./src/components/Providers.tsx
-
- ✓ Compiled successfully in 16.0s
+ ✓ Compiled successfully in 9.0s
    Skipping validation of types
    Skipping linting
    Collecting page data ...

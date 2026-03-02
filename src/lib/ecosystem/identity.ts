@@ -86,7 +86,7 @@ export async function ensureGlobalIdentity(user: any, force = false) {
 
         localStorage.setItem(PROFILE_SYNC_KEY, Date.now().toString());
         sessionStorage.setItem(SESSION_SYNC_KEY, '1');
-    } catch (error) {
+    } catch (_error: unknown) {
         console.warn('[Identity] Background sync deferred:', error);
     }
 }
@@ -121,7 +121,7 @@ export async function searchGlobalUsers(query: string, limit = 10) {
                 profilePicId: doc.avatarFileId || doc.profilePicId,
                 apps: doc.appsActive || []
             }));
-        } catch (e) {
+        } catch (_e: unknown) {
             console.warn('[Identity] Username search failed:', e);
         }
 
@@ -152,13 +152,13 @@ export async function searchGlobalUsers(query: string, limit = 10) {
                         });
                     }
                 }
-            } catch (err) {
+            } catch (_err: unknown) {
                 // Ignore fallback errors
             }
         }
 
         return results;
-    } catch (error) {
+    } catch (_error: unknown) {
         console.error('[Identity] Global search failed:', error);
         return [];
     }

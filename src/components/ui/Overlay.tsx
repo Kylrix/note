@@ -49,7 +49,7 @@ const Overlay: React.FC = () => {
             maxWidth: 'fit-content',
             maxHeight: '100vh',
           }}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(_e) => e.stopPropagation()}
         >
           {content}
         </Box>

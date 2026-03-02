@@ -46,7 +46,7 @@ export function TagNotesListSidebar({
         setError(null);
         const fetchedNotes = await getNotesByTag(tag.$id);
         setNotes(fetchedNotes || []);
-      } catch (err) {
+      } catch (_err: unknown) {
         setError(err instanceof Error ? err.message : 'Failed to fetch notes');
         setNotes([]);
       } finally {

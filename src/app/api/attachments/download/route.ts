@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
     const projectId = APPWRITE_CONFIG.PROJECT_ID;
     const directUrl = `${endpoint}/storage/buckets/${APPWRITE_BUCKET_NOTES_ATTACHMENTS}/files/${fileId}/view?project=${projectId}`;
     return NextResponse.redirect(directUrl, { status: 302 });
-  } catch (e: any) {
+  } catch (_e: unknown) {
     return NextResponse.json({ error: e?.message || 'Download failed' }, { status: 500 });
   }
 }

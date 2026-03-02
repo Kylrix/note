@@ -167,7 +167,7 @@ export default function ExtensionsPage() {
     try {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to load user:', error);
     }
   };
@@ -177,7 +177,7 @@ export default function ExtensionsPage() {
       setLoading(true);
       const result = await listExtensions();
       setExtensions(result.documents as unknown as Extensions[]);
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to load extensions:', error);
     } finally {
       setLoading(false);
@@ -196,7 +196,7 @@ export default function ExtensionsPage() {
       await loadExtensions();
       setIsCreateModalOpen(false);
       setSelectedTemplate(null);
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to create extension:', error);
     }
   };
@@ -207,7 +207,7 @@ export default function ExtensionsPage() {
         enabled: !extension.enabled
       });
       await loadExtensions();
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to toggle extension:', error);
     }
   };
@@ -296,7 +296,7 @@ export default function ExtensionsPage() {
             fullWidth
             placeholder="Search extensions..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(_e) => setSearchQuery(e.target.value)}
             InputProps={{
               startAdornment: <SearchIcon sx={{ mr: 1, opacity: 0.5 }} />,
               sx: {
@@ -677,7 +677,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
               fullWidth
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(_e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="My Awesome Extension"
               variant="outlined"
               sx={{
@@ -703,7 +703,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
               multiline
               rows={3}
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(_e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Describe what your extension does..."
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -726,7 +726,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
               fullWidth
               required
               value={formData.version}
-              onChange={(e) => setFormData({ ...formData, version: e.target.value })}
+              onChange={(_e) => setFormData({ ...formData, version: e.target.value })}
               placeholder="1.0.0"
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -750,7 +750,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
               multiline
               rows={6}
               value={formData.settings}
-              onChange={(e) => setFormData({ ...formData, settings: e.target.value })}
+              onChange={(_e) => setFormData({ ...formData, settings: e.target.value })}
               placeholder='{"setting1": "value1"}'
               sx={{
                 '& .MuiOutlinedInput-root': {

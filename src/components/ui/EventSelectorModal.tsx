@@ -46,7 +46,7 @@ export function EventSelectorModal({ isOpen, onClose, onSelect }: EventSelectorM
         try {
           const res = await listFlowEvents();
           setEvents(res.documents as any[]);
-        } catch (err: any) {
+        } catch (_err: unknown) {
           showError(err.message || 'Failed to fetch events from Kylrix Flow');
           onClose();
         } finally {
@@ -70,7 +70,7 @@ export function EventSelectorModal({ isOpen, onClose, onSelect }: EventSelectorM
           size="small"
           placeholder="Search events..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(_e) => setSearch(e.target.value)}
           sx={{
             mb: 2,
             '& .MuiOutlinedInput-root': {
@@ -101,7 +101,7 @@ export function EventSelectorModal({ isOpen, onClose, onSelect }: EventSelectorM
           </Box>
         ) : (
           <List sx={{ flex: 1, overflowY: 'auto', pr: 1 }}>
-            {filteredEvents.map((event) => (
+            {filteredEvents.map((_event) => (
               <ListItemButton
                 key={event.$id}
                 onClick={() => onSelect(event.$id)}

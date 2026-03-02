@@ -70,7 +70,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
       
       const assistantMessage: AIChatMessage = { role: 'assistant', content: result };
       setHistory(prev => [...prev, assistantMessage]);
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('AI Error:', error);
       setHistory(prev => [...prev, { role: 'assistant', content: 'Forgive me, my cognitive link was interrupted. Please try again.' }]);
     } finally {
@@ -239,8 +239,8 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
               maxRows={4}
               placeholder="Structure my thoughts about the project..."
               value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={(e) => {
+              onChange={(_e) => setPrompt(e.target.value)}
+              onKeyDown={(_e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSubmit();

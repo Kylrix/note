@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Client, Account, Databases, Storage, Functions, ID, Query, Permission, Role, OAuthProvider, Realtime } from 'appwrite';
 import type {
@@ -55,6 +55,7 @@ export const FLOW_COLLECTION_ID_EVENTS = APPWRITE_CONFIG.TABLES.FLOW.EVENTS;
 // Ecosystem: Kylrix Vault
 export const KEEP_DATABASE_ID = APPWRITE_CONFIG.DATABASES.VAULT;
 export const KEEP_COLLECTION_ID_CREDENTIALS = APPWRITE_CONFIG.TABLES.VAULT.CREDENTIALS;
+export const KEEP_COLLECTION_ID_KEYCHAIN = APPWRITE_CONFIG.TABLES.VAULT.KEYCHAIN;
 
 // Ecosystem: Kylrix Connect
 export const CONNECT_DATABASE_ID = APPWRITE_CONFIG.DATABASES.CHAT;
@@ -67,6 +68,22 @@ export const APPWRITE_BUCKET_BACKUPS = APPWRITE_CONFIG.BUCKETS.BACKUPS;
 export const APPWRITE_BUCKET_TEMP_UPLOADS = APPWRITE_CONFIG.BUCKETS.TEMP_UPLOADS;
 
 export { client, account, databases, storage, functions, ID, Query, Permission, Role, OAuthProvider, realtime };
+
+export class AppwriteService {
+  static async listKeychainEntries(userId: string): Promise<any[]> {
+    try {
+      const response = await databases.listDocuments(
+        KEEP_DATABASE_ID,
+        KEEP_COLLECTION_ID_KEYCHAIN,
+        [Query.equal("userId", userId)],
+      );
+      return response.documents;
+    } catch (_e: unknown) {
+      console.error('listKeychainEntries error', e);
+      return [];
+    }
+  }
+}
 
 // Simple in-memory cache for query results with TTL
 const queryCache = new Map<string, { data: any; expiresAt: number }>();
@@ -294,7 +311,7 @@ export async function searchUsers(query: string, limit: number = 5) {
       email: isEmail ? doc.email : undefined,
       avatar: doc.profilePicId || (doc.prefs && (doc.prefs as any).profilePicId) || doc.avatar || null
     }));
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('searchUsers error:', error);
     return [];
   }
@@ -342,7 +359,7 @@ export async function getCurrentUserFromRequest(req: { headers: { get(k: string)
     // Basic shape check
     if (!data || typeof data !== 'object' || !data.$id) return null;
     return data as Users;
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('getCurrentUserFromRequest error', e);
     return null;
   }
@@ -527,13 +544,13 @@ export async function createNote(data: Partial<Notes>) {
               ID.unique(),
               { noteId: doc.$id, tagId, tag: tagName, userId: user.$id, createdAt: now }
             );
-          } catch (e: any) {
+          } catch (_e: unknown) {
             console.error('note_tags create failed', e?.message || e);
           }
         }
       }
     }
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('dual-write note_tags error', e);
   }
   return await getNote(doc.$id);
@@ -556,7 +573,7 @@ export async function getNote(noteId: string): Promise<Notes> {
       const tags = Array.from(new Set(pivot.documents.map((p: any) => p.tag).filter(Boolean)));
       (doc as any).tags = tags;
     }
-  } catch (e) {
+  } catch (_e: unknown) {
     // Non-fatal
   }
   if (!(doc as any).attachments || !Array.isArray((doc as any).attachments)) {
@@ -704,7 +721,7 @@ export async function updateNote(noteId: string, data: Partial<Notes>) {
         }
       }
     }
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('dual-write note_tags update error', e);
   }
   return doc as Notes;
@@ -728,7 +745,7 @@ export async function deleteNote(noteId: string) {
         commentIds.map((id) => databases.deleteDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_COMMENTS, id))
       );
     }
-  } catch (err) {
+  } catch (_err: unknown) {
     console.error('deleteNote cascade cleanup failed:', err);
   }
   return databases.deleteDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, noteId);
@@ -790,7 +807,7 @@ export async function listNotes(queries: any[] = [], limit: number = 100) {
         }
       }
     }
-  } catch (e) {
+  } catch (_e: unknown) {
     // Non-fatal hydration error
   }
 
@@ -810,7 +827,7 @@ export async function getAllNotes(): Promise<{ documents: Notes[], total: number
     );
 
     return { documents: notesRes.documents as unknown as Notes[], total: notesRes.total };
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('getAllNotes error:', error);
     return { documents: [], total: 0 };
   }
@@ -960,7 +977,7 @@ async function adjustTagUsage(userId: string | null | undefined, tagName: string
         }
       }
     }
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('adjustTagUsage failed', e);
   }
 }
@@ -998,7 +1015,7 @@ export async function createComment(noteId: string, content: string, parentComme
   try {
     const note = await getNote(noteId);
     isPublicNote = !!note.isPublic;
-  } catch (e) {
+  } catch (_e: unknown) {
     console.warn('[createComment] Could not fetch note to inherit permissions:', e);
   }
 
@@ -1228,7 +1245,7 @@ export async function deleteReactionsForTarget(targetType: TargetType, targetId:
         databases.deleteDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_REACTIONS, doc.$id)
       )
     );
-  } catch (err) {
+  } catch (_err: unknown) {
     console.error('deleteReactionsForTarget failed:', err);
   }
 }
@@ -1352,7 +1369,7 @@ export async function updateAIMode(userId: string, mode: string) {
   try {
     await getSettings(userId);
     return await updateSettings(userId, { mode });
-  } catch (error) {
+  } catch (_error: unknown) {
     // If settings don't exist, create them with the AI mode
     return await createSettings({ 
       userId, 
@@ -1366,7 +1383,7 @@ export async function getAIMode(userId: string): Promise<string | null> {
   try {
     const settings = await getSettings(userId);
     return (settings as any).mode || 'standard';
-  } catch (error) {
+  } catch (_error: unknown) {
     return 'standard'; // Default to standard mode
   }
 }
@@ -1387,7 +1404,7 @@ export async function uploadFile(bucketId: string, file: File, userId?: string) 
 
     const result = await storage.createFile(bucketId, ID.unique(), file, permissions);
     return result;
-  } catch (e: any) {
+  } catch (_e: unknown) {
     console.error('[uploadFile] error', {
       bucketId,
       fileName: (file as any)?.name,
@@ -1549,12 +1566,12 @@ export async function getNotesByTag(tagId: string): Promise<Notes[]> {
           }
         });
       }
-    } catch (e) {
+    } catch (_e: unknown) {
       console.error('Error hydrating tags:', e);
     }
 
     return notes;
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('Error fetching notes by tag:', error);
     throw error;
   }
@@ -1606,7 +1623,7 @@ export async function shareNoteWithUser(noteId: string, email: string, permissio
     if (!targetUserId) throw new Error(`Invalid user data for email: ${email}`);
 
     return await shareNoteWithUserId(noteId, targetUserId, permission, email);
-  } catch (error: any) {
+  } catch (_error: unknown) {
     console.error('shareNoteWithUser error:', error);
     throw new Error(error.message || 'Failed to share note');
   }
@@ -1659,7 +1676,7 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
     }
 
     return { success: true, message: `Note shared${emailForMessage ? ' with ' + emailForMessage : ''}` };
-  } catch (error: any) {
+  } catch (_error: unknown) {
     console.error('shareNoteWithUserId error:', error);
     throw new Error(error.message || 'Failed to share note');
   }
@@ -1740,7 +1757,7 @@ export async function getSharedUsers(noteId: string) {
 
     setCached(cacheKey, sharedUsers);
     return sharedUsers;
-  } catch (error: any) {
+  } catch (_error: unknown) {
     console.error('getSharedUsers error:', error);
     throw new Error(error.message || 'Failed to get shared users');
   }
@@ -1776,7 +1793,7 @@ export async function removeNoteSharing(noteId: string, targetUserId: string) {
     }
 
     return { success: true };
-  } catch (error: any) {
+  } catch (_error: unknown) {
     console.error('removeNoteSharing error:', error);
     throw new Error(error.message || 'Failed to remove sharing');
   }
@@ -1857,7 +1874,7 @@ export async function getSharedNotes(): Promise<{ documents: Notes[], total: num
     };
     setCached(cacheKey, result);
     return result;
-  } catch (error: any) {
+  } catch (_error: unknown) {
     console.error('getSharedNotes error:', error);
     return { documents: [], total: 0 };
   }
@@ -1889,7 +1906,7 @@ export async function getNoteWithSharing(noteId: string): Promise<(Notes & { isS
           APPWRITE_TABLE_ID_USERS,
           note.userId
         );
-      } catch (error) {
+      } catch (_error: unknown) {
         console.error('Error fetching note owner details:', error);
       }
     }
@@ -1900,7 +1917,7 @@ export async function getNoteWithSharing(noteId: string): Promise<(Notes & { isS
       sharePermission: collaboration.documents.length > 0 ? collaboration.documents[0].permission : undefined,
       sharedBy: sharedBy ? { name: sharedBy.name, email: sharedBy.email } : null
     };
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('getNoteWithSharing error:', error);
     return null;
   }
@@ -1915,7 +1932,7 @@ export async function getPublicNote(noteId: string): Promise<Notes | null> {
       return note;
     }
     return null;
-  } catch (error) {
+  } catch (_error: unknown) {
     return null;
   }
 }
@@ -1957,7 +1974,7 @@ export async function uploadNoteAttachment(file: File, userId?: string) {
   try {
     const res: any = await uploadFile(bucketId, file, userId);
     return res;
-  } catch (e: any) {
+  } catch (_e: unknown) {
     console.error('[attachments] uploadNoteAttachment:error', { bucketId, error: e?.message || String(e) });
     throw e;
   }
@@ -2069,7 +2086,7 @@ export async function addAttachmentToNote(noteId: string, file: File, userId?: s
   // Enforce per-file size limit via plan policy
   try {
     await enforceAttachmentPlanLimit(user.$id, existingMetas.length, file.size);
-  } catch (e: any) {
+  } catch (_e: unknown) {
     if (e?.code === 'ATTACHMENT_SIZE_LIMIT') throw e;
   }
 
@@ -2119,7 +2136,7 @@ export async function addAttachmentToNote(noteId: string, file: File, userId?: s
       mimetype: meta.mime,
       sizeBytes: meta.size,
     });
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('dual-write attachment record failed', e);
   }
   return meta;
@@ -2169,7 +2186,7 @@ export async function listNoteAttachments(noteId: string, currentUserId?: string
         }
         return Object.values(byId).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
       }
-    } catch (e) {
+    } catch (_e: unknown) {
       console.error('listNoteAttachments merge failed', e);
     }
   }
@@ -2186,7 +2203,7 @@ export async function removeAttachmentFromNote(noteId: string, attachmentId: str
   if (remaining.length === existingMetas.length) return { removed: false };
   const serialized = remaining.map(serializeAttachmentMeta);
   await updateNote(noteId, { attachments: serialized } as any);
-  try { await deleteNoteAttachment(attachmentId); } catch (e) { /* non-fatal */ }
+  try { await deleteNoteAttachment(attachmentId); } catch (_e: unknown) { /* non-fatal */ }
   return { removed: true };
 }
 
@@ -2245,7 +2262,7 @@ async function createAttachmentRecord(meta: { noteId: string; ownerId: string; f
       sizeBytes: meta.sizeBytes,
       createdAt: now,
     };
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('createAttachmentRecord failed', e);
     return null;
   }
@@ -2260,7 +2277,7 @@ export async function listAttachmentsForNote(noteId: string): Promise<Attachment
       [Query.equal('noteId', noteId), Query.limit(200), Query.orderDesc('$createdAt')] as any
     );
     return res.documents as unknown as AttachmentRecord[];
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('listAttachmentsForNote failed', e);
     return [];
   }
@@ -2274,7 +2291,7 @@ export async function deleteAttachmentRecord(attachmentId: string) {
       APPWRITE_TABLE_ID_ATTACHMENTS,
       attachmentId
     );
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('deleteAttachmentRecord failed', e);
   }
 }
@@ -2378,7 +2395,7 @@ export async function backfillNoteTagPivots(userId?: string) {
       }
     }
     return { attempted: pivotsRes.documents.length, patched };
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('backfillNoteTagPivots failed', e);
     return { attempted: 0, patched: 0, error: String(e) };
   }
@@ -2431,7 +2448,7 @@ export async function reconcileTagUsage(userId?: string) {
       }
     }
     return { tags: tagDocs.length, pivots: pivotsRes.documents.length, updated };
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('reconcileTagUsage failed', e);
     return { tags: 0, pivots: 0, updated: 0, error: String(e) };
   }
@@ -2491,7 +2508,7 @@ export async function auditNoteTagPivots(userId?: string) {
       sampleMissing,
       suggested
     };
-  } catch (e) {
+  } catch (_e: unknown) {
     console.error('auditNoteTagPivots failed', e);
     return { error: String(e) };
   }
@@ -2679,7 +2696,7 @@ async function syncNoteVisibilityChildren(noteId: string, ownerId: string, isPub
             { content: comment.content },
             permissions
           );
-        } catch (err) {
+        } catch (_err: unknown) {
           console.error('syncNoteVisibilityChildren comment update failed:', err);
         }
       })
@@ -2712,7 +2729,7 @@ async function syncNoteVisibilityChildren(noteId: string, ownerId: string, isPub
             { emoji: reaction.emoji },
             permissions
           );
-        } catch (err) {
+        } catch (_err: unknown) {
           console.error('syncNoteVisibilityChildren note reaction update failed:', err);
         }
       })
@@ -2746,13 +2763,13 @@ async function syncNoteVisibilityChildren(noteId: string, ownerId: string, isPub
               { emoji: reaction.emoji },
               permissions
             );
-          } catch (err) {
+          } catch (_err: unknown) {
             console.error('syncNoteVisibilityChildren comment reaction update failed:', err);
           }
         })
       );
     }
-  } catch (err) {
+  } catch (_err: unknown) {
     console.error('syncNoteVisibilityChildren failed:', err);
   }
 }
@@ -2793,7 +2810,7 @@ export async function toggleNoteVisibility(noteId: string): Promise<Notes | null
     );
     await syncNoteVisibilityChildren(noteId, ownerId, newIsPublic);
     return updated as unknown as Notes;
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('toggleNoteVisibility error:', error);
     return null;
   }
@@ -2807,7 +2824,7 @@ export async function validatePublicNoteAccess(noteId: string): Promise<Notes | 
     // Safety check: isPublic MUST be true
     if (!isNotePublic(note)) return null;
     return note;
-  } catch (err) {
+  } catch (_err: unknown) {
     console.error(`validatePublicNoteAccess failed for ${noteId}:`, err);
     return null;
   }

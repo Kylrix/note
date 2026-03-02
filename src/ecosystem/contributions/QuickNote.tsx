@@ -93,7 +93,7 @@ export const QuickNote = () => {
                 rows={3}
                 placeholder="Jot something down..."
                 value={note}
-                onChange={(e) => setNote(e.target.value)}
+                onChange={(_e) => setNote(e.target.value)}
                 variant="standard"
                 InputProps={{
                     disableUnderline: true,

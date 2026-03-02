@@ -112,7 +112,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
         } else {
           if (mounted) setSmallProfileUrl(null);
         }
-      } catch (err) {
+      } catch (_err: unknown) {
         console.warn('Failed to load profile preview', err);
         if (mounted) setSmallProfileUrl(null);
       }
@@ -378,7 +378,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
                                 <Tooltip title="Copy Content">
                                   <IconButton
                                     size="small"
-                                    onClick={(e) => {
+                                    onClick={(_e) => {
                                       e.stopPropagation();
                                       navigator.clipboard.writeText(`${notif.title}: ${notif.message || ''}`);
                                     }}
@@ -490,7 +490,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
           </Tooltip>
 
           <IconButton 
-            onClick={(e) => setAnchorElAccount(e.currentTarget)}
+            onClick={(_e) => setAnchorElAccount(e.currentTarget)}
             sx={{ 
               p: 0.5,
               '&:hover': { transform: 'scale(1.05)' },

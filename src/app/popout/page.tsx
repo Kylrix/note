@@ -15,7 +15,7 @@ function PopoutContent() {
         const decoded = JSON.parse(atob(rawState));
         setState(decoded);
         document.title = `${decoded.title} - Kylrix Ecosystem`;
-      } catch (e) {
+      } catch (_e: unknown) {
         console.error('Failed to parse popout state', e);
       }
     }

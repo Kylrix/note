@@ -75,7 +75,7 @@ export class ExtensionManager {
           this.enabledExtensions.push(ext);
         }
       });
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to load extensions:', error);
     }
   }
@@ -91,7 +91,7 @@ export class ExtensionManager {
     for (const extension of applicableExtensions) {
       try {
         result = await this.executeExtensionHook(extension, hookName, result, additionalParams);
-      } catch (error) {
+      } catch (_error: unknown) {
         console.error(`Extension ${extension.name} hook ${hookName} failed:`, error);
         // Continue with other extensions even if one fails
       }
@@ -182,7 +182,7 @@ export class ExtensionManager {
       await updateExtension(extensionId, { enabled: true });
       await this.loadExtensions();
       return true;
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to install extension:', error);
       return false;
     }
@@ -193,7 +193,7 @@ export class ExtensionManager {
       await updateExtension(extensionId, { enabled: false });
       await this.loadExtensions();
       return true;
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to uninstall extension:', error);
       return false;
     }
@@ -220,7 +220,7 @@ export class ExtensionManager {
       const result = await createExtension(extensionData);
       await this.loadExtensions();
       return result.$id;
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to create extension from template:', error);
       return null;
     }

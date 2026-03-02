@@ -39,7 +39,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
           attachmentIds.map(id => getNoteAttachment(id))
         );
         setAttachments(fetchedAttachments);
-      } catch (error) {
+      } catch (_error: unknown) {
         console.error('Failed to fetch attachments:', error);
       } finally {
         setLoading(false);
@@ -58,7 +58,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
       await deleteNoteAttachment(fileId);
       onAttachmentDeleted(fileId);
       setAttachments(prev => prev.filter(a => a.$id !== fileId));
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to delete attachment:', error);
     }
   };

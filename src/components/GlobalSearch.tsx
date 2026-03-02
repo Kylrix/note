@@ -43,7 +43,7 @@ function SearchResultAvatar({ result }: { result: SearchResult }) {
         const { fetchProfilePreview } = await import('@/lib/profilePreview');
         const previewUrl = await fetchProfilePreview(result.profilePicId, 48, 48);
         if (mounted) setUrl(previewUrl);
-      } catch (err) {
+      } catch (_err: unknown) {
         console.error('Failed to load search result avatar', err);
       }
     };
@@ -129,7 +129,7 @@ export default function GlobalSearch() {
       }));
 
       setResults([...noteResults, ...peopleResults]);
-    } catch (err) {
+    } catch (_err: unknown) {
       console.error('Search failed:', err);
     } finally {
       setLoading(false);
@@ -147,7 +147,7 @@ export default function GlobalSearch() {
         fullWidth
         placeholder="Search notes, collections, and tags..."
         value={searchTerm}
-        onChange={(e) => {
+        onChange={(_e) => {
           setSearchTerm(e.target.value);
           handleSearch(e.target.value);
         }}

@@ -85,7 +85,7 @@ export function useAutosave(note: Notes | null, options: AutosaveOptions = {}) {
         const saved = await saveFn(candidate);
         lastSavedRef.current = saved;
         onSave?.(saved);
-      } catch (error) {
+      } catch (_error: unknown) {
         console.error('Autosave failed:', error);
         onError?.(error as Error);
       } finally {

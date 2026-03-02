@@ -80,7 +80,7 @@ export default function TagsPage() {
       setLoading(true);
       const response = await listTags();
       setTags(response.documents as unknown as Tags[]);
-    } catch (err) {
+    } catch (_err: unknown) {
        setError(err instanceof Error ? err.message : 'Failed to fetch tags');
     } finally {
       setLoading(false);
@@ -134,7 +134,7 @@ export default function TagsPage() {
       setShowCreateForm(false);
       setEditingTag(null);
       await fetchTags();
-    } catch (err) {
+    } catch (_err: unknown) {
        setError((err as Error)?.message || 'Failed to save tag');
     } finally {
       setIsCreating(false);
@@ -159,7 +159,7 @@ export default function TagsPage() {
     try {
       await deleteTag(tag.$id);
       await fetchTags();
-    } catch (err) {
+    } catch (_err: unknown) {
        setError(err instanceof Error ? err.message : 'Failed to delete tag');
     }
   };
@@ -265,7 +265,7 @@ export default function TagsPage() {
               onNoteUpdate={async (updatedNote) => {
                 try {
                   await updateNote(updatedNote.$id || '', updatedNote);
-                } catch (err) {
+                } catch (_err: unknown) {
                   console.error('Failed to update note:', err);
                 }
               }}
@@ -445,7 +445,7 @@ export default function TagsPage() {
                         fullWidth
                         size="small"
                         startIcon={<EditIcon />}
-                        onClick={(e) => {
+                        onClick={(_e) => {
                           e.stopPropagation();
                           handleEdit(tag);
                         }}
@@ -463,7 +463,7 @@ export default function TagsPage() {
                         fullWidth
                         size="small"
                         startIcon={<DeleteIcon />}
-                        onClick={(e) => {
+                        onClick={(_e) => {
                           e.stopPropagation();
                           handleDelete(tag);
                         }}
@@ -514,7 +514,7 @@ export default function TagsPage() {
                   fullWidth
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(_e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter tag name..."
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -538,7 +538,7 @@ export default function TagsPage() {
                   multiline
                   rows={3}
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(_e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Describe this tag..."
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -583,7 +583,7 @@ export default function TagsPage() {
                   type="color"
                   fullWidth
                   value={formData.color}
-                  onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+                  onChange={(_e) => setFormData({ ...formData, color: e.target.value })}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       height: 48,

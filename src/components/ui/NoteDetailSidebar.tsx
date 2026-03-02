@@ -1,6 +1,6 @@
 'use client';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Notes } from '@/types/appwrite';
 import dynamic from 'next/dynamic';
@@ -112,7 +112,7 @@ export function NoteDetailSidebar({
       try {
         const res = await listFlowTasks([Query.equal('$id', taskIds)]);
         setLinkedTasks(res.documents);
-      } catch (err) {
+      } catch (_err: unknown) {
         console.error('Failed to fetch linked tasks:', err);
       } finally {
         setIsLoadingTasks(false);
@@ -135,7 +135,7 @@ export function NoteDetailSidebar({
       try {
         const res = await listFlowEvents([Query.equal('$id', eventIds)]);
         setLinkedEvents(res.documents);
-      } catch (err) {
+      } catch (_err: unknown) {
         console.error('Failed to fetch linked events:', err);
       } finally {
         setIsLoadingEvents(false);
@@ -158,7 +158,7 @@ export function NoteDetailSidebar({
       try {
         const res = await listKeepCredentials([Query.equal('$id', secretIds)]);
         setLinkedSecrets(res.documents);
-      } catch (err) {
+      } catch (_err: unknown) {
         console.error('Failed to fetch linked secrets:', err);
       } finally {
         setIsLoadingSecrets(false);
@@ -191,7 +191,7 @@ export function NoteDetailSidebar({
         await pinNote(note.$id);
         showSuccess('Note pinned');
       }
-    } catch (err: any) {
+    } catch (_err: unknown) {
       showError(err.message || 'Failed to update pin status');
     }
   };
@@ -207,7 +207,7 @@ export function NoteDetailSidebar({
       try {
         const parsed = note.attachments.map((a: any) => (typeof a === 'string' ? JSON.parse(a) : a));
         setCurrentAttachments(parsed);
-      } catch (err) {
+      } catch (_err: unknown) {
         console.error('Error parsing attachments:', err);
         setCurrentAttachments([]);
       }
@@ -435,7 +435,7 @@ export function NoteDetailSidebar({
               showSuccess('Attachment added', `${file.name} uploaded successfully`);
             }
           }
-        } catch (err: any) {
+        } catch (_err: unknown) {
           newErrors.push(`${file.name}: ${err?.message || 'Upload failed'}`);
         }
       }
@@ -488,7 +488,7 @@ export function NoteDetailSidebar({
           {showExpandButton && (
             <Tooltip title="Open full page">
               <IconButton
-                onClick={(event) => {
+                onClick={(_event) => {
                   event.stopPropagation();
                   handleOpenFullPage();
                 }}
@@ -512,7 +512,7 @@ export function NoteDetailSidebar({
                   const updated = await updateNote(note.$id, { isPublic: newStatus });
                   onUpdate(updated);
                   showSuccess(updated.isPublic ? 'Note is now Public' : 'Note is now Private');
-                } catch (err: any) {
+                } catch (_err: unknown) {
                   setIsPublic(!newStatus); // Rollback
                   showError('Failed to update visibility', err.message);
                 }
@@ -606,7 +606,7 @@ export function NoteDetailSidebar({
             fullWidth
             variant="standard"
             value={title || ''}
-            onChange={(e) => {
+            onChange={(_e) => {
               setTitle(e.target.value);
               resetTitleIdleTimer();
             }}
@@ -712,7 +712,7 @@ export function NoteDetailSidebar({
                 rows={12}
                 variant="standard"
                 value={content || ''}
-                onChange={(e) => {
+                onChange={(_e) => {
                   setContent(e.target.value);
                   resetContentIdleTimer();
                 }}
@@ -778,7 +778,7 @@ export function NoteDetailSidebar({
                   variant="outlined"
                   size="small"
                   startIcon={<ClipboardDocumentIcon />}
-                  onClick={async (event) => {
+                  onClick={async (_event) => {
                     event.stopPropagation();
                     try {
                       await navigator.clipboard.writeText(displayContent);
@@ -832,7 +832,7 @@ export function NoteDetailSidebar({
             size="small"
             placeholder="Separate tags with commas"
             value={tags}
-            onChange={(e) => setTags(e.target.value)}
+            onChange={(_e) => setTags(e.target.value)}
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: '12px',
@@ -1048,7 +1048,7 @@ export function NoteDetailSidebar({
           <CircularProgress size={20} sx={{ color: '#00F5FF', ml: 1 }} />
         ) : linkedEvents.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            {linkedEvents.map((event) => (
+            {linkedEvents.map((_event) => (
               <Box key={event.$id} sx={{
                 display: 'flex',
                 alignItems: 'center',

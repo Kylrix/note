@@ -35,7 +35,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ note
     }
 
     return NextResponse.json(note);
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('Error fetching shared note:', error);
     return NextResponse.json(
       { error: 'Failed to fetch note' },

@@ -83,7 +83,7 @@ export function TurnstileWidget({ onToken, onError, onExpire, theme = 'auto', si
       if (widgetIdRef.current && window.turnstile) {
         try {
           window.turnstile.remove(widgetIdRef.current);
-        } catch (e) {
+        } catch (_e: unknown) {
           console.warn('Failed to remove Turnstile widget:', e);
         }
       }

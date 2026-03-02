@@ -53,7 +53,7 @@ export async function validateApiKey(key: string | null | undefined): Promise<AP
       plan: doc.plan || doc.tier || 'free',
       apiKeyId: doc.$id
     };
-  } catch (error) {
+  } catch (_error: unknown) {
     console.error('validateApiKey error:', error);
     return { valid: false, reason: 'ERROR' };
   }

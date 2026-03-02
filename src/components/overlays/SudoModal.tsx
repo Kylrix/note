@@ -96,7 +96,7 @@ export default function SudoModal({
             } else {
                 toast.error("Incorrect master password");
             }
-        } catch (error) {
+        } catch (_error: unknown) {
             console.error(error);
             toast.error("Verification failed");
         } finally {
@@ -118,7 +118,7 @@ export default function SudoModal({
                 toast.error("Incorrect PIN");
                 setPin("");
             }
-        } catch (error) {
+        } catch (_error: unknown) {
             console.error(error);
             toast.error("PIN verification failed");
         } finally {
@@ -201,7 +201,7 @@ export default function SudoModal({
                                         type="password"
                                         placeholder="••••"
                                         value={pin}
-                                        onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                        onChange={(_e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                         autoFocus
                                         inputProps={{ 
                                             maxLength: 4, 
@@ -369,7 +369,7 @@ export default function SudoModal({
                                         type="password"
                                         placeholder="Enter your master password"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={(_e) => setPassword(e.target.value)}
                                         autoFocus
                                         InputProps={{
                                             startAdornment: (

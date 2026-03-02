@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: { params: Promise<{ noteid: s
          images: [image]
        }
      } as any;
-   } catch (err) {
+   } catch (_err: unknown) {
      return {
        title: 'Shared Note • Kylrix Note',
        description: 'A note shared via Kylrix Note.'

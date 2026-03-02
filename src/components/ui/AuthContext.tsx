@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               }
             }
           }
-        } catch (e) {
+        } catch (_e: unknown) {
           try {
             // Document doesn't exist, create it with auto-generated username
             const autoUsername = getEffectiveUsername({
@@ -118,7 +118,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       setIsLoading(false);
       return currentUser;
-    } catch (error: any) {
+    } catch (_error: unknown) {
       // Check for auth=success signal in URL
       const hasAuthSignal = typeof window !== 'undefined' && window.location.search.includes('auth=success');
       
@@ -303,7 +303,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('user_cache');
         sessionStorage.removeItem('auth_temp_data');
       }
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Logout failed:', error);
     } finally {
       // Always clear local user state regardless of logout success
@@ -327,7 +327,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIDMWindowOpen(true);
         return false;
       }
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Session recovery failed:', error);
       setIDMWindowOpen(true);
       return false;
@@ -441,7 +441,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         setIDMWindowOpen(true);
-      } catch (error) {
+      } catch (_error: unknown) {
         console.error('Failed to initiate IDM flow:', error);
         setIsAuthenticating(false);
         router.replace('/landing');

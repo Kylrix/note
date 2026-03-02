@@ -1,6 +1,6 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createContext, useContext, useState, useEffect, useRef, useCallback, ReactNode, useMemo } from 'react';
 import { 
   listNotesPaginated, 
@@ -72,7 +72,7 @@ export function NotesProvider({ children }: { children: ReactNode }) {
           setIsLoading(false);
         }
       }
-    } catch (e) {
+    } catch (_e: unknown) {
       console.warn('Failed to load notes from cache', e);
     } finally {
       setIsCacheLoaded(true);
@@ -93,7 +93,7 @@ export function NotesProvider({ children }: { children: ReactNode }) {
           pinnedIds,
           timestamp: Date.now()
         }));
-      } catch (e) {
+      } catch (_e: unknown) {
         console.warn('Failed to save notes to cache', e);
       }
     }, 1000); // Debounce saves
@@ -164,7 +164,7 @@ export function NotesProvider({ children }: { children: ReactNode }) {
       } else if (reset) {
         setCursor(null);
       }
-    } catch (err: any) {
+    } catch (_err: unknown) {
       setError(err.message || 'Failed to fetch notes');
       if (reset && notesRef.current.length === 0) {
         setNotes([]);
@@ -278,7 +278,7 @@ export function NotesProvider({ children }: { children: ReactNode }) {
         // Handle cases where it might return an object with unsubscribe
         unsub = () => (sub as any).unsubscribe?.();
       }
-    } catch (e) {
+    } catch (_e: unknown) {
       console.error('Realtime subscription failed', e);
     }
 
@@ -291,7 +291,7 @@ export function NotesProvider({ children }: { children: ReactNode }) {
     try {
       const newPins = await appwritePinNote(noteId);
       setPinnedIds(newPins);
-    } catch (err: any) {
+    } catch (_err: unknown) {
       throw err;
     }
   }, []);
@@ -300,7 +300,7 @@ export function NotesProvider({ children }: { children: ReactNode }) {
     try {
       const newPins = await appwriteUnpinNote(noteId);
       setPinnedIds(newPins);
-    } catch (err: any) {
+    } catch (_err: unknown) {
       throw err;
     }
   }, []);

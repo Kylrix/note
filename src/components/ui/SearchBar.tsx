@@ -25,7 +25,7 @@ export function SearchBar({
       <TextField
         fullWidth
         value={searchQuery}
-        onChange={(e) => onSearchChange(e.target.value)}
+        onChange={(_e) => onSearchChange(e.target.value)}
         placeholder={placeholder}
         variant="outlined"
         slotProps={{

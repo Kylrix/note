@@ -19,7 +19,7 @@ export default function TagManager({ selectedTags, onChangeAction }: TagManagerP
       try {
         const res = await listTags();
         setTags(res.documents as Tags[]);
-      } catch (error) {
+      } catch (_error: unknown) {
         console.error('Failed to fetch tags:', error);
       }
     };
@@ -32,7 +32,7 @@ export default function TagManager({ selectedTags, onChangeAction }: TagManagerP
       const tag = await createTag({ name: newTagName });
       setTags(prev => [tag, ...prev]);
       setNewTagName('');
-    } catch (error) {
+    } catch (_error: unknown) {
       console.error('Failed to create tag:', error);
     }
   };
@@ -78,7 +78,7 @@ export default function TagManager({ selectedTags, onChangeAction }: TagManagerP
           size="small"
           placeholder="Create new tag"
           value={newTagName}
-          onChange={(e) => setNewTagName(e.target.value)}
+          onChange={(_e) => setNewTagName(e.target.value)}
         />
         <Button
           variant="outlined"

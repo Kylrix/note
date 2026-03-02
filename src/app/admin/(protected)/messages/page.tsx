@@ -70,7 +70,7 @@ export default function AdminMessages() {
       if (!res.ok) throw new Error(j.error || 'Send failed');
       setState({ status: 'success', message: `Sent to ${j.recipients || 'n/a'} recipients` });
       setSubject(''); setBody('');
-    } catch (e: any) {
+    } catch (_e: unknown) {
       setState({ status: 'error', message: e.message || 'Error' });
     }
   };
@@ -98,7 +98,7 @@ export default function AdminMessages() {
       if (!res.ok) throw new Error(j.error || 'Preview failed');
       setPreview(j);
       setState({ status: 'idle', message: `Preview: ${j.recipients} recipients` });
-    } catch (e: any) {
+    } catch (_e: unknown) {
       setState({ status: 'error', message: e.message || 'Error' });
     }
   };
@@ -154,7 +154,7 @@ export default function AdminMessages() {
             label="Subject"
             variant="outlined"
             value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            onChange={(_e) => setSubject(e.target.value)}
             placeholder="Enter message subject"
             sx={{
               '& .MuiOutlinedInput-root': {
@@ -175,7 +175,7 @@ export default function AdminMessages() {
             multiline
             rows={8}
             value={body}
-            onChange={(e) => setBody(e.target.value)}
+            onChange={(_e) => setBody(e.target.value)}
             placeholder="<p>Announcement...</p>"
             sx={{
               '& .MuiOutlinedInput-root': {
@@ -198,7 +198,7 @@ export default function AdminMessages() {
                 label="User IDs (comma separated)"
                 variant="outlined"
                 value={userIds}
-                onChange={(e) => setUserIds(e.target.value)}
+                onChange={(_e) => setUserIds(e.target.value)}
                 placeholder="user1, user2"
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -218,7 +218,7 @@ export default function AdminMessages() {
                 label="Emails (comma separated)"
                 variant="outlined"
                 value={emails}
-                onChange={(e) => setEmails(e.target.value)}
+                onChange={(_e) => setEmails(e.target.value)}
                 placeholder="a@b.dev, c@d.dev"
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -241,7 +241,7 @@ export default function AdminMessages() {
                 label="BCC (comma separated)"
                 variant="outlined"
                 value={bcc}
-                onChange={(e) => setBcc(e.target.value)}
+                onChange={(_e) => setBcc(e.target.value)}
                 placeholder="team@domain.dev"
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -261,7 +261,7 @@ export default function AdminMessages() {
                 label="Topic (optional)"
                 variant="outlined"
                 value={topic}
-                onChange={(e) => setTopic(e.target.value)}
+                onChange={(_e) => setTopic(e.target.value)}
                 placeholder="release-2025q1"
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -282,7 +282,7 @@ export default function AdminMessages() {
               control={
                 <Checkbox 
                   checked={allUsers} 
-                  onChange={(e) => setAllUsers(e.target.checked)}
+                  onChange={(_e) => setAllUsers(e.target.checked)}
                   sx={{ color: 'rgba(255, 255, 255, 0.3)', '&.Mui-checked': { color: '#00F5FF' } }}
                 />
               }
@@ -292,7 +292,7 @@ export default function AdminMessages() {
               control={
                 <Checkbox 
                   checked={dryRun} 
-                  onChange={(e) => setDryRun(e.target.checked)}
+                  onChange={(_e) => setDryRun(e.target.checked)}
                   sx={{ color: 'rgba(255, 255, 255, 0.3)', '&.Mui-checked': { color: '#00F5FF' } }}
                 />
               }
