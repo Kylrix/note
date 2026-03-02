@@ -16,7 +16,8 @@ import {
   EmojiObjects as IdeaIcon,
   Message as ConnectIcon,
   Assignment as TaskIcon,
-  Description as NoteIcon
+  Description as NoteIcon,
+  ContentCopy as CopyIcon
 } from '@mui/icons-material';
 import { getEcosystemUrl } from '@/constants/ecosystem';
 
@@ -141,9 +142,36 @@ const DynamicIslandOverlay: React.FC<{
 }> = ({ notifications, onDismiss, isMobile }) => {
   const current = notifications[notifications.length - 1]; // Show most recent
   const [isExpanded, setIsExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const islandRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const pathname = usePathname();
+
+  // Handle outside click and ESC key
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isExpanded && islandRef.current && !islandRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (isExpanded && event.key === 'Escape') {
+        setIsExpanded(false);
+      }
+    };
+
+    if (isExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscKey);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isExpanded]);
 
   // Hide island if user is focusing on content
   const isHiddenRoute = pathname?.includes('/edit') || pathname?.includes('/n/');
@@ -151,11 +179,22 @@ const DynamicIslandOverlay: React.FC<{
   useEffect(() => {
     if (current) {
       setIsExpanded(false);
+      setCopied(false);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       
-      timeoutRef.current = setTimeout(() => {
-        onDismiss(current.id);
-      }, current.duration || 6000);
+      // Auto-dismiss logic (only if not expanded)
+      const startTimeout = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+          if (!isExpanded) {
+            onDismiss(current.id);
+          }
+        }, current.duration || 6000);
+      };
+
+      if (!isExpanded) {
+        startTimeout();
+      }
 
       // Majestic entrance and pulsing logic
       if (current.majestic) {
@@ -170,9 +209,18 @@ const DynamicIslandOverlay: React.FC<{
         });
       }
     }
-  }, [current, onDismiss, controls]);
+  }, [current, onDismiss, controls, isExpanded]);
 
   if (!current || isHiddenRoute) return null;
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (current.message) {
+      navigator.clipboard.writeText(current.message);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   const getTypeStyle = () => {
     switch (current.type) {
@@ -196,6 +244,50 @@ const DynamicIslandOverlay: React.FC<{
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.12) 0%, transparent 60%)',
+            pointerEvents: 'none',
+            zIndex: 9999
+          }}
+        />
+      )}
+
+      <Box
+        sx={{
+          position: 'fixed',
+          top: isMobile ? 12 : 24,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 10000,
+          pointerEvents: 'none'
+        }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.id}
+            initial={{ y: -100, scale: 0.8, opacity: 0 }}
+            animate={{ y: 0, scale: 1, opacity: 1 }}
+            exit={{ y: -100, scale: 0.5, opacity: 0 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 400, 
+              damping: 30,
+              mass: 0.8 
+            }}
+            onHoverStart={() => {}}
+            onHoverEnd={() => {}}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+            ref={islandRef}
+            style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+          >
           style={{
             position: 'fixed',
             top: 0,
@@ -353,11 +445,7 @@ const DynamicIslandOverlay: React.FC<{
                           border: `1px solid ${style.color}30`,
                           boxShadow: current.majestic ? `0 0 15px ${style.color}40` : 'none'
                         }}
-                      >
-                        {style.icon}
-                      </Box>
-                    </motion.div>
-                    <Box>
+                      > sx={{ flex: 1 }}>
                       <Typography
                         sx={{
                           color: 'white',
@@ -380,6 +468,24 @@ const DynamicIslandOverlay: React.FC<{
                             fontSize: '0.65rem'
                           }}
                         >
+                          Ecosystem Pulse
+                        </Typography>
+                      )}
+                    </Box>
+                    {current.type === 'error' && current.message && (
+                      <Tooltip title={copied ? "Copied!" : "Copy Error"}>
+                        <IconButton 
+                          size="small" 
+                          onClick={handleCopy}
+                          sx={{ 
+                            color: copied ? '#00F5FF' : 'rgba(255,255,255,0.3)',
+                            '&:hover': { color: 'white', bgcolor: 'rgba(255,255,255,0.05)' }
+                          }}
+                        >
+                          <CopyIcon sx={{ fontSize: 16 }} />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                           Ecosystem Pulse
                         </Typography>
                       )}
