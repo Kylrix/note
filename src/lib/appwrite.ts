@@ -139,11 +139,30 @@ function hydrateVirtualAttributes(doc: any): any {
   return doc;
 }
 
+/**
+ * Atomic helper to generate standard note permissions.
+ * Standardizes visibility across creation and updates.
+ */
+function getNotePermissions(userId: string, isPublic: boolean) {
+  const permissions = [
+    Permission.read(Role.user(userId)),
+    Permission.update(Role.user(userId)),
+    Permission.delete(Role.user(userId))
+  ];
+
+  if (isPublic) {
+    // Role.any() includes guests, so Role.guests() is redundant.
+    permissions.push(Permission.read(Role.any()));
+  }
+
+  return permissions;
+}
+
 function filterNoteData(data: Record<string, any>): Record<string, any> {
   const schemaKeys = [
     'id', 'createdAt', 'updatedAt', 'userId', 'isPublic', 'status', 
     'parentNoteId', 'title', 'content', 'tags', 'comments', 
-    'extensions', 'collaborators', 'metadata'
+    'extensions', 'collaborators', 'metadata', 'attachments', 'format'
   ];
   
   const filtered: Record<string, any> = {};
@@ -420,20 +439,11 @@ export async function createNote(data: Partial<Notes>) {
   const cleanData = cleanDocumentData(data);
   const noteData = { ...cleanData };
   delete noteData.attachments;
-  
-  const initialPermissions = [
-    Permission.read(Role.user(user.$id)),
-    Permission.update(Role.user(user.$id)),
-    Permission.delete(Role.user(user.$id))
-  ];
 
-  if (data.isPublic) {
-    initialPermissions.push(Permission.read(Role.any()));
-  }
-  
+  const initialPermissions = getNotePermissions(user.$id, !!data.isPublic);
+
   const docId = ID.unique();
-  const doc = await databases.createDocument(
-    APPWRITE_DATABASE_ID,
+  const doc = await databases.createDocument(    APPWRITE_DATABASE_ID,
     APPWRITE_TABLE_ID_NOTES,
     docId,
     filterNoteData({
@@ -564,15 +574,7 @@ export async function updateNote(noteId: string, data: Partial<Notes>) {
   
   let permissions = undefined;
   if (data.isPublic !== undefined && user?.$id) {
-    permissions = [
-      Permission.read(Role.user(user.$id)),
-      Permission.update(Role.user(user.$id)),
-      Permission.delete(Role.user(user.$id))
-    ];
-    if (data.isPublic) {
-      permissions.push(Permission.read(Role.any()));
-      permissions.push(Permission.read(Role.guests()));
-    }
+    permissions = getNotePermissions(user.$id, !!data.isPublic);
   }
 
   const doc = await databases.updateDocument(APPWRITE_DATABASE_ID, APPWRITE_TABLE_ID_NOTES, noteId, updatedData, permissions) as any;
