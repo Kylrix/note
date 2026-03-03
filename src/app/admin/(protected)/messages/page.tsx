@@ -11,7 +11,6 @@ import {
   Grid,
   Paper,
   Stack,
-  IconButton,
   Alert,
   CircularProgress,
   alpha,
@@ -22,8 +21,7 @@ import {
 import {
   Send as SendIcon,
   Preview as PreviewIcon,
-  ArrowBack as BackIcon,
-  Email as EmailIcon
+  ArrowBack as BackIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
 
