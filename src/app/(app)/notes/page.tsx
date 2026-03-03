@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import { Box, Typography, Stack, IconButton, Alert } from '@mui/material';
 import { deleteNote } from '@/lib/appwrite';
 import { useNotes } from '@/contexts/NotesContext';
