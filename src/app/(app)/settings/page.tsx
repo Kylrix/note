@@ -35,10 +35,10 @@ import {
     AlertTriangle
 } from 'lucide-react';
 import { ecosystemSecurity } from '@/lib/ecosystem/security';
-import { SudoModal } from '@/components/overlays/SudoModal';
+import SudoModal from '@/components/overlays/SudoModal';
 import { PasskeySetup } from '@/components/overlays/PasskeySetup';
 import { useAuth } from '@/components/ui/AuthContext';
-import { PageHeader } from '@/components/PageHeader';
+import PageHeader from '@/components/PageHeader';
 import { AppwriteService } from '@/lib/appwrite';
 import toast from 'react-hot-toast';
 
@@ -177,10 +177,7 @@ export default function SettingsPage() {
 
     return (
         <Box sx={{ maxWidth: 800, mx: 'auto', p: { xs: 2, md: 4 } }}>
-            <PageHeader 
-                title="Settings" 
-                subtitle="Configure your note-taking experience and security." 
-            />
+            <PageHeader />
 
             <Stack spacing={4} sx={{ mt: 4 }}>
                 {/* Security Section */}

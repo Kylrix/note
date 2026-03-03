@@ -24,6 +24,7 @@ import AppsIcon from "@mui/icons-material/Apps";
 import { ecosystemSecurity } from "@/lib/ecosystem/security";
 import { AppwriteService } from "@/lib/appwrite";
 import { useAuth } from "@/components/ui/AuthContext";
+import { unlockWithPasskey } from "@/lib/passkey";
 import toast from "react-hot-toast";
 
 interface SudoModalProps {
@@ -135,8 +136,18 @@ export default function SudoModal({
 
 
     const handlePasskeyVerify = async () => {
-        // Passkey logic omitted for brevity, mirroring vault implementation
-        toast.error("Passkey verification not implemented in this node yet");
+        if (!user?.$id) return;
+        setPasskeyLoading(true);
+        try {
+            const success = await unlockWithPasskey(user.$id);
+            if (success) {
+                onSuccess();
+            }
+        } catch (error: unknown) {
+            console.error(error);
+        } finally {
+            setPasskeyLoading(false);
+        }
     };
 
     return (
