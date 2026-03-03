@@ -194,7 +194,8 @@ export function NoteDetailSidebar({
         showSuccess('Note pinned');
       }
     } catch (err: any) {
-      showError(err.message || 'Failed to update pin status');
+      const isLimitError = err.message?.includes('limit reached');
+      showError(err.message || 'Failed to update pin status', undefined, isLimitError);
     }
   };
 

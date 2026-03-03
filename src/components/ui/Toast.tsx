@@ -15,12 +15,12 @@ export interface Toast {
 }
 
 interface ToastContextType {
-  showToast: (type: ToastType, title: string, message?: string, duration?: number) => void;
+  showToast: (type: ToastType, title: string, message?: string, duration?: number, defaultExpanded?: boolean) => void;
   dismissToast: (id: string) => void;
-  showError: (title: string, message?: string) => void;
-  showSuccess: (title: string, message?: string) => void;
-  showWarning: (title: string, message?: string) => void;
-  showInfo: (title: string, message?: string) => void;
+  showError: (title: string, message?: string, defaultExpanded?: boolean) => void;
+  showSuccess: (title: string, message?: string, defaultExpanded?: boolean) => void;
+  showWarning: (title: string, message?: string, defaultExpanded?: boolean) => void;
+  showInfo: (title: string, message?: string, defaultExpanded?: boolean) => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -41,13 +41,14 @@ export function ToastProvider({ children }: ToastProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const { showIsland } = useIsland();
 
-  const showToast = useCallback((type: ToastType, title: string, message?: string, duration = 5000) => {
+  const showToast = useCallback((type: ToastType, title: string, message?: string, duration = 5000, defaultExpanded = false) => {
     // Also trigger Dynamic Island for a better UX
     showIsland({
       type: type as IslandType,
       title,
       message,
-      duration
+      duration,
+      defaultExpanded
     });
 
     const id = Date.now().toString();
@@ -60,20 +61,20 @@ export function ToastProvider({ children }: ToastProviderProps) {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   }, []);
 
-  const showError = useCallback((title: string, message?: string) => {
-    showToast('error', title, message);
+  const showError = useCallback((title: string, message?: string, defaultExpanded = false) => {
+    showToast('error', title, message, 5000, defaultExpanded);
   }, [showToast]);
 
-  const showSuccess = useCallback((title: string, message?: string) => {
-    showToast('success', title, message);
+  const showSuccess = useCallback((title: string, message?: string, defaultExpanded = false) => {
+    showToast('success', title, message, 5000, defaultExpanded);
   }, [showToast]);
 
-  const showWarning = useCallback((title: string, message?: string) => {
-    showToast('warning', title, message);
+  const showWarning = useCallback((title: string, message?: string, defaultExpanded = false) => {
+    showToast('warning', title, message, 5000, defaultExpanded);
   }, [showToast]);
 
-  const showInfo = useCallback((title: string, message?: string) => {
-    showToast('info', title, message);
+  const showInfo = useCallback((title: string, message?: string, defaultExpanded = false) => {
+    showToast('info', title, message, 5000, defaultExpanded);
   }, [showToast]);
 
   const value: ToastContextType = {

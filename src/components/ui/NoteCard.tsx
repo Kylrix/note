@@ -119,7 +119,8 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
         showSuccess('Note pinned');
       }
     } catch (err: any) {
-      showError(err.message || 'Failed to update pin status');
+      const isLimitError = err.message?.includes('limit reached');
+      showError(err.message || 'Failed to update pin status', undefined, isLimitError);
     }
   };
 

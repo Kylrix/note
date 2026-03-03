@@ -24,7 +24,7 @@ import {
 import {
   Settings,
   LogOut,
-  Layout
+  Layout,
   Download,
   Sparkles,
   Bell,

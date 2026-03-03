@@ -36,6 +36,7 @@ export interface IslandNotification {
   majestic?: boolean;
   shape?: 'island' | 'ball' | 'pill';
   personal?: boolean;
+  defaultExpanded?: boolean;
   timestamp?: number;
 }
 
@@ -174,11 +175,11 @@ const DynamicIslandOverlay: React.FC<{
   // Reset expansion ONLY when the notification ID actually changes
   useEffect(() => {
     if (current?.id && current.id !== lastSeenId) {
-      setIsExpanded(false);
+      setIsExpanded(current.defaultExpanded || false);
       setLastSeenId(current.id);
       setCopied(false);
     }
-  }, [current?.id, lastSeenId]);
+  }, [current?.id, current?.defaultExpanded, lastSeenId]);
 
   // Handle outside click and ESC key
   useEffect(() => {
