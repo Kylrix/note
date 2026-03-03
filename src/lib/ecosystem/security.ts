@@ -79,7 +79,7 @@ export class EcosystemSecurity {
         hash: "SHA-256",
       },
       keyMaterial,
-      { name: "AES-GCM", salt: salt, length: EcosystemSecurity.KEY_SIZE },
+      { name: "AES-GCM", length: EcosystemSecurity.KEY_SIZE } as any,
       true,
       ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
     );
