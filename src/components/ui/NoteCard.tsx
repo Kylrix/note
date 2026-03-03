@@ -341,13 +341,39 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
           position: 'relative',
           overflow: 'hidden',
           bgcolor: 'rgba(10, 10, 10, 0.98)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           borderRadius: '20px',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          // Subtle 3D shadow and highlight
+          boxShadow: `
+            0 4px 12px rgba(0, 0, 0, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.05)
+          `,
+          transform: 'perspective(1000px) rotateX(0deg)',
+          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
           '&:hover': {
-            transform: 'translateY(-4px)',
-            borderColor: 'rgba(0, 245, 255, 0.3)',
-            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 245, 255, 0.1)',
+            transform: 'perspective(1000px) rotateX(4deg) translateY(-8px)',
+            borderColor: 'rgba(0, 245, 255, 0.4)',
+            // Significantly elevated but contained shadow
+            boxShadow: `
+              0 20px 30px -10px rgba(0, 0, 0, 0.7),
+              0 10px 20px -5px rgba(0, 245, 255, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.1)
+            `,
+            '&::after': {
+              opacity: 1,
+            }
+          },
+          // Subtle light sweep effect on hover
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.3), transparent)',
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
           }
         }}
       >

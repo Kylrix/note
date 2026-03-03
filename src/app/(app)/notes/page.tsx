@@ -212,20 +212,23 @@ export default function NotesPage() {
     if (!isCollapsed && isDynamicSidebarOpen) {
       return {
         display: 'grid',
-        gap: 1.5,
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))'
+        gap: 2,
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+        perspective: '1200px'
       };
     } else if (!isCollapsed || isDynamicSidebarOpen) {
       return {
         display: 'grid',
-        gap: 1.5,
-        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))'
+        gap: 2,
+        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+        perspective: '1200px'
       };
     } else {
       return {
         display: 'grid',
-        gap: 1.5,
-        '@media (min-width: 600px)': { gap: 2 },
+        gap: 2,
+        perspective: '1200px',
+        '@media (min-width: 600px)': { gap: 2.5 },
         gridTemplateColumns: {
           xs: 'repeat(2, 1fr)',
           sm: 'repeat(auto-fill, minmax(260px, 1fr))',
