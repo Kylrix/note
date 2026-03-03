@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import { Query } from 'appwrite';
 import { useAuth } from '@/components/ui/AuthContext';

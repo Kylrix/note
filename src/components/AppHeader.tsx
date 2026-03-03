@@ -25,6 +25,7 @@ import {
   Settings,
   LogOut,
   Layout,
+  LayoutGrid,
   Download,
   Sparkles,
   Bell,
