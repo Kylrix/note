@@ -15,8 +15,7 @@ import {
   alpha,
   CircularProgress,
   Breadcrumbs,
-  Link as MuiLink,
-  Tooltip
+  Link as MuiLink
 } from '@mui/material';
 import { 
   ArrowBack as ArrowLeftIcon, 

@@ -14,7 +14,6 @@ import {
   Container,
   Card,
   CardContent,
-  IconButton,
   Chip,
   alpha,
   Dialog,
@@ -27,8 +26,7 @@ import {
   Search as SearchIcon, 
   Extension as ExtensionIcon,
   Person as PersonIcon,
-  Download as DownloadIcon,
-  Settings as SettingsIcon
+  Download as DownloadIcon
 } from '@mui/icons-material';
 import { Extensions } from '@/types/appwrite';
 import { listExtensions, createExtension, updateExtension, getCurrentUser } from '@/lib/appwrite';
@@ -158,21 +156,16 @@ export default function ExtensionsPage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<{ $id?: string } | null>(null);
 
-  useEffect(() => {
-    loadExtensions();
-    loadUser();
-  }, []);
-
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     try {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
     } catch (error: any) {
       console.error('Failed to load user:', error);
     }
-  };
+  }, []);
 
-  const loadExtensions = async () => {
+  const loadExtensions = useCallback(async () => {
     try {
       setLoading(true);
       const result = await listExtensions();
@@ -182,7 +175,12 @@ export default function ExtensionsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadExtensions();
+    loadUser();
+  }, [loadExtensions, loadUser]);
 
   const handleCreateExtension = async (extensionData: Partial<Extensions>) => {
     try {

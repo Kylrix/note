@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { SidebarProvider, useSidebar } from '@/components/ui/SidebarContext';
 import { DynamicSidebarProvider, useDynamicSidebar, DynamicSidebar } from '@/components/ui/DynamicSidebar';
 import { NotesProvider } from '@/contexts/NotesContext';
@@ -10,7 +10,7 @@ const DesktopSidebar = lazy(() => import('@/components/Navigation').then(m => ({
 const MobileBottomNav = lazy(() => import('@/components/Navigation').then(m => ({ default: m.MobileBottomNav })));
 const AppHeader = lazy(() => import('@/components/AppHeader'));
 
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { isCollapsed } = useSidebar();

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Chip, Stack, Typography } from '@mui/material';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 import { Query } from 'appwrite';
 import { useAuth } from '@/components/ui/AuthContext';
 import { createReaction, listReactions, deleteReaction } from '@/lib/appwrite';

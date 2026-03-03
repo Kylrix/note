@@ -21,7 +21,6 @@ import {
   alpha
 } from '@mui/material';
 import { 
-  Remove as MinusIcon, 
   Delete as TrashIcon,
   ArrowBack as BackIcon
 } from '@mui/icons-material';
@@ -35,7 +34,6 @@ export default function NoteEditorPage() {
   const router = useRouter();
   const [note, setNote] = useState<Notes | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { showSuccess, showError } = useToast();

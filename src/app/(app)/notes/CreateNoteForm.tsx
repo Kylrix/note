@@ -26,7 +26,6 @@ import { useOverlay } from '@/components/ui/OverlayContext';
 import { useToast } from '@/components/ui/Toast';
 import { createNote as appwriteCreateNote } from '@/lib/appwrite';
 import type { Notes } from '@/types/appwrite';
-import * as AppwriteTypes from '@/types/appwrite';
 import DoodleCanvas from '@/components/DoodleCanvas';
 
 interface CreateNoteFormProps {
