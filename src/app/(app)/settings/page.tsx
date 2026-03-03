@@ -14,7 +14,12 @@ import {
     Alert,
     CircularProgress,
     alpha,
-    useTheme
+    useTheme,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    IconButton
 } from '@mui/material';
 import { 
     Lock, 
@@ -26,18 +31,23 @@ import {
     ShieldAlert,
     ChevronRight,
     Search,
-    Trash2
+    Trash2,
+    AlertTriangle
 } from 'lucide-react';
 import { ecosystemSecurity } from '@/lib/ecosystem/security';
 import { SudoModal } from '@/components/overlays/SudoModal';
+import { PasskeySetup } from '@/components/overlays/PasskeySetup';
 import { useAuth } from '@/components/ui/AuthContext';
 import { PageHeader } from '@/components/PageHeader';
+import { AppwriteService } from '@/lib/appwrite';
+import toast from 'react-hot-toast';
 
 export default function SettingsPage() {
     const { user } = useAuth();
     const theme = useTheme();
     const [isUnlocked, setIsUnlocked] = useState(ecosystemSecurity.status.isUnlocked);
     const [unlockModalOpen, setUnlockModalOpen] = useState(false);
+    const [passkeySetupOpen, setPasskeySetupOpen] = useState(false);
     const [oldPin, setOldPin] = useState('');
     const [pin, setPin] = useState('');
     const [confirmPin, setConfirmPin] = useState('');
@@ -45,6 +55,11 @@ export default function SettingsPage() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
     const [pendingAction, setPendingAction] = useState<'setup' | 'wipe' | null>(null);
+
+    // Passkey state
+    const [passkeyEntries, setPasskeyEntries] = useState<any[]>([]);
+    const [loadingPasskeys, setLoadingPasskeys] = useState(true);
+    const [hasStalePasskeys, setHasStalePasskeys] = useState(false);
 
     useEffect(() => {
         setIsPinSet(ecosystemSecurity.isPinSet());
@@ -54,8 +69,45 @@ export default function SettingsPage() {
                 setIsUnlocked(ecosystemSecurity.status.isUnlocked);
             }
         }, 1000);
+
+        if (user?.$id) {
+            loadPasskeys();
+        }
+
         return () => clearInterval(interval);
-    }, [isUnlocked]);
+    }, [isUnlocked, user]);
+
+    const loadPasskeys = async () => {
+        if (!user?.$id) return;
+        try {
+            const entries = await AppwriteService.listKeychainEntries(user.$id);
+            const pkEntries = entries.filter((e: any) => e.type === 'passkey').map((e: any) => ({
+                ...e,
+                params: typeof e.params === 'string' ? JSON.parse(e.params) : e.params
+            }));
+            
+            setPasskeyEntries(pkEntries);
+            
+            const stale = pkEntries.some((e: any) => {
+                return !e.params?.rpId || e.params.rpId !== window.location.hostname;
+            });
+            setHasStalePasskeys(stale);
+        } catch (e) {
+            console.error("Failed to load passkeys", e);
+        } finally {
+            setLoadingPasskeys(false);
+        }
+    };
+
+    const handleRemovePasskey = async (id: string) => {
+        try {
+            await AppwriteService.deleteKeychainEntry(id);
+            toast.success("Passkey removed");
+            loadPasskeys();
+        } catch (e) {
+            toast.error("Failed to remove passkey");
+        }
+    };
 
     const handleSetPin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -174,11 +226,98 @@ export default function SettingsPage() {
 
                             <Divider sx={{ opacity: 0.05 }} />
 
+                            {/* Passkey Section */}
+                            <Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                                    <Box>
+                                        <Typography variant="h6" sx={{ fontWeight: 800, fontFamily: 'var(--font-space-grotesk)' }}>Passkeys</Typography>
+                                        <Typography variant="body2" sx={{ opacity: 0.6 }}>
+                                            Use biometrics to securely unlock your notes.
+                                        </Typography>
+                                    </Box>
+                                    <Button 
+                                        variant="contained" 
+                                        size="small" 
+                                        startIcon={<Fingerprint size={18} />}
+                                        onClick={() => setPasskeySetupOpen(true)}
+                                        sx={{ borderRadius: '12px', textTransform: 'none', fontWeight: 700 }}
+                                    >
+                                        Add Passkey
+                                    </Button>
+                                </Box>
+
+                                {hasStalePasskeys && (
+                                    <Alert 
+                                        severity="warning" 
+                                        icon={<AlertTriangle size={20} />}
+                                        sx={{ 
+                                            mb: 3, 
+                                            borderRadius: '16px', 
+                                            bgcolor: alpha(theme.palette.warning.main, 0.05),
+                                            border: `1px solid ${alpha(theme.palette.warning.main, 0.1)}`,
+                                            color: theme.palette.warning.main
+                                        }}
+                                    >
+                                        <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Stale Passkeys</Typography>
+                                        <Typography variant="body2" sx={{ opacity: 0.8, mb: 1 }}>
+                                            Some passkeys were registered on an old domain and are inactive.
+                                        </Typography>
+                                        <Button 
+                                            size="small" 
+                                            color="warning" 
+                                            onClick={() => {
+                                                const staleIds = passkeyEntries.filter(e => !e.params?.rpId || e.params.rpId !== window.location.hostname).map(e => e.$id);
+                                                Promise.all(staleIds.map(id => AppwriteService.deleteKeychainEntry(id))).then(() => {
+                                                    toast.success("Stale passkeys cleared");
+                                                    loadPasskeys();
+                                                });
+                                            }}
+                                            sx={{ fontWeight: 700, textTransform: 'none' }}
+                                        >
+                                            Clear Stale Passkeys
+                                        </Button>
+                                    </Alert>
+                                )}
+
+                                <List sx={{ bgcolor: 'rgba(255, 255, 255, 0.02)', borderRadius: '16px', p: 0, overflow: 'hidden' }}>
+                                    {passkeyEntries.length === 0 ? (
+                                        <Box sx={{ p: 2, textAlign: 'center', opacity: 0.5 }}>
+                                            <Typography variant="body2">No passkeys registered.</Typography>
+                                        </Box>
+                                    ) : (
+                                        passkeyEntries.map((pk, idx) => (
+                                            <React.Fragment key={pk.$id}>
+                                                <ListItem 
+                                                    secondaryAction={
+                                                        <IconButton edge="end" color="error" onClick={() => handleRemovePasskey(pk.$id)}>
+                                                            <Trash2 size={18} />
+                                                        </IconButton>
+                                                    }
+                                                >
+                                                    <ListItemIcon>
+                                                        <Fingerprint size={20} color={pk.params?.rpId === window.location.hostname ? theme.palette.primary.main : "#666"} />
+                                                    </ListItemIcon>
+                                                    <ListItemText 
+                                                        primary={pk.params?.name || `Passkey ${idx + 1}`}
+                                                        secondary={pk.params?.rpId !== window.location.hostname ? "Inactive (Old Domain)" : "Active"}
+                                                        primaryTypographyProps={{ fontWeight: 700, fontSize: '0.9rem' }}
+                                                        secondaryTypographyProps={{ fontSize: '0.75rem', color: pk.params?.rpId !== window.location.hostname ? 'error.main' : 'inherit' }}
+                                                    />
+                                                </ListItem>
+                                                {idx < passkeyEntries.length - 1 && <Divider sx={{ opacity: 0.05 }} />}
+                                            </React.Fragment>
+                                        ))
+                                    )}
+                                </List>
+                            </Box>
+
+                            <Divider sx={{ opacity: 0.05 }} />
+
                             <Box>
                                 <Typography variant="h6" sx={{ fontWeight: 800, fontFamily: 'var(--font-space-grotesk)', mb: 1 }}>Quick Unlock (PIN)</Typography>
                                 <Typography variant="body2" sx={{ opacity: 0.6, mb: 4, maxWidth: 600 }}>
                                     {isPinSet 
-                                        ? "Your PIN is active. Use the form below to update it or reset if forgotten."
+                                        ? "Your PIN is active. Use the form below to update it."
                                         : "Set a 4-digit PIN for instant access to your private notes between sessions."
                                     }
                                 </Typography>
@@ -263,7 +402,44 @@ export default function SettingsPage() {
                     </Paper>
                 </Box>
 
-                {/* Editor Section ... unchanged */}
+                {/* Editor Section */}
+                <Box>
+                    <Typography variant="overline" sx={{ fontWeight: 900, color: 'primary.main', mb: 2, display: 'block', letterSpacing: '0.1em' }}>
+                        EDITOR PREFERENCES
+                    </Typography>
+                    <Paper sx={{ 
+                        p: 4, 
+                        borderRadius: '32px', 
+                        bgcolor: 'rgba(255, 255, 255, 0.02)', 
+                        border: '1px solid rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(20px)',
+                        backgroundImage: 'none'
+                    }}>
+                        <Stack spacing={1}>
+                            <FormControlLabel
+                                control={<Switch defaultChecked color="primary" />}
+                                label={
+                                    <Box sx={{ ml: 1 }}>
+                                        <Typography variant="subtitle1" sx={{ fontWeight: 800, fontFamily: 'var(--font-space-grotesk)' }}>Auto-save</Typography>
+                                        <Typography variant="caption" sx={{ opacity: 0.6, display: 'block' }}>Automatically save notes while typing</Typography>
+                                    </Box>
+                                }
+                                sx={{ justifyContent: 'space-between', width: '100%', ml: 0, flexDirection: 'row-reverse', py: 1 }}
+                            />
+                            <Divider sx={{ opacity: 0.05 }} />
+                            <FormControlLabel
+                                control={<Switch color="primary" />}
+                                label={
+                                    <Box sx={{ ml: 1 }}>
+                                        <Typography variant="subtitle1" sx={{ fontWeight: 800, fontFamily: 'var(--font-space-grotesk)' }}>Markdown Preview</Typography>
+                                        <Typography variant="caption" sx={{ opacity: 0.6, display: 'block' }}>Show side-by-side markdown preview</Typography>
+                                    </Box>
+                                }
+                                sx={{ justifyContent: 'space-between', width: '100%', ml: 0, flexDirection: 'row-reverse', py: 1 }}
+                            />
+                        </Stack>
+                    </Paper>
+                </Box>
             </Stack>
 
             <SudoModal 
@@ -283,6 +459,17 @@ export default function SettingsPage() {
                         setPendingAction(null);
                     }
                 }}
+            />
+
+            <PasskeySetup 
+                isOpen={passkeySetupOpen}
+                onClose={() => setPasskeySetupOpen(false)}
+                userId={user?.$id || ""}
+                onSuccess={() => {
+                    setPasskeySetupOpen(false);
+                    loadPasskeys();
+                }}
+                trustUnlocked={true}
             />
         </Box>
     );

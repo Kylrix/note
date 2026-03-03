@@ -83,6 +83,23 @@ export class AppwriteService {
       return [];
     }
   }
+
+  static async createKeychainEntry(data: any): Promise<any> {
+    return await databases.createDocument(
+      KEEP_DATABASE_ID,
+      KEEP_COLLECTION_ID_KEYCHAIN,
+      ID.unique(),
+      data
+    );
+  }
+
+  static async deleteKeychainEntry(id: string): Promise<void> {
+    await databases.deleteDocument(
+      KEEP_DATABASE_ID,
+      KEEP_COLLECTION_ID_KEYCHAIN,
+      id
+    );
+  }
 }
 
 // Simple in-memory cache for query results with TTL
