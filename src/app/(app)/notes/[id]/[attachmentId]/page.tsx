@@ -61,7 +61,7 @@ export default function AttachmentPage() {
         if (!res.ok) throw new Error('Failed to load attachment');
         const json = await res.json();
         if (!cancelled) setData(json);
-      } catch (_e: unknown) {
+      } catch (e: any) {
         if (!cancelled) setError(e?.message || 'Failed to load attachment');
       } finally {
         if (!cancelled) setLoading(false);

@@ -24,7 +24,7 @@ export default function CollaboratorsSection({ noteId }: CollaboratorsProps) {
       try {
         const res = await listCollaborators(noteId);
         setCollaborators(res.documents as unknown as Collaborators[]);
-      } catch (_error: unknown) {
+      } catch (error: any) {
         console.error('Failed to fetch collaborators:', error);
       }
     };
@@ -33,7 +33,7 @@ export default function CollaboratorsSection({ noteId }: CollaboratorsProps) {
       try {
         const res = await listUsers();
         setUsers(res.documents as unknown as Users[]);
-      } catch (_error: unknown) {
+      } catch (error: any) {
         console.error('Failed to fetch users:', error);
       }
     };
@@ -58,7 +58,7 @@ export default function CollaboratorsSection({ noteId }: CollaboratorsProps) {
        setCollaborators(prev => [collaborator as Collaborators, ...prev]);
       setNewCollaboratorEmail('');
       showSuccess('Collaborator Added', `${user.email} has been added as a collaborator.`);
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Failed to add collaborator:', error);
       showError('Failed to Add Collaborator', 'Please try again.');
     }
@@ -68,7 +68,7 @@ export default function CollaboratorsSection({ noteId }: CollaboratorsProps) {
     try {
       await deleteCollaborator(collaboratorId);
       setCollaborators(prev => prev.filter(c => c.$id !== collaboratorId));
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Failed to remove collaborator:', error);
     }
   };
@@ -81,14 +81,14 @@ export default function CollaboratorsSection({ noteId }: CollaboratorsProps) {
           fullWidth
           label="User email"
           value={newCollaboratorEmail}
-          onChange={(_e) => setNewCollaboratorEmail(e.target.value)}
+          onChange={ (e) => setNewCollaboratorEmail(e.target.value)}
         />
         <FormControl sx={{ minWidth: 120 }}>
           <InputLabel>Permission</InputLabel>
           <Select
             value={permission}
             label="Permission"
-            onChange={(_e) => setPermission(e.target.value)}
+            onChange={ (e) => setPermission(e.target.value)}
           >
             <MenuItem value="read">Read</MenuItem>
             <MenuItem value="write">Write</MenuItem>

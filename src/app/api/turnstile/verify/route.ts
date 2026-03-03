@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (_error: unknown) {
+  } catch (error: any) {
     console.error('Turnstile verification error:', error);
     return NextResponse.json(
       { error: 'Verification error' },

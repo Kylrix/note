@@ -47,7 +47,7 @@ export function TaskSelectorModal({ isOpen, onClose, onSelect }: TaskSelectorMod
         try {
           const res = await listFlowTasks();
           setTasks(res.documents as any[]);
-        } catch (_err: unknown) {
+        } catch (err: any) {
           showError(err.message || 'Failed to fetch tasks from Kylrix Flow');
           onClose();
         } finally {
@@ -70,7 +70,7 @@ export function TaskSelectorModal({ isOpen, onClose, onSelect }: TaskSelectorMod
           size="small"
           placeholder="Search tasks..."
           value={search}
-          onChange={(_e) => setSearch(e.target.value)}
+          onChange={ (e) => setSearch(e.target.value)}
           sx={{
             mb: 2,
             '& .MuiOutlinedInput-root': {

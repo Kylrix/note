@@ -101,7 +101,7 @@ export const MobileBottomNav: React.FC = () => {
   );
 };
 
-export const DesktopSidebar: React.FC<NavigationProps> = () => {
+export const DesktopSidebar: React.FC = () => {
   const { isCollapsed, setIsCollapsed } = useSidebar();
   const pathname = usePathname();
   const { user, isAuthenticated, logout } = useAuth();
@@ -121,7 +121,7 @@ export const DesktopSidebar: React.FC<NavigationProps> = () => {
           const url = await fetchProfilePreview(profilePicId, 64, 64);
           if (mounted) setSmallProfileUrl(url as unknown as string);
         } else if (mounted) setSmallProfileUrl(null);
-      } catch (_err: unknown) {
+      } catch (err: any) {
         if (mounted) setSmallProfileUrl(null);
       }
     };

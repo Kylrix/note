@@ -33,7 +33,7 @@ export async function verifyTurnstileToken(token: string): Promise<TurnstileVeri
     }
 
     return await response.json();
-  } catch (_error: unknown) {
+  } catch (error: any) {
     console.error('Turnstile verification error:', error);
     return { success: false, error_codes: ['NETWORK_ERROR'] };
   }

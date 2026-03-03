@@ -216,7 +216,7 @@ export async function GET(
         height: 630,
       }
     );
-  } catch (_e: unknown) {
+  } catch (e: any) {
     console.error(e);
     return new Response('Failed to generate image', { status: 500 });
   }

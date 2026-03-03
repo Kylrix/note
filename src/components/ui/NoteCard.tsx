@@ -72,7 +72,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       });
       upsertNote(updated);
       showSuccess(`Note ${action}d successfully`);
-    } catch (_err: unknown) {
+    } catch (err: any) {
       showError(err.message || `Failed to ${action} note`);
     } finally {
       setIsAIProcessing(false);
@@ -87,7 +87,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
     try {
       await createTaskFromNote(note);
       showSuccess('Linked task created in Kylrix Flow');
-    } catch (_err: unknown) {
+    } catch (err: any) {
       showError(err.message || 'Failed to create task');
     } finally {
       setIsAIProcessing(false);
@@ -118,7 +118,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
         await pinNote(note.$id);
         showSuccess('Note pinned');
       }
-    } catch (_err: unknown) {
+    } catch (err: any) {
       showError(err.message || 'Failed to update pin status');
     }
   };
@@ -132,7 +132,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       });
       upsertNote(duplicatedNote as Notes);
       showSuccess('Note duplicated');
-    } catch (_err: unknown) {
+    } catch (err: any) {
       showError(err.message || 'Failed to duplicate note');
     }
   };
@@ -146,7 +146,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
       } else {
         throw new Error('Failed to update visibility');
       }
-    } catch (_err: unknown) {
+    } catch (err: any) {
       showError(err.message || 'Failed to update visibility');
     }
   };

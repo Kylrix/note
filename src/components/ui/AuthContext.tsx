@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               }
             }
           }
-        } catch (_e: unknown) {
+        } catch (e: any) {
           try {
             // Document doesn't exist, create it with auto-generated username
             const autoUsername = getEffectiveUsername({
@@ -118,7 +118,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       setIsLoading(false);
       return currentUser;
-    } catch (_error: unknown) {
+    } catch (error: any) {
       // Check for auth=success signal in URL
       const hasAuthSignal = typeof window !== 'undefined' && window.location.search.includes('auth=success');
       
@@ -303,7 +303,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('user_cache');
         sessionStorage.removeItem('auth_temp_data');
       }
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Logout failed:', error);
     } finally {
       // Always clear local user state regardless of logout success
@@ -327,7 +327,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIDMWindowOpen(true);
         return false;
       }
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Session recovery failed:', error);
       setIDMWindowOpen(true);
       return false;
@@ -425,6 +425,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (idmWindowRef.current && !idmWindowRef.current.closed) {
           idmWindowRef.current.focus();
         } else {
+          const width = 500;
+          const height = 600;
+          const left = window.screenX + (window.outerWidth - width) / 2;
+          const top = window.screenY + (window.outerHeight - height) / 2;
+
           const windowRef = window.open(
             targetUrl,
             'Kylrix NoteIDM',
@@ -441,7 +446,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         setIDMWindowOpen(true);
-      } catch (_error: unknown) {
+      } catch (error: any) {
         console.error('Failed to initiate IDM flow:', error);
         setIsAuthenticating(false);
         router.replace('/landing');

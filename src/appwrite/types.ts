@@ -96,7 +96,7 @@ export enum MomentsType {
     IMAGE = "image",
     VIDEO = "video"
 }
-export type UsersCreate = {
+export type AppwriteUsersCreate = {
     "id"?: string | null;
     "email"?: string | null;
     "name"?: string | null;
@@ -105,7 +105,7 @@ export type UsersCreate = {
     "updatedAt"?: string | null;
 }
 
-export type Users = Models.Row & {
+export type AppwriteUsers = Models.Row & {
     "id"?: string | null;
     "email"?: string | null;
     "name"?: string | null;

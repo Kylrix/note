@@ -33,7 +33,7 @@ export function useAdminGate() {
         throw new Error(j.error || 'Forbidden');
       }
       setState({ loading: false, authorized: true, error: null, jwt: token });
-    } catch (_e: unknown) {
+    } catch (e: any) {
       setState({ loading: false, authorized: false, error: e.message || 'Access denied', jwt: null });
     } finally {
       creatingRef.current = false;

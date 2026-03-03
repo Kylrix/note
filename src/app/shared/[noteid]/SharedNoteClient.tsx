@@ -176,7 +176,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
       }
       const note = await res.json();
       setVerifiedNote(note);
-    } catch (_err: unknown) {
+    } catch (err: any) {
       const message = err?.message || 'An error occurred';
       setError(message);
     } finally {

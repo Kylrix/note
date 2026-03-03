@@ -149,7 +149,7 @@ export default function NoteEditor({
         onNoteCreated?.(saved);
       }
       onSave?.(saved);
-    } catch (_err: unknown) {
+    } catch (err: any) {
       setError(err?.message || 'Failed to save note');
     } finally {
       setIsSaving(false);
@@ -174,7 +174,7 @@ export default function NoteEditor({
           placeholder="Note Title"
           variant="standard"
           value={title}
-          onChange={(_e) => setTitle(e.target.value)}
+          onChange={ (e) => setTitle(e.target.value)}
           disabled={isSaving}
           InputProps={{
             disableUnderline: true,

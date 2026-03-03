@@ -57,7 +57,7 @@ function SearchResultAvatar({ result }: { result: SearchResult }) {
         const { fetchProfilePreview } = await import('@/lib/profilePreview');
         const previewUrl = await fetchProfilePreview(result.profilePicId, 48, 48);
         if (mounted) setUrl(previewUrl);
-      } catch (_err: unknown) {
+      } catch (err: any) {
         console.error('Failed to load search result avatar', err);
       }
     };
@@ -213,7 +213,7 @@ export default function GlobalSearch({
           profilePicId: u.profilePicId
         }));
         globalPeople = peopleResults as SearchResult[];
-      } catch (_err: unknown) {
+      } catch (err: any) {
         console.error('Global search failed', err);
       }
 
@@ -271,7 +271,7 @@ export default function GlobalSearch({
     try {
       await logout();
       router.push('/');
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Logout failed:', error);
     }
     handleUserMenuClose();
@@ -289,7 +289,7 @@ export default function GlobalSearch({
       <TextField
         fullWidth
         value={query}
-        onChange={(_e) => setQuery(e.target.value)}
+        onChange={ (e) => setQuery(e.target.value)}
         placeholder={placeholder}
         variant="outlined"
         sx={{

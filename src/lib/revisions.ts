@@ -66,11 +66,11 @@ export async function pruneRevisions(
           revisionsCollection,
           revisionId
         );
-      } catch (_e: unknown) {
+      } catch (e: any) {
         console.error(`Failed to delete revision ${revisionId}:`, e);
       }
     }
-  } catch (_e: unknown) {
+  } catch (e: any) {
     console.error('pruneRevisions failed:', e);
     // Fail silently - don't break note updates
   }
@@ -98,7 +98,7 @@ export async function getNoteRevisions(
     );
 
     return res.documents as unknown as NoteRevisions[];
-  } catch (_e: unknown) {
+  } catch (e: any) {
     console.error('getNoteRevisions failed:', e);
     return [];
   }
@@ -125,7 +125,7 @@ export async function getNoteRevision(
     );
 
     return (res.documents[0] as unknown as NoteRevisions) || null;
-  } catch (_e: unknown) {
+  } catch (e: any) {
     console.error('getNoteRevision failed:', e);
     return null;
   }
@@ -265,7 +265,7 @@ export async function createRevision(
     );
 
     return revision as unknown as NoteRevisions;
-  } catch (_e: unknown) {
+  } catch (e: any) {
     console.error('createRevision failed:', e);
     return null;
   }

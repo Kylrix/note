@@ -142,7 +142,7 @@ export function useSearch<T extends { $id: string; [key: string]: any }>({
     try {
       const result = await fetchDataAction(queries);
       return result;
-    } catch (_err: unknown) {
+    } catch (err: any) {
       throw new Error(err.message || 'Failed to fetch data');
     }
   }, [fetchDataAction, searchFields, pageSize]);
@@ -164,7 +164,7 @@ export function useSearch<T extends { $id: string; [key: string]: any }>({
         setBackendData(result.documents);
         setTotalCount(result.total);
       }
-    } catch (_err: unknown) {
+    } catch (err: any) {
       setError(err.message);
       setBackendData([]);
       setTotalCount(0);

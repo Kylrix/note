@@ -72,7 +72,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ note
     );
 
     return NextResponse.json({ documents: res.documents });
-  } catch (_error: unknown) {
+  } catch (error: any) {
     console.error('Error fetching shared reactions:', error);
     return NextResponse.json({ error: 'Failed to fetch reactions' }, { status: 500 });
   }

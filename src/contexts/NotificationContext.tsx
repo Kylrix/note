@@ -42,7 +42,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       if (details.startsWith('{')) {
         return JSON.parse(details);
       }
-    } catch (_e: unknown) {
+    } catch (e: any) {
       // Not JSON, treat as raw string
     }
     return { read: false, originalDetails: details };
@@ -61,7 +61,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       const logs = res.documents as unknown as ActivityLog[];
       setNotifications(logs);
       setUnreadCount(calculateUnread(logs));
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Failed to fetch notifications:', error);
     } finally {
       setIsLoading(false);
@@ -138,7 +138,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       await updateDocument(APPWRITE_TABLE_ID_ACTIVITYLOG, id, {
         details: JSON.stringify(newMetadata)
       });
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Failed to sync read state to cloud:', error);
       // Revert on failure if necessary, or just rely on next fetch
     }
@@ -157,7 +157,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
     // Sync to cloud in background
     Promise.all(unreadNotifications.map(n => markAsRead(n.$id)))
-      .catch (_err => console.error('Bulk mark as read failed:', err));
+      .catch (err => console.error('Bulk mark as read failed:', err));
   };
 
   const clearNotifications = () => {

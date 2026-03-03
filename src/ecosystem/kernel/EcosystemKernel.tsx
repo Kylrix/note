@@ -423,7 +423,7 @@ const EcosystemWindow = ({ window: win, isActive }: { window: WindowInstance, is
 const WindowControl = ({ icon, onClick, hoverColor }: { icon: any, onClick: () => void, hoverColor?: string }) => (
   <IconButton 
     size="small" 
-    onClick={(_e) => { e.stopPropagation(); onClick(); }}
+    onClick={(e) => { e.stopPropagation(); onClick(); }}
     sx={{ 
       color: 'rgba(255,255,255,0.4)',
       borderRadius: '8px',

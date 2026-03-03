@@ -55,7 +55,7 @@ export default function SharedNotesPage() {
         } else {
           setPublicNotes([]);
         }
-      } catch (_error: unknown) {
+      } catch (error: any) {
         console.error('Error fetching shared notes:', error);
       } finally {
         setLoading(false);

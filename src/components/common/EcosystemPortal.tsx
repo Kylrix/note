@@ -173,7 +173,7 @@ export function EcosystemPortal({ open: controlledOpen, onClose: controlledOnClo
                                 placeholder="Jump to app or search actions..."
                                 fullWidth
                                 value={search}
-                                onChange={(_e) => setSearch(e.target.value)}
+                                onChange={ (e) => setSearch(e.target.value)}
                                 sx={{
                                     color: 'white',
                                     fontFamily: 'var(--font-inter)',

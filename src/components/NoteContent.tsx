@@ -135,7 +135,7 @@ export default function NoteContent({
       <TextField
         placeholder="Write your note content here..."
         value={content}
-        onChange={(_e) => onChange(e.target.value)}
+        onChange={ (e) => onChange(e.target.value)}
         disabled={disabled}
         multiline
         minRows={12}

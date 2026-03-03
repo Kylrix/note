@@ -55,6 +55,7 @@ interface NoteDetailSidebarProps {
   note: Notes;
   onUpdate: (updatedNote: Notes) => void;
   onDelete: (noteId: string) => void;
+  onBack?: () => void;
   showExpandButton?: boolean;
   showHeaderDeleteButton?: boolean;
 }
@@ -74,6 +75,7 @@ export function NoteDetailSidebar({
   note,
   onUpdate,
   onDelete,
+  onBack,
   showExpandButton = true,
   showHeaderDeleteButton = true,
 }: NoteDetailSidebarProps) {
@@ -112,7 +114,7 @@ export function NoteDetailSidebar({
       try {
         const res = await listFlowTasks([Query.equal('$id', taskIds)]);
         setLinkedTasks(res.documents);
-      } catch (_err: unknown) {
+      } catch (err: any) {
         console.error('Failed to fetch linked tasks:', err);
       } finally {
         setIsLoadingTasks(false);
@@ -135,7 +137,7 @@ export function NoteDetailSidebar({
       try {
         const res = await listFlowEvents([Query.equal('$id', eventIds)]);
         setLinkedEvents(res.documents);
-      } catch (_err: unknown) {
+      } catch (err: any) {
         console.error('Failed to fetch linked events:', err);
       } finally {
         setIsLoadingEvents(false);
@@ -158,7 +160,7 @@ export function NoteDetailSidebar({
       try {
         const res = await listKeepCredentials([Query.equal('$id', secretIds)]);
         setLinkedSecrets(res.documents);
-      } catch (_err: unknown) {
+      } catch (err: any) {
         console.error('Failed to fetch linked secrets:', err);
       } finally {
         setIsLoadingSecrets(false);
@@ -191,7 +193,7 @@ export function NoteDetailSidebar({
         await pinNote(note.$id);
         showSuccess('Note pinned');
       }
-    } catch (_err: unknown) {
+    } catch (err: any) {
       showError(err.message || 'Failed to update pin status');
     }
   };
@@ -207,7 +209,7 @@ export function NoteDetailSidebar({
       try {
         const parsed = note.attachments.map((a: any) => (typeof a === 'string' ? JSON.parse(a) : a));
         setCurrentAttachments(parsed);
-      } catch (_err: unknown) {
+      } catch (err: any) {
         console.error('Error parsing attachments:', err);
         setCurrentAttachments([]);
       }
@@ -435,7 +437,7 @@ export function NoteDetailSidebar({
               showSuccess('Attachment added', `${file.name} uploaded successfully`);
             }
           }
-        } catch (_err: unknown) {
+        } catch (err: any) {
           newErrors.push(`${file.name}: ${err?.message || 'Upload failed'}`);
         }
       }
@@ -488,8 +490,8 @@ export function NoteDetailSidebar({
           {showExpandButton && (
             <Tooltip title="Open full page">
               <IconButton
-                onClick={(_event) => {
-                  event.stopPropagation();
+                onClick={(event) => {
+                event.stopPropagation();
                   handleOpenFullPage();
                 }}
                 sx={{
@@ -512,7 +514,7 @@ export function NoteDetailSidebar({
                   const updated = await updateNote(note.$id, { isPublic: newStatus });
                   onUpdate(updated);
                   showSuccess(updated.isPublic ? 'Note is now Public' : 'Note is now Private');
-                } catch (_err: unknown) {
+                } catch (err: any) {
                   setIsPublic(!newStatus); // Rollback
                   showError('Failed to update visibility', err.message);
                 }
@@ -606,7 +608,7 @@ export function NoteDetailSidebar({
             fullWidth
             variant="standard"
             value={title || ''}
-            onChange={(_e) => {
+            onChange={(e) => {
               setTitle(e.target.value);
               resetTitleIdleTimer();
             }}
@@ -712,7 +714,7 @@ export function NoteDetailSidebar({
                 rows={12}
                 variant="standard"
                 value={content || ''}
-                onChange={(_e) => {
+                onChange={(e) => {
                   setContent(e.target.value);
                   resetContentIdleTimer();
                 }}
@@ -778,7 +780,7 @@ export function NoteDetailSidebar({
                   variant="outlined"
                   size="small"
                   startIcon={<ClipboardDocumentIcon />}
-                  onClick={async (_event) => {
+                  onClick={async (event) => {
                     event.stopPropagation();
                     try {
                       await navigator.clipboard.writeText(displayContent);
@@ -832,7 +834,7 @@ export function NoteDetailSidebar({
             size="small"
             placeholder="Separate tags with commas"
             value={tags}
-            onChange={(_e) => setTags(e.target.value)}
+            onChange={ (e) => setTags(e.target.value)}
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: '12px',
@@ -1048,7 +1050,7 @@ export function NoteDetailSidebar({
           <CircularProgress size={20} sx={{ color: '#00F5FF', ml: 1 }} />
         ) : linkedEvents.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            {linkedEvents.map((_event) => (
+            {linkedEvents.map((event) => (
               <Box key={event.$id} sx={{
                 display: 'flex',
                 alignItems: 'center',

@@ -317,7 +317,7 @@ const DynamicIslandOverlay: React.FC<{
               // UNLESS the user is actively interacting with it.
               if (!isMobile) setIsExpanded(false);
             }}
-            onClick={(_e) => {
+            onClick={(e) => {
               e.stopPropagation();
               // Force expansion on click, making it "sticky"
               setIsExpanded(true);
@@ -478,7 +478,7 @@ const DynamicIslandOverlay: React.FC<{
                   <Stack direction="row" spacing={1.5}>
                     {current.action && (
                       <Button
-                        onClick={(_e) => {
+                        onClick={(e) => {
                           e.stopPropagation();
                           current.action?.onClick();
                           onDismiss(current.id);
@@ -522,7 +522,7 @@ const DynamicIslandOverlay: React.FC<{
                     )}
 
                     <IconButton
-                      onClick={(_e) => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         onDismiss(current.id);
                       }}

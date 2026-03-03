@@ -96,7 +96,7 @@ export function TopBarSearch() {
       try {
         await deleteNote(noteId);
         removeNote(noteId);
-      } catch (_error: unknown) {
+      } catch (error: any) {
         console.error('Failed to delete note from search sidebar:', error);
       }
     },
@@ -157,7 +157,7 @@ export function TopBarSearch() {
           inputRef={inputRef}
           placeholder="Search Notes..."
           value={searchQuery}
-          onChange={(_e) => setSearchQuery(e.target.value)}
+          onChange={ (e) => setSearchQuery(e.target.value)}
           onFocus={handleFocus}
           fullWidth
           sx={{

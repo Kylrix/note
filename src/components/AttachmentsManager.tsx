@@ -38,7 +38,7 @@ export default function AttachmentsManager({ noteId, onAttachmentAdded }: Attach
         onAttachmentAdded?.(result);
       }
       if (fileInputRef.current) fileInputRef.current.value = '';
-    } catch (_err: unknown) {
+    } catch (err: any) {
       console.error('Upload failed:', err);
       setError(err?.message || 'Failed to upload attachment');
     } finally {

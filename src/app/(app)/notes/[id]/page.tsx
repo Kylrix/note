@@ -57,7 +57,7 @@ export default function NoteEditorPage() {
         if (mounted) {
           setNote(fetched);
         }
-      } catch (_error: unknown) {
+      } catch (error: any) {
         console.error('Failed to load note', error);
         showError('Failed to load note', 'Please try again later.');
       } finally {
@@ -76,7 +76,7 @@ export default function NoteEditorPage() {
       const saved = await updateNote(updated.$id || (id as string) || '', updated);
       setNote(saved);
       showSuccess('Saved', 'Note updated successfully');
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Update failed', error);
       showError('Update failed', 'Could not save your changes.');
     } finally {
@@ -90,7 +90,7 @@ export default function NoteEditorPage() {
       await deleteNote(noteId);
       showSuccess('Deleted', 'Note removed');
       router.push('/notes');
-    } catch (_error: unknown) {
+    } catch (error: any) {
       console.error('Delete failed', error);
       showError('Delete failed', 'Could not delete the note.');
     } finally {

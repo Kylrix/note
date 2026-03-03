@@ -91,7 +91,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
     try {
       const url = await fetchProfilePreview(fileId, 64, 64);
       return url;
-    } catch (_err: unknown) {
+    } catch (err: any) {
       return null;
     }
   }, []);
@@ -112,7 +112,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
           // ignore preview errors
         }
       }
-    } catch (_err: unknown) {
+    } catch (err: any) {
       console.error('Failed to load shared users:', err);
     } finally {
       setIsLoadingUsers(false);
@@ -165,7 +165,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
         }));
 
       setResults(filtered as FoundUser[]);
-    } catch (_err: unknown) {
+    } catch (err: any) {
       console.error('Global search failed in share modal:', err);
       setResults([]);
     } finally {
@@ -256,7 +256,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
       setSelectedUser(null);
       setResults([]);
       await loadSharedUsers();
-    } catch (_err: unknown) {
+    } catch (err: any) {
       const msg = err && typeof err === 'object' && 'message' in err ? String((err as any).message) : String(err);
       setErrorMsg(msg || 'Failed to share note');
       if (optimistic) {
@@ -275,7 +275,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
     try {
       await updateCollaborator(collab.collaborationId, { permission: newPerm as any });
       setSuccessMsg('Permission updated');
-    } catch (_err: unknown) {
+    } catch (err: any) {
       const msg = err && typeof err === 'object' && 'message' in err ? String((err as any).message) : String(err);
       setErrorMsg(msg || 'Failed updating permission');
       setSharedUsers(prev => prev.map(u => u.id === collab.id ? { ...u, permission: prevPerm } : u));
@@ -291,7 +291,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
     try {
       await removeNoteSharing(noteId, sharedUserId);
       setSuccessMsg(`Removed sharing with ${userEmail}`);
-    } catch (_err: unknown) {
+    } catch (err: any) {
       console.error('Failed to remove sharing:', err);
       setSharedUsers(previous);
       const msg = err && typeof err === 'object' && 'message' in err ? String((err as any).message) : String(err);
@@ -360,7 +360,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                 fullWidth
                 placeholder="Name or email address"
                 value={query}
-                onChange={(_e) => { setQuery(e.target.value); setSelectedUser(null); resetMessages(); }}
+                onChange={ (e) => { setQuery(e.target.value); setSelectedUser(null); resetMessages(); }}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -466,7 +466,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
             <FormControl sx={{ minWidth: 140 }}>
               <Select
                 value={permission}
-                onChange={(_e) => setPermission(_e.target.value as 'read' | 'write' | 'admin')}
+                onChange={ (e) => setPermission(e.target.value as 'read' | 'write' | 'admin')}
                 sx={{
                   borderRadius: '12px',
                   bgcolor: 'rgba(255, 255, 255, 0.03)',
@@ -547,7 +547,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                     <Select
                       size="small"
                       value={user.permission}
-                      onChange={(_e) => handleUpdatePermission(user, e.target.value as 'read' | 'write' | 'admin')}
+                      onChange={ (e) => handleUpdatePermission(user, e.target.value as 'read' | 'write' | 'admin')}
                       disabled={updatingCollab === user.collaborationId || user.collaborationId === 'pending'}
                       sx={{
                         height: 32,
