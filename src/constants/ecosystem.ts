@@ -19,7 +19,7 @@ export const ECOSYSTEM_APPS: EcosystemApp[] = [
   { id: 'vault', label: 'Vault', subdomain: 'vault', type: 'app', icon: 'shield', color: '#8b5cf6', description: 'Secure vault and identity vault.' },
   { id: 'flow', label: 'Flow', subdomain: 'flow', type: 'app', icon: 'zap', color: '#10b981', description: 'Intelligent task orchestration.' },
   { id: 'connect', label: 'Connect', subdomain: 'connect', type: 'app', icon: 'waypoints', color: '#ec4899', description: 'Secure bridge for communication.' },
-  { id: 'id', label: 'Accounts', subdomain: KYLRIX_AUTH_SUBDOMAIN, type: 'accounts', icon: 'fingerprint', color: '#ef4444', description: 'Sovereign identity management.' },
+  { id: 'accounts', label: 'Accounts', subdomain: KYLRIX_AUTH_SUBDOMAIN, type: 'accounts', icon: 'fingerprint', color: '#ef4444', description: 'Sovereign identity management.' },
 ];
 
 export const DEFAULT_ECOSYSTEM_LOGO = '/logo/rall.svg';
@@ -41,8 +41,7 @@ export function getEcosystemUrl(subdomain: string) {
       connect: 3004,
       kylrix: 3005
     };
-    const appId = subdomain === 'id' ? 'accounts' : subdomain;
-    return `http://localhost:${ports[appId] || 3000}`;
+    return `http://localhost:${ports[subdomain] || ports['accounts']}`;
   }
 
   return `https://${subdomain}.${KYLRIX_DOMAIN}`;

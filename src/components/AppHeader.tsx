@@ -52,6 +52,7 @@ import { TopBarSearch } from '@/components/TopBarSearch';
 import { AICommandModal } from '@/components/ai/AICommandModal';
 import { EcosystemPortal } from '@/components/common/EcosystemPortal';
 import Logo from '@/components/common/Logo';
+import { KYLRIX_AUTH_URI } from '@/constants/ecosystem';
 
 interface AppHeaderProps {
   className?: string;
@@ -126,10 +127,6 @@ export default function AppHeader({ className }: AppHeaderProps) {
     setAnchorElAccount(null);
     logout();
   };
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   const toggleNotifications = () => {
     setIsNotificationsOpen(!isNotificationsOpen);
@@ -490,30 +487,48 @@ export default function AppHeader({ className }: AppHeaderProps) {
             </IconButton>
           </Tooltip>
 
-          <IconButton 
-            onClick={(e) => setAnchorElAccount(e.currentTarget)}
-            sx={{ 
-              p: 0.5,
-              '&:hover': { transform: 'scale(1.05)' },
-              transition: 'transform 0.2s'
-            }}
-          >
-            <Avatar 
-              src={smallProfileUrl || undefined}
+          {isAuthenticated ? (
+            <IconButton 
+              onClick={(e) => setAnchorElAccount(e.currentTarget)}
               sx={{ 
-                width: 38, 
-                height: 38, 
-                bgcolor: '#00F5FF',
-                fontSize: '0.875rem',
-                fontWeight: 800,
-                color: '#000',
-                border: '2px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '12px'
+                p: 0.5,
+                '&:hover': { transform: 'scale(1.05)' },
+                transition: 'transform 0.2s'
               }}
             >
-              {user?.name ? user.name[0].toUpperCase() : 'U'}
-            </Avatar>
-          </IconButton>
+              <Avatar 
+                src={smallProfileUrl || undefined}
+                sx={{ 
+                  width: 38, 
+                  height: 38, 
+                  bgcolor: '#00F5FF',
+                  fontSize: '0.875rem',
+                  fontWeight: 800,
+                  color: '#000',
+                  border: '2px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '12px'
+                }}
+              >
+                {user?.name ? user.name[0].toUpperCase() : 'U'}
+              </Avatar>
+            </IconButton>
+          ) : (
+            <Button
+              href={`${KYLRIX_AUTH_URI}/login?source=${typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : ''}`}
+              variant="contained"
+              size="small"
+              sx={{
+                ml: 1,
+                bgcolor: '#00F5FF',
+                color: '#000',
+                fontWeight: 800,
+                borderRadius: '10px',
+                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+              }}
+            >
+              Connect
+            </Button>
+          )}
         </Box>
 
         {/* Account Menu */}
