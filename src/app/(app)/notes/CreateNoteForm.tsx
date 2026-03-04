@@ -236,7 +236,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                   py: 0.5,
                   color: 'rgba(255, 255, 255, 0.5)',
                   '&.Mui-selected': {
-                    bgcolor: '#00F5FF',
+                    bgcolor: '#6366F1',
                     color: 'black',
                     '&:hover': { bgcolor: '#00E5EE' }
                   }
@@ -314,7 +314,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                     borderColor: 'rgba(255, 255, 255, 0.15)'
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#00F5FF',
+                    borderColor: '#6366F1',
                     borderWidth: '2px'
                   }
                 }
@@ -360,10 +360,10 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                   fontWeight: 700,
                   fontFamily: 'var(--font-jetbrains-mono)',
                   '&.Mui-selected': {
-                    bgcolor: isPublic ? 'rgba(0, 245, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)',
-                    color: isPublic ? '#00F5FF' : 'white',
+                    bgcolor: isPublic ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.1)',
+                    color: isPublic ? '#6366F1' : 'white',
                     '&:hover': {
-                      bgcolor: isPublic ? 'rgba(0, 245, 255, 0.2)' : 'rgba(255, 255, 255, 0.15)',
+                      bgcolor: isPublic ? 'rgba(99, 102, 241, 0.2)' : 'rgba(255, 255, 255, 0.15)',
                     }
                   }
                 }
@@ -415,7 +415,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                     borderColor: 'rgba(255, 255, 255, 0.15)'
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#00F5FF',
+                    borderColor: '#6366F1',
                     borderWidth: '2px'
                   }
                 }
@@ -508,7 +508,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                   >
                     <Box
                       sx={{
-                        bgcolor: '#00F5FF',
+                        bgcolor: '#6366F1',
                         color: 'black',
                         px: 2,
                         py: 1,
@@ -534,7 +534,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                     bgcolor: 'rgba(255, 255, 255, 0.02)',
                     '&:hover': {
                       bgcolor: 'rgba(255, 255, 255, 0.05)',
-                      borderColor: '#00F5FF'
+                      borderColor: '#6366F1'
                     },
                     transition: 'all 0.2s',
                     display: 'flex',
@@ -549,7 +549,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                     sx={{
                       width: 48,
                       height: 48,
-                      bgcolor: 'rgba(0, 245, 255, 0.1)',
+                      bgcolor: 'rgba(99, 102, 241, 0.1)',
                       borderRadius: '16px',
                       display: 'flex',
                       alignItems: 'center',
@@ -557,7 +557,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                       transition: 'all 0.2s'
                     }}
                   >
-                    <PencilIcon sx={{ fontSize: 24, color: '#00F5FF' }} />
+                    <PencilIcon sx={{ fontSize: 24, color: '#6366F1' }} />
                   </Box>
                   <Box sx={{ textAlign: 'center' }}>
                     <Typography variant="body2" sx={{ fontWeight: 700, color: 'white' }}>
@@ -611,7 +611,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                       borderColor: 'rgba(255, 255, 255, 0.2)'
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: '#00F5FF'
+                      borderColor: '#6366F1'
                     }
                   }
                 }}
@@ -620,14 +620,14 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 onClick={handleAddTag}
                 disabled={!currentTag.trim()}
                 sx={{
-                  bgcolor: '#00F5FF',
+                  bgcolor: '#6366F1',
                   color: 'black',
                   borderRadius: '12px',
                   width: 40,
                   height: 40,
                   '&:hover': { bgcolor: '#00E5EE' },
                   '&.Mui-disabled': {
-                    bgcolor: 'rgba(0, 245, 255, 0.3)',
+                    bgcolor: 'rgba(99, 102, 241, 0.3)',
                     color: 'rgba(0, 0, 0, 0.3)'
                   }
                 }}
@@ -645,13 +645,13 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                     onDelete={() => handleRemoveTag(tag)}
                     deleteIcon={<CloseIcon sx={{ fontSize: '12px !important' }} />}
                     sx={{
-                      bgcolor: 'rgba(0, 245, 255, 0.1)',
-                      color: '#00F5FF',
-                      border: '1px solid rgba(0, 245, 255, 0.2)',
+                      bgcolor: 'rgba(99, 102, 241, 0.1)',
+                      color: '#6366F1',
+                      border: '1px solid rgba(99, 102, 241, 0.2)',
                       borderRadius: '10px',
                       fontWeight: 600,
                       '& .MuiChip-deleteIcon': {
-                        color: '#00F5FF',
+                        color: '#6366F1',
                         '&:hover': { color: 'white' }
                       }
                     }}
@@ -707,16 +707,16 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             px: { xs: 4, sm: 6 }, 
             py: { xs: 1.5, sm: 2 },
             borderRadius: '16px',
-            bgcolor: '#00F5FF',
+            bgcolor: '#6366F1',
             color: 'black',
             fontWeight: 900,
             fontFamily: 'var(--font-satoshi)',
             fontSize: { xs: '0.9rem', sm: '1rem' },
-            boxShadow: '0 8px 32px rgba(0, 245, 255, 0.25)',
+            boxShadow: '0 8px 32px rgba(99, 102, 241, 0.25)',
             transition: 'all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
             '&:hover': { 
               bgcolor: '#00D1DA',
-              boxShadow: '0 12px 40px rgba(0, 245, 255, 0.4)',
+              boxShadow: '0 12px 40px rgba(99, 102, 241, 0.4)',
               transform: 'translateY(-2px)'
             },
             '&:active': {
@@ -724,7 +724,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
               filter: 'brightness(0.9)'
             },
             '&.Mui-disabled': {
-              bgcolor: 'rgba(0, 245, 255, 0.1)',
+              bgcolor: 'rgba(99, 102, 241, 0.1)',
               color: 'rgba(0, 0, 0, 0.3)',
               boxShadow: 'none'
             }

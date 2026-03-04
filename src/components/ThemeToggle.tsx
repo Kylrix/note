@@ -34,12 +34,12 @@ export function ThemeToggle({
           bgcolor: 'rgba(255, 255, 255, 0.05)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           borderRadius: '12px',
-          color: '#00F5FF',
+          color: '#6366F1',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             bgcolor: 'rgba(255, 255, 255, 0.1)',
             transform: 'rotate(15deg) scale(1.1)',
-            boxShadow: '0 0 20px rgba(0, 245, 255, 0.2)'
+            boxShadow: '0 0 20px rgba(99, 102, 241, 0.2)'
           }
         }}
         aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}

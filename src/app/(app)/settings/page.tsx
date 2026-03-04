@@ -209,9 +209,9 @@ export default function SettingsPage() {
                                             color: 'rgba(255, 255, 255, 0.6)',
                                             '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.06)', border: '1px solid rgba(255, 255, 255, 0.15)', color: 'white' }
                                         } : {
-                                            background: 'linear-gradient(135deg, #00F5FF 0%, #00D1DA 100%)',
+                                            background: 'linear-gradient(135deg, #6366F1 0%, #00D1DA 100%)',
                                             color: 'black',
-                                            boxShadow: '0 8px 20px rgba(0, 245, 255, 0.15)',
+                                            boxShadow: '0 8px 20px rgba(99, 102, 241, 0.15)',
                                             '&:hover': { background: 'linear-gradient(135deg, #00E5FF 0%, #00C1CA 100%)', transform: 'translateY(-1px)' }
                                         })
                                     }}
@@ -245,11 +245,11 @@ export default function SettingsPage() {
                                             borderRadius: '12px', 
                                             textTransform: 'none', 
                                             fontWeight: 800, 
-                                            bgcolor: 'rgba(0, 245, 255, 0.05)',
-                                            color: '#00F5FF',
+                                            bgcolor: 'rgba(99, 102, 241, 0.05)',
+                                            color: '#6366F1',
                                             px: 2,
-                                            border: '1px solid rgba(0, 245, 255, 0.1)',
-                                            '&:hover': { bgcolor: 'rgba(0, 245, 255, 0.1)', border: '1px solid rgba(0, 245, 255, 0.2)' }
+                                            border: '1px solid rgba(99, 102, 241, 0.1)',
+                                            '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.2)' }
                                         }}
                                     >
                                         Register
@@ -278,8 +278,8 @@ export default function SettingsPage() {
                                                     }
                                                 >
                                                     <ListItemIcon sx={{ minWidth: 44 }}>
-                                                        <Box sx={{ p: 1, borderRadius: '10px', bgcolor: 'rgba(0, 245, 255, 0.05)', display: 'flex', border: '1px solid rgba(0, 245, 255, 0.1)' }}>
-                                                            <Fingerprint size={18} color="#00F5FF" strokeWidth={1.5} />
+                                                        <Box sx={{ p: 1, borderRadius: '10px', bgcolor: 'rgba(99, 102, 241, 0.05)', display: 'flex', border: '1px solid rgba(99, 102, 241, 0.1)' }}>
+                                                            <Fingerprint size={18} color="#6366F1" strokeWidth={1.5} />
                                                         </Box>
                                                     </ListItemIcon>
                                                     <ListItemText 
@@ -366,7 +366,7 @@ export default function SettingsPage() {
                                                 bgcolor: isPinSet ? 'rgba(255, 255, 255, 0.03)' : 'primary.main',
                                                 color: isPinSet ? 'white' : 'black',
                                                 border: isPinSet ? '1px solid rgba(255, 255, 255, 0.08)' : 'none',
-                                                '&:hover': { bgcolor: isPinSet ? 'rgba(255, 255, 255, 0.06)' : alpha('#00F5FF', 0.8) },
+                                                '&:hover': { bgcolor: isPinSet ? 'rgba(255, 255, 255, 0.06)' : alpha('#6366F1', 0.8) },
                                                 textTransform: 'none'
                                             }}
                                         >

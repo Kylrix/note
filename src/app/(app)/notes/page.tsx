@@ -292,12 +292,12 @@ export default function NotesPage() {
               {...sidebarIgnoreProps} 
               sx={{ 
                 color: 'primary.main',
-                bgcolor: 'rgba(0, 245, 255, 0.05)',
+                bgcolor: 'rgba(99, 102, 241, 0.05)',
                 borderRadius: '12px',
-                border: '1px solid rgba(0, 245, 255, 0.1)',
+                border: '1px solid rgba(99, 102, 241, 0.1)',
                 '&:hover': {
-                  bgcolor: 'rgba(0, 245, 255, 0.1)',
-                  borderColor: 'rgba(0, 245, 255, 0.2)',
+                  bgcolor: 'rgba(99, 102, 241, 0.1)',
+                  borderColor: 'rgba(99, 102, 241, 0.2)',
                 }
               }}
             >
@@ -344,12 +344,12 @@ export default function NotesPage() {
               }}
             >
               {allNotes.length < totalNotes && !hasSearchResults ? (
-                <>Syncing <Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, color: '#00F5FF', fontSize: '0.85rem' }}>{allNotes.length}</Box> of <Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, fontSize: '0.85rem' }}>{totalNotes}</Box> notes</>
+                <>Syncing <Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, color: '#6366F1', fontSize: '0.85rem' }}>{allNotes.length}</Box> of <Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, fontSize: '0.85rem' }}>{totalNotes}</Box> notes</>
               ) : (
                 hasSearchResults ? (
-                  <><Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, color: '#00F5FF', fontSize: '0.85rem' }}>{totalCount}</Box> {totalCount === 1 ? 'result' : 'results'} found</>
+                  <><Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, color: '#6366F1', fontSize: '0.85rem' }}>{totalCount}</Box> {totalCount === 1 ? 'result' : 'results'} found</>
                 ) : (
-                  <><Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, color: '#00F5FF', fontSize: '0.85rem' }}>{totalNotes}</Box> {totalNotes === 1 ? 'note' : 'notes'}</>
+                  <><Box component="span" sx={{ fontFamily: 'var(--font-jetbrains-mono)', fontWeight: 700, color: '#6366F1', fontSize: '0.85rem' }}>{totalNotes}</Box> {totalNotes === 1 ? 'note' : 'notes'}</>
                 )
               )}
             </Typography>
@@ -381,13 +381,13 @@ export default function NotesPage() {
               {...sidebarIgnoreProps} 
               sx={{ 
                 color: 'primary.main',
-                bgcolor: 'rgba(0, 245, 255, 0.05)',
+                bgcolor: 'rgba(99, 102, 241, 0.05)',
                 borderRadius: '12px',
-                border: '1px solid rgba(0, 245, 255, 0.1)',
+                border: '1px solid rgba(99, 102, 241, 0.1)',
                 px: 2,
                 '&:hover': {
-                  bgcolor: 'rgba(0, 245, 255, 0.1)',
-                  borderColor: 'rgba(0, 245, 255, 0.2)',
+                  bgcolor: 'rgba(99, 102, 241, 0.1)',
+                  borderColor: 'rgba(99, 102, 241, 0.2)',
                 }
               }}
             >
@@ -588,12 +588,12 @@ export default function NotesPage() {
                   <Box 
                     sx={{ 
                       p: 1, 
-                      bgcolor: 'rgba(0, 245, 255, 0.05)', 
+                      bgcolor: 'rgba(99, 102, 241, 0.05)', 
                       borderRadius: '10px', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center',
-                      border: '1px solid rgba(0, 245, 255, 0.1)'
+                      border: '1px solid rgba(99, 102, 241, 0.1)'
                     }}
                   >
                     <PinIcon sx={{ fontSize: 16, color: 'primary.main', transform: 'rotate(45deg)' }} />

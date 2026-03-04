@@ -15,7 +15,7 @@
   --color-surface-2: rgba(255, 255, 255, 0.05);
   --color-titanium: #F2F2F2;
   --color-gunmetal: #A1A1AA;
-  --color-electric: #00F5FF;
+  --color-electric: #6366F1;
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-active: rgba(255, 255, 255, 0.15);
 
@@ -63,7 +63,7 @@ body {
 
 /* Selection styles */
 ::selection {
-  background-color: rgba(0, 245, 255, 0.2);
+  background-color: rgba(99, 102, 241, 0.2);
   color: #fff;
 }
 

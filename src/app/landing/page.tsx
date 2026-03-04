@@ -73,7 +73,7 @@ export default function LandingPage() {
       minHeight: '100vh', 
       bgcolor: '#0A0A0A', 
       color: 'rgba(255, 255, 255, 0.9)',
-      backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(0, 245, 255, 0.05) 0%, transparent 50%)'
+      backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05) 0%, transparent 50%)'
     }}>
       <AppBar 
         position="sticky" 
@@ -111,7 +111,7 @@ export default function LandingPage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
                   transition: 'all 0.2s',
-                  '&:hover': { color: '#00F5FF' }
+                  '&:hover': { color: '#6366F1' }
                 }}
               >
                 {item}
@@ -122,7 +122,7 @@ export default function LandingPage() {
           <Box>
             {isAuthenticated ? (
               <Avatar sx={{ 
-                bgcolor: '#00F5FF', 
+                bgcolor: '#6366F1', 
                 color: '#000', 
                 width: 36, 
                 height: 36, 
@@ -138,7 +138,7 @@ export default function LandingPage() {
                 onClick={() => openIDMWindow()}
                 isLoading={isAuthenticating}
                 sx={{ 
-                  color: '#00F5FF',
+                  color: '#6366F1',
                   fontWeight: 900,
                   fontFamily: '"Space Grotesk", sans-serif',
                   textTransform: 'uppercase',
@@ -171,7 +171,7 @@ export default function LandingPage() {
               }}
             >
               Your notes, <br />
-              <Box component="span" sx={{ color: '#00F5FF', WebkitTextFillColor: '#00F5FF' }}>Secured</Box>
+              <Box component="span" sx={{ color: '#6366F1', WebkitTextFillColor: '#6366F1' }}>Secured</Box>
             </Typography>
             <Typography 
               variant="body1" 
@@ -200,13 +200,13 @@ export default function LandingPage() {
                   fontFamily: '"Space Grotesk", sans-serif',
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
-                  bgcolor: '#00F5FF',
+                  bgcolor: '#6366F1',
                   color: '#000',
                   borderRadius: '100px',
-                  boxShadow: '0 0 30px rgba(0, 245, 255, 0.3)',
+                  boxShadow: '0 0 30px rgba(99, 102, 241, 0.3)',
                   '&:hover': {
                     bgcolor: '#00D1D9',
-                    boxShadow: '0 0 40px rgba(0, 245, 255, 0.5)',
+                    boxShadow: '0 0 40px rgba(99, 102, 241, 0.5)',
                   }
                 }}
                 onClick={() => openIDMWindow()}
@@ -233,7 +233,7 @@ export default function LandingPage() {
                 }}
               >
                 Secure notes <br />
-                <Box component="span" sx={{ color: '#00F5FF' }}>for the future</Box>
+                <Box component="span" sx={{ color: '#6366F1' }}>for the future</Box>
               </Typography>
               <Typography 
                 variant="body1" 
@@ -264,7 +264,7 @@ export default function LandingPage() {
                     transition: 'transform 0.3s ease, border-color 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-10px)',
-                      borderColor: 'rgba(0, 245, 255, 0.3)',
+                      borderColor: 'rgba(99, 102, 241, 0.3)',
                     }
                   }}>
                     <CardHeader>
@@ -275,9 +275,9 @@ export default function LandingPage() {
                         alignItems: 'center', 
                         justifyContent: 'center', 
                         borderRadius: '20px', 
-                        bgcolor: 'rgba(0, 245, 255, 0.1)', 
-                        color: '#00F5FF',
-                        border: '1px solid rgba(0, 245, 255, 0.2)'
+                        bgcolor: 'rgba(99, 102, 241, 0.1)', 
+                        color: '#6366F1',
+                        border: '1px solid rgba(99, 102, 241, 0.2)'
                       }}>
                         {feature.icon}
                       </Box>
@@ -330,7 +330,7 @@ export default function LandingPage() {
                     letterSpacing: '0.1em',
                     color: 'rgba(255, 255, 255, 0.4)',
                     transition: 'color 0.2s',
-                    '&:hover': { color: '#00F5FF' }
+                    '&:hover': { color: '#6366F1' }
                   }}
                 >
                   {item}

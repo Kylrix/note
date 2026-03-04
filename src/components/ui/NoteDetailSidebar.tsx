@@ -481,7 +481,7 @@ export function NoteDetailSidebar({
           onClick={onBack || closeSidebar}
           sx={{
             color: 'rgba(255, 255, 255, 0.5)',
-            '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+            '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
           }}
         >
           <BackIcon />
@@ -498,7 +498,7 @@ export function NoteDetailSidebar({
                 sx={{
                   display: { xs: 'none', md: 'inline-flex' },
                   color: 'rgba(255, 255, 255, 0.5)',
-                  '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+                  '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
                 }}
               >
                 <ArrowTopRightOnSquareIcon fontSize="small" />
@@ -521,8 +521,8 @@ export function NoteDetailSidebar({
                 }
               }}
               sx={{
-                color: isPublic ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
-                '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+                color: isPublic ? '#6366F1' : 'rgba(255, 255, 255, 0.5)',
+                '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
               }}
             >
               {isPublic ? <LinkIcon fontSize="small" /> : <LockIcon fontSize="small" />}
@@ -535,7 +535,7 @@ export function NoteDetailSidebar({
                 onClick={handleCopyShareLink}
                 sx={{
                   color: 'rgba(255, 255, 255, 0.5)',
-                  '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+                  '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
                 }}
               >
                 <ClipboardDocumentIcon fontSize="small" />
@@ -547,8 +547,8 @@ export function NoteDetailSidebar({
             <IconButton
               onClick={handlePinToggle}
               sx={{
-                color: pinned ? '#00F5FF' : 'rgba(255, 255, 255, 0.5)',
-                '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+                color: pinned ? '#6366F1' : 'rgba(255, 255, 255, 0.5)',
+                '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
               }}
             >
               {pinned ? <PinIcon fontSize="small" /> : <PinOutlinedIcon fontSize="small" />}
@@ -581,9 +581,9 @@ export function NoteDetailSidebar({
           p: 3,
           transition: 'all 0.3s ease',
           '&:focus-within': {
-            borderColor: '#00F5FF',
-            bgcolor: 'rgba(0, 245, 255, 0.05)',
-            boxShadow: '0 0 20px rgba(0, 245, 255, 0.1)',
+            borderColor: '#6366F1',
+            bgcolor: 'rgba(99, 102, 241, 0.05)',
+            boxShadow: '0 0 20px rgba(99, 102, 241, 0.1)',
           }
         }}
       >
@@ -591,7 +591,7 @@ export function NoteDetailSidebar({
           <Typography
             variant="caption"
             sx={{
-              color: '#00F5FF',
+              color: '#6366F1',
               fontWeight: 900,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
@@ -652,9 +652,9 @@ export function NoteDetailSidebar({
           p: 3,
           transition: 'all 0.3s ease',
           '&:focus-within': {
-            borderColor: '#00F5FF',
-            bgcolor: 'rgba(0, 245, 255, 0.05)',
-            boxShadow: '0 0 20px rgba(0, 245, 255, 0.1)',
+            borderColor: '#6366F1',
+            bgcolor: 'rgba(99, 102, 241, 0.05)',
+            boxShadow: '0 0 20px rgba(99, 102, 241, 0.1)',
           }
         }}
       >
@@ -662,7 +662,7 @@ export function NoteDetailSidebar({
           <Typography
             variant="caption"
             sx={{
-              color: '#00F5FF',
+              color: '#6366F1',
               fontWeight: 900,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
@@ -697,7 +697,7 @@ export function NoteDetailSidebar({
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   '&.Mui-selected': {
-                    bgcolor: '#00F5FF',
+                    bgcolor: '#6366F1',
                     color: '#000000',
                     '&:hover': { bgcolor: '#00D1DA' }
                   }
@@ -754,9 +754,9 @@ export function NoteDetailSidebar({
                       fontFamily: '"Space Grotesk", sans-serif',
                       fontWeight: 700,
                       '&:hover': {
-                        borderColor: '#00F5FF',
-                        bgcolor: 'rgba(0, 245, 255, 0.05)',
-                        color: '#00F5FF'
+                        borderColor: '#6366F1',
+                        bgcolor: 'rgba(99, 102, 241, 0.05)',
+                        color: '#6366F1'
                       }
                     }}
                   >
@@ -799,9 +799,9 @@ export function NoteDetailSidebar({
                     textTransform: 'uppercase',
                     fontSize: '0.75rem',
                     '&:hover': {
-                      borderColor: '#00F5FF',
-                      color: '#00F5FF',
-                      bgcolor: 'rgba(0, 245, 255, 0.05)'
+                      borderColor: '#6366F1',
+                      color: '#6366F1',
+                      bgcolor: 'rgba(99, 102, 241, 0.05)'
                     }
                   }}
                 >
@@ -820,7 +820,7 @@ export function NoteDetailSidebar({
           sx={{
             display: 'block',
             mb: 2,
-            color: '#00F5FF',
+            color: '#6366F1',
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
@@ -843,7 +843,7 @@ export function NoteDetailSidebar({
                 fontFamily: '"Inter", sans-serif',
                 '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
                 '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
-                '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                '&.Mui-focused fieldset': { borderColor: '#6366F1' },
               }
             }}
           />
@@ -855,9 +855,9 @@ export function NoteDetailSidebar({
                 label={tag}
                 size="small"
                 sx={{
-                  bgcolor: 'rgba(0, 245, 255, 0.1)',
-                  color: '#00F5FF',
-                  border: '1px solid rgba(0, 245, 255, 0.2)',
+                  bgcolor: 'rgba(99, 102, 241, 0.1)',
+                  color: '#6366F1',
+                  border: '1px solid rgba(99, 102, 241, 0.2)',
                   fontWeight: 700,
                   fontFamily: '"Space Grotesk", sans-serif',
                   textTransform: 'uppercase',
@@ -877,7 +877,7 @@ export function NoteDetailSidebar({
           sx={{
             display: 'block',
             mb: 2,
-            color: '#00F5FF',
+            color: '#6366F1',
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
@@ -899,7 +899,7 @@ export function NoteDetailSidebar({
             <Button
               fullWidth
               variant="outlined"
-              startIcon={isUploadingAttachment ? <CircularProgress size={16} sx={{ color: '#00F5FF' }} /> : <PaperClipIcon />}
+              startIcon={isUploadingAttachment ? <CircularProgress size={16} sx={{ color: '#6366F1' }} /> : <PaperClipIcon />}
               onClick={() => document.getElementById('attachment-input')?.click()}
               disabled={isUploadingAttachment}
               sx={{
@@ -910,8 +910,8 @@ export function NoteDetailSidebar({
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 '&:hover': {
-                  borderColor: '#00F5FF',
-                  bgcolor: 'rgba(0, 245, 255, 0.05)'
+                  borderColor: '#6366F1',
+                  bgcolor: 'rgba(99, 102, 241, 0.05)'
                 }
               }}
             >
@@ -947,7 +947,7 @@ export function NoteDetailSidebar({
                 }
               }}>
                 <Box sx={{ minWidth: 0 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: '#00F5FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 700, color: '#6366F1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
                     {a.name}
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontFamily: '"Inter", sans-serif' }}>
@@ -958,10 +958,10 @@ export function NoteDetailSidebar({
                   size="small"
                   href={`/notes/${note.$id}/${a.id}`}
                   sx={{
-                    color: '#00F5FF',
+                    color: '#6366F1',
                     fontWeight: 800,
                     fontFamily: '"Space Grotesk", sans-serif',
-                    '&:hover': { bgcolor: 'rgba(0, 245, 255, 0.1)' }
+                    '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.1)' }
                   }}
                 >
                   OPEN
@@ -981,7 +981,7 @@ export function NoteDetailSidebar({
           sx={{
             display: 'block',
             mb: 2,
-            color: '#00F5FF',
+            color: '#6366F1',
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
@@ -991,7 +991,7 @@ export function NoteDetailSidebar({
           Linked Tasks (Flow)
         </Typography>
         {isLoadingTasks ? (
-          <CircularProgress size={20} sx={{ color: '#00F5FF', ml: 1 }} />
+          <CircularProgress size={20} sx={{ color: '#6366F1', ml: 1 }} />
         ) : linkedTasks.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             {linkedTasks.map((task) => (
@@ -1002,16 +1002,16 @@ export function NoteDetailSidebar({
                 gap: 2,
                 p: 2,
                 borderRadius: '16px',
-                bgcolor: 'rgba(0, 245, 255, 0.03)',
-                border: '1px solid rgba(0, 245, 255, 0.1)',
+                bgcolor: 'rgba(99, 102, 241, 0.03)',
+                border: '1px solid rgba(99, 102, 241, 0.1)',
                 transition: 'all 0.2s ease',
                 '&:hover': {
-                  bgcolor: 'rgba(0, 245, 255, 0.06)',
-                  borderColor: 'rgba(0, 245, 255, 0.3)'
+                  bgcolor: 'rgba(99, 102, 241, 0.06)',
+                  borderColor: 'rgba(99, 102, 241, 0.3)'
                 }
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
-                  <TaskIcon sx={{ color: task.status === 'done' ? '#4CAF50' : '#00F5FF', fontSize: 18 }} />
+                  <TaskIcon sx={{ color: task.status === 'done' ? '#4CAF50' : '#6366F1', fontSize: 18 }} />
                   <Typography variant="body2" sx={{ fontWeight: 700, color: '#FFFFFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
                     {task.title}
                   </Typography>
@@ -1019,7 +1019,7 @@ export function NoteDetailSidebar({
                 <IconButton
                   size="small"
                   onClick={() => window.open(`https://flow.kylrix.space/tasks?taskId=${task.$id}`, '_blank')}
-                  sx={{ color: '#00F5FF' }}
+                  sx={{ color: '#6366F1' }}
                 >
                   <OpenIcon fontSize="small" />
                 </IconButton>
@@ -1038,7 +1038,7 @@ export function NoteDetailSidebar({
           sx={{
             display: 'block',
             mb: 2,
-            color: '#00F5FF',
+            color: '#6366F1',
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
@@ -1048,7 +1048,7 @@ export function NoteDetailSidebar({
           Linked Events (Flow)
         </Typography>
         {isLoadingEvents ? (
-          <CircularProgress size={20} sx={{ color: '#00F5FF', ml: 1 }} />
+          <CircularProgress size={20} sx={{ color: '#6366F1', ml: 1 }} />
         ) : linkedEvents.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             {linkedEvents.map((event) => (
@@ -1059,16 +1059,16 @@ export function NoteDetailSidebar({
                 gap: 2,
                 p: 2,
                 borderRadius: '16px',
-                bgcolor: 'rgba(0, 245, 255, 0.03)',
-                border: '1px solid rgba(0, 245, 255, 0.1)',
+                bgcolor: 'rgba(99, 102, 241, 0.03)',
+                border: '1px solid rgba(99, 102, 241, 0.1)',
                 transition: 'all 0.2s ease',
                 '&:hover': {
-                  bgcolor: 'rgba(0, 245, 255, 0.06)',
-                  borderColor: 'rgba(0, 245, 255, 0.3)'
+                  bgcolor: 'rgba(99, 102, 241, 0.06)',
+                  borderColor: 'rgba(99, 102, 241, 0.3)'
                 }
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
-                  <EventIcon sx={{ color: '#00F5FF', fontSize: 18 }} />
+                  <EventIcon sx={{ color: '#6366F1', fontSize: 18 }} />
                   <Typography variant="body2" sx={{ fontWeight: 700, color: '#FFFFFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
                     {event.title}
                   </Typography>
@@ -1076,7 +1076,7 @@ export function NoteDetailSidebar({
                 <IconButton
                   size="small"
                   onClick={() => window.open(`https://flow.kylrix.space/events?eventId=${event.$id}`, '_blank')}
-                  sx={{ color: '#00F5FF' }}
+                  sx={{ color: '#6366F1' }}
                 >
                   <OpenIcon fontSize="small" />
                 </IconButton>
@@ -1095,7 +1095,7 @@ export function NoteDetailSidebar({
           sx={{
             display: 'block',
             mb: 2,
-            color: '#00F5FF',
+            color: '#6366F1',
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
@@ -1105,7 +1105,7 @@ export function NoteDetailSidebar({
           Linked Secrets (Keep)
         </Typography>
         {isLoadingSecrets ? (
-          <CircularProgress size={20} sx={{ color: '#00F5FF', ml: 1 }} />
+          <CircularProgress size={20} sx={{ color: '#6366F1', ml: 1 }} />
         ) : linkedSecrets.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             {linkedSecrets.map((secret) => (
@@ -1116,16 +1116,16 @@ export function NoteDetailSidebar({
                 gap: 2,
                 p: 2,
                 borderRadius: '16px',
-                bgcolor: 'rgba(0, 245, 255, 0.03)',
-                border: '1px solid rgba(0, 245, 255, 0.1)',
+                bgcolor: 'rgba(99, 102, 241, 0.03)',
+                border: '1px solid rgba(99, 102, 241, 0.1)',
                 transition: 'all 0.2s ease',
                 '&:hover': {
-                  bgcolor: 'rgba(0, 245, 255, 0.06)',
-                  borderColor: 'rgba(0, 245, 255, 0.3)'
+                  bgcolor: 'rgba(99, 102, 241, 0.06)',
+                  borderColor: 'rgba(99, 102, 241, 0.3)'
                 }
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
-                  <KeyIcon sx={{ color: '#00F5FF', fontSize: 18 }} />
+                  <KeyIcon sx={{ color: '#6366F1', fontSize: 18 }} />
                   <Typography variant="body2" sx={{ fontWeight: 700, color: '#FFFFFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
                     {secret.name}
                   </Typography>
@@ -1133,7 +1133,7 @@ export function NoteDetailSidebar({
                 <IconButton
                   size="small"
                   onClick={() => window.open(`https://vault.kylrix.space/vault?id=${secret.$id}`, '_blank')}
-                  sx={{ color: '#00F5FF' }}
+                  sx={{ color: '#6366F1' }}
                 >
                   <OpenIcon fontSize="small" />
                 </IconButton>
@@ -1163,7 +1163,7 @@ export function NoteDetailSidebar({
             <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontFamily: '"Inter", sans-serif', fontWeight: 600 }}>
               {isAutosaving ? 'Syncing changes…' : 'All changes synced'}
             </Typography>
-            {isAutosaving && <CircularProgress size={14} sx={{ color: '#00F5FF' }} />}
+            {isAutosaving && <CircularProgress size={14} sx={{ color: '#6366F1' }} />}
           </Box>
           <Button
             fullWidth

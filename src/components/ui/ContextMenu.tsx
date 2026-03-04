@@ -62,8 +62,8 @@ export function ContextMenu({ x, y, onCloseAction, items }: ContextMenuProps) {
             '&:hover': {
               bgcolor: item.variant === 'destructive' 
                 ? 'rgba(255, 69, 58, 0.1)' 
-                : 'rgba(0, 245, 255, 0.1)',
-              color: item.variant === 'destructive' ? '#FF453A' : '#00F5FF',
+                : 'rgba(99, 102, 241, 0.1)',
+              color: item.variant === 'destructive' ? '#FF453A' : '#6366F1',
             },
             '& .MuiListItemIcon-root': {
               minWidth: 'auto',

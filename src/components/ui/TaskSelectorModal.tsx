@@ -77,8 +77,8 @@ export function TaskSelectorModal({ isOpen, onClose, onSelect }: TaskSelectorMod
               bgcolor: 'rgba(255, 255, 255, 0.03)',
               borderRadius: '12px',
               '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
-              '&:hover fieldset': { borderColor: 'rgba(0, 245, 255, 0.3)' },
-              '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+              '&:hover fieldset': { borderColor: 'rgba(99, 102, 241, 0.3)' },
+              '&.Mui-focused fieldset': { borderColor: '#6366F1' },
             }
           }}
           InputProps={{
@@ -92,7 +92,7 @@ export function TaskSelectorModal({ isOpen, onClose, onSelect }: TaskSelectorMod
 
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-            <CircularProgress size={32} sx={{ color: '#00F5FF' }} />
+            <CircularProgress size={32} sx={{ color: '#6366F1' }} />
           </Box>
         ) : filteredTasks.length === 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, opacity: 0.5 }}>
@@ -110,8 +110,8 @@ export function TaskSelectorModal({ isOpen, onClose, onSelect }: TaskSelectorMod
                   mb: 1,
                   border: '1px solid rgba(255, 255, 255, 0.05)',
                   '&:hover': {
-                    bgcolor: 'rgba(0, 245, 255, 0.05)',
-                    borderColor: 'rgba(0, 245, 255, 0.2)',
+                    bgcolor: 'rgba(99, 102, 241, 0.05)',
+                    borderColor: 'rgba(99, 102, 241, 0.2)',
                   }
                 }}
               >

@@ -10,16 +10,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const getVariantStyles = () => {
       if (variant === 'contained') {
         return {
-          bgcolor: '#00F5FF',
+          bgcolor: '#6366F1',
           color: '#000000',
           fontWeight: 700,
           fontFamily: '"Space Grotesk", sans-serif',
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
-          boxShadow: '0 0 20px rgba(0, 245, 255, 0.3)',
+          boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)',
           '&:hover': {
             bgcolor: '#00D1DA',
-            boxShadow: '0 0 30px rgba(0, 245, 255, 0.5)',
+            boxShadow: '0 0 30px rgba(99, 102, 241, 0.5)',
             transform: 'translateY(-1px)',
           },
           '&:active': {
@@ -29,21 +29,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
       if (variant === 'outlined') {
         return {
-          border: '1px solid rgba(0, 245, 255, 0.5)',
-          color: '#00F5FF',
+          border: '1px solid rgba(99, 102, 241, 0.5)',
+          color: '#6366F1',
           bgcolor: 'transparent',
           backdropFilter: 'blur(10px)',
           fontWeight: 600,
           '&:hover': {
-            border: '1px solid #00F5FF',
-            bgcolor: 'rgba(0, 245, 255, 0.1)',
+            border: '1px solid #6366F1',
+            bgcolor: 'rgba(99, 102, 241, 0.1)',
           },
         };
       }
       return {
-        color: '#00F5FF',
+        color: '#6366F1',
         '&:hover': {
-          bgcolor: 'rgba(0, 245, 255, 0.05)',
+          bgcolor: 'rgba(99, 102, 241, 0.05)',
         },
       };
     };

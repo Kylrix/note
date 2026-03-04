@@ -71,7 +71,7 @@ export const InitialLoadingScreen: React.FC<InitialLoadingScreenProps> = ({
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '0.4em',
-            color: '#00F5FF',
+            color: '#6366F1',
             fontFamily: '"Space Grotesk", sans-serif',
             fontSize: '0.7rem',
             opacity: 0.8
@@ -87,9 +87,9 @@ export const InitialLoadingScreen: React.FC<InitialLoadingScreenProps> = ({
               borderRadius: 1,
               bgcolor: 'rgba(255, 255, 255, 0.05)',
               '& .MuiLinearProgress-bar': {
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 borderRadius: 1,
-                boxShadow: '0 0 15px rgba(0, 245, 255, 0.5)'
+                boxShadow: '0 0 15px rgba(99, 102, 241, 0.5)'
               }
             }} 
           />

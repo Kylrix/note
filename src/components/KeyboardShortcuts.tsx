@@ -36,7 +36,7 @@ const Shortcut = ({ keys, description }: ShortcutProps) => (
             borderRadius: '8px',
             bgcolor: 'rgba(255, 255, 255, 0.05)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            color: '#00F5FF',
+            color: '#6366F1',
             fontSize: '0.75rem',
             fontWeight: 800,
             fontFamily: 'monospace',
@@ -133,7 +133,7 @@ export default function KeyboardShortcuts({ open, onClose }: KeyboardShortcutsPr
         pb: 1
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <KeyboardIcon sx={{ color: '#00F5FF' }} />
+          <KeyboardIcon sx={{ color: '#6366F1' }} />
           <Typography variant="h5" sx={{ fontWeight: 900, color: 'white', letterSpacing: '-0.02em' }}>
             Keyboard Shortcuts
           </Typography>
@@ -145,7 +145,7 @@ export default function KeyboardShortcuts({ open, onClose }: KeyboardShortcutsPr
       <DialogContent sx={{ p: 3 }}>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 6 }}>
           <Box>
-            <Typography variant="caption" sx={{ fontWeight: 800, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
               General
             </Typography>
             {shortcuts.general.map((shortcut, index) => (
@@ -158,7 +158,7 @@ export default function KeyboardShortcuts({ open, onClose }: KeyboardShortcutsPr
 
             <Divider sx={{ my: 4, borderColor: 'rgba(255, 255, 255, 0.05)' }} />
 
-            <Typography variant="caption" sx={{ fontWeight: 800, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
               Editor
             </Typography>
             {shortcuts.editor.map((shortcut, index) => (
@@ -171,7 +171,7 @@ export default function KeyboardShortcuts({ open, onClose }: KeyboardShortcutsPr
           </Box>
 
           <Box>
-            <Typography variant="caption" sx={{ fontWeight: 800, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
               Navigation
             </Typography>
             {shortcuts.navigation.map((shortcut, index) => (
@@ -184,7 +184,7 @@ export default function KeyboardShortcuts({ open, onClose }: KeyboardShortcutsPr
 
             <Divider sx={{ my: 4, borderColor: 'rgba(255, 255, 255, 0.05)' }} />
 
-            <Typography variant="caption" sx={{ fontWeight: 800, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 3 }}>
               Organization
             </Typography>
             {shortcuts.organization.map((shortcut, index) => (
@@ -200,9 +200,9 @@ export default function KeyboardShortcuts({ open, onClose }: KeyboardShortcutsPr
         <Box sx={{ 
           mt: 4, 
           p: 2.5, 
-          bgcolor: alpha('#00F5FF', 0.03), 
+          bgcolor: alpha('#6366F1', 0.03), 
           border: '1px solid',
-          borderColor: alpha('#00F5FF', 0.1),
+          borderColor: alpha('#6366F1', 0.1),
           borderRadius: '16px' 
         }}>
           <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 1 }}>

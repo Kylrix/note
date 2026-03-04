@@ -120,7 +120,7 @@ export function DynamicSidebar() {
             sx={{ 
               display: { xs: 'inline-flex', sm: 'none' },
               color: 'rgba(255, 255, 255, 0.5)',
-              '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+              '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
             }}
           >
             <BackIcon />
@@ -130,7 +130,7 @@ export function DynamicSidebar() {
             sx={{ 
               fontWeight: 900, 
               fontFamily: '"Space Grotesk", sans-serif',
-              color: '#00F5FF',
+              color: '#6366F1',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
               fontSize: { xs: '0.875rem', sm: '1rem' }
@@ -145,7 +145,7 @@ export function DynamicSidebar() {
           sx={{ 
             display: { xs: 'none', sm: 'inline-flex' },
             color: 'rgba(255, 255, 255, 0.5)',
-            '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.1)' }
+            '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.1)' }
           }}
         >
           <CloseIcon />

@@ -49,11 +49,11 @@ export default function TagsPage() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    color: '#00F5FF', // Default to accent color
+    color: '#6366F1', // Default to accent color
   });
 
   const predefinedColors = [
-    '#00F5FF', // Electric Teal
+    '#6366F1', // Electric Teal
     '#A855F7', // Purple
     '#EC4899', // Pink
     '#3B82F6', // Blue
@@ -127,7 +127,7 @@ export default function TagsPage() {
         });
       }
       
-      setFormData({ name: '', description: '', color: '#00F5FF' });
+      setFormData({ name: '', description: '', color: '#6366F1' });
       setShowCreateForm(false);
       setEditingTag(null);
       await fetchTags();
@@ -143,7 +143,7 @@ export default function TagsPage() {
     setFormData({
       name: tag.name || '',
       description: tag.description || '',
-      color: tag.color || '#00F5FF',
+      color: tag.color || '#6366F1',
     });
     setShowCreateForm(true);
   };
@@ -162,7 +162,7 @@ export default function TagsPage() {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', description: '', color: '#00F5FF' });
+    setFormData({ name: '', description: '', color: '#6366F1' });
     setShowCreateForm(false);
     setEditingTag(null);
     setError(null);
@@ -172,7 +172,7 @@ export default function TagsPage() {
     return (
       <Box sx={{ minHeight: '100vh', bgcolor: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Stack spacing={2} alignItems="center">
-          <CircularProgress sx={{ color: '#00F5FF' }} />
+          <CircularProgress sx={{ color: '#6366F1' }} />
           <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Please log in to manage your tags</Typography>
         </Stack>
       </Box>
@@ -183,7 +183,7 @@ export default function TagsPage() {
     return (
       <Box sx={{ minHeight: '100vh', bgcolor: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Stack spacing={2} alignItems="center">
-          <CircularProgress sx={{ color: '#00F5FF' }} />
+          <CircularProgress sx={{ color: '#6366F1' }} />
           <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Loading tags...</Typography>
         </Stack>
       </Box>
@@ -211,11 +211,11 @@ export default function TagsPage() {
                 startIcon={<AddIcon />}
                 onClick={() => setShowCreateForm(true)}
                 sx={{
-                  bgcolor: '#00F5FF',
+                  bgcolor: '#6366F1',
                   color: 'black',
                   fontWeight: 900,
                   borderRadius: '12px',
-                  '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                  '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
                 }}
               >
                 Create New Tag
@@ -228,19 +228,19 @@ export default function TagsPage() {
                   key={tag.$id}
                   onClick={() => setSelectedTag(tag)}
                   sx={{
-                    bgcolor: selectedTag?.$id === tag.$id ? alpha('#00F5FF', 0.05) : 'rgba(255, 255, 255, 0.02)',
+                    bgcolor: selectedTag?.$id === tag.$id ? alpha('#6366F1', 0.05) : 'rgba(255, 255, 255, 0.02)',
                     border: '1px solid',
-                    borderColor: selectedTag?.$id === tag.$id ? '#00F5FF' : 'rgba(255, 255, 255, 0.1)',
+                    borderColor: selectedTag?.$id === tag.$id ? '#6366F1' : 'rgba(255, 255, 255, 0.1)',
                     borderRadius: '20px',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    '&:hover': { borderColor: '#00F5FF', bgcolor: alpha('#00F5FF', 0.05) }
+                    '&:hover': { borderColor: '#6366F1', bgcolor: alpha('#6366F1', 0.05) }
                   }}
                 >
                   <CardContent sx={{ p: 3 }}>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                       <Stack direction="row" spacing={2} alignItems="center">
-                        <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: tag.color || '#00F5FF' }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: tag.color || '#6366F1' }} />
                         <Typography sx={{ fontWeight: 800, color: 'white' }}>{tag.name}</Typography>
                       </Stack>
                       <Chip 
@@ -286,7 +286,7 @@ export default function TagsPage() {
             sx={{ 
               fontWeight: 900, 
               fontFamily: 'var(--font-space-grotesk)',
-              background: 'linear-gradient(90deg, #fff, #00F5FF)',
+              background: 'linear-gradient(90deg, #fff, #6366F1)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               mb: 1
@@ -315,13 +315,13 @@ export default function TagsPage() {
             startIcon={<AddIcon />}
             onClick={() => setShowCreateForm(true)}
             sx={{
-              bgcolor: '#00F5FF',
+              bgcolor: '#6366F1',
               color: 'black',
               fontWeight: 900,
               px: 4,
               py: 1.5,
               borderRadius: '12px',
-              '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+              '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
             }}
           >
             Create New Tag
@@ -335,7 +335,7 @@ export default function TagsPage() {
               sx={{ 
                 width: 120, 
                 height: 120, 
-                bgcolor: alpha('#00F5FF', 0.05), 
+                bgcolor: alpha('#6366F1', 0.05), 
                 borderRadius: '40px', 
                 mx: 'auto', 
                 mb: 4, 
@@ -353,13 +353,13 @@ export default function TagsPage() {
               variant="contained"
               onClick={() => setShowCreateForm(true)}
               sx={{
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: 'black',
                 fontWeight: 900,
                 px: 4,
                 py: 1.5,
                 borderRadius: '12px',
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
               }}
             >
               Create First Tag
@@ -380,8 +380,8 @@ export default function TagsPage() {
                     transition: 'all 0.3s ease',
                     '&:hover': { 
                       transform: 'translateY(-4px)', 
-                      borderColor: alpha(tag.color || '#00F5FF', 0.5),
-                      boxShadow: `0 8px 32px ${alpha(tag.color || '#00F5FF', 0.1)}`
+                      borderColor: alpha(tag.color || '#6366F1', 0.5),
+                      boxShadow: `0 8px 32px ${alpha(tag.color || '#6366F1', 0.1)}`
                     }
                   }}
                 >
@@ -393,11 +393,11 @@ export default function TagsPage() {
                             width: 40, 
                             height: 40, 
                             borderRadius: '12px', 
-                            bgcolor: alpha(tag.color || '#00F5FF', 0.1),
+                            bgcolor: alpha(tag.color || '#6366F1', 0.1),
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: tag.color || '#00F5FF'
+                            color: tag.color || '#6366F1'
                           }}
                         >
                           <LabelIcon />
@@ -520,7 +520,7 @@ export default function TagsPage() {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                       '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                      '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                      '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                     }
                   }}
                 />
@@ -544,7 +544,7 @@ export default function TagsPage() {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                       '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                      '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                      '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                     }
                   }}
                 />
@@ -607,12 +607,12 @@ export default function TagsPage() {
               variant="contained"
               disabled={isCreating || !formData.name.trim()}
               sx={{
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: 'black',
                 fontWeight: 900,
                 px: 3,
                 borderRadius: '10px',
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) },
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) },
                 '&.Mui-disabled': { bgcolor: 'rgba(255, 255, 255, 0.1)', color: 'rgba(255, 255, 255, 0.3)' }
               }}
             >

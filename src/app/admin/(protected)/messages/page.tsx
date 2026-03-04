@@ -116,7 +116,7 @@ export default function AdminMessages() {
             sx={{ 
               fontWeight: 900, 
               fontFamily: 'var(--font-space-grotesk)',
-              background: 'linear-gradient(90deg, #fff, #00F5FF)',
+              background: 'linear-gradient(90deg, #fff, #6366F1)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}
@@ -130,7 +130,7 @@ export default function AdminMessages() {
           startIcon={<BackIcon />}
           sx={{ 
             color: 'rgba(255, 255, 255, 0.7)',
-            '&:hover': { color: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.05)' }
+            '&:hover': { color: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.05)' }
           }}
         >
           Back to Dashboard
@@ -159,10 +159,10 @@ export default function AdminMessages() {
                 color: 'white',
                 '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                 '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                '&.Mui-focused fieldset': { borderColor: '#6366F1' },
               },
               '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#00F5FF' },
+              '& .MuiInputLabel-root.Mui-focused': { color: '#6366F1' },
             }}
           />
 
@@ -182,10 +182,10 @@ export default function AdminMessages() {
                 fontSize: '0.9rem',
                 '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                 '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                '&.Mui-focused fieldset': { borderColor: '#6366F1' },
               },
               '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#00F5FF' },
+              '& .MuiInputLabel-root.Mui-focused': { color: '#6366F1' },
             }}
           />
 
@@ -203,10 +203,10 @@ export default function AdminMessages() {
                     color: 'white',
                     '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                     '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                    '&.Mui-focused fieldset': { borderColor: '#6366F1' },
                   },
                   '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-                  '& .MuiInputLabel-root.Mui-focused': { color: '#00F5FF' },
+                  '& .MuiInputLabel-root.Mui-focused': { color: '#6366F1' },
                 }}
               />
             </Grid>
@@ -223,10 +223,10 @@ export default function AdminMessages() {
                     color: 'white',
                     '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                     '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                    '&.Mui-focused fieldset': { borderColor: '#6366F1' },
                   },
                   '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-                  '& .MuiInputLabel-root.Mui-focused': { color: '#00F5FF' },
+                  '& .MuiInputLabel-root.Mui-focused': { color: '#6366F1' },
                 }}
               />
             </Grid>
@@ -246,10 +246,10 @@ export default function AdminMessages() {
                     color: 'white',
                     '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                     '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                    '&.Mui-focused fieldset': { borderColor: '#6366F1' },
                   },
                   '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-                  '& .MuiInputLabel-root.Mui-focused': { color: '#00F5FF' },
+                  '& .MuiInputLabel-root.Mui-focused': { color: '#6366F1' },
                 }}
               />
             </Grid>
@@ -266,10 +266,10 @@ export default function AdminMessages() {
                     color: 'white',
                     '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                     '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                    '&.Mui-focused fieldset': { borderColor: '#6366F1' },
                   },
                   '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-                  '& .MuiInputLabel-root.Mui-focused': { color: '#00F5FF' },
+                  '& .MuiInputLabel-root.Mui-focused': { color: '#6366F1' },
                 }}
               />
             </Grid>
@@ -281,7 +281,7 @@ export default function AdminMessages() {
                 <Checkbox 
                   checked={allUsers} 
                   onChange={ (e) => setAllUsers(e.target.checked)}
-                  sx={{ color: 'rgba(255, 255, 255, 0.3)', '&.Mui-checked': { color: '#00F5FF' } }}
+                  sx={{ color: 'rgba(255, 255, 255, 0.3)', '&.Mui-checked': { color: '#6366F1' } }}
                 />
               }
               label={<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Broadcast to all users (overrides User IDs/Emails)</Typography>}
@@ -291,7 +291,7 @@ export default function AdminMessages() {
                 <Checkbox 
                   checked={dryRun} 
                   onChange={ (e) => setDryRun(e.target.checked)}
-                  sx={{ color: 'rgba(255, 255, 255, 0.3)', '&.Mui-checked': { color: '#00F5FF' } }}
+                  sx={{ color: 'rgba(255, 255, 255, 0.3)', '&.Mui-checked': { color: '#6366F1' } }}
                 />
               }
               label={<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Dry Run (preview only)</Typography>}
@@ -324,15 +324,15 @@ export default function AdminMessages() {
               onClick={send}
               disabled={state.status === 'sending' || dryRun}
               sx={{
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000',
                 borderRadius: '12px',
                 px: 4,
                 py: 1.5,
                 textTransform: 'none',
                 fontWeight: 700,
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) },
-                '&:disabled': { bgcolor: 'rgba(0, 245, 255, 0.1)', color: 'rgba(0, 0, 0, 0.3)' }
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) },
+                '&:disabled': { bgcolor: 'rgba(99, 102, 241, 0.1)', color: 'rgba(0, 0, 0, 0.3)' }
               }}
             >
               {state.status === 'sending' ? 'Sending...' : 'Send Message'}
@@ -354,7 +354,7 @@ export default function AdminMessages() {
                 border: '1px solid rgba(255, 255, 255, 0.05)' 
               }}
             >
-              <Typography variant="subtitle2" sx={{ color: '#00F5FF', mb: 2, fontWeight: 800 }}>Preview Results</Typography>
+              <Typography variant="subtitle2" sx={{ color: '#6366F1', mb: 2, fontWeight: 800 }}>Preview Results</Typography>
               <Stack spacing={1}>
                 <Typography variant="body2" sx={{ color: 'white' }}>
                   <strong>Recipients:</strong> {preview.recipients}
@@ -375,7 +375,7 @@ export default function AdminMessages() {
             </Alert>
           )}
           {state.status === 'success' && (
-            <Alert severity="success" sx={{ borderRadius: '12px', bgcolor: alpha('#00F5FF', 0.1), color: '#00F5FF', border: '1px solid rgba(0, 245, 255, 0.2)' }}>
+            <Alert severity="success" sx={{ borderRadius: '12px', bgcolor: alpha('#6366F1', 0.1), color: '#6366F1', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
               {state.message}
             </Alert>
           )}

@@ -72,7 +72,7 @@ function SharedNoteHeader() {
             component="img"
             src="/logo/kylrixnote.png" 
             alt="Kylrix Note Logo" 
-            sx={{ width: 32, height: 32, borderRadius: 1, boxShadow: '0 4px 12px rgba(0, 245, 255, 0.2)' }}
+            sx={{ width: 32, height: 32, borderRadius: 1, boxShadow: '0 4px 12px rgba(99, 102, 241, 0.2)' }}
           />
           <Typography 
             variant="h6" 
@@ -80,7 +80,7 @@ function SharedNoteHeader() {
               display: { xs: 'none', sm: 'block' },
               fontWeight: 900,
               fontFamily: 'var(--font-space-grotesk)',
-              background: 'linear-gradient(90deg, #00F5FF 0%, #00A3FF 100%)',
+              background: 'linear-gradient(90deg, #6366F1 0%, #00A3FF 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}
@@ -103,14 +103,14 @@ function SharedNoteHeader() {
               textTransform: 'none',
               px: 1.5,
               py: 0.75,
-              '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)', borderColor: '#00F5FF' }
+              '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)', borderColor: '#6366F1' }
             }}
             startIcon={
               <Avatar 
                 sx={{ 
                   width: 24, 
                   height: 24, 
-                  bgcolor: '#00F5FF', 
+                  bgcolor: '#6366F1', 
                   color: '#000',
                   fontSize: '0.75rem',
                   fontWeight: 700
@@ -203,10 +203,10 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
                 onClick={fetchSharedNote}
                 sx={{ 
                   borderRadius: '12px',
-                  bgcolor: '#00F5FF',
+                  bgcolor: '#6366F1',
                   color: '#000',
                   fontWeight: 700,
-                  '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                  '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
                 }}
               >
                 Retry loading note
@@ -217,7 +217,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
           )}
           {isLoadingNote && (
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-              <CircularProgress size={32} sx={{ color: '#00F5FF' }} />
+              <CircularProgress size={32} sx={{ color: '#6366F1' }} />
             </Box>
           )}
         </Box>
@@ -234,7 +234,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
   if (isLoading) {
     return (
       <Box sx={{ minHeight: '100vh', bgcolor: 'rgba(10, 10, 10, 0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <CircularProgress sx={{ color: '#00F5FF' }} />
+        <CircularProgress sx={{ color: '#6366F1' }} />
       </Box>
     );
   }
@@ -259,7 +259,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
               fontWeight: 900, 
               fontFamily: 'var(--font-space-grotesk)', 
               lineHeight: 1.2,
-              background: 'linear-gradient(90deg, #fff, #00F5FF)',
+              background: 'linear-gradient(90deg, #fff, #6366F1)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}
@@ -282,19 +282,19 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
 
           {verifiedNote.tags && verifiedNote.tags.length > 0 && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-              <TagIcon sx={{ fontSize: 16, color: 'rgba(0, 245, 255, 0.4)' }} />
+              <TagIcon sx={{ fontSize: 16, color: 'rgba(99, 102, 241, 0.4)' }} />
               {verifiedNote.tags.map((tag: string, i: number) => (
                 <Chip 
                   key={i} 
                   label={tag} 
                   size="small" 
                   sx={{ 
-                    bgcolor: 'rgba(0, 245, 255, 0.05)', 
-                    color: '#00F5FF',
+                    bgcolor: 'rgba(99, 102, 241, 0.05)', 
+                    color: '#6366F1',
                     borderRadius: '8px',
                     fontSize: '0.7rem',
                     fontWeight: 700,
-                    border: '1px solid rgba(0, 245, 255, 0.1)'
+                    border: '1px solid rgba(99, 102, 241, 0.1)'
                   }} 
                 />
               ))}
@@ -310,11 +310,11 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
             position: 'absolute',
             top: 24,
             right: 24,
-            bgcolor: isCopied ? 'rgba(0, 245, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+            bgcolor: isCopied ? 'rgba(99, 102, 241, 0.1)' : 'rgba(255, 255, 255, 0.05)',
             border: '1px solid',
-            borderColor: isCopied ? '#00F5FF' : 'rgba(255, 255, 255, 0.1)',
+            borderColor: isCopied ? '#6366F1' : 'rgba(255, 255, 255, 0.1)',
             borderRadius: '12px',
-            color: isCopied ? '#00F5FF' : 'white',
+            color: isCopied ? '#6366F1' : 'white',
             '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
           }}
           title={isCopied ? 'Copied!' : 'Copy content'}
@@ -333,7 +333,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
           <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.3)' }}>
             Last updated {formatNoteUpdatedDate(verifiedNote, { month: 'short', day: 'numeric', year: 'numeric' })}
           </Typography>
-          <Typography variant="caption" sx={{ color: '#00F5FF', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+          <Typography variant="caption" sx={{ color: '#6366F1', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
             Shared via Kylrix Note
           </Typography>
         </Box>
@@ -361,8 +361,8 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
               sx={{
                 p: 6,
                 borderRadius: '32px',
-                bgcolor: 'rgba(0, 245, 255, 0.03)',
-                border: '1px solid rgba(0, 245, 255, 0.1)',
+                bgcolor: 'rgba(99, 102, 241, 0.03)',
+                border: '1px solid rgba(99, 102, 241, 0.1)',
                 backdropFilter: 'blur(10px)'
               }}
             >
@@ -382,11 +382,11 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
                   borderRadius: '16px', 
                   px: 4, 
                   py: 1.5,
-                  bgcolor: '#00F5FF',
+                  bgcolor: '#6366F1',
                   color: '#000',
                   fontWeight: 800,
-                  boxShadow: '0 8px 24px rgba(0, 245, 255, 0.2)',
-                  '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                  boxShadow: '0 8px 24px rgba(99, 102, 241, 0.2)',
+                  '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
                 }}
               >
                 Go to Your Notes
@@ -425,10 +425,10 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
               sx={{ 
                 borderRadius: '12px', 
                 fontWeight: 800, 
-                bgcolor: '#00F5FF', 
+                bgcolor: '#6366F1', 
                 color: '#000',
                 textTransform: 'none',
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
               }}
             >
               Join Now
@@ -437,7 +437,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ pt: 12, pb: 4, bgcolor: 'rgba(0, 245, 255, 0.02)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+      <Box sx={{ pt: 12, pb: 4, bgcolor: 'rgba(99, 102, 241, 0.02)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
         <Container maxWidth="md">
           <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between', gap: 4 }}>
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: 600 }}>
@@ -447,7 +447,7 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
               component={Link} 
               href="/" 
               endIcon={<ArrowRightIcon />}
-              sx={{ fontWeight: 800, color: '#00F5FF', textTransform: 'none' }}
+              sx={{ fontWeight: 800, color: '#6366F1', textTransform: 'none' }}
             >
               Get Started Free
             </Button>
@@ -471,8 +471,8 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
             sx={{
               p: 6,
               borderRadius: '32px',
-              bgcolor: 'rgba(0, 245, 255, 0.03)',
-              border: '1px solid rgba(0, 245, 255, 0.1)',
+              bgcolor: 'rgba(99, 102, 241, 0.03)',
+              border: '1px solid rgba(99, 102, 241, 0.1)',
               backdropFilter: 'blur(10px)'
             }}
           >
@@ -492,11 +492,11 @@ export default function SharedNoteClient({ noteId }: SharedNoteClientProps) {
                 borderRadius: '16px', 
                 px: 4, 
                 py: 1.5,
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000',
                 fontWeight: 800,
-                boxShadow: '0 8px 24px rgba(0, 245, 255, 0.2)',
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                boxShadow: '0 8px 24px rgba(99, 102, 241, 0.2)',
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
               }}
             >
               Start Writing for Free

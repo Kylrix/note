@@ -240,7 +240,7 @@ export default function ExtensionsPage() {
               sx={{ 
                 fontWeight: 900, 
                 fontFamily: 'var(--font-space-grotesk)',
-                background: 'linear-gradient(90deg, #fff, #00F5FF)',
+                background: 'linear-gradient(90deg, #fff, #6366F1)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 mb: 1
@@ -257,13 +257,13 @@ export default function ExtensionsPage() {
             startIcon={<AddIcon />}
             onClick={() => setIsCreateModalOpen(true)}
             sx={{
-              bgcolor: '#00F5FF',
+              bgcolor: '#6366F1',
               color: 'black',
               fontWeight: 900,
               px: 4,
               py: 1.5,
               borderRadius: '12px',
-              '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+              '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
             }}
           >
             Create Extension
@@ -276,12 +276,12 @@ export default function ExtensionsPage() {
             value={activeTab} 
             onChange={(_, v) => setActiveTab(v)}
             sx={{
-              '& .MuiTabs-indicator': { bgcolor: '#00F5FF' },
+              '& .MuiTabs-indicator': { bgcolor: '#6366F1' },
               '& .MuiTab-root': { 
                 color: 'rgba(255, 255, 255, 0.5)',
                 fontWeight: 700,
                 fontSize: '1rem',
-                '&.Mui-selected': { color: '#00F5FF' }
+                '&.Mui-selected': { color: '#6366F1' }
               }
             }}
           >
@@ -303,7 +303,7 @@ export default function ExtensionsPage() {
                 color: 'white',
                 '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                 '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                '&.Mui-focused fieldset': { borderColor: '#6366F1' }
               }
             }}
             sx={{ maxWidth: 500 }}
@@ -313,7 +313,7 @@ export default function ExtensionsPage() {
         {/* Content */}
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 12 }}>
-            <CircularProgress sx={{ color: '#00F5FF' }} />
+            <CircularProgress sx={{ color: '#6366F1' }} />
           </Box>
         ) : (
           <Grid container spacing={3}>
@@ -408,8 +408,8 @@ function ExtensionCard({ extension, onToggle, isOwner }: {
         transition: 'all 0.3s ease',
         '&:hover': { 
           transform: 'translateY(-4px)', 
-          borderColor: alpha('#00F5FF', 0.3),
-          boxShadow: `0 8px 32px ${alpha('#00F5FF', 0.1)}`
+          borderColor: alpha('#6366F1', 0.3),
+          boxShadow: `0 8px 32px ${alpha('#6366F1', 0.1)}`
         }
       }}
     >
@@ -421,11 +421,11 @@ function ExtensionCard({ extension, onToggle, isOwner }: {
                 width: 48, 
                 height: 48, 
                 borderRadius: '12px', 
-                bgcolor: alpha('#00F5FF', 0.1),
+                bgcolor: alpha('#6366F1', 0.1),
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#00F5FF'
+                color: '#6366F1'
               }}
             >
               <ExtensionIcon />
@@ -444,8 +444,8 @@ function ExtensionCard({ extension, onToggle, isOwner }: {
               label="Owner" 
               size="small" 
               sx={{ 
-                bgcolor: alpha('#00F5FF', 0.1), 
-                color: '#00F5FF', 
+                bgcolor: alpha('#6366F1', 0.1), 
+                color: '#6366F1', 
                 fontWeight: 800,
                 fontSize: '0.65rem'
               }} 
@@ -478,12 +478,12 @@ function ExtensionCard({ extension, onToggle, isOwner }: {
             variant="contained"
             size="small"
             sx={{
-              bgcolor: extension.enabled ? alpha('#ff4444', 0.1) : alpha('#00F5FF', 0.1),
-              color: extension.enabled ? '#ff4444' : '#00F5FF',
+              bgcolor: extension.enabled ? alpha('#ff4444', 0.1) : alpha('#6366F1', 0.1),
+              color: extension.enabled ? '#ff4444' : '#6366F1',
               fontWeight: 900,
               borderRadius: '8px',
               '&:hover': { 
-                bgcolor: extension.enabled ? alpha('#ff4444', 0.2) : alpha('#00F5FF', 0.2) 
+                bgcolor: extension.enabled ? alpha('#ff4444', 0.2) : alpha('#6366F1', 0.2) 
               }
             }}
           >
@@ -595,8 +595,8 @@ function TemplateCard({ template, onUse }: {
             fontWeight: 800,
             borderRadius: '12px',
             '&:hover': { 
-              borderColor: '#00F5FF',
-              bgcolor: alpha('#00F5FF', 0.05)
+              borderColor: '#6366F1',
+              bgcolor: alpha('#6366F1', 0.05)
             }
           }}
         >
@@ -685,7 +685,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
                   color: 'white',
                   '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                  '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                 }
               }}
             />
@@ -710,7 +710,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
                   color: 'white',
                   '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                  '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                 }
               }}
             />
@@ -733,7 +733,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
                   color: 'white',
                   '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                  '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                 }
               }}
             />
@@ -759,7 +759,7 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
                   fontSize: '0.85rem',
                   '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                  '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                 }
               }}
             />
@@ -777,12 +777,12 @@ function CreateExtensionModal({ isOpen, onClose, onSubmit, template }: {
           onClick={handleSubmit}
           variant="contained"
           sx={{
-            bgcolor: '#00F5FF',
+            bgcolor: '#6366F1',
             color: 'black',
             fontWeight: 900,
             px: 3,
             borderRadius: '10px',
-            '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+            '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
           }}
         >
           Create Extension

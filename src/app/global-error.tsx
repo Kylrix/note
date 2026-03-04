@@ -134,7 +134,7 @@ export default function GlobalError({
                     color: 'text.primary',
                     '&:hover': {
                       borderColor: 'primary.main',
-                      bgcolor: 'rgba(0, 245, 255, 0.05)',
+                      bgcolor: 'rgba(99, 102, 241, 0.05)',
                     },
                   }}
                 >

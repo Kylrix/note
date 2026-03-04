@@ -79,7 +79,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-        <CircularProgress sx={{ color: '#00F5FF' }} />
+        <CircularProgress sx={{ color: '#6366F1' }} />
       </Box>
     );
   }
@@ -112,7 +112,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
                 '&:hover': {
                   transform: 'translateY(-4px)',
                   bgcolor: 'rgba(255, 255, 255, 0.05)',
-                  borderColor: alpha('#00F5FF', 0.3),
+                  borderColor: alpha('#6366F1', 0.3),
                   boxShadow: `0 8px 32px ${alpha('#000', 0.4)}`
                 }
               }}
@@ -169,7 +169,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
                     component="a" 
                     href={getImageUrl(attachment.$id)} 
                     target="_blank"
-                    sx={{ color: 'rgba(255, 255, 255, 0.7)', '&:hover': { color: '#00F5FF' } }}
+                    sx={{ color: 'rgba(255, 255, 255, 0.7)', '&:hover': { color: '#6366F1' } }}
                   >
                     <ViewIcon fontSize="small" />
                   </IconButton>
@@ -180,7 +180,7 @@ export default function AttachmentViewer({ attachmentIds, onAttachmentDeleted }:
                     component="a" 
                     href={getImageUrl(attachment.$id)} 
                     download={attachment.name}
-                    sx={{ color: 'rgba(255, 255, 255, 0.7)', '&:hover': { color: '#00F5FF' } }}
+                    sx={{ color: 'rgba(255, 255, 255, 0.7)', '&:hover': { color: '#6366F1' } }}
                   >
                     <DownloadIcon fontSize="small" />
                   </IconButton>

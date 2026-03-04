@@ -14,7 +14,7 @@ export function ThemeTest() {
         variant="contained"
         onClick={toggleTheme}
         sx={{ 
-          bgcolor: '#00F5FF', 
+          bgcolor: '#6366F1', 
           color: 'black', 
           fontWeight: 800,
           '&:hover': { bgcolor: '#00E5EE' }

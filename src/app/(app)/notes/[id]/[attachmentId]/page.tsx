@@ -116,7 +116,7 @@ export default function AttachmentPage() {
                 sx={{ 
                   fontWeight: 900, 
                   fontFamily: 'var(--font-space-grotesk)',
-                  background: 'linear-gradient(90deg, #fff, #00F5FF)',
+                  background: 'linear-gradient(90deg, #fff, #6366F1)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   maxWidth: '50vw',
@@ -140,14 +140,14 @@ export default function AttachmentPage() {
               variant="contained"
               startIcon={<ArrowDownTrayIcon />}
               sx={{
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000',
                 borderRadius: '12px',
                 px: 3,
                 py: 1,
                 textTransform: 'none',
                 fontWeight: 700,
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
               }}
             >
               Download
@@ -157,7 +157,7 @@ export default function AttachmentPage() {
 
         {loading && (
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 12, gap: 2 }}>
-            <CircularProgress sx={{ color: '#00F5FF' }} />
+            <CircularProgress sx={{ color: '#6366F1' }} />
             <Typography sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>Loading attachment...</Typography>
           </Box>
         )}
@@ -237,7 +237,7 @@ export default function AttachmentPage() {
                           borderColor: 'rgba(255, 255, 255, 0.1)',
                           borderRadius: '12px',
                           textTransform: 'none',
-                          '&:hover': { borderColor: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.05)' }
+                          '&:hover': { borderColor: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.05)' }
                         }}
                       >
                         Open Signed URL
@@ -256,7 +256,7 @@ export default function AttachmentPage() {
                           borderColor: 'rgba(255, 255, 255, 0.1)',
                           borderRadius: '12px',
                           textTransform: 'none',
-                          '&:hover': { borderColor: '#00F5FF', bgcolor: 'rgba(0, 245, 255, 0.05)' }
+                          '&:hover': { borderColor: '#6366F1', bgcolor: 'rgba(99, 102, 241, 0.05)' }
                         }}
                       >
                         Raw View
@@ -344,14 +344,14 @@ export default function AttachmentPage() {
                       download
                       variant="contained"
                       sx={{
-                        bgcolor: '#00F5FF',
+                        bgcolor: '#6366F1',
                         color: '#000',
                         borderRadius: '12px',
                         px: 4,
                         py: 1.5,
                         textTransform: 'none',
                         fontWeight: 700,
-                        '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                        '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
                       }}
                     >
                       Download File

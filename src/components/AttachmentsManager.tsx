@@ -50,7 +50,7 @@ export default function AttachmentsManager({ noteId, onAttachmentAdded }: Attach
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', gap: 1 }}>
-          <UploadIcon sx={{ fontSize: 18, color: '#00F5FF' }} /> Attachments
+          <UploadIcon sx={{ fontSize: 18, color: '#6366F1' }} /> Attachments
         </Typography>
         
         <input
@@ -66,10 +66,10 @@ export default function AttachmentsManager({ noteId, onAttachmentAdded }: Attach
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
           sx={{
-            color: '#00F5FF',
+            color: '#6366F1',
             fontWeight: 700,
             textTransform: 'none',
-            '&:hover': { bgcolor: alpha('#00F5FF', 0.1) }
+            '&:hover': { bgcolor: alpha('#6366F1', 0.1) }
           }}
         >
           {isUploading ? 'Uploading...' : 'Add Files'}
@@ -82,7 +82,7 @@ export default function AttachmentsManager({ noteId, onAttachmentAdded }: Attach
             height: 6, 
             borderRadius: 3, 
             bgcolor: 'rgba(255, 255, 255, 0.05)',
-            '& .MuiLinearProgress-bar': { bgcolor: '#00F5FF' }
+            '& .MuiLinearProgress-bar': { bgcolor: '#6366F1' }
           }} />
         </Box>
       )}

@@ -76,7 +76,7 @@ export default function AppShell({ children }: AppShellProps) {
           backdropFilter: 'blur(25px) saturate(180%)',
         }}
       >
-        <CircularProgress size={48} thickness={4} sx={{ color: '#00F5FF' }} />
+        <CircularProgress size={48} thickness={4} sx={{ color: '#6366F1' }} />
         <Typography 
           variant="body1" 
           sx={{ 
@@ -169,7 +169,7 @@ export default function AppShell({ children }: AppShellProps) {
                 mb: 2, 
                 fontWeight: 900, 
                 fontFamily: '"Space Grotesk", sans-serif',
-                color: '#00F5FF',
+                color: '#6366F1',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em'
               }}

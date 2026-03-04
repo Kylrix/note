@@ -66,7 +66,7 @@ export const QuickNote = () => {
                 transition: 'all 0.3s ease',
                 '&:hover': {
                     bgcolor: 'rgba(255, 255, 255, 0.05)',
-                    borderColor: 'rgba(0, 245, 255, 0.2)',
+                    borderColor: 'rgba(99, 102, 241, 0.2)',
                 }
             }}
         >
@@ -74,8 +74,8 @@ export const QuickNote = () => {
                 <Box sx={{ 
                     p: 1, 
                     borderRadius: '10px', 
-                    bgcolor: alpha('#00F5FF', 0.1),
-                    color: '#00F5FF',
+                    bgcolor: alpha('#6366F1', 0.1),
+                    color: '#6366F1',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -126,9 +126,9 @@ export const QuickNote = () => {
                         onClick={handleSave}
                         disabled={!note.trim() || isSaving}
                         sx={{ 
-                            color: '#00F5FF',
-                            bgcolor: alpha('#00F5FF', 0.1),
-                            '&:hover': { bgcolor: alpha('#00F5FF', 0.2) },
+                            color: '#6366F1',
+                            bgcolor: alpha('#6366F1', 0.1),
+                            '&:hover': { bgcolor: alpha('#6366F1', 0.2) },
                             '&.Mui-disabled': { color: 'rgba(255, 255, 255, 0.1)' }
                         }}
                     >

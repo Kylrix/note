@@ -82,14 +82,14 @@ export default function QuickCreateFab({
         right: 32,
         zIndex: 1000,
         '& .MuiFab-primary': {
-          bgcolor: '#00F5FF',
+          bgcolor: '#6366F1',
           color: '#000000',
-          boxShadow: '0 0 30px rgba(0, 245, 255, 0.4)',
+          boxShadow: '0 0 30px rgba(99, 102, 241, 0.4)',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             bgcolor: '#00D1DA',
             transform: 'scale(1.1) rotate(90deg)',
-            boxShadow: '0 0 50px rgba(0, 245, 255, 0.6)',
+            boxShadow: '0 0 50px rgba(99, 102, 241, 0.6)',
           },
         },
         '& .MuiSpeedDialAction-fab': {
@@ -98,9 +98,9 @@ export default function QuickCreateFab({
           color: 'rgba(255, 255, 255, 0.7)',
           transition: 'all 0.2s ease',
           '&:hover': {
-            bgcolor: 'rgba(0, 245, 255, 0.1)',
-            color: '#00F5FF',
-            borderColor: '#00F5FF',
+            bgcolor: 'rgba(99, 102, 241, 0.1)',
+            color: '#6366F1',
+            borderColor: '#6366F1',
             transform: 'translateY(-4px)',
           },
         },

@@ -78,11 +78,11 @@ export function NoteContentRenderer({
         '& ul, & ol': { mb: 3, pl: 4 },
         '& li': { mb: 1 },
         '& blockquote': {
-          borderLeft: '4px solid #00F5FF',
+          borderLeft: '4px solid #6366F1',
           pl: 3,
           py: 1,
           my: 4,
-          bgcolor: alpha('#00F5FF', 0.05),
+          bgcolor: alpha('#6366F1', 0.05),
           borderRadius: '0 12px 12px 0',
           fontStyle: 'italic',
           color: 'rgba(255, 255, 255, 0.8)'
@@ -94,7 +94,7 @@ export function NoteContentRenderer({
           borderRadius: '6px',
           fontSize: '0.9em',
           fontFamily: 'monospace',
-          color: '#00F5FF'
+          color: '#6366F1'
         },
         '& pre': {
           bgcolor: 'rgba(0, 0, 0, 0.3)',

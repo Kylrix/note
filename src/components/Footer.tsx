@@ -62,7 +62,7 @@ export default function Footer() {
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
                     fontFamily: '"Space Grotesk", sans-serif',
-                    color: '#00F5FF',
+                    color: '#6366F1',
                     mb: 3
                   }}
                 >
@@ -80,7 +80,7 @@ export default function Footer() {
                         fontSize: '0.9rem',
                         transition: 'all 0.2s ease',
                         '&:hover': { 
-                          color: '#00F5FF',
+                          color: '#6366F1',
                           transform: 'translateX(4px)'
                         },
                       }}
@@ -127,8 +127,8 @@ export default function Footer() {
                     color: 'rgba(255, 255, 255, 0.6)',
                     transition: 'all 0.2s ease',
                     '&:hover': { 
-                      color: '#00F5FF',
-                      bgcolor: 'rgba(0, 245, 255, 0.1)',
+                      color: '#6366F1',
+                      bgcolor: 'rgba(99, 102, 241, 0.1)',
                       transform: 'translateY(-2px)'
                     }
                   }}

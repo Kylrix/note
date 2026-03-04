@@ -22,7 +22,7 @@ export default function AdminDashboard() {
             fontWeight: 900, 
             fontFamily: 'var(--font-space-grotesk)', 
             mb: 1,
-            background: 'linear-gradient(90deg, #fff, #00F5FF)',
+            background: 'linear-gradient(90deg, #fff, #6366F1)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}
@@ -52,10 +52,10 @@ export default function AdminDashboard() {
               backdropFilter: 'blur(25px)',
               transition: 'all 0.3s ease',
               '&:hover': {
-                bgcolor: 'rgba(0, 245, 255, 0.05)',
-                borderColor: '#00F5FF',
+                bgcolor: 'rgba(99, 102, 241, 0.05)',
+                borderColor: '#6366F1',
                 transform: 'translateY(-4px)',
-                boxShadow: '0 12px 40px rgba(0, 245, 255, 0.15)'
+                boxShadow: '0 12px 40px rgba(99, 102, 241, 0.15)'
               }
             }}
           >
@@ -64,11 +64,11 @@ export default function AdminDashboard() {
                 width: 48, 
                 height: 48, 
                 borderRadius: '12px', 
-                bgcolor: 'rgba(0, 245, 255, 0.1)', 
+                bgcolor: 'rgba(99, 102, 241, 0.1)', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                color: '#00F5FF'
+                color: '#6366F1'
               }}
             >
               <BroadcastIcon />

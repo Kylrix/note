@@ -11,9 +11,9 @@ export function Badge({ children, variant = 'default' }: BadgeProps) {
     switch (variant) {
       case 'default':
         return {
-          bgcolor: 'rgba(0, 245, 255, 0.1)',
-          color: '#00F5FF',
-          border: '1px solid rgba(0, 245, 255, 0.2)',
+          bgcolor: 'rgba(99, 102, 241, 0.1)',
+          color: '#6366F1',
+          border: '1px solid rgba(99, 102, 241, 0.2)',
         };
       case 'secondary':
         return {

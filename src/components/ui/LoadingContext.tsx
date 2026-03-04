@@ -30,7 +30,7 @@ export const LoadingProvider = ({ children }: { children: ReactNode }) => {
       {children}
       <Backdrop
         sx={{ 
-          color: '#00F5FF', 
+          color: '#6366F1', 
           zIndex: (theme) => theme.zIndex.drawer + 2000,
           bgcolor: 'rgba(0, 0, 0, 0.8)',
           backdropFilter: 'blur(10px)',
@@ -44,15 +44,15 @@ export const LoadingProvider = ({ children }: { children: ReactNode }) => {
             size={64} 
             thickness={2}
             sx={{ 
-              color: '#00F5FF',
-              filter: 'drop-shadow(0 0 10px rgba(0, 245, 255, 0.5))'
+              color: '#6366F1',
+              filter: 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.5))'
             }} 
           />
           <CircularProgress 
             size={48} 
             thickness={2}
             sx={{ 
-              color: 'rgba(0, 245, 255, 0.3)',
+              color: 'rgba(99, 102, 241, 0.3)',
               position: 'absolute',
               animationDuration: '1.5s',
               animationDirection: 'reverse'

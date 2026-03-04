@@ -54,7 +54,7 @@ const CardTitle = React.forwardRef<
     sx={{
       fontFamily: '"Space Grotesk", sans-serif',
       fontWeight: 900,
-      color: '#00F5FF',
+      color: '#6366F1',
       letterSpacing: '-0.02em',
       maxWidth,
       ...sx

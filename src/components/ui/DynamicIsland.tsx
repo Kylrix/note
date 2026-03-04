@@ -256,13 +256,13 @@ const DynamicIslandOverlay: React.FC<{
 
   const getTypeStyle = () => {
     switch (current.type) {
-      case 'success': return { color: '#00F5FF', icon: <SuccessIcon fontSize="small" /> };
+      case 'success': return { color: '#6366F1', icon: <SuccessIcon fontSize="small" /> };
       case 'error': return { color: '#FF3B30', icon: <ErrorIcon fontSize="small" /> };
-      case 'pro': return { color: '#00F5FF', icon: <ProIcon fontSize="small" /> };
+      case 'pro': return { color: '#6366F1', icon: <ProIcon fontSize="small" /> };
       case 'warning': return { color: '#FF9500', icon: <WarningIcon fontSize="small" /> };
       case 'suggestion': return { color: '#A855F7', icon: <IdeaIcon fontSize="small" /> };
-      case 'connect': return { color: '#00F5FF', icon: <ConnectIcon fontSize="small" /> };
-      default: return { color: '#00F5FF', icon: <InfoIcon fontSize="small" /> };
+      case 'connect': return { color: '#6366F1', icon: <ConnectIcon fontSize="small" /> };
+      default: return { color: '#6366F1', icon: <InfoIcon fontSize="small" /> };
     }
   };
 
@@ -489,12 +489,12 @@ const DynamicIslandOverlay: React.FC<{
                         sx={{
                           borderRadius: '14px',
                           textTransform: 'none',
-                          background: current.majestic ? `linear-gradient(45deg, ${style.color}, #00F5FF)` : 'white',
+                          background: current.majestic ? `linear-gradient(45deg, ${style.color}, #6366F1)` : 'white',
                           color: current.majestic ? 'black' : 'black',
                           fontWeight: 700,
                           height: 48,
                           '&:hover': {
-                            background: current.majestic ? `linear-gradient(45deg, ${style.color}, #00F5FF)` : 'rgba(255,255,255,0.9)',
+                            background: current.majestic ? `linear-gradient(45deg, ${style.color}, #6366F1)` : 'rgba(255,255,255,0.9)',
                             opacity: 0.9
                           }
                         }}

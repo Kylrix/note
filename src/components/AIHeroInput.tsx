@@ -110,7 +110,7 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
               color: 'white',
               fontFamily: '"Inter", sans-serif',
               '& fieldset': {
-                borderColor: inputValue ? 'rgba(0, 245, 255, 0.5)' : 'rgba(255, 255, 255, 0.1)',
+                borderColor: inputValue ? 'rgba(99, 102, 241, 0.5)' : 'rgba(255, 255, 255, 0.1)',
                 borderWidth: 1,
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               },
@@ -118,8 +118,8 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
                 borderColor: 'rgba(255, 255, 255, 0.2)',
               },
               '&.Mui-focused fieldset': {
-                borderColor: '#00F5FF',
-                boxShadow: '0 0 30px rgba(0, 245, 255, 0.2)',
+                borderColor: '#6366F1',
+                boxShadow: '0 0 30px rgba(99, 102, 241, 0.2)',
               },
               '& input::placeholder': {
                 color: 'rgba(255, 255, 255, 0.3)',
@@ -133,7 +133,7 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
                   type="submit"
                   disabled={!inputValue.trim()}
                   sx={{
-                    bgcolor: inputValue.trim() ? '#00F5FF' : 'rgba(255, 255, 255, 0.05)',
+                    bgcolor: inputValue.trim() ? '#6366F1' : 'rgba(255, 255, 255, 0.05)',
                     color: inputValue.trim() ? '#000' : 'rgba(255, 255, 255, 0.2)',
                     borderRadius: '20px',
                     p: 2,
@@ -164,7 +164,7 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
             transform: 'translateY(-50%)', 
             width: 2, 
             height: 24, 
-            bgcolor: '#00F5FF',
+            bgcolor: '#6366F1',
             animation: 'pulse 1.5s infinite',
             '@keyframes pulse': {
               '0%': { opacity: 1 },
@@ -209,11 +209,11 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
                   textTransform: 'none',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
-                    borderColor: 'rgba(0, 245, 255, 0.5)',
-                    bgcolor: 'rgba(0, 245, 255, 0.05)',
+                    borderColor: 'rgba(99, 102, 241, 0.5)',
+                    bgcolor: 'rgba(99, 102, 241, 0.05)',
                     transform: 'translateY(-4px)',
                     boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
-                    color: '#00F5FF'
+                    color: '#6366F1'
                   }
                 }}
               >
@@ -221,10 +221,10 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
                   <Box sx={{ 
                     p: 1, 
                     borderRadius: '12px', 
-                    bgcolor: 'rgba(0, 245, 255, 0.1)',
-                    color: '#00F5FF',
+                    bgcolor: 'rgba(99, 102, 241, 0.1)',
+                    color: '#6366F1',
                     display: 'flex',
-                    border: '1px solid rgba(0, 245, 255, 0.2)'
+                    border: '1px solid rgba(99, 102, 241, 0.2)'
                   }}>
                     <SparklesIcon sx={{ fontSize: 18 }} />
                   </Box>

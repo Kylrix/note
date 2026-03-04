@@ -24,9 +24,9 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
               borderColor: 'rgba(255, 255, 255, 0.2)',
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#00F5FF',
+              borderColor: '#6366F1',
               borderWidth: '1px',
-              boxShadow: '0 0 15px rgba(0, 245, 255, 0.2)',
+              boxShadow: '0 0 15px rgba(99, 102, 241, 0.2)',
             },
           },
           '& .MuiInputBase-input': {
@@ -40,7 +40,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
           '& .MuiInputLabel-root': {
             color: 'rgba(255, 255, 255, 0.5)',
             '&.Mui-focused': {
-              color: '#00F5FF',
+              color: '#6366F1',
             },
           },
           ...sx,

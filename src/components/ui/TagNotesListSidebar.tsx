@@ -160,8 +160,8 @@ export function TagNotesListSidebar({
           sx={{ 
             color: 'rgba(255, 255, 255, 0.5)', 
             '&:hover': { 
-              color: '#00F5FF',
-              bgcolor: 'rgba(0, 245, 255, 0.1)'
+              color: '#6366F1',
+              bgcolor: 'rgba(99, 102, 241, 0.1)'
             } 
           }}
         >

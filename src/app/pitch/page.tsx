@@ -19,18 +19,18 @@ const slides = [
             width: 160, 
             height: 160, 
             mx: 'auto', 
-            background: 'linear-gradient(135deg, #00F5FF 0%, #00D1FF 100%)',
+            background: 'linear-gradient(135deg, #6366F1 0%, #00D1FF 100%)',
             borderRadius: '50%', 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
             fontSize: '5rem',
-            boxShadow: '0 20px 40px rgba(0, 245, 255, 0.3)',
+            boxShadow: '0 20px 40px rgba(99, 102, 241, 0.3)',
             animation: 'pulse 2s infinite ease-in-out',
             '@keyframes pulse': {
-              '0%': { transform: 'scale(1)', boxShadow: '0 20px 40px rgba(0, 245, 255, 0.3)' },
-              '50%': { transform: 'scale(1.05)', boxShadow: '0 25px 50px rgba(0, 245, 255, 0.5)' },
-              '100%': { transform: 'scale(1)', boxShadow: '0 20px 40px rgba(0, 245, 255, 0.3)' }
+              '0%': { transform: 'scale(1)', boxShadow: '0 20px 40px rgba(99, 102, 241, 0.3)' },
+              '50%': { transform: 'scale(1.05)', boxShadow: '0 25px 50px rgba(99, 102, 241, 0.5)' },
+              '100%': { transform: 'scale(1)', boxShadow: '0 20px 40px rgba(99, 102, 241, 0.3)' }
             }
           }}
         >
@@ -48,7 +48,7 @@ const slides = [
           }}
         >
           {[
-            { val: '73%', label: 'Want AI Notes', colors: ['#00F5FF', '#00D1FF'] },
+            { val: '73%', label: 'Want AI Notes', colors: ['#6366F1', '#00D1FF'] },
             { val: '$4.5M', label: 'Breach Cost', colors: ['#00D1FF', '#A855F7'] },
             { val: '0', label: 'AI+Security', colors: ['#A855F7', '#EC4899'] }
           ].map((stat, i) => (
@@ -92,7 +92,7 @@ const slides = [
             textAlign: 'center'
           }}
         >
-          The first <Box component="span" sx={{ fontWeight: 900, background: 'linear-gradient(90deg, #00F5FF, #A855F7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI-powered notes</Box> platform
+          The first <Box component="span" sx={{ fontWeight: 900, background: 'linear-gradient(90deg, #6366F1, #A855F7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI-powered notes</Box> platform
         </Typography>
       </Stack>
     )
@@ -155,7 +155,7 @@ const slides = [
           <Typography variant="h4" sx={{ fontWeight: 900, mb: 3, fontFamily: 'var(--font-space-grotesk)' }}>Choose One:</Typography>
           <Stack spacing={1.5}>
             <Typography variant="h5" sx={{ opacity: 0.8 }}>🛡️ Security</Typography>
-            <Typography variant="h3" sx={{ fontWeight: 900, color: '#00F5FF' }}>OR</Typography>
+            <Typography variant="h3" sx={{ fontWeight: 900, color: '#6366F1' }}>OR</Typography>
             <Typography variant="h5" sx={{ opacity: 0.8 }}>🧠 Intelligence</Typography>
           </Stack>
         </Box>
@@ -174,11 +174,11 @@ const slides = [
               width: 192, 
               height: 192, 
               borderRadius: '50%', 
-              background: 'linear-gradient(135deg, #00F5FF 0%, #00D1FF 100%)', 
+              background: 'linear-gradient(135deg, #6366F1 0%, #00D1FF 100%)', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
-              boxShadow: '0 20px 40px rgba(0, 245, 255, 0.4)',
+              boxShadow: '0 20px 40px rgba(99, 102, 241, 0.4)',
               zIndex: 2
             }}
           >
@@ -193,7 +193,7 @@ const slides = [
               position: 'absolute', 
               width: 96, 
               height: 4, 
-              background: 'linear-gradient(90deg, #00F5FF, #A855F7)', 
+              background: 'linear-gradient(90deg, #6366F1, #A855F7)', 
               animation: 'pulse 1.5s infinite',
               zIndex: 1
             }} 
@@ -227,7 +227,7 @@ const slides = [
               fontWeight: 900, 
               mb: 3, 
               fontFamily: 'var(--font-space-grotesk)',
-              background: 'linear-gradient(90deg, #00F5FF, #A855F7)', 
+              background: 'linear-gradient(90deg, #6366F1, #A855F7)', 
               WebkitBackgroundClip: 'text', 
               WebkitTextFillColor: 'transparent' 
             }}
@@ -256,7 +256,7 @@ const slides = [
         }}
       >
         {[
-          { icon: '🤖', title: 'Multi-AI Engine', desc: 'GPT-4.1, Gemini, auto-failover', colors: ['rgba(0, 245, 255, 0.1)', 'rgba(0, 209, 255, 0.1)'] },
+          { icon: '🤖', title: 'Multi-AI Engine', desc: 'GPT-4.1, Gemini, auto-failover', colors: ['rgba(99, 102, 241, 0.1)', 'rgba(0, 209, 255, 0.1)'] },
           { icon: '🔐', title: 'End-to-End Encryption', desc: 'Military-grade security', colors: ['rgba(168, 85, 247, 0.1)', 'rgba(236, 72, 153, 0.1)'] },
           { icon: '⚡', title: 'Smart Automation', desc: 'Auto-tagging, enhancement', colors: ['rgba(59, 130, 246, 0.1)', 'rgba(168, 85, 247, 0.1)'] },
           { icon: '🌍', title: 'Universal Access', desc: 'Web, mobile, desktop', colors: ['rgba(236, 72, 153, 0.1)', 'rgba(239, 68, 68, 0.1)'] }
@@ -270,7 +270,7 @@ const slides = [
               borderRadius: '32px', 
               p: 4, 
               transition: 'all 0.5s ease',
-              '&:hover': { transform: 'scale(1.05)', borderColor: '#00F5FF' }
+              '&:hover': { transform: 'scale(1.05)', borderColor: '#6366F1' }
             }}
           >
             <Typography variant="h2" sx={{ mb: 2 }}>{feature.icon}</Typography>
@@ -298,7 +298,7 @@ const slides = [
           }}
         >
           {[
-            { val: '$45B', label: 'Note-taking', colors: ['#00F5FF', '#00D1FF'] },
+            { val: '$45B', label: 'Note-taking', colors: ['#6366F1', '#00D1FF'] },
             { val: '$67B', label: 'AI Software', colors: ['#00D1FF', '#A855F7'] },
             { val: '$23B', label: 'Security', colors: ['#A855F7', '#EC4899'] }
           ].map((market, i) => (
@@ -432,13 +432,13 @@ const slides = [
             width: 128, 
             height: 128, 
             mx: 'auto', 
-            background: 'linear-gradient(135deg, #00F5FF 0%, #A855F7 100%)',
+            background: 'linear-gradient(135deg, #6366F1 0%, #A855F7 100%)',
             borderRadius: '50%', 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
             fontSize: '4rem',
-            boxShadow: '0 20px 40px rgba(0, 245, 255, 0.3)',
+            boxShadow: '0 20px 40px rgba(99, 102, 241, 0.3)',
             animation: 'pulse 2s infinite ease-in-out'
           }}
         >
@@ -484,7 +484,7 @@ const slides = [
             href="https://kylrix.space" 
             sx={{ 
               display: 'inline-block', 
-              background: 'linear-gradient(90deg, #00F5FF, #A855F7)', 
+              background: 'linear-gradient(90deg, #6366F1, #A855F7)', 
               color: 'black', 
               px: 5, 
               py: 2, 
@@ -493,7 +493,7 @@ const slides = [
               fontWeight: 900, 
               textDecoration: 'none',
               transition: 'all 0.3s', 
-              '&:hover': { transform: 'scale(1.1)', boxShadow: '0 10px 30px rgba(0, 245, 255, 0.4)' } 
+              '&:hover': { transform: 'scale(1.1)', boxShadow: '0 10px 30px rgba(99, 102, 241, 0.4)' } 
             }}
           >
             Try Now →
@@ -531,7 +531,7 @@ const slides = [
             textAlign: 'center'
           }}
         >
-          The future of knowledge is <Box component="span" sx={{ fontWeight: 900, background: 'linear-gradient(90deg, #00F5FF, #A855F7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>secure, intelligent, and yours</Box>
+          The future of knowledge is <Box component="span" sx={{ fontWeight: 900, background: 'linear-gradient(90deg, #6366F1, #A855F7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>secure, intelligent, and yours</Box>
         </Typography>
       </Stack>
     )
@@ -603,7 +603,7 @@ export default function PitchPage() {
           opacity: 0.4,
           pointerEvents: 'none',
           background: `
-            radial-gradient(circle at 20% 80%, rgba(0, 245, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
             radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
             radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)
           `
@@ -646,7 +646,7 @@ export default function PitchPage() {
                 fontWeight: 900, 
                 mb: 2, 
                 fontFamily: 'var(--font-space-grotesk)',
-                background: 'linear-gradient(90deg, #fff, #00F5FF, #A855F7)',
+                background: 'linear-gradient(90deg, #fff, #6366F1, #A855F7)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 letterSpacing: '-0.02em'

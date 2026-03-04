@@ -369,7 +369,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                       </Box>
                     ),
                     endAdornment: isSearching ? (
-                      <CircularProgress size={16} sx={{ color: '#00F5FF' }} />
+                      <CircularProgress size={16} sx={{ color: '#6366F1' }} />
                     ) : null
                   }
                 }}
@@ -379,7 +379,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                     bgcolor: 'rgba(255, 255, 255, 0.03)',
                     '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                     '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                    '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                   },
                   '& .MuiInputBase-input': { color: 'white' }
                 }}
@@ -421,7 +421,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                         <ListItemAvatar>
                           <Avatar
                             src={resultPreviews[user.id] || undefined}
-                            sx={{ width: 32, height: 32, bgcolor: '#00F5FF', color: '#000', fontWeight: 800, fontSize: '0.75rem' }}
+                            sx={{ width: 32, height: 32, bgcolor: '#6366F1', color: '#000', fontWeight: 800, fontSize: '0.75rem' }}
                           >
                             {(user.name || user.email || '?').charAt(0).toUpperCase()}
                           </Avatar>
@@ -473,7 +473,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                   color: 'white',
                   '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#00F5FF' }
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#6366F1' }
                 }}
               >
                 <MenuItem value="read">Read Only</MenuItem>
@@ -488,7 +488,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
               disabled={shareDisabled}
               sx={{
                 borderRadius: '12px',
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000',
                 fontWeight: 800,
                 px: 3,
@@ -508,7 +508,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
 
           {isLoadingUsers ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-              <CircularProgress size={24} sx={{ color: '#00F5FF' }} />
+              <CircularProgress size={24} sx={{ color: '#6366F1' }} />
             </Box>
           ) : sharedUsers.length === 0 ? (
             <Box sx={{ py: 4, textAlign: 'center', bgcolor: 'rgba(255, 255, 255, 0.02)', borderRadius: '16px', border: '1px dashed rgba(255, 255, 255, 0.1)' }}>
@@ -532,7 +532,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                   <ListItemAvatar>
                     <Avatar
                       src={sharedPreviews[user.id] || undefined}
-                      sx={{ width: 40, height: 40, bgcolor: alpha('#00F5FF', 0.1), color: '#00F5FF', fontWeight: 800 }}
+                      sx={{ width: 40, height: 40, bgcolor: alpha('#6366F1', 0.1), color: '#6366F1', fontWeight: 800 }}
                     >
                       {user.name ? user.name.charAt(0).toUpperCase() : user.email ? user.email.charAt(0).toUpperCase() : 'U'}
                     </Avatar>
@@ -553,9 +553,9 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                         height: 32,
                         fontSize: '0.75rem',
                         fontWeight: 800,
-                        color: '#00F5FF',
+                        color: '#6366F1',
                         '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                        bgcolor: alpha('#00F5FF', 0.05),
+                        bgcolor: alpha('#6366F1', 0.05),
                         borderRadius: '8px'
                       }}
                     >
@@ -565,7 +565,7 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
                     </Select>
 
                     {updatingCollab === user.collaborationId ? (
-                      <CircularProgress size={16} sx={{ color: '#00F5FF' }} />
+                      <CircularProgress size={16} sx={{ color: '#6366F1' }} />
                     ) : (
                       <Tooltip title="Remove access">
                         <IconButton

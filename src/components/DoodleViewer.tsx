@@ -58,7 +58,7 @@ export default function DoodleViewer({ data, onEdit, title }: DoodleViewerProps)
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
       {title && (
-        <Typography variant="caption" sx={{ fontWeight: 900, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+        <Typography variant="caption" sx={{ fontWeight: 900, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           {title}
         </Typography>
       )}
@@ -73,7 +73,7 @@ export default function DoodleViewer({ data, onEdit, title }: DoodleViewerProps)
           transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             transform: 'scale(1.01)',
-            borderColor: alpha('#00F5FF', 0.3)
+            borderColor: alpha('#6366F1', 0.3)
           }
         }}
       >
@@ -107,7 +107,7 @@ export default function DoodleViewer({ data, onEdit, title }: DoodleViewerProps)
                 fontWeight: 700,
                 borderRadius: '10px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                '&:hover': { bgcolor: '#00F5FF', color: '#000' }
+                '&:hover': { bgcolor: '#6366F1', color: '#000' }
               }}
             >
               Edit
@@ -129,7 +129,7 @@ export default function DoodleViewer({ data, onEdit, title }: DoodleViewerProps)
           borderRadius: '8px',
           border: '1px solid rgba(255, 255, 255, 0.05)'
         }}>
-          <BrushIcon sx={{ fontSize: 14, color: '#00F5FF' }} />
+          <BrushIcon sx={{ fontSize: 14, color: '#6366F1' }} />
           <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)', fontWeight: 700 }}>
             DOODLE
           </Typography>

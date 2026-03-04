@@ -65,12 +65,12 @@ const AttachmentChips: React.FC<{ noteId: string }> = ({ noteId }) => {
           clickable
           size="small"
           sx={{
-            bgcolor: alpha('#00F5FF', 0.1),
-            color: '#00F5FF',
-            border: `1px solid ${alpha('#00F5FF', 0.2)}`,
+            bgcolor: alpha('#6366F1', 0.1),
+            color: '#6366F1',
+            border: `1px solid ${alpha('#6366F1', 0.2)}`,
             fontSize: '11px',
             fontWeight: 700,
-            '&:hover': { bgcolor: alpha('#00F5FF', 0.2) }
+            '&:hover': { bgcolor: alpha('#6366F1', 0.2) }
           }}
           title={`${a.name} • ${formatFileSize(a.size)}${a.mime? ' • '+a.mime:''}`}
         />
@@ -214,13 +214,13 @@ export default function NoteEditor({
         {!effectiveNoteId && (
           <Box sx={{ 
             p: 2, 
-            bgcolor: alpha('#00F5FF', 0.05), 
+            bgcolor: alpha('#6366F1', 0.05), 
             borderRadius: '16px',
             border: '1px solid',
-            borderColor: alpha('#00F5FF', 0.1),
+            borderColor: alpha('#6366F1', 0.1),
             textAlign: 'center'
           }}>
-            <Typography variant="caption" sx={{ color: '#00F5FF', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <Typography variant="caption" sx={{ color: '#6366F1', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Save the note to enable attachments.
             </Typography>
           </Box>
@@ -257,9 +257,9 @@ export default function NoteEditor({
                   fontSize: '0.7rem',
                   fontWeight: 900,
                   py: 0.5,
-                  bgcolor: isPublic ? alpha('#00F5FF', 0.2) : 'transparent',
-                  color: isPublic ? '#00F5FF' : 'rgba(255, 255, 255, 0.3)',
-                  '&:hover': { bgcolor: alpha('#00F5FF', 0.3) }
+                  bgcolor: isPublic ? alpha('#6366F1', 0.2) : 'transparent',
+                  color: isPublic ? '#6366F1' : 'rgba(255, 255, 255, 0.3)',
+                  '&:hover': { bgcolor: alpha('#6366F1', 0.3) }
                 }}
               >
                 Public
@@ -273,7 +273,7 @@ export default function NoteEditor({
             disabled={isSaving || !title.trim()}
             startIcon={isSaving ? <CircularProgress size={20} color="inherit" /> : (effectiveNoteId ? <UpdateIcon /> : <SaveIcon />)}
             sx={{
-              bgcolor: '#00F5FF',
+              bgcolor: '#6366F1',
               color: '#000',
               fontWeight: 900,
               px: 4,
@@ -282,9 +282,9 @@ export default function NoteEditor({
               textTransform: 'none',
               fontSize: '1rem',
               '&:hover': {
-                bgcolor: alpha('#00F5FF', 0.8),
+                bgcolor: alpha('#6366F1', 0.8),
                 transform: 'translateY(-2px)',
-                boxShadow: `0 8px 24px ${alpha('#00F5FF', 0.4)}`
+                boxShadow: `0 8px 24px ${alpha('#6366F1', 0.4)}`
               },
               '&.Mui-disabled': {
                 bgcolor: 'rgba(255, 255, 255, 0.05)',

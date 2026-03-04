@@ -128,14 +128,14 @@ export const MobileFAB: React.FC<MobileFABProps> = ({ className = '' }) => {
         sx={{
           width: 64,
           height: 64,
-          bgcolor: '#00F5FF',
+          bgcolor: '#6366F1',
           color: '#000',
           borderRadius: '20px',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             bgcolor: '#00D1DA',
             transform: 'translateY(-4px)',
-            boxShadow: '0 12px 24px rgba(0, 245, 255, 0.4)'
+            boxShadow: '0 12px 24px rgba(99, 102, 241, 0.4)'
           },
           ...(isExpanded && {
             transform: 'rotate(45deg)',

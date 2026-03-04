@@ -33,7 +33,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
           sx={{ 
             fontWeight: 900, 
             fontFamily: '"Space Grotesk", sans-serif',
-            color: '#00F5FF',
+            color: '#6366F1',
             textTransform: 'uppercase',
             letterSpacing: '0.05em'
           }}
@@ -47,8 +47,8 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             color: 'rgba(255, 255, 255, 0.5)',
             transition: 'all 0.2s ease',
             '&:hover': { 
-              color: '#00F5FF',
-              bgcolor: 'rgba(0, 245, 255, 0.1)'
+              color: '#6366F1',
+              bgcolor: 'rgba(99, 102, 241, 0.1)'
             }
           }}
         >

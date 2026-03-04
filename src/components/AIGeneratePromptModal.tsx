@@ -113,12 +113,12 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
           <Box sx={{ 
             w: 40, 
             h: 40, 
-            bgcolor: '#00F5FF', 
+            bgcolor: '#6366F1', 
             borderRadius: '12px', 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(0, 245, 255, 0.3)'
+            boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)'
           }}>
             <SparklesIcon sx={{ color: '#000' }} />
           </Box>
@@ -161,16 +161,16 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
                         p: 2.5,
                         width: '100%',
                         textAlign: 'left',
-                        bgcolor: isSelected ? alpha('#00F5FF', 0.05) : 'rgba(255, 255, 255, 0.02)',
+                        bgcolor: isSelected ? alpha('#6366F1', 0.05) : 'rgba(255, 255, 255, 0.02)',
                         border: '2px solid',
-                        borderColor: isSelected ? '#00F5FF' : 'rgba(255, 255, 255, 0.05)',
+                        borderColor: isSelected ? '#6366F1' : 'rgba(255, 255, 255, 0.05)',
                         borderRadius: '20px',
                         cursor: isGenerating ? 'not-allowed' : 'pointer',
                         transition: 'all 0.2s ease',
-                        boxShadow: isSelected ? '0 0 20px rgba(0, 245, 255, 0.1)' : 'none',
+                        boxShadow: isSelected ? '0 0 20px rgba(99, 102, 241, 0.1)' : 'none',
                         '&:hover': {
-                          bgcolor: isSelected ? alpha('#00F5FF', 0.08) : 'rgba(255, 255, 255, 0.04)',
-                          borderColor: isSelected ? '#00F5FF' : 'rgba(255, 255, 255, 0.2)',
+                          bgcolor: isSelected ? alpha('#6366F1', 0.08) : 'rgba(255, 255, 255, 0.04)',
+                          borderColor: isSelected ? '#6366F1' : 'rgba(255, 255, 255, 0.2)',
                           transform: 'translateY(-2px)'
                         }
                       }}
@@ -179,14 +179,14 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
                         <Box sx={{ 
                           p: 1.5, 
                           borderRadius: '12px', 
-                          bgcolor: isSelected ? '#00F5FF' : 'rgba(255, 255, 255, 0.05)',
+                          bgcolor: isSelected ? '#6366F1' : 'rgba(255, 255, 255, 0.05)',
                           color: isSelected ? '#000' : 'rgba(255, 255, 255, 0.4)',
                           display: 'flex'
                         }}>
                           <Icon fontSize="small" />
                         </Box>
                         <Box>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: isSelected ? '#00F5FF' : 'white' }}>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: isSelected ? '#6366F1' : 'white' }}>
                             {type.title}
                           </Typography>
                           <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', display: 'block', mt: 0.5, lineHeight: 1.4 }}>
@@ -220,7 +220,7 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
                   color: 'white',
                   '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                  '&.Mui-focused fieldset': { borderColor: '#6366F1' }
                 }
               }}
             />
@@ -244,7 +244,7 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
                       fontWeight: 600,
                       '&:hover': {
                         bgcolor: 'rgba(255, 255, 255, 0.08)',
-                        borderColor: '#00F5FF',
+                        borderColor: '#6366F1',
                         color: 'white'
                       }
                     }}
@@ -265,7 +265,7 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
         <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: 600, ml: 1 }}>
           {isGenerating ? (
             <Stack direction="row" spacing={1} alignItems="center">
-              <CircularProgress size={14} sx={{ color: '#00F5FF' }} />
+              <CircularProgress size={14} sx={{ color: '#6366F1' }} />
               <span>Generating your note...</span>
             </Stack>
           ) : (
@@ -286,13 +286,13 @@ export function AIGeneratePromptModal({ onClose, onGenerate, isGenerating = fals
             disabled={!customPrompt.trim() || isGenerating}
             startIcon={isGenerating ? <CircularProgress size={16} color="inherit" /> : <SparklesIcon />}
             sx={{
-              bgcolor: '#00F5FF',
+              bgcolor: '#6366F1',
               color: '#000',
               fontWeight: 800,
               borderRadius: '14px',
               px: 3,
               '&:hover': { bgcolor: '#00D1DA' },
-              '&.Mui-disabled': { bgcolor: 'rgba(0, 245, 255, 0.2)', color: 'rgba(0, 0, 0, 0.3)' }
+              '&.Mui-disabled': { bgcolor: 'rgba(99, 102, 241, 0.2)', color: 'rgba(0, 0, 0, 0.3)' }
             }}
           >
             {isGenerating ? 'Generating...' : 'Generate Note'}

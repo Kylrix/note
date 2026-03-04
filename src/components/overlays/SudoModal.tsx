@@ -230,8 +230,8 @@ export default function SudoModal({
                     display: 'inline-flex', 
                     p: 1.5, 
                     borderRadius: '16px', 
-                    bgcolor: alpha('#00F5FF', 0.1),
-                    color: '#00F5FF',
+                    bgcolor: alpha('#6366F1', 0.1),
+                    color: '#6366F1',
                     mb: 2
                 }}>
                     <ShieldIcon sx={{ fontSize: 32 }} />
@@ -281,7 +281,7 @@ export default function SudoModal({
                                         bgcolor: 'rgba(255, 255, 255, 0.03)',
                                         '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                                         '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                                        '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                                        '&.Mui-focused fieldset': { borderColor: '#6366F1' },
                                     },
                                     '& .MuiInputBase-input': { color: 'white' }
                                 }}
@@ -323,7 +323,7 @@ export default function SudoModal({
                                 height: 80,
                                 borderRadius: '50%',
                                 border: '2px dashed',
-                                borderColor: passkeyLoading ? '#00F5FF' : 'rgba(255, 255, 255, 0.2)',
+                                borderColor: passkeyLoading ? '#6366F1' : 'rgba(255, 255, 255, 0.2)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -331,12 +331,12 @@ export default function SudoModal({
                                 transition: 'all 0.3s ease',
                                 animation: passkeyLoading ? 'pulse 2s infinite' : 'none',
                                 '&:hover': {
-                                    borderColor: '#00F5FF',
-                                    bgcolor: alpha('#00F5FF', 0.05)
+                                    borderColor: '#6366F1',
+                                    bgcolor: alpha('#6366F1', 0.05)
                                 }
                             }}
                         >
-                            <FingerprintIcon sx={{ fontSize: 40, color: passkeyLoading ? '#00F5FF' : 'rgba(255, 255, 255, 0.4)' }} />
+                            <FingerprintIcon sx={{ fontSize: 40, color: passkeyLoading ? '#6366F1' : 'rgba(255, 255, 255, 0.4)' }} />
                         </Box>
                         
                         <Box sx={{ textAlign: 'center' }}>
@@ -356,7 +356,7 @@ export default function SudoModal({
                             sx={{
                                 py: 1.5,
                                 borderRadius: '14px',
-                                bgcolor: '#00F5FF',
+                                bgcolor: '#6366F1',
                                 color: '#000',
                                 fontWeight: 700,
                                 '&:hover': {
@@ -421,7 +421,7 @@ export default function SudoModal({
                                                 bgcolor: 'rgba(255, 255, 255, 0.03)',
                                                 '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                                                 '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                                                '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+                                                '&.Mui-focused fieldset': { borderColor: '#6366F1' },
                                             },
                                             '& .MuiInputBase-input': { color: 'white' }
                                         }}
@@ -436,13 +436,13 @@ export default function SudoModal({
                                     sx={{
                                         py: 1.5,
                                         borderRadius: '14px',
-                                        bgcolor: '#00F5FF',
+                                        bgcolor: '#6366F1',
                                         color: '#000',
                                         fontWeight: 700,
                                         '&:hover': {
                                             bgcolor: '#00D1DA',
                                             transform: 'translateY(-1px)',
-                                            boxShadow: '0 8px 20px rgba(0, 245, 255, 0.3)'
+                                            boxShadow: '0 8px 20px rgba(99, 102, 241, 0.3)'
                                         }
                                     }}
                                 >

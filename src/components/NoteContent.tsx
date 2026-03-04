@@ -73,12 +73,12 @@ export default function NoteContent({
               disabled={disabled}
               startIcon={<BrushIcon />}
               sx={{
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000',
                 fontWeight: 900,
                 borderRadius: '12px',
                 px: 3,
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+                '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
               }}
             >
               Create Doodle
@@ -98,7 +98,7 @@ export default function NoteContent({
                 color: 'white',
                 borderRadius: '12px',
                 fontWeight: 700,
-                '&:hover': { borderColor: '#00F5FF', color: '#00F5FF', bgcolor: alpha('#00F5FF', 0.05) }
+                '&:hover': { borderColor: '#6366F1', color: '#6366F1', bgcolor: alpha('#6366F1', 0.05) }
               }}
             >
               Edit Doodle
@@ -157,7 +157,7 @@ export default function NoteContent({
               borderColor: 'rgba(255, 255, 255, 0.15)',
             },
             '&.Mui-focused fieldset': {
-              borderColor: alpha('#00F5FF', 0.3),
+              borderColor: alpha('#6366F1', 0.3),
               borderWidth: '1px'
             }
           },
@@ -179,7 +179,7 @@ export default function NoteContent({
             color: 'white',
             borderRadius: '12px',
             fontWeight: 700,
-            '&:hover': { borderColor: '#00F5FF', color: '#00F5FF', bgcolor: alpha('#00F5FF', 0.05) }
+            '&:hover': { borderColor: '#6366F1', color: '#6366F1', bgcolor: alpha('#6366F1', 0.05) }
           }}
         >
           Create Doodle

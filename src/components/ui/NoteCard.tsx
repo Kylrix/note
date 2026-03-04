@@ -292,17 +292,17 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
     ...(isPro ? [
       {
         label: 'AI Summarize',
-        icon: <SummarizeIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+        icon: <SummarizeIcon sx={{ fontSize: 18, color: '#6366F1' }} />,
         onClick: () => { handleAIAction('summarize'); }
       },
       {
         label: 'AI Fix Grammar',
-        icon: <GrammarIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+        icon: <GrammarIcon sx={{ fontSize: 18, color: '#6366F1' }} />,
         onClick: () => { handleAIAction('grammar'); }
       },
       {
         label: 'Convert To Todo',
-        icon: <TodoIcon sx={{ fontSize: 18, color: '#00F5FF' }} />,
+        icon: <TodoIcon sx={{ fontSize: 18, color: '#6366F1' }} />,
         onClick: () => { handleCreateTodo(); }
       }
     ] : []),
@@ -354,12 +354,12 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
           transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
           '&:hover': {
             transform: 'perspective(1200px) rotateX(4deg) translateY(-8px)',
-            borderColor: 'rgba(0, 245, 255, 0.3)',
+            borderColor: 'rgba(99, 102, 241, 0.3)',
             bgcolor: 'rgba(255, 255, 255, 0.05)',
             // Significantly elevated but contained shadow
             boxShadow: `
               0 30px 60px -15px rgba(0, 0, 0, 0.7),
-              0 0 20px rgba(0, 245, 255, 0.05),
+              0 0 20px rgba(99, 102, 241, 0.05),
               inset 0 1px 1px rgba(255, 255, 255, 0.1)
             `,
             '&::after': {
@@ -374,7 +374,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
             left: 0,
             right: 0,
             height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.3), transparent)',
+            background: 'linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent)',
             opacity: 0,
             transition: 'opacity 0.4s ease',
           }
@@ -414,7 +414,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                       borderRadius: '8px',
                       '&:hover': {
                         color: 'primary.main',
-                        bgcolor: 'rgba(0, 245, 255, 0.05)'
+                        bgcolor: 'rgba(99, 102, 241, 0.05)'
                       }
                     }}
                   >
@@ -430,7 +430,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                     borderRadius: '8px',
                     '&:hover': {
                       color: 'primary.main',
-                      bgcolor: 'rgba(0, 245, 255, 0.05)'
+                      bgcolor: 'rgba(99, 102, 241, 0.05)'
                     }
                   }}
                 >
@@ -445,11 +445,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                     px: 1, 
                     py: 0.4, 
                     borderRadius: '8px', 
-                    bgcolor: 'rgba(0, 245, 255, 0.05)',
+                    bgcolor: 'rgba(99, 102, 241, 0.05)',
                     color: 'primary.main',
                     fontSize: '10px',
                     fontWeight: 800,
-                    border: '1px solid rgba(0, 245, 255, 0.1)',
+                    border: '1px solid rgba(99, 102, 241, 0.1)',
                     fontFamily: 'var(--font-jetbrains-mono)'
                   }}>
                     <AttachFileIcon sx={{ fontSize: 10 }} />

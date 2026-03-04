@@ -92,7 +92,7 @@ export default function NoteCard({
           content: '""',
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.05) 0%, transparent 100%)',
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%)',
           opacity: 0,
           transition: 'opacity 0.4s'
         },
@@ -187,10 +187,10 @@ export default function NoteCard({
               component={Link} 
               href={`/notes/${id}`}
               sx={{ 
-                color: '#00F5FF',
-                bgcolor: alpha('#00F5FF', 0.05),
+                color: '#6366F1',
+                bgcolor: alpha('#6366F1', 0.05),
                 borderRadius: '12px',
-                '&:hover': { bgcolor: alpha('#00F5FF', 0.15) }
+                '&:hover': { bgcolor: alpha('#6366F1', 0.15) }
               }}
             >
               <EditIcon fontSize="small" />

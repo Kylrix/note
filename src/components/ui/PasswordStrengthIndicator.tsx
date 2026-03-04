@@ -37,7 +37,7 @@ export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps>
       case 1: return '#FF9F0A';
       case 2: return '#FFD60A';
       case 3: return '#30D158';
-      case 4: return '#00F5FF';
+      case 4: return '#6366F1';
       default: return '#FF453A';
     }
   };
@@ -90,12 +90,12 @@ export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps>
                 {isError ? (
                   <ErrorIcon sx={{ fontSize: 14, color: '#FF453A' }} />
                 ) : (
-                  <CheckCircleIcon sx={{ fontSize: 14, color: '#00F5FF' }} />
+                  <CheckCircleIcon sx={{ fontSize: 14, color: '#6366F1' }} />
                 )}
                 <Typography 
                   variant="caption" 
                   sx={{ 
-                    color: isError ? 'rgba(255, 69, 58, 0.8)' : 'rgba(0, 245, 255, 0.8)',
+                    color: isError ? 'rgba(255, 69, 58, 0.8)' : 'rgba(99, 102, 241, 0.8)',
                     fontFamily: '"Inter", sans-serif',
                     fontSize: '0.75rem'
                   }}
@@ -110,8 +110,8 @@ export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps>
 
       {strength.isValid && (
         <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
-          <CheckCircleIcon sx={{ fontSize: 14, color: '#00F5FF' }} />
-          <Typography variant="caption" sx={{ color: '#00F5FF', fontWeight: 600, fontFamily: '"Inter", sans-serif' }}>
+          <CheckCircleIcon sx={{ fontSize: 14, color: '#6366F1' }} />
+          <Typography variant="caption" sx={{ color: '#6366F1', fontWeight: 600, fontFamily: '"Inter", sans-serif' }}>
             Password meets all requirements
           </Typography>
         </Stack>
@@ -176,11 +176,11 @@ export const PasswordInputWithStrength: React.FC<PasswordInputWithStrengthProps>
             bgcolor: 'rgba(255, 255, 255, 0.03)',
             '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
             '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-            '&.Mui-focused fieldset': { borderColor: '#00F5FF' },
+            '&.Mui-focused fieldset': { borderColor: '#6366F1' },
           },
           '& .MuiInputLabel-root': {
             color: 'rgba(255, 255, 255, 0.5)',
-            '&.Mui-focused': { color: '#00F5FF' }
+            '&.Mui-focused': { color: '#6366F1' }
           }
         }}
         slotProps={{

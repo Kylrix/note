@@ -73,11 +73,11 @@ function SearchResultAvatar({ result }: { result: SearchResult }) {
   const getIcon = (type: SearchResult['type']) => {
     switch (type) {
       case 'note':
-        return <NoteIcon sx={{ color: '#00F5FF' }} />;
+        return <NoteIcon sx={{ color: '#6366F1' }} />;
       case 'collection':
-        return <FolderIcon sx={{ color: '#00F5FF' }} />;
+        return <FolderIcon sx={{ color: '#6366F1' }} />;
       case 'tag':
-        return <TagIcon sx={{ color: '#00F5FF' }} />;
+        return <TagIcon sx={{ color: '#6366F1' }} />;
       default:
         return null;
     }
@@ -181,8 +181,8 @@ export default function GlobalSearch() {
             },
             '&.Mui-focused': {
               bgcolor: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(0, 245, 255, 0.3)',
-              boxShadow: '0 0 20px rgba(0, 245, 255, 0.1)',
+              border: '1px solid rgba(99, 102, 241, 0.3)',
+              boxShadow: '0 0 20px rgba(99, 102, 241, 0.1)',
             }
           },
           '& .MuiInputBase-input': {
@@ -288,10 +288,10 @@ export default function GlobalSearch() {
                                   height: 18,
                                   fontSize: '9px',
                                   fontWeight: 800,
-                                  bgcolor: alpha('#00F5FF', 0.1),
-                                  color: '#00F5FF',
+                                  bgcolor: alpha('#6366F1', 0.1),
+                                  color: '#6366F1',
                                   border: '1px solid',
-                                  borderColor: alpha('#00F5FF', 0.2),
+                                  borderColor: alpha('#6366F1', 0.2),
                                   '& .MuiChip-label': { px: 1 }
                                 }}
                               />

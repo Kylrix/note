@@ -124,7 +124,7 @@ export default function SharedNotesPage() {
               borderRadius: 3,
               borderColor: 'rgba(255,255,255,0.1)',
               color: 'text.primary',
-              '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(0, 245, 255, 0.05)' }
+              '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(99, 102, 241, 0.05)' }
             }}
           >
             Search Shared Notes

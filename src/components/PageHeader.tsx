@@ -37,7 +37,7 @@ export default function PageHeader() {
             borderRadius: '12px',
             '&:hover': {
               bgcolor: 'rgba(255, 255, 255, 0.08)',
-              color: '#00F5FF'
+              color: '#6366F1'
             }
           }}
         >

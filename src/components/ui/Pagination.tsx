@@ -68,7 +68,7 @@ export function Pagination({
             {...item}
             sx={{
               borderRadius: '12px',
-              bgcolor: item.selected ? '#00F5FF' : 'rgba(255, 255, 255, 0.03)',
+              bgcolor: item.selected ? '#6366F1' : 'rgba(255, 255, 255, 0.03)',
               color: item.selected ? '#000000' : 'rgba(255, 255, 255, 0.7)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               fontFamily: '"Space Grotesk", sans-serif',
@@ -76,11 +76,11 @@ export function Pagination({
               transition: 'all 0.2s ease',
               '&:hover': {
                 bgcolor: item.selected ? '#00D1DA' : 'rgba(255, 255, 255, 0.1)',
-                borderColor: item.selected ? '#00F5FF' : 'rgba(255, 255, 255, 0.2)',
+                borderColor: item.selected ? '#6366F1' : 'rgba(255, 255, 255, 0.2)',
                 transform: 'translateY(-1px)',
               },
               '&.Mui-selected': {
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000000',
                 '&:hover': {
                   bgcolor: '#00D1DA',

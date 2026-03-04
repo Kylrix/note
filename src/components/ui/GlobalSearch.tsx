@@ -92,7 +92,7 @@ function SearchResultAvatar({ result }: { result: SearchResult }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: result.type === 'note' ? '#00F5FF' : '#10B981'
+        color: result.type === 'note' ? '#6366F1' : '#10B981'
       }}
     >
       {result.icon}
@@ -304,7 +304,7 @@ export default function GlobalSearch({
               border: '1px solid rgba(255, 255, 255, 0.2)',
             },
             '&.Mui-focused fieldset': {
-              border: '1px solid #00F5FF',
+              border: '1px solid #6366F1',
             },
           },
           '& .MuiInputBase-input': {
@@ -347,7 +347,7 @@ export default function GlobalSearch({
                           width: 24,
                           height: 24,
                           fontSize: '0.75rem',
-                          backgroundColor: '#00F5FF',
+                          backgroundColor: '#6366F1',
                           color: '#000',
                           fontWeight: 900,
                           fontFamily: '"Space Grotesk", sans-serif'
@@ -357,7 +357,7 @@ export default function GlobalSearch({
                         {user.name.charAt(0).toUpperCase()}
                       </Avatar>
                     ) : (
-                      <AccountIcon sx={{ color: '#00F5FF' }} />
+                      <AccountIcon sx={{ color: '#6366F1' }} />
                     )}
                   </IconButton>
                 )}
@@ -380,18 +380,18 @@ export default function GlobalSearch({
                 onDelete={() => handleFilterToggle(filter)}
                 size="small"
                 sx={{
-                  backgroundColor: 'rgba(0, 245, 255, 0.1)',
-                  color: '#00F5FF',
-                  border: '1px solid rgba(0, 245, 255, 0.2)',
+                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                  color: '#6366F1',
+                  border: '1px solid rgba(99, 102, 241, 0.2)',
                   fontWeight: 700,
                   fontFamily: '"Space Grotesk", sans-serif',
                   textTransform: 'uppercase',
                   fontSize: '0.7rem',
                   '& .MuiChip-deleteIcon': {
-                    color: '#00F5FF',
+                    color: '#6366F1',
                     '&:hover': { color: '#00D1D9' }
                   },
-                  '& .MuiChip-icon': { color: '#00F5FF' }
+                  '& .MuiChip-icon': { color: '#6366F1' }
                 }}
               />
             );
@@ -433,8 +433,8 @@ export default function GlobalSearch({
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     '&:hover': {
-                      backgroundColor: 'rgba(0, 245, 255, 0.05)',
-                      '& .MuiListItemText-primary': { color: '#00F5FF' }
+                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                      '& .MuiListItemText-primary': { color: '#6366F1' }
                     },
                   }}
                 >
@@ -561,7 +561,7 @@ export default function GlobalSearch({
             px: 2,
             py: 1.25,
             gap: 2,
-            '&:hover': { bgcolor: 'rgba(0, 245, 255, 0.1)', color: '#00F5FF' }
+            '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.1)', color: '#6366F1' }
           }}
         >
           <ListItemIcon sx={{ minWidth: 'auto', color: 'inherit' }}>
@@ -588,7 +588,7 @@ export default function GlobalSearch({
             px: 2,
             py: 1.25,
             gap: 2,
-            '&:hover': { bgcolor: 'rgba(0, 245, 255, 0.1)', color: '#00F5FF' }
+            '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.1)', color: '#6366F1' }
           }}
         >
           <ListItemIcon sx={{ minWidth: 'auto', color: 'inherit' }}>

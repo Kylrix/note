@@ -86,7 +86,7 @@ export function NoteContentDisplay({
           bgcolor: '#000',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
-            borderColor: alpha('#00F5FF', 0.3),
+            borderColor: alpha('#6366F1', 0.3),
             transform: preview ? 'none' : 'scale(1.005)'
           }
         }}
@@ -119,7 +119,7 @@ export function NoteContentDisplay({
             }
           }}>
             <Box sx={{ 
-              bgcolor: '#00F5FF', 
+              bgcolor: '#6366F1', 
               color: '#000', 
               px: 2, 
               py: 1, 
@@ -132,7 +132,7 @@ export function NoteContentDisplay({
               display: 'flex',
               alignItems: 'center',
               gap: 1,
-              boxShadow: '0 8px 24px rgba(0, 245, 255, 0.4)',
+              boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)',
               '.MuiBox-root:hover &': { opacity: 1 }
             }}>
               <BrushIcon sx={{ fontSize: 18 }} />

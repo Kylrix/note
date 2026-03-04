@@ -53,7 +53,7 @@ export const EmailVerificationReminder: React.FC = () => {
       >
         <Alert
           severity="info"
-          icon={<InfoIcon sx={{ color: '#00F5FF' }} />}
+          icon={<InfoIcon sx={{ color: '#6366F1' }} />}
           action={
             <IconButton
               aria-label="close"
@@ -74,7 +74,7 @@ export const EmailVerificationReminder: React.FC = () => {
         >
           <AlertTitle sx={{ 
             fontWeight: 900, 
-            color: '#00F5FF',
+            color: '#6366F1',
             fontFamily: '"Space Grotesk", sans-serif',
             textTransform: 'uppercase',
             letterSpacing: '0.05em'
@@ -90,7 +90,7 @@ export const EmailVerificationReminder: React.FC = () => {
               variant="contained"
               onClick={handleVerifyEmail}
               sx={{ 
-                bgcolor: '#00F5FF', 
+                bgcolor: '#6366F1', 
                 color: '#000',
                 fontWeight: 900,
                 fontFamily: '"Space Grotesk", sans-serif',

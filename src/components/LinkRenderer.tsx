@@ -13,15 +13,15 @@ export function LinkComponent({ href, children }: { href?: string; children?: Re
       target="_blank"
       rel="noopener noreferrer"
       sx={{
-        color: '#00F5FF',
+        color: '#6366F1',
         textDecoration: 'none',
         fontWeight: 700,
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         borderBottom: '1px solid transparent',
         '&:hover': {
-          color: alpha('#00F5FF', 0.8),
-          borderBottomColor: alpha('#00F5FF', 0.4),
-          bgcolor: alpha('#00F5FF', 0.05),
+          color: alpha('#6366F1', 0.8),
+          borderBottomColor: alpha('#6366F1', 0.4),
+          bgcolor: alpha('#6366F1', 0.05),
           borderRadius: '4px',
           px: 0.5,
           mx: -0.5

@@ -86,7 +86,7 @@ export default function NoteViewer({ note, onClose }: NoteViewerProps) {
               flexGrow: 1, 
               fontWeight: 900, 
               fontFamily: 'var(--font-space-grotesk)',
-              background: 'linear-gradient(90deg, #fff, #00F5FF)',
+              background: 'linear-gradient(90deg, #fff, #6366F1)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}

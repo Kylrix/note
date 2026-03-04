@@ -79,7 +79,7 @@ export const MobileBottomNav: React.FC = () => {
             href={href}
             sx={{
               color: isActive(href) ? '#000' : 'rgba(255, 255, 255, 0.6)',
-              bgcolor: isActive(href) ? '#00F5FF' : 'transparent',
+              bgcolor: isActive(href) ? '#6366F1' : 'transparent',
               borderRadius: '16px',
               p: 1.5,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -88,7 +88,7 @@ export const MobileBottomNav: React.FC = () => {
                 transform: 'translateY(-2px)'
               },
               ...(isActive(href) && {
-                boxShadow: '0 0 15px rgba(0, 245, 255, 0.4)',
+                boxShadow: '0 0 15px rgba(99, 102, 241, 0.4)',
                 transform: 'translateY(-4px)'
               })
             }}
@@ -200,14 +200,14 @@ export const DesktopSidebar: React.FC = () => {
                   px: isCollapsed ? 2 : 2.5,
                   py: 1.75,
                   transition: 'all 0.2s ease',
-                  bgcolor: active ? alpha('#00F5FF', 0.1) : 'transparent',
-                  color: active ? '#00F5FF' : 'rgba(255, 255, 255, 0.6)',
+                  bgcolor: active ? alpha('#6366F1', 0.1) : 'transparent',
+                  color: active ? '#6366F1' : 'rgba(255, 255, 255, 0.6)',
                   border: '1px solid',
-                  borderColor: active ? alpha('#00F5FF', 0.2) : 'transparent',
+                  borderColor: active ? alpha('#6366F1', 0.2) : 'transparent',
                   '&:hover': {
-                    bgcolor: active ? alpha('#00F5FF', 0.15) : 'rgba(255, 255, 255, 0.05)',
+                    bgcolor: active ? alpha('#6366F1', 0.15) : 'rgba(255, 255, 255, 0.05)',
                     transform: 'translateX(4px)',
-                    color: active ? '#00F5FF' : 'white'
+                    color: active ? '#6366F1' : 'white'
                   },
                   justifyContent: isCollapsed ? 'center' : 'flex-start'
                 }}
@@ -230,7 +230,7 @@ export const DesktopSidebar: React.FC = () => {
                   />
                 )}
                 {active && !isCollapsed && (
-                  <Box sx={{ width: 4, height: 20, bgcolor: '#00F5FF', borderRadius: '2px', ml: 'auto', boxShadow: '0 0 10px #00F5FF' }} />
+                  <Box sx={{ width: 4, height: 20, bgcolor: '#6366F1', borderRadius: '2px', ml: 'auto', boxShadow: '0 0 10px #6366F1' }} />
                 )}
               </ListItemButton>
             </Tooltip>
@@ -256,7 +256,7 @@ export const DesktopSidebar: React.FC = () => {
               sx={{ 
                 width: 36, 
                 height: 36, 
-                bgcolor: '#00F5FF',
+                bgcolor: '#6366F1',
                 color: '#000',
                 fontSize: '0.875rem',
                 fontWeight: 800,

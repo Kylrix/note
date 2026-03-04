@@ -39,7 +39,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [strokes, setStrokes] = useState<DoodleStroke[]>([]);
-  const [color, setColor] = useState('#00F5FF');
+  const [color, setColor] = useState('#6366F1');
   const [size, setSize] = useState(3);
   const [mode, setMode] = useState<ModalMode>('modal');
   const [pipPosition, setPipPosition] = useState({ x: 20, y: 20 });
@@ -187,7 +187,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
       sx={{ width: '100%', flexWrap: 'wrap' }}
     >
       <Stack direction="row" spacing={2} alignItems="center">
-        <Typography variant="caption" sx={{ fontWeight: 900, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em' }}>COLOR</Typography>
+        <Typography variant="caption" sx={{ fontWeight: 900, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em' }}>COLOR</Typography>
         <Box 
           component="input"
           type="color"
@@ -208,19 +208,19 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
       </Stack>
 
       <Stack direction="row" spacing={2} alignItems="center" sx={{ flex: 1, minWidth: 200 }}>
-        <Typography variant="caption" sx={{ fontWeight: 900, color: '#00F5FF', textTransform: 'uppercase', letterSpacing: '0.1em' }}>SIZE</Typography>
+        <Typography variant="caption" sx={{ fontWeight: 900, color: '#6366F1', textTransform: 'uppercase', letterSpacing: '0.1em' }}>SIZE</Typography>
         <Slider
           value={size}
           min={1}
           max={20}
           onChange={(_: any, val: any) => setSize(val)}
           sx={{ 
-            color: '#00F5FF',
+            color: '#6366F1',
             '& .MuiSlider-thumb': { 
               width: 16, 
               height: 16,
               '&:hover, &.Mui-focusVisible': {
-                boxShadow: `0 0 0 8px ${alpha('#00F5FF', 0.16)}`
+                boxShadow: `0 0 0 8px ${alpha('#6366F1', 0.16)}`
               }
             },
             '& .MuiSlider-rail': { bgcolor: 'rgba(255, 255, 255, 0.1)', opacity: 1 },
@@ -295,7 +295,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
             borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
           }}
         >
-          <Typography variant="caption" sx={{ fontWeight: 900, color: '#00F5FF', letterSpacing: '0.1em' }}>DOODLE PIP</Typography>
+          <Typography variant="caption" sx={{ fontWeight: 900, color: '#6366F1', letterSpacing: '0.1em' }}>DOODLE PIP</Typography>
           <Stack direction="row" spacing={1}>
             <IconButton size="small" onClick={() => setMode('modal')} sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: 'white' } }}>
               <FullscreenIcon fontSize="small" />
@@ -325,12 +325,12 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
             onClick={handleSave}
             sx={{ 
               mt: 2.5, 
-              bgcolor: '#00F5FF', 
+              bgcolor: '#6366F1', 
               color: '#000', 
               fontWeight: 900, 
               borderRadius: '12px',
               py: 1,
-              '&:hover': { bgcolor: alpha('#00F5FF', 0.8) }
+              '&:hover': { bgcolor: alpha('#6366F1', 0.8) }
             }}
           >
             Save Doodle
@@ -367,7 +367,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
         borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#00F5FF', boxShadow: '0 0 12px #00F5FF' }} />
+          <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#6366F1', boxShadow: '0 0 12px #6366F1' }} />
           <Typography variant="h5" sx={{ fontWeight: 900, letterSpacing: '-0.03em' }}>
             Doodle Canvas {mode === 'fullscreen' && <Box component="span" sx={{ color: 'rgba(255, 255, 255, 0.3)', ml: 1 }}>/ Fullscreen</Box>}
           </Typography>
@@ -451,7 +451,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
             onClick={handleSave}
             startIcon={<SaveIcon />}
             sx={{ 
-              bgcolor: '#00F5FF', 
+              bgcolor: '#6366F1', 
               color: '#000', 
               fontWeight: 900, 
               borderRadius: '16px',
@@ -459,9 +459,9 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
               py: 1.5,
               fontSize: '1rem',
               '&:hover': { 
-                bgcolor: alpha('#00F5FF', 0.8),
+                bgcolor: alpha('#6366F1', 0.8),
                 transform: 'translateY(-2px)',
-                boxShadow: `0 8px 24px ${alpha('#00F5FF', 0.4)}`
+                boxShadow: `0 8px 24px ${alpha('#6366F1', 0.4)}`
               },
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
