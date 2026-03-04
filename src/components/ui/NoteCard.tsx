@@ -341,23 +341,25 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
           cursor: 'pointer',
           position: 'relative',
           overflow: 'hidden',
-          bgcolor: 'rgba(10, 10, 10, 0.98)',
+          bgcolor: 'rgba(255, 255, 255, 0.03)',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '20px',
+          borderRadius: '24px',
+          backdropFilter: 'blur(25px) saturate(180%)',
           // Subtle 3D shadow and highlight
           boxShadow: `
-            0 4px 12px rgba(0, 0, 0, 0.5),
+            0 10px 30px rgba(0, 0, 0, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.05)
           `,
-          transform: 'perspective(1000px) rotateX(0deg)',
-          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+          transform: 'perspective(1200px) rotateX(0deg)',
+          transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
           '&:hover': {
-            transform: 'perspective(1000px) rotateX(4deg) translateY(-8px)',
-            borderColor: 'rgba(0, 245, 255, 0.4)',
+            transform: 'perspective(1200px) rotateX(4deg) translateY(-8px)',
+            borderColor: 'rgba(0, 245, 255, 0.3)',
+            bgcolor: 'rgba(255, 255, 255, 0.05)',
             // Significantly elevated but contained shadow
             boxShadow: `
-              0 20px 30px -10px rgba(0, 0, 0, 0.7),
-              0 10px 20px -5px rgba(0, 245, 255, 0.15),
+              0 30px 60px -15px rgba(0, 0, 0, 0.7),
+              0 0 20px rgba(0, 245, 255, 0.05),
               inset 0 1px 1px rgba(255, 255, 255, 0.1)
             `,
             '&::after': {
@@ -374,12 +376,12 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
             height: '1px',
             background: 'linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.3), transparent)',
             opacity: 0,
-            transition: 'opacity 0.3s ease',
+            transition: 'opacity 0.4s ease',
           }
         }}
       >
         <CardHeader
-          sx={{ pb: 0.5, p: 2 }}
+          sx={{ pb: 0.5, p: 2.5 }}
           title={
             <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1 }}>
               <Typography 
@@ -387,8 +389,9 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                 sx={{ 
                   fontSize: { xs: '0.875rem', sm: '1rem' }, 
                   fontWeight: 900,
-                  fontFamily: '"Space Grotesk", sans-serif',
-                  color: '#00F5FF',
+                  fontFamily: 'var(--font-clash-display)',
+                  color: 'primary.main',
+                  letterSpacing: '-0.02em',
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical',
@@ -408,9 +411,10 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                     sx={{
                       p: 0.5,
                       color: 'rgba(255, 255, 255, 0.4)',
+                      borderRadius: '8px',
                       '&:hover': {
-                        color: '#00F5FF',
-                        bgcolor: 'rgba(0, 245, 255, 0.1)'
+                        color: 'primary.main',
+                        bgcolor: 'rgba(0, 245, 255, 0.05)'
                       }
                     }}
                   >
@@ -422,10 +426,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                   onClick={handlePinToggle}
                   sx={{ 
                     p: 0.5,
-                    color: pinned ? '#00F5FF' : 'rgba(255, 255, 255, 0.2)',
+                    color: pinned ? 'primary.main' : 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
                     '&:hover': {
-                      color: '#00F5FF',
-                      bgcolor: 'rgba(0, 245, 255, 0.1)'
+                      color: 'primary.main',
+                      bgcolor: 'rgba(0, 245, 255, 0.05)'
                     }
                   }}
                 >
@@ -437,15 +442,15 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
                     display: 'flex', 
                     alignItems: 'center', 
                     gap: 0.3, 
-                    px: 0.8, 
-                    py: 0.3, 
-                    borderRadius: '6px', 
-                    bgcolor: 'rgba(0, 245, 255, 0.1)',
-                    color: '#00F5FF',
-                    fontSize: '9px',
+                    px: 1, 
+                    py: 0.4, 
+                    borderRadius: '8px', 
+                    bgcolor: 'rgba(0, 245, 255, 0.05)',
+                    color: 'primary.main',
+                    fontSize: '10px',
                     fontWeight: 800,
-                    border: '1px solid rgba(0, 245, 255, 0.2)',
-                    fontFamily: '"Space Grotesk", sans-serif'
+                    border: '1px solid rgba(0, 245, 255, 0.1)',
+                    fontFamily: 'var(--font-jetbrains-mono)'
                   }}>
                     <AttachFileIcon sx={{ fontSize: 10 }} />
                     {note.attachments.length}
@@ -456,11 +461,11 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
           }
         />
 
-        <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 0, position: 'relative', p: 2, pt: 0 }}>
+        <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 0, position: 'relative', p: 2.5, pt: 0 }}>
           {note.format === 'doodle' ? (
             <Box sx={{ 
               flex: 1, 
-              borderRadius: '12px', 
+              borderRadius: '16px', 
               border: '1px solid rgba(255,255,255,0.05)', 
               overflow: 'hidden', 
               bgcolor: 'rgba(255, 255, 255, 0.02)',
@@ -478,9 +483,10 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
               variant="body2" 
               sx={{ 
                 color: 'rgba(255, 255, 255, 0.6)',
-                fontFamily: '"Inter", sans-serif',
-                fontSize: '0.75rem',
-                lineHeight: 1.5,
+                fontFamily: 'var(--font-satoshi)',
+                fontSize: '0.8rem',
+                lineHeight: 1.6,
+                fontWeight: 500,
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
                 '@media (min-width: 600px)': {
@@ -498,22 +504,23 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
             </Typography>
           )}
           
-          <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 0.5, overflow: 'hidden' }}>
+          <Box sx={{ mt: 1.5, display: 'flex', flexWrap: 'wrap', gap: 0.8, overflow: 'hidden' }}>
             {note.tags && note.tags.slice(0, 2).map((tag: string, index: number) => (
               <Chip
                 key={index}
                 label={tag}
                 size="small"
                 sx={{ 
-                  height: 16, 
-                  fontSize: '8px', 
+                  height: 20, 
+                  fontSize: '9px', 
                   fontWeight: 700,
-                  fontFamily: '"Space Grotesk", sans-serif',
+                  fontFamily: 'var(--font-jetbrains-mono)',
                   textTransform: 'uppercase',
                   bgcolor: 'rgba(255, 255, 255, 0.03)',
                   color: 'rgba(255, 255, 255, 0.4)',
                   border: '1px solid rgba(255, 255, 255, 0.05)',
-                  '& .MuiChip-label': { px: 0.8 }
+                  borderRadius: '6px',
+                  '& .MuiChip-label': { px: 1 }
                 }}
               />
             ))}
