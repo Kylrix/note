@@ -151,8 +151,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Skip if already authenticated
     if (user) return;
 
-    const authSubdomain = process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN;
-    const domain = process.env.NEXT_PUBLIC_DOMAIN;
+    const authSubdomain = process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN || 'accounts';
+    const domain = process.env.NEXT_PUBLIC_DOMAIN || 'kylrix.space';
     if (!authSubdomain || !domain) return;
 
     return new Promise<void>((resolve) => {
@@ -239,8 +239,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      const authSubdomain = process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN;
-      const domain = process.env.NEXT_PUBLIC_DOMAIN;
+      const authSubdomain = process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN || 'accounts';
+      const domain = process.env.NEXT_PUBLIC_DOMAIN || 'kylrix.space';
       if (!authSubdomain || !domain) return;
       const expectedOrigin = `https://${authSubdomain}.${domain}`;
 
@@ -396,8 +396,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           return;
         }
 
-        const authSubdomain = process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN;
-        const domain = process.env.NEXT_PUBLIC_DOMAIN;
+        const authSubdomain = process.env.NEXT_PUBLIC_AUTH_SUBDOMAIN || 'accounts';
+        const domain = process.env.NEXT_PUBLIC_DOMAIN || 'kylrix.space';
 
         if (!authSubdomain || !domain) {
           console.error('IDM configuration missing: AUTH_SUBDOMAIN or DOMAIN not set');
