@@ -144,10 +144,10 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
           width: '100%',
           maxWidth: '672px',
           mx: 'auto',
-          bgcolor: 'rgba(10, 10, 10, 0.95)',
-          backdropFilter: 'blur(16px) saturate(140%)',
+          bgcolor: 'rgba(255, 255, 255, 0.01)',
+          backdropFilter: 'blur(25px) saturate(180%)',
           borderRadius: { xs: '24px', sm: '32px' },
-          boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)',
           overflow: 'hidden',
           maxHeight: { xs: 'calc(100dvh - 1rem)', sm: 'calc(100vh - 4rem)' },
           display: 'flex',
@@ -164,7 +164,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             justifyContent: 'space-between',
             p: { xs: 2.5, sm: 3 },
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-            background: 'linear-gradient(90deg, rgba(0, 245, 255, 0.02) 0%, rgba(0, 245, 255, 0.05) 100%)'
+            background: 'rgba(255, 255, 255, 0.01)'
           }}
         >
           <Stack direction="row" spacing={2} alignItems="center">
@@ -192,7 +192,8 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 sx={{
                   fontWeight: 900,
                   fontSize: { xs: '1.15rem', sm: '1.5rem' },
-                  fontFamily: 'var(--font-space-grotesk)',
+                  fontFamily: 'var(--font-clash-display)',
+                  letterSpacing: '-0.04em',
                   color: 'white',
                   lineHeight: 1.2
                 }}
@@ -204,6 +205,7 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 sx={{
                   color: 'rgba(255, 255, 255, 0.4)',
                   fontWeight: 500,
+                  fontFamily: 'var(--font-satoshi)',
                   display: { xs: 'none', sm: 'block' }
                 }}
               >
@@ -281,7 +283,8 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
                 fontWeight: 800,
                 color: 'rgba(255, 255, 255, 0.5)',
                 mb: 1,
-                fontSize: '0.7rem',
+                fontSize: '0.75rem',
+                fontFamily: 'var(--font-jetbrains-mono)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em'
               }}
@@ -298,11 +301,13 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
               autoComplete="off"
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  bgcolor: 'rgba(255, 255, 255, 0.02)',
-                  borderRadius: '14px',
+                  bgcolor: 'rgba(255, 255, 255, 0.03)',
+                  borderRadius: '16px',
                   color: 'white',
+                  fontFamily: 'var(--font-satoshi)',
+                  fontWeight: 700,
                   '& fieldset': {
-                    borderColor: 'rgba(255, 255, 255, 0.05)',
+                    borderColor: 'rgba(255, 255, 255, 0.08)',
                     borderWidth: '1.5px'
                   },
                   '&:hover fieldset': {
@@ -322,16 +327,16 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between', 
-            bgcolor: 'rgba(255, 255, 255, 0.02)', 
-            p: 2, 
-            borderRadius: '16px', 
-            border: '1px solid rgba(255, 255, 255, 0.05)' 
+            bgcolor: 'rgba(255, 255, 255, 0.03)', 
+            p: 2.5, 
+            borderRadius: '24px', 
+            border: '1px solid rgba(255, 255, 255, 0.08)' 
           }}>
             <Box>
-              <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'white', fontSize: '0.875rem' }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'white', fontSize: '0.875rem', fontFamily: 'var(--font-satoshi)' }}>
                 Privacy Mode
               </Typography>
-              <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+              <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontFamily: 'var(--font-satoshi)' }}>
                 {isPublic ? 'Publicly discoverable' : 'Vaulted session'}
               </Typography>
             </Box>
@@ -341,19 +346,25 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
               onChange={(_, val) => val !== null && setIsPublic(val)}
               size="small"
               sx={{
-                bgcolor: 'rgba(255, 255, 255, 0.04)',
-                borderRadius: '10px',
-                p: 0.4,
+                bgcolor: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: '12px',
+                p: 0.5,
+                border: '1px solid rgba(255, 255, 255, 0.08)',
                 '& .MuiToggleButton-root': {
                   border: 'none',
-                  borderRadius: '7px',
-                  px: 2,
-                  py: 0.5,
+                  borderRadius: '8px',
+                  px: 2.5,
+                  py: 0.6,
                   color: 'rgba(255, 255, 255, 0.5)',
                   fontSize: '0.75rem',
+                  fontWeight: 700,
+                  fontFamily: 'var(--font-jetbrains-mono)',
                   '&.Mui-selected': {
-                    bgcolor: isPublic ? 'rgba(0, 245, 255, 0.15)' : 'rgba(255, 255, 255, 0.15)',
+                    bgcolor: isPublic ? 'rgba(0, 245, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)',
                     color: isPublic ? '#00F5FF' : 'white',
+                    '&:hover': {
+                      bgcolor: isPublic ? 'rgba(0, 245, 255, 0.2)' : 'rgba(255, 255, 255, 0.15)',
+                    }
                   }
                 }
               }}
@@ -366,48 +377,50 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
           {/* Content - Text or Doodle */}
           {format === 'text' ? (
             <Box>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  fontWeight: 800,
-                  color: 'rgba(255, 255, 255, 0.5)',
-                  mb: 1,
-                  fontSize: '0.7rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em'
-                }}
-              >
-                Manifestation
-              </Typography>
-              <TextField
-                fullWidth
-                multiline
-                rows={isMobile ? 5 : 8}
-                placeholder="Transcribe your consciousness..."
-                value={content}
-                onChange={ (e) => setContent(e.target.value)}
-                variant="outlined"
-                inputProps={{ maxLength: 65000 }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    bgcolor: 'rgba(255, 255, 255, 0.02)',
-                    borderRadius: '18px',
-                    color: 'white',
-                    fontFamily: 'inherit',
-                    '& fieldset': {
-                      borderColor: 'rgba(255, 255, 255, 0.05)',
-                      borderWidth: '1.5px'
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'rgba(255, 255, 255, 0.15)'
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#00F5FF',
-                      borderWidth: '2px'
-                    }
+            <Typography
+              variant="subtitle2"
+              sx={{
+                fontWeight: 800,
+                color: 'rgba(255, 255, 255, 0.5)',
+                mb: 1.5,
+                fontSize: '0.75rem',
+                fontFamily: 'var(--font-jetbrains-mono)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em'
+              }}
+            >
+              Manifestation
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={isMobile ? 5 : 8}
+              placeholder="Transcribe your consciousness..."
+              value={content}
+              onChange={ (e) => setContent(e.target.value)}
+              variant="outlined"
+              inputProps={{ maxLength: 65000 }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: 'rgba(255, 255, 255, 0.03)',
+                  borderRadius: '20px',
+                  color: 'white',
+                  fontFamily: 'var(--font-satoshi)',
+                  lineHeight: 1.6,
+                  '& fieldset': {
+                    borderColor: 'rgba(255, 255, 255, 0.08)',
+                    borderWidth: '1.5px'
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(255, 255, 255, 0.15)'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#00F5FF',
+                    borderWidth: '2px'
                   }
-                }}
-              />
+                }
+              }}
+            />
               <Typography
                 variant="caption"
                 sx={{
@@ -669,12 +682,15 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
           disabled={isLoading}
           sx={{ 
             px: { xs: 2.5, sm: 4 }, 
-            borderRadius: '12px',
-            borderColor: 'rgba(255,255,255,0.1)',
-            color: 'rgba(255,255,255,0.5)',
+            borderRadius: '14px',
+            borderColor: 'rgba(255,255,255,0.08)',
+            color: 'rgba(255,255,255,0.4)',
+            fontFamily: 'var(--font-jetbrains-mono)',
+            fontSize: '0.8rem',
+            fontWeight: 700,
             '&:hover': {
-              borderColor: 'rgba(255,255,255,0.3)',
-              bgcolor: 'rgba(255,255,255,0.05)',
+              borderColor: 'rgba(255,255,255,0.2)',
+              bgcolor: 'rgba(255,255,255,0.03)',
               color: 'white'
             }
           }}
@@ -694,9 +710,10 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
             bgcolor: '#00F5FF',
             color: 'black',
             fontWeight: 900,
+            fontFamily: 'var(--font-satoshi)',
             fontSize: { xs: '0.9rem', sm: '1rem' },
             boxShadow: '0 8px 32px rgba(0, 245, 255, 0.25)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
             '&:hover': { 
               bgcolor: '#00D1DA',
               boxShadow: '0 12px 40px rgba(0, 245, 255, 0.4)',
