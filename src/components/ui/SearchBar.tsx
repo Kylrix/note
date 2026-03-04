@@ -33,7 +33,7 @@ export function SearchBar({
             startAdornment: (
               <InputAdornment position="start">
                 {isSearching ? (
-                  <CircularProgress size={18} sx={{ color: '#00F5FF' }} />
+                  <CircularProgress size={18} sx={{ color: '#F59E0B' }} />
                 ) : (
                   <SearchIcon sx={{ color: 'rgba(255, 255, 255, 0.4)' }} />
                 )}
@@ -50,7 +50,7 @@ export function SearchBar({
                   edge="end"
                   sx={{ 
                     color: 'rgba(255, 255, 255, 0.4)',
-                    '&:hover': { color: '#00F5FF' }
+                    '&:hover': { color: '#F59E0B' }
                   }}
                 >
                   <CloseIcon />
@@ -72,9 +72,9 @@ export function SearchBar({
               borderColor: 'rgba(255, 255, 255, 0.2)',
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#00F5FF',
+              borderColor: '#F59E0B',
               borderWidth: '1px',
-              boxShadow: '0 0 15px rgba(0, 245, 255, 0.2)',
+              boxShadow: '0 0 15px rgba(245, 158, 11, 0.2)',
             },
           },
           '& .MuiInputBase-input': {
