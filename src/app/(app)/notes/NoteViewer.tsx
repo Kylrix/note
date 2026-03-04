@@ -109,16 +109,16 @@ export default function NoteViewer({ note, onClose }: NoteViewerProps) {
           value={tabIndex} 
           onChange={handleTabChange} 
           variant="fullWidth"
-          sx={{
-            '& .MuiTabs-indicator': { bgcolor: '#00F5FF', height: 3 },
-            '& .MuiTab-root': { 
-              color: 'rgba(255, 255, 255, 0.5)', 
-              fontWeight: 800,
-              fontSize: '0.85rem',
-              textTransform: 'none',
-              '&.Mui-selected': { color: '#00F5FF' }
-            }
-          }}
+            sx={{
+              '& .MuiTabs-indicator': { bgcolor: '#F59E0B', height: 3 },
+              '& .MuiTab-root': { 
+                color: 'rgba(255, 255, 255, 0.5)', 
+                fontWeight: 800,
+                fontSize: '0.85rem',
+                textTransform: 'none',
+                '&.Mui-selected': { color: '#F59E0B' }
+              }
+            }}
         >
           <Tab label="Content" />
           <Tab label="Comments" />
@@ -175,8 +175,8 @@ export default function NoteViewer({ note, onClose }: NoteViewerProps) {
                     '& li': { mb: 1, opacity: 0.8 }
                   },
                   '& blockquote': {
-                    borderLeft: '4px solid #00F5FF',
-                    bgcolor: alpha('#00F5FF', 0.05),
+                    borderLeft: '4px solid #F59E0B',
+                    bgcolor: alpha('#F59E0B', 0.05),
                     p: 3,
                     borderRadius: '0 12px 12px 0',
                     mb: 3,
@@ -192,7 +192,7 @@ export default function NoteViewer({ note, onClose }: NoteViewerProps) {
                     '& code': { fontFamily: 'monospace', fontSize: '0.9rem' }
                   },
                   '& a': {
-                    color: '#00F5FF',
+                    color: '#F59E0B',
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' }
                   }

@@ -10,7 +10,7 @@ const getDesignTokens = (): ThemeOptions => ({
       contrastText: '#000000',
     },
     secondary: {
-      main: '#F2F2F2', // Titanium
+      main: '#F59E0B', // Amber Gold
     },
     background: {
       default: '#000000', // The Void

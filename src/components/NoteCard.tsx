@@ -98,7 +98,7 @@ export default function NoteCard({
         },
         '&:hover': {
           transform: 'translateY(-6px)',
-          borderColor: 'rgba(0, 245, 255, 0.4)',
+          borderColor: 'rgba(245, 158, 11, 0.4)',
           boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
           bgcolor: 'rgba(25, 25, 25, 0.8)',
           '&::after': {
@@ -129,8 +129,8 @@ export default function NoteCard({
             <Box sx={{ 
               p: 1, 
               borderRadius: '12px', 
-              bgcolor: isEncrypted ? alpha('#00F5FF', 0.1) : 'rgba(255, 255, 255, 0.05)',
-              color: isEncrypted ? '#00F5FF' : 'rgba(255, 255, 255, 0.4)',
+              bgcolor: isEncrypted ? alpha('#F59E0B', 0.1) : 'rgba(255, 255, 255, 0.05)',
+              color: isEncrypted ? '#F59E0B' : 'rgba(255, 255, 255, 0.4)',
               display: 'flex'
             }}>
               {isEncrypted ? <LockIcon fontSize="small" /> : <LockOpenIcon fontSize="small" />}

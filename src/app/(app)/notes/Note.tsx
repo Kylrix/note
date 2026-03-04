@@ -71,6 +71,15 @@ export default function NoteComponent({
           flexDirection: 'column',
           position: 'relative',
           backgroundColor: 'background.paper',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          borderRadius: '24px',
+          overflow: 'hidden',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          '&:hover': {
+            borderColor: 'rgba(245, 158, 11, 0.4)',
+            transform: 'translateY(-4px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+          }
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', p: 2, pb: 1 }}>
@@ -78,7 +87,7 @@ export default function NoteComponent({
             <Typography variant="h6" component="span" sx={{ fontSize: '1.2rem' }}>
               📝
             </Typography>
-            {isPublic ? <LockOpen color="action" fontSize="small" /> : <Lock color="primary" fontSize="small" />}
+            {isPublic ? <LockOpen color="action" fontSize="small" /> : <Lock sx={{ color: '#F59E0B' }} fontSize="small" />}
           </Box>
           <IconButton
             size="small"

@@ -172,12 +172,12 @@ export default function CreateNoteForm({ onNoteCreated, initialContent, initialF
               sx={{
                 width: { xs: 40, sm: 48 },
                 height: { xs: 40, sm: 48 },
-                background: 'linear-gradient(135deg, #00F5FF 0%, #00D1FF 100%)',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                 borderRadius: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 8px 16px rgba(0, 245, 255, 0.2)'
+                boxShadow: '0 8px 16px rgba(245, 158, 11, 0.2)'
               }}
             >
               {format === 'doodle' ? (

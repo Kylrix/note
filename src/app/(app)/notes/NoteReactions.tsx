@@ -126,27 +126,27 @@ export default function NoteReactions({ targetId, targetType = TargetType.NOTE, 
           
           if (size === 'small' && count === 0 && !user?.$id) return null;
 
-          return (
-            <Chip
-              key={emoji}
-              label={`${emoji} ${count}`}
-              onClick={() => handleReact(emoji)}
-              clickable={!!user?.$id}
-              size={size}
-              sx={{
-                borderRadius: 3,
-                bgcolor: isSelected ? 'primary.main' : 'rgba(255,255,255,0.06)',
-                border: isSelected ? 'none' : '1px solid rgba(255,255,255,0.1)',
-                fontWeight: 600,
-                color: isSelected ? 'primary.contrastText' : 'inherit',
-                height: size === 'small' ? 24 : 32,
-                fontSize: size === 'small' ? '0.75rem' : '0.875rem',
-                '&:hover': {
-                  bgcolor: isSelected ? 'primary.dark' : 'rgba(255,255,255,0.1)',
-                }
-              }}
-            />
-          );
+            return (
+              <Chip
+                key={emoji}
+                label={`${emoji} ${count}`}
+                onClick={() => handleReact(emoji)}
+                clickable={!!user?.$id}
+                size={size}
+                sx={{
+                  borderRadius: 3,
+                  bgcolor: isSelected ? '#F59E0B' : 'rgba(255,255,255,0.06)',
+                  border: isSelected ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                  fontWeight: 600,
+                  color: isSelected ? '#000000' : 'inherit',
+                  height: size === 'small' ? 24 : 32,
+                  fontSize: size === 'small' ? '0.75rem' : '0.875rem',
+                  '&:hover': {
+                    bgcolor: isSelected ? 'rgba(245, 158, 11, 0.8)' : 'rgba(255,255,255,0.1)',
+                  }
+                }}
+              />
+            );
         })}
       </Stack>
 
