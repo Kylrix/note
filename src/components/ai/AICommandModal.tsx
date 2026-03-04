@@ -109,7 +109,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
           bgcolor: 'rgba(255, 255, 255, 0.02)'
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <WandIcon sx={{ color: '#00F5FF', fontSize: 24 }} />
+            <WandIcon sx={{ color: '#F59E0B', fontSize: 24 }} />
             <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.02em', color: 'white' }}>
               Cognitive Link
             </Typography>
@@ -169,19 +169,19 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
                     sx={{ 
                       width: 32, 
                       height: 32, 
-                      bgcolor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.05)' : alpha('#00F5FF', 0.1),
+                      bgcolor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.05)' : alpha('#F59E0B', 0.1),
                       border: '1px solid',
-                      borderColor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.1)' : alpha('#00F5FF', 0.2)
+                      borderColor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.1)' : alpha('#F59E0B', 0.2)
                     }}
                   >
-                    {msg.role === 'user' ? <PersonIcon sx={{ fontSize: 18 }} /> : <WandIcon sx={{ fontSize: 18, color: '#00F5FF' }} />}
+                    {msg.role === 'user' ? <PersonIcon sx={{ fontSize: 18 }} /> : <WandIcon sx={{ fontSize: 18, color: '#F59E0B' }} />}
                   </Avatar>
                   <Paper sx={{ 
                     p: 2, 
                     borderRadius: msg.role === 'user' ? '20px 2px 20px 20px' : '2px 20px 20px 20px',
-                    bgcolor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 245, 255, 0.02)',
+                    bgcolor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(245, 158, 11, 0.02)',
                     border: '1px solid',
-                    borderColor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.05)' : alpha('#00F5FF', 0.1),
+                    borderColor: msg.role === 'user' ? 'rgba(255, 255, 255, 0.05)' : alpha('#F59E0B', 0.1),
                     backgroundImage: 'none'
                   }}>
                     <Typography variant="body2" sx={{ lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.9)' }}>
@@ -198,20 +198,20 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
                 sx={{ 
                   width: 32, 
                   height: 32, 
-                  bgcolor: alpha('#00F5FF', 0.1),
+                  bgcolor: alpha('#F59E0B', 0.1),
                   border: '1px solid',
-                  borderColor: alpha('#00F5FF', 0.2)
+                  borderColor: alpha('#F59E0B', 0.2)
                 }}
               >
-                <CircularProgress size={16} sx={{ color: '#00F5FF' }} />
+                <CircularProgress size={16} sx={{ color: '#F59E0B' }} />
               </Avatar>
               <Paper sx={{ 
                 px: 2, 
                 py: 1.5, 
                 borderRadius: '2px 20px 20px 20px',
-                bgcolor: 'rgba(0, 245, 255, 0.02)',
+                bgcolor: 'rgba(245, 158, 11, 0.02)',
                 border: '1px solid',
-                borderColor: alpha('#00F5FF', 0.1),
+                borderColor: alpha('#F59E0B', 0.1),
                 backgroundImage: 'none'
               }}>
                  <Box sx={{ display: 'flex', gap: 0.5 }}>
@@ -220,7 +220,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
                         key={i}
                         animate={{ opacity: [0.3, 1, 0.3] }}
                         transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-                        style={{ width: 4, height: 4, borderRadius: '50%', backgroundColor: '#00F5FF' }}
+                        style={{ width: 4, height: 4, borderRadius: '50%', backgroundColor: '#F59E0B' }}
                       />
                     ))}
                  </Box>
@@ -254,7 +254,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
                   pr: 1,
                   '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
                   '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#00F5FF' }
+                  '&.Mui-focused fieldset': { borderColor: '#F59E0B' }
                 }
               }}
               InputProps={{
@@ -263,7 +263,7 @@ export const AICommandModal: React.FC<AICommandModalProps> = ({ isOpen, onClose 
                     disabled={!prompt.trim() || isLoading}
                     type="submit"
                     sx={{ 
-                      color: '#00F5FF',
+                      color: '#F59E0B',
                       '&.Mui-disabled': { color: 'rgba(255, 255, 255, 0.1)' }
                     }}
                   >
