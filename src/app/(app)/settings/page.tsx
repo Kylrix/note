@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-    Box, 
-    Typography, 
-    Paper, 
-    Button, 
-    TextField, 
-    Stack, 
-    Switch, 
-    FormControlLabel, 
+import {
+    Box,
+    Typography,
+    Paper,
+    Button,
+    TextField,
+    Stack,
+    Switch,
+    FormControlLabel,
     Divider,
     Alert,
     CircularProgress,
@@ -21,9 +21,9 @@ import {
     ListItemText,
     IconButton
 } from '@mui/material';
-import { 
-    Lock, 
-    Shield, 
+import {
+    Lock,
+    Shield,
     Fingerprint,
     Trash2
 } from 'lucide-react';
@@ -54,9 +54,26 @@ export default function SettingsPage() {
     const [passkeyEntries, setPasskeyEntries] = useState<any[]>([]);
     const [_loadingPasskeys, setLoadingPasskeys] = useState(true);
 
+    const loadPasskeys = useCallback(async () => {
+        if (!user?.$id) return;
+        try {
+            const entries = await AppwriteService.listKeychainEntries(user.$id);
+            const pkEntries = entries.filter((e: any) => e.type === 'passkey').map((e: any) => ({
+                ...e,
+                params: typeof e.params === 'string' ? JSON.parse(e.params) : e.params
+            }));
+
+            setPasskeyEntries(pkEntries);
+        } catch (_e) {
+            console.error("Failed to load passkeys", _e);
+        } finally {
+            setLoadingPasskeys(false);
+        }
+    }, [user?.$id]);
+
     useEffect(() => {
         setIsPinSet(ecosystemSecurity.isPinSet());
-        
+
         const interval = setInterval(() => {
             if (ecosystemSecurity.status.isUnlocked !== isUnlocked) {
                 setIsUnlocked(ecosystemSecurity.status.isUnlocked);
@@ -69,23 +86,6 @@ export default function SettingsPage() {
 
         return () => clearInterval(interval);
     }, [isUnlocked, user, loadPasskeys]);
-
-    const loadPasskeys = useCallback(async () => {
-        if (!user?.$id) return;
-        try {
-            const entries = await AppwriteService.listKeychainEntries(user.$id);
-            const pkEntries = entries.filter((e: any) => e.type === 'passkey').map((e: any) => ({
-                ...e,
-                params: typeof e.params === 'string' ? JSON.parse(e.params) : e.params
-            }));
-            
-            setPasskeyEntries(pkEntries);
-        } catch (_e) {
-            console.error("Failed to load passkeys", _e);
-        } finally {
-            setLoadingPasskeys(false);
-        }
-    }, [user?.$id]);
 
     const handleRemovePasskey = async (id: string) => {
         if (!window.confirm("Are you sure you want to remove this passkey? This cannot be undone.")) return;
@@ -154,7 +154,7 @@ export default function SettingsPage() {
             setUnlockModalOpen(true);
             return;
         }
-        
+
         ecosystemSecurity.wipePin();
         setIsPinSet(false);
         setOldPin('');
@@ -175,11 +175,11 @@ export default function SettingsPage() {
                     <Typography variant="overline" sx={{ fontWeight: 900, color: 'primary.main', mb: 2, display: 'block', letterSpacing: '0.1em' }}>
                         SECURITY & PRIVACY
                     </Typography>
-                    
-                    <Paper sx={{ 
-                        p: 4, 
-                        borderRadius: '32px', 
-                        bgcolor: 'rgba(255, 255, 255, 0.01)', 
+
+                    <Paper sx={{
+                        p: 4,
+                        borderRadius: '32px',
+                        bgcolor: 'rgba(255, 255, 255, 0.01)',
                         border: '1px solid rgba(255, 255, 255, 0.08)',
                         backdropFilter: 'blur(25px)',
                         backgroundImage: 'none',
@@ -191,15 +191,15 @@ export default function SettingsPage() {
                                     <Typography variant="h6" sx={{ fontWeight: 900, fontFamily: 'var(--font-clash)', letterSpacing: '-0.02em' }}>Vault Session</Typography>
                                     <Typography variant="body2" sx={{ opacity: 0.5, fontFamily: 'var(--font-satoshi)' }}>Your current encryption status for protected notes</Typography>
                                 </Box>
-                                <Button 
+                                <Button
                                     variant={isUnlocked ? "text" : "contained"}
                                     onClick={() => isUnlocked ? ecosystemSecurity.lock() : setUnlockModalOpen(true)}
                                     color={isUnlocked ? "inherit" : "primary"}
                                     startIcon={isUnlocked ? <Lock size={18} strokeWidth={1.5} /> : <Shield size={18} strokeWidth={1.5} />}
-                                    sx={{ 
-                                        borderRadius: '16px', 
-                                        px: 4, 
-                                        py: 1.5, 
+                                    sx={{
+                                        borderRadius: '16px',
+                                        px: 4,
+                                        py: 1.5,
                                         fontWeight: 800,
                                         fontFamily: 'var(--font-satoshi)',
                                         textTransform: 'none',
@@ -224,9 +224,9 @@ export default function SettingsPage() {
                             <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
 
                             {/* Passkey Section */}
-                            <Box sx={{ 
-                                bgcolor: 'rgba(255, 255, 255, 0.02)', 
-                                p: 3.5, 
+                            <Box sx={{
+                                bgcolor: 'rgba(255, 255, 255, 0.02)',
+                                p: 3.5,
                                 borderRadius: '24px',
                                 border: '1px solid rgba(255, 255, 255, 0.05)'
                             }}>
@@ -237,15 +237,15 @@ export default function SettingsPage() {
                                             Use biometrics to securely unlock your notes.
                                         </Typography>
                                     </Box>
-                                    <Button 
-                                        variant="text" 
-                                        size="small" 
+                                    <Button
+                                        variant="text"
+                                        size="small"
                                         startIcon={<Fingerprint size={16} strokeWidth={2} />}
                                         onClick={() => setPasskeySetupOpen(true)}
-                                        sx={{ 
-                                            borderRadius: '12px', 
-                                            textTransform: 'none', 
-                                            fontWeight: 800, 
+                                        sx={{
+                                            borderRadius: '12px',
+                                            textTransform: 'none',
+                                            fontWeight: 800,
                                             bgcolor: 'rgba(99, 102, 241, 0.05)',
                                             color: '#6366F1',
                                             px: 2,
@@ -255,9 +255,9 @@ export default function SettingsPage() {
                                     >
                                         Register
                                     </Button>
-                                    </Box>
+                                </Box>
 
-                                    <List sx={{ bgcolor: 'rgba(255, 255, 255, 0.01)', borderRadius: '20px', p: 1, border: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                                <List sx={{ bgcolor: 'rgba(255, 255, 255, 0.01)', borderRadius: '20px', p: 1, border: '1px solid rgba(255, 255, 255, 0.03)' }}>
                                     {passkeyEntries.length === 0 ? (
                                         <Box sx={{ py: 3, textAlign: 'center', opacity: 0.3 }}>
                                             <Typography variant="caption" sx={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>ZERO PASSKEYS DETECTED</Typography>
@@ -265,9 +265,9 @@ export default function SettingsPage() {
                                     ) : (
                                         passkeyEntries.map((pk, idx) => (
                                             <React.Fragment key={pk.$id}>
-                                                <ListItem 
-                                                    sx={{ 
-                                                        borderRadius: '14px', 
+                                                <ListItem
+                                                    sx={{
+                                                        borderRadius: '14px',
                                                         mb: idx < passkeyEntries.length - 1 ? 1 : 0,
                                                         transition: 'all 0.2s ease',
                                                         '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.02)' }
@@ -283,7 +283,7 @@ export default function SettingsPage() {
                                                             <Fingerprint size={18} color="#6366F1" strokeWidth={1.5} />
                                                         </Box>
                                                     </ListItemIcon>
-                                                    <ListItemText 
+                                                    <ListItemText
                                                         primary={pk.params?.name || `Passkey ${idx + 1}`}
                                                         secondary="Secure Hardware Key"
                                                         primaryTypographyProps={{ fontWeight: 800, fontSize: '0.85rem', fontFamily: 'var(--font-satoshi)' }}
@@ -293,20 +293,20 @@ export default function SettingsPage() {
                                             </React.Fragment>
                                         ))
                                     )}
-                                    </List>
+                                </List>
                             </Box>
 
                             <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
 
-                            <Box sx={{ 
-                                bgcolor: 'rgba(255, 255, 255, 0.02)', 
-                                p: 3.5, 
+                            <Box sx={{
+                                bgcolor: 'rgba(255, 255, 255, 0.02)',
+                                p: 3.5,
                                 borderRadius: '24px',
                                 border: '1px solid rgba(255, 255, 255, 0.05)'
                             }}>
                                 <Typography variant="subtitle1" sx={{ fontWeight: 900, fontFamily: 'var(--font-clash)', letterSpacing: '-0.01em', mb: 0.5 }}>Quick Unlock (PIN)</Typography>
                                 <Typography variant="body2" sx={{ opacity: 0.5, mb: 3.5, maxWidth: 600, fontFamily: 'var(--font-satoshi)' }}>
-                                    {isPinSet 
+                                    {isPinSet
                                         ? "Your PIN is active. Use the form below to update it."
                                         : "Set a 4-digit PIN for instant access to your private notes between sessions."
                                     }
@@ -354,14 +354,14 @@ export default function SettingsPage() {
                                                 InputProps={{ disableUnderline: true, sx: { borderRadius: '16px', bgcolor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.05)', height: 56 } }}
                                             />
                                         </Box>
-                                        <Button 
+                                        <Button
                                             fullWidth
-                                            variant="contained" 
+                                            variant="contained"
                                             type="submit"
                                             disabled={loading || pin.length !== 4 || pin !== confirmPin || (isPinSet && oldPin.length !== 4)}
-                                            sx={{ 
-                                                borderRadius: '16px', 
-                                                py: 1.8, 
+                                            sx={{
+                                                borderRadius: '16px',
+                                                py: 1.8,
                                                 fontWeight: 800,
                                                 fontFamily: 'var(--font-satoshi)',
                                                 bgcolor: isPinSet ? 'rgba(255, 255, 255, 0.03)' : 'primary.main',
@@ -375,7 +375,7 @@ export default function SettingsPage() {
                                         </Button>
 
                                         {isPinSet && (
-                                            <Button 
+                                            <Button
                                                 fullWidth
                                                 variant="text"
                                                 color="error"
@@ -398,10 +398,10 @@ export default function SettingsPage() {
                     <Typography variant="overline" sx={{ fontWeight: 900, color: 'primary.main', mb: 2, display: 'block', letterSpacing: '0.1em' }}>
                         EDITOR PREFERENCES
                     </Typography>
-                    <Paper sx={{ 
-                        p: 4, 
-                        borderRadius: '32px', 
-                        bgcolor: 'rgba(255, 255, 255, 0.02)', 
+                    <Paper sx={{
+                        p: 4,
+                        borderRadius: '32px',
+                        bgcolor: 'rgba(255, 255, 255, 0.02)',
                         border: '1px solid rgba(255, 255, 255, 0.05)',
                         backdropFilter: 'blur(20px)',
                         backgroundImage: 'none'
@@ -433,7 +433,7 @@ export default function SettingsPage() {
                 </Box>
             </Stack>
 
-            <SudoModal 
+            <SudoModal
                 open={unlockModalOpen}
                 onClose={() => {
                     setUnlockModalOpen(false);
@@ -452,7 +452,7 @@ export default function SettingsPage() {
                 }}
             />
 
-            <PasskeySetup 
+            <PasskeySetup
                 isOpen={passkeySetupOpen}
                 onClose={() => setPasskeySetupOpen(false)}
                 userId={user?.$id || ""}
