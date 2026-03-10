@@ -7,14 +7,13 @@ import {
     Paper, 
     Stack, 
     Switch, 
-    FormControlLabel, 
     Divider,
     CircularProgress,
     alpha
 } from '@mui/material';
-import { User, Search, Globe } from 'lucide-react';
+import { User } from 'lucide-react';
 import { useAuth } from '@/components/ui/AuthContext';
-import { databases, Query, Permission, Role } from '@/lib/appwrite';
+import { databases } from '@/lib/appwrite';
 import toast from 'react-hot-toast';
 
 // Constants match connect/lib/appwrite/config.ts
