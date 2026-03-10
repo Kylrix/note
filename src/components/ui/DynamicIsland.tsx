@@ -172,7 +172,7 @@ const DynamicIslandOverlay: React.FC<{
   // Reset expansion ONLY when the notification ID actually changes
   useEffect(() => {
     if (current && current.id && current.id !== lastSeenId) {
-      setIsExpanded(current.defaultExpanded || false);
+      setIsExpanded(current?.defaultExpanded || false);
       setLastSeenId(current.id);
       setCopied(false);
     }
