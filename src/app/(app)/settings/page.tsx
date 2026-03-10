@@ -31,6 +31,7 @@ import {
 import { ecosystemSecurity } from '@/lib/ecosystem/security';
 import SudoModal from '@/components/overlays/SudoModal';
 import { PasskeySetup } from '@/components/overlays/PasskeySetup';
+import { DiscoverabilitySettings } from '@/components/settings/DiscoverabilitySettings';
 import { useAuth } from '@/components/ui/AuthContext';
 import PageHeader from '@/components/PageHeader';
 import { AppwriteService } from '@/lib/appwrite';
@@ -169,6 +170,7 @@ export default function SettingsPage() {
             <PageHeader />
 
             <Stack spacing={4} sx={{ mt: 4 }}>
+                <DiscoverabilitySettings />
                 {/* Security Section */}
                 <Box>
                     <Typography variant="overline" sx={{ fontWeight: 900, color: 'primary.main', mb: 2, display: 'block', letterSpacing: '0.1em' }}>
