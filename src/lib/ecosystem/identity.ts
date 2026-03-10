@@ -103,13 +103,19 @@ export async function searchGlobalUsers(query: string, limit = 10) {
         // 1. Primary search: ONLY username (indexed)
         let results: any[] = [];
         try {
+            const queries = [
+                Query.or([
+                    Query.startsWith('username', cleaned.toLowerCase()),
+                    Query.startsWith('displayName', cleaned)
+                ]),
+                Query.contains('appsActive', 'note'),
+                Query.limit(limit)
+            ];
+
             const res = await databases.listDocuments(
                 CONNECT_DATABASE_ID,
                 CONNECT_COLLECTION_ID_USERS,
-                [
-                    Query.startsWith('username', cleaned.toLowerCase()),
-                    Query.limit(limit)
-                ]
+                queries
             );
             results = res.documents.map(doc => ({
                 id: doc.$id,
@@ -123,6 +129,28 @@ export async function searchGlobalUsers(query: string, limit = 10) {
             }));
         } catch (e: any) {
             console.warn('[Identity] Username search failed:', e);
+            // Fallback for older Appwrite versions that don't support Query.or if needed
+            if (e.message?.includes('Query.or')) {
+                const res = await databases.listDocuments(
+                    CONNECT_DATABASE_ID,
+                    CONNECT_COLLECTION_ID_USERS,
+                    [
+                        Query.startsWith('username', cleaned.toLowerCase()),
+                        Query.contains('appsActive', 'note'),
+                        Query.limit(limit)
+                    ]
+                );
+                results = res.documents.map(doc => ({
+                    id: doc.$id,
+                    type: 'user' as const,
+                    title: doc.displayName || doc.username,
+                    subtitle: `@${doc.username}`,
+                    icon: 'person',
+                    avatar: doc.avatarUrl,
+                    profilePicId: doc.avatarFileId || doc.profilePicId,
+                    apps: doc.appsActive || []
+                }));
+            }
         }
 
         // 2. Secondary Fallback: Search by 'name' (Fulltext index in note table)
