@@ -122,6 +122,7 @@ export function NoteDetailSidebar({
     };
 
     fetchLinkedTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note.$id, (note as any).linkedTaskIds, (note as any).linkedTaskId]);
 
   // Fetch linked events from Kylrix Flow
@@ -145,6 +146,7 @@ export function NoteDetailSidebar({
     };
 
     fetchLinkedEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note.$id, (note as any).linkedEventIds, (note as any).linkedEventId]);
 
   // Fetch linked secrets from Kylrix Vault
@@ -168,6 +170,7 @@ export function NoteDetailSidebar({
     };
 
     fetchLinkedSecrets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note.$id, (note as any).linkedCredentialIds, (note as any).linkedCredentialId]);
   const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
   const titleContainerRef = useRef<HTMLDivElement>(null);

@@ -26,13 +26,7 @@ export const DiscoverabilitySettings = () => {
     const [saving, setSaving] = useState(false);
     const [profile, setProfile] = useState<any>(null);
 
-    useEffect(() => {
-        if (user?.$id) {
-            loadProfile();
-        }
-    }, [user]);
-
-    const loadProfile = async () => {
+    const loadProfile = React.useCallback(async () => {
         try {
             // Document ID in the users table is mapped to the Appwrite Account ID
             const p = await databases.getDocument(CONNECT_DB_ID, CONNECT_USERS_TABLE, user!.$id);
@@ -44,7 +38,13 @@ export const DiscoverabilitySettings = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [user?.$id]);
+
+    useEffect(() => {
+        if (user?.$id) {
+            loadProfile();
+        }
+    }, [user?.$id, loadProfile]);
 
     const handleToggleDiscoverability = async (checked: boolean) => {
         if (!user?.$id || !profile) return;
@@ -58,7 +58,7 @@ export const DiscoverabilitySettings = () => {
             });
             setProfile({ ...profile, appsActive });
             toast.success(checked ? "Discovery enabled across Kylrix" : "Discovery disabled");
-        } catch (e) {
+        } catch (_e) {
             toast.error("Failed to update discovery preference");
         } finally {
             setSaving(false);

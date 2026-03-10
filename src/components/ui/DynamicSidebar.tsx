@@ -5,9 +5,7 @@ import {
   Drawer, 
   Box, 
   Typography, 
-  IconButton, 
-  useTheme,
-  useMediaQuery
+  IconButton
 } from '@mui/material';
 import { Close as CloseIcon, ArrowBack as BackIcon } from '@mui/icons-material';
 
@@ -76,7 +74,6 @@ export function useDynamicSidebar() {
 
 export function DynamicSidebar() {
   const { isOpen, content, closeSidebar } = useDynamicSidebar();
-  const theme = useTheme();
 
   return (
     <Drawer

@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const refreshUser = useCallback(async (isRetry = false, retryCount = 0) => {
+  const refreshUser = useCallback(async (_isRetry = false, retryCount = 0) => {
     try {
       const currentUser = await getCurrentUser();
       if (currentUser) {
@@ -80,12 +80,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                 // Re-fetch to get updated document
                 dbUser = await getUser(currentUser.$id);
-              } catch (updateError) {
-                console.error('Failed to auto-save username:', updateError);
+              } catch (_updateErr: any) {
+                // Silently fail update
               }
             }
           }
-        } catch (e: any) {
+        } catch (_fetchErr: any) {
           try {
             // Document doesn't exist, create it with auto-generated username
             const autoUsername = getEffectiveUsername({
@@ -129,7 +129,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // If error is network related, don't clear user yet, just set offline flag if we had a user
-      const isNetworkError = !error.response && error.message?.includes('Network Error') || error.message?.includes('Failed to fetch');
+      const isNetworkError = !error.response && (error.message?.includes('Network Error') || error.message?.includes('Failed to fetch'));
 
       if (!isNetworkError) {
         setUser(null);
@@ -378,21 +378,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             idmWindowRef.current.close();
             idmWindowRef.current = null;
           }
-          if (pathname === '/' || pathname === '/landing') {
-            router.replace('/notes');
-          }
-          return;
-        }
-
-        // If no local session, try one last silent check before opening window
-        await attemptSilentAuth();
-        const silentUser = await getCurrentUser();
-        if (silentUser) {
-          setUser(silentUser);
-          setIsAuthenticating(false);
-          if (pathname === '/' || pathname === '/landing') {
-            router.replace('/notes');
-          }
           return;
         }
 
@@ -454,7 +439,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     launch();
-  }, [refreshUser, router, pathname, isAuthenticating, attemptSilentAuth]);
+  }, [router, pathname, isAuthenticating]);
 
   const closeIDMWindow = useCallback(() => {
     if (idmWindowRef.current && !idmWindowRef.current.closed) {

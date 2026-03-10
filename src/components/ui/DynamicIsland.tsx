@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode, useRef } from 'react';
 import { Box, Typography, Stack, IconButton, useTheme, useMediaQuery, Button } from '@mui/material';
-import { motion, AnimatePresence, useSpring, useTransform, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/ui/AuthContext';
 import { 
@@ -15,8 +15,6 @@ import {
   AutoAwesome as SparklesIcon,
   EmojiObjects as IdeaIcon,
   Message as ConnectIcon,
-  Assignment as TaskIcon,
-  Description as NoteIcon,
   ContentCopy as CopyIcon
 } from '@mui/icons-material';
 import { getEcosystemUrl } from '@/constants/ecosystem';
@@ -217,31 +215,35 @@ const DynamicIslandOverlay: React.FC<{
       const startTimeout = () => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
-          // Use ref to avoid stale closure
-          if (!isExpandedRef.current) {
-            onDismiss(current.id);
-          }
-        }, current.duration || 6000);
-      };
-
-      if (!isExpanded) {
-        startTimeout();
+      // Use ref to avoid stale closure
+      if (!isExpandedRef.current) {
+        onDismiss(current.id);
       }
+    }, current.duration || 6000);
+  };
 
-      // Majestic entrance and pulsing logic
-      if (current.majestic) {
-        controls.start({
-          y: [0, -4, 0],
-          transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-        });
-      } else {
-        controls.start({
-          y: [0, -2, 0],
-          transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-        });
-      }
-    }
-  }, [current?.id, onDismiss, controls, isExpanded]);
+  if (!isExpanded) {
+    startTimeout();
+  }
+}
+
+  // Majestic entrance and pulsing logic
+  if (current.majestic) {
+    controls.start({
+      y: [0, -4, 0],
+      transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+    });
+  } else {
+    controls.start({
+      y: [0, -2, 0],
+      transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+    });
+  }
+
+  return () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  };
+}, [current, onDismiss, controls, isExpanded]);
 
   if (!current || isHiddenRoute) return null;
 

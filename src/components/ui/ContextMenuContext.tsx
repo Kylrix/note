@@ -32,7 +32,7 @@ export const ContextMenuProvider = ({ children }: { children: ReactNode }) => {
   // Global listeners for close
   useEffect(() => {
     if (!isOpen) return;
-    const onClick = (e: MouseEvent) => {
+    const onClick = (_e: MouseEvent) => {
       // If click falls through (menu component stops its own propagation), this will close
       closeMenu();
     };

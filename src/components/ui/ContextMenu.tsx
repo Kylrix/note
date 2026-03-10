@@ -5,9 +5,7 @@ import {
   Menu, 
   MenuItem, 
   ListItemIcon, 
-  ListItemText,
-  alpha,
-  useTheme
+  ListItemText
 } from '@mui/material';
 
 interface ContextMenuProps {
@@ -23,8 +21,6 @@ interface ContextMenuProps {
 }
 
 export function ContextMenu({ x, y, onCloseAction, items }: ContextMenuProps) {
-  const theme = useTheme();
-
   return (
     <Menu
       open={true}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card as MuiCard, CardHeader as MuiCardHeader, CardContent as MuiCardContent, CardActions as MuiCardActions, Typography, Box } from '@mui/material';
+import { Card as MuiCard, Typography, Box } from '@mui/material';
 
 const Card = React.forwardRef<
   HTMLDivElement,

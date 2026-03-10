@@ -32,7 +32,6 @@ import { useToast } from './Toast';
 import { useAuth } from './AuthContext';
 import { generateAIAction } from '@/lib/ai-actions';
 import {
-  AutoFixHigh as AIIcon,
   PlaylistAdd as TodoIcon,
   Summarize as SummarizeIcon,
   Spellcheck as GrammarIcon,
@@ -126,7 +125,7 @@ const NoteCard: React.FC<NoteCardProps> = React.memo(({ note, onUpdate, onDelete
 
   const handleDuplicate = async () => {
     try {
-      const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, ...rest } = note as any;
+      const { $id: _id, $createdAt: _ca, $updatedAt: _ua, $permissions: _p, $databaseId: _db, $collectionId: _coll, ...rest } = note as any;
       const duplicatedNote = await createNote({
         ...rest,
         title: `${note.title} (Copy)`,

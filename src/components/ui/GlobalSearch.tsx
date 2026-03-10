@@ -12,7 +12,6 @@ import {
   ListItemText,
   ListItemIcon,
   Typography,
-  useTheme,
   Menu,
   MenuItem,
   Avatar,
@@ -148,7 +147,6 @@ export default function GlobalSearch({
   placeholder = "Search notes, people, and tags...",
   showFilters = true,
 }: GlobalSearchProps) {
-  const theme = useTheme();
   const router = useRouter();
   const { user, logout } = useAuth();
   const [query, setQuery] = useState('');
@@ -177,7 +175,7 @@ export default function GlobalSearch({
     };
     load();
     return () => { mounted = false; };
-  }, [getUserProfilePicId(user)]);
+  }, [user?.$id]);
 
   useEffect(() => {
     let mounted = true;
