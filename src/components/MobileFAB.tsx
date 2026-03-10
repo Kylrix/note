@@ -4,12 +4,9 @@ import React, { useState } from 'react';
 import { 
   Box, 
   Fab, 
-  IconButton, 
   Typography, 
   Backdrop, 
-  Zoom, 
-  Tooltip,
-  alpha 
+  Zoom 
 } from '@mui/material';
 import { 
   Add as PlusIcon, 
@@ -24,8 +21,8 @@ interface MobileFABProps {
   className?: string;
 }
 
-export const MobileFAB: React.FC<MobileFABProps> = ({ className = '' }) => {
-  const { openOverlay, closeOverlay } = useOverlay();
+export const MobileFAB: React.FC<MobileFABProps> = ({ className: _className = '' }) => {
+  const { openOverlay, closeOverlay: _closeOverlay } = useOverlay();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCreateNoteClick = () => {

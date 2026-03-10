@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { 
   AppBar, 
   Toolbar, 
@@ -24,7 +23,6 @@ import {
 import {
   Settings,
   LogOut,
-  Layout,
   LayoutGrid,
   Download,
   Sparkles,
@@ -41,13 +39,12 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/components/ui/AuthContext';
 import { useNotifications } from '@/contexts/NotificationContext';
-import { useIsland, IslandNotification } from '@/components/ui/DynamicIsland';
+import { useIsland } from '@/components/ui/DynamicIsland';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useOverlay } from '@/components/ui/OverlayContext';
 import { getUserProfilePicId } from '@/lib/utils';
 import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePreview';
-import { getEcosystemUrl } from '@/constants/ecosystem';
 import { TopBarSearch } from '@/components/TopBarSearch';
 import { AICommandModal } from '@/components/ai/AICommandModal';
 import { EcosystemPortal } from '@/components/common/EcosystemPortal';
@@ -73,7 +70,7 @@ export default function AppHeader({ className }: AppHeaderProps) {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const [isEcosystemPortalOpen, setIsEcosystemPortalOpen] = useState(false);
 
-  const [currentSubdomain, setCurrentSubdomain] = useState<string | null>(null);
+  const [_currentSubdomain, setCurrentSubdomain] = useState<string | null>(null);
   const [smallProfileUrl, setSmallProfileUrl] = useState<string | null>(null);
   const profilePicId = getUserProfilePicId(user);
 

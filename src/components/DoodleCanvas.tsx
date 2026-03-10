@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { DoodleStroke } from '@/types/notes';
 import { 
   Box, 
@@ -61,7 +61,7 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
 
   const getCanvas = () => canvasRef.current;
 
-  const redrawCanvas = (strokesData: DoodleStroke[] = strokes) => {
+  const redrawCanvas = useCallback((strokesData: DoodleStroke[] = strokes) => {
     const canvas = getCanvas();
     if (!canvas) return;
 
@@ -90,11 +90,25 @@ export default function DoodleCanvas({ initialData, onSave, onClose }: DoodleCan
 
       ctx.globalAlpha = 1;
     });
-  };
+  }, [strokes]);
+
+  // Initialize canvas with existing data
+  useEffect(() => {
+    if (initialData) {
+      try {
+        const data = JSON.parse(initialData);
+        setStrokes(data);
+        redrawCanvas(data);
+      } catch {
+        console.error('Failed to parse doodle data');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     redrawCanvas();
-  }, [strokes]);
+  }, [redrawCanvas]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = getCanvas();

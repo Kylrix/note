@@ -29,8 +29,7 @@ import {
   Puzzle,
   ChevronLeft,
   ChevronRight,
-  LogOut,
-  Zap
+  LogOut
 } from 'lucide-react';
 
 export const MobileBottomNav: React.FC = () => {
@@ -129,6 +128,14 @@ export const DesktopSidebar: React.FC = () => {
     fetchPreview();
     return () => { mounted = false; };
   }, [user]);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (_err) {
+      // Ignore
+    }
+  };
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path);
 
@@ -282,7 +289,7 @@ export const DesktopSidebar: React.FC = () => {
         )}
 
         <ListItemButton
-          onClick={() => logout()}
+          onClick={handleLogout}
           sx={{
             borderRadius: '16px',
             px: isCollapsed ? 2 : 2.5,

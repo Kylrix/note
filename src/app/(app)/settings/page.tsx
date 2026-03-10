@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
     Box, 
     Typography, 
@@ -24,7 +24,6 @@ import {
 import { 
     Lock, 
     Shield, 
-    Smartphone,
     Fingerprint,
     Trash2
 } from 'lucide-react';
@@ -53,7 +52,7 @@ export default function SettingsPage() {
 
     // Passkey state
     const [passkeyEntries, setPasskeyEntries] = useState<any[]>([]);
-    const [loadingPasskeys, setLoadingPasskeys] = useState(true);
+    const [_loadingPasskeys, setLoadingPasskeys] = useState(true);
 
     useEffect(() => {
         setIsPinSet(ecosystemSecurity.isPinSet());
@@ -69,9 +68,9 @@ export default function SettingsPage() {
         }
 
         return () => clearInterval(interval);
-    }, [isUnlocked, user]);
+    }, [isUnlocked, user, loadPasskeys]);
 
-    const loadPasskeys = async () => {
+    const loadPasskeys = useCallback(async () => {
         if (!user?.$id) return;
         try {
             const entries = await AppwriteService.listKeychainEntries(user.$id);
@@ -81,12 +80,12 @@ export default function SettingsPage() {
             }));
             
             setPasskeyEntries(pkEntries);
-        } catch (e) {
-            console.error("Failed to load passkeys", e);
+        } catch (_e) {
+            console.error("Failed to load passkeys", _e);
         } finally {
             setLoadingPasskeys(false);
         }
-    };
+    }, [user?.$id]);
 
     const handleRemovePasskey = async (id: string) => {
         if (!window.confirm("Are you sure you want to remove this passkey? This cannot be undone.")) return;
@@ -94,7 +93,7 @@ export default function SettingsPage() {
             await AppwriteService.deleteKeychainEntry(id);
             toast.success("Passkey removed");
             loadPasskeys();
-        } catch (e) {
+        } catch (_e) {
             toast.error("Failed to remove passkey");
         }
     };
@@ -141,7 +140,7 @@ export default function SettingsPage() {
             } else {
                 setMessage({ type: 'error', text: 'Failed to setup PIN. Please ensure vault is unlocked.' });
             }
-        } catch (err: unknown) {
+        } catch (_err: unknown) {
             setMessage({ type: 'error', text: 'An unexpected error occurred.' });
         } finally {
             setLoading(false);

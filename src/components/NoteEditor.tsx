@@ -26,7 +26,8 @@ interface AttachmentMeta { id: string; name: string; size: number; mime: string 
 const AttachmentChips: React.FC<{ noteId: string }> = ({ noteId }) => {
   const [attachments, setAttachments] = React.useState<AttachmentMeta[]>([]);
   const [loaded, setLoaded] = React.useState(false);
-  const theme = useTheme();
+  const [_theme, _setTheme] = React.useState(useTheme());
+  const theme = _theme;
 
   React.useEffect(() => {
     let cancelled = false;
@@ -122,6 +123,7 @@ export default function NoteEditor({
         } catch {}
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalNoteId]);
 
   const handleSave = async () => {

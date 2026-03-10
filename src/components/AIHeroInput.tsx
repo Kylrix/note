@@ -7,11 +7,9 @@ import {
   IconButton, 
   Typography, 
   Button, 
-  Grid, 
-  alpha, 
+  Grid2 as Grid, 
   useTheme,
-  InputAdornment,
-  Paper
+  InputAdornment
 } from '@mui/material';
 import { AutoAwesome as SparklesIcon } from '@mui/icons-material';
 
@@ -29,7 +27,7 @@ export function AIHeroInput({ onPromptSelectAction }: AIHeroInputProps) {
   const [displayText, setDisplayText] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [isActive, setIsActive] = useState(false);
-  const theme = useTheme();
+  const _theme = useTheme();
 
   // Auto-typing animation effect
   useEffect(() => {

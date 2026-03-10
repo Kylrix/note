@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Paper, IconButton, alpha } from '@mui/material';
+import { Box, Paper, IconButton } from '@mui/material';
 import GlobalSearch from './GlobalSearch';
 import KeyboardShortcuts from './KeyboardShortcuts';
 import { useState } from 'react';

@@ -33,7 +33,7 @@ const PRO_TIPS = [
 
 export const EcosystemEvents: React.FC = () => {
   const { showIsland } = useIsland();
-  const { user } = useAuth();
+  const { user: _user } = useAuth();
   const [lastShown, setLastShown] = useState<number>(0);
 
   useEffect(() => {

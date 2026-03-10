@@ -13,7 +13,6 @@ import {
   Box,
   Stack,
   CircularProgress,
-  alpha,
   useTheme
 } from "@mui/material";
 import { startRegistration } from "@simplewebauthn/browser";

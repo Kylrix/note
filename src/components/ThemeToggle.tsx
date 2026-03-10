@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTheme } from '@/components/ThemeProvider';
-import { Box, IconButton, Typography, Stack } from '@mui/material';
+import { IconButton, Typography, Stack } from '@mui/material';
 import { 
   Sun, 
   Moon 

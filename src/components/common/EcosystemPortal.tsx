@@ -43,11 +43,7 @@ const PremiumIcon = ({ name, size = 20, color = 'currentColor' }: { name: string
 };
 
 import { ECOSYSTEM_APPS, getEcosystemUrl } from '@/constants/ecosystem';
-import { EcosystemWidgets } from '@/ecosystem/integration/Widgets';
 import { useKernel } from '@/ecosystem/kernel/EcosystemKernel';
-import { EcosystemBridge } from '@/lib/ecosystem/bridge';
-import { SystemMonitor } from '@/ecosystem/contributions/SystemMonitor';
-import { MeshProtocol } from '@/lib/ecosystem/mesh';
 
 interface EcosystemPortalProps {
     open?: boolean;

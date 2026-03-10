@@ -16,7 +16,7 @@ import {
   alpha,
   Avatar
 } from '@mui/material';
-import { PersonOutline as PersonIcon, Search as SearchIcon, NoteOutlined as NoteIcon, FolderOutlined as FolderIcon, LocalOfferOutlined as TagIcon, Close as CloseIcon } from '@mui/icons-material';
+import { Search as SearchIcon, NoteOutlined as NoteIcon, FolderOutlined as FolderIcon, LocalOfferOutlined as TagIcon, Close as CloseIcon } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { debounce } from 'lodash';
 
@@ -94,7 +94,7 @@ export default function GlobalSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [_loading, setLoading] = useState(false);
 
   const handleSearch = debounce(async (term: string) => {
     if (!term || term.trim().length < 2) {

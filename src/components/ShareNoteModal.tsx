@@ -20,7 +20,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   CircularProgress,
   Alert,
   alpha,
@@ -29,13 +28,10 @@ import {
 } from '@mui/material';
 import {
   Close as CloseIcon,
-  PersonAdd as PersonAddIcon,
-  Delete as DeleteIcon,
   Search as SearchIcon,
-  Email as EmailIcon,
-  Security as SecurityIcon
+  Delete as DeleteIcon
 } from '@mui/icons-material';
-import { account, shareNoteWithUser, shareNoteWithUserId, getSharedUsers, removeNoteSharing, searchUsers, updateCollaborator } from '@/lib/appwrite';
+import { account, shareNoteWithUser, shareNoteWithUserId, getSharedUsers, removeNoteSharing, updateCollaborator } from '@/lib/appwrite';
 import { fetchProfilePreview, getCachedProfilePreview } from '@/lib/profilePreview';
 
 interface ShareNoteModalProps {
@@ -291,10 +287,10 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
     try {
       await removeNoteSharing(noteId, sharedUserId);
       setSuccessMsg(`Removed sharing with ${userEmail}`);
-    } catch (err: any) {
-      console.error('Failed to remove sharing:', err);
+    } catch (_err: any) {
+      console.error('Failed to remove sharing:', _err);
       setSharedUsers(previous);
-      const msg = err && typeof err === 'object' && 'message' in err ? String((err as any).message) : String(err);
+      const msg = _err && typeof _err === 'object' && 'message' in _err ? String((_err as any).message) : String(_err);
       setErrorMsg(msg || 'Failed to remove sharing');
     }
   };
