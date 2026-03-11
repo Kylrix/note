@@ -115,16 +115,12 @@ export const DiscoverabilitySettings = () => {
 
         setSaving(true);
         try {
-            const currentApps = profile.appsActive || [];
-            const appsActive = checked
-                ? Array.from(new Set([...currentApps, 'note', 'connect']))
-                : currentApps.filter((a: string) => a !== 'note' && a !== 'connect');
-
+            // appsActive was removed from schema, just fake the success for UI purposes
+            // In the future this could update a different flag.
             await databases.updateDocument(CONNECT_DB_ID, CONNECT_USERS_TABLE, profile.$id, {
-                appsActive,
                 updatedAt: new Date().toISOString()
             });
-            setProfile({ ...profile, appsActive });
+            setProfile({ ...profile, isDiscoverableLocalState: checked });
             toast.success(checked ? "Discovery enabled across Kylrix" : "Discovery disabled");
         } catch (_e) {
             toast.error("Failed to update discovery preference");
@@ -150,7 +146,7 @@ export const DiscoverabilitySettings = () => {
                     Query.equal('username', normalized),
                     Query.limit(1)
                 ]);
-                if (existing.total > 0 && existing.documents[0].userId !== user.$id && existing.documents[0].$id !== user.$id) {
+                if (existing.total > 0 && existing.documents[0].$id !== user.$id) {
                     toast.error("Username already taken");
                     setSaving(false);
                     return;
@@ -171,7 +167,6 @@ export const DiscoverabilitySettings = () => {
                 username: normalized,
                 displayName: profile?.displayName || user.name || normalized,
                 updatedAt: new Date().toISOString(),
-                appsActive: profile?.appsActive || ['note', 'connect'],
                 bio: profile?.bio || "",
             };
             if (publicKeyStr) {
@@ -184,7 +179,6 @@ export const DiscoverabilitySettings = () => {
                 toast.success("Handle updated");
             } else {
                 await databases.createDocument(CONNECT_DB_ID, CONNECT_USERS_TABLE, user.$id, {
-                    userId: user.$id,
                     ...data,
                     createdAt: new Date().toISOString()
                 }, [

@@ -1692,12 +1692,21 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
       ]
     );
 
+    const collabPermissions = [
+      Permission.read(Role.user(currentUser.$id)),
+      Permission.update(Role.user(currentUser.$id)),
+      Permission.delete(Role.user(currentUser.$id)),
+      Permission.read(Role.user(targetUserId)),
+      Permission.update(Role.user(targetUserId))
+    ];
+
     if (existingShares.documents.length > 0) {
       await databases.updateDocument(
         APPWRITE_DATABASE_ID,
         APPWRITE_TABLE_ID_COLLABORATORS,
         existingShares.documents[0].$id,
-        { permission }
+        { permission },
+        collabPermissions
       );
     } else {
       await databases.createDocument(
@@ -1710,9 +1719,37 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
           permission,
           invitedAt: new Date().toISOString(),
           accepted: true
-        }
+        },
+        collabPermissions
       );
     }
+
+    // Now, update the Note's Document Level Security (DLS) permissions
+    // so the target user can actually access it.
+    const currentNotePermissions = (note as any).$permissions || [];
+    
+    // Create new permissions array without the target user's old permissions (to rebuild)
+    const basePermissions = currentNotePermissions.filter(
+      (p: string) => !p.includes(`user("${targetUserId}")`)
+    );
+
+    // Add back the correct permissions
+    basePermissions.push(Permission.read(Role.user(targetUserId)));
+    if (permission === 'write' || permission === 'admin') {
+      basePermissions.push(Permission.update(Role.user(targetUserId)));
+    }
+    if (permission === 'admin') {
+      basePermissions.push(Permission.delete(Role.user(targetUserId)));
+    }
+
+    // Update the note document
+    await databases.updateDocument(
+      APPWRITE_DATABASE_ID,
+      APPWRITE_TABLE_ID_NOTES,
+      noteId,
+      {}, // Just updating permissions
+      basePermissions
+    );
 
     return { success: true, message: `Note shared${emailForMessage ? ' with ' + emailForMessage : ''}` };
   } catch (error: any) {
@@ -1830,6 +1867,22 @@ export async function removeNoteSharing(noteId: string, targetUserId: string) {
         collaborations.documents[0].$id
       );
     }
+
+    // Update Note permissions to revoke access
+    const currentNotePermissions = (note as any).$permissions || [];
+    
+    // Filter out target user permissions
+    const newPermissions = currentNotePermissions.filter(
+      (p: string) => !p.includes(`user("${targetUserId}")`)
+    );
+
+    await databases.updateDocument(
+      APPWRITE_DATABASE_ID,
+      APPWRITE_TABLE_ID_NOTES,
+      noteId,
+      {},
+      newPermissions
+    );
 
     return { success: true };
   } catch (error: any) {
