@@ -1702,48 +1702,19 @@ export async function shareNoteWithUserId(noteId: string, targetUserId: string, 
       throw new Error("Cannot share a note with yourself");
     }
 
-    const existingShares = await databases.listDocuments(
-      APPWRITE_DATABASE_ID,
-      APPWRITE_TABLE_ID_COLLABORATORS,
-      [
-        Query.equal('noteId', noteId),
-        Query.equal('userId', targetUserId)
-      ]
-    );
+    // Call our server API to bypass client permission restrictions
+    const response = await fetch(`/api/notes/${noteId}/share`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ targetUserId, permission })
+    });
 
-    const collabPermissions = [
-      Permission.read(Role.user(currentUser.$id)),
-      Permission.update(Role.user(currentUser.$id)),
-      Permission.delete(Role.user(currentUser.$id))
-    ];
-
-    if (existingShares.documents.length > 0) {
-      await databases.updateDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_TABLE_ID_COLLABORATORS,
-        existingShares.documents[0].$id,
-        { permission }
-        // Do not update permissions here to avoid AppwriteException
-      );
-    } else {
-      await databases.createDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_TABLE_ID_COLLABORATORS,
-        ID.unique(),
-        {
-          noteId,
-          userId: targetUserId,
-          permission,
-          invitedAt: new Date().toISOString(),
-          accepted: true
-        },
-        collabPermissions
-      );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to share note via API');
     }
-
-    // NOTE: We used to update Note Document permissions here, but that
-    // causes AppwriteException on client side (cannot grant permissions to other users).
-    // This is now handled by the notify-on-share server function.
 
     return { success: true, message: `Note shared${emailForMessage ? ' with ' + emailForMessage : ''}` };
   } catch (error: any) {
@@ -1762,34 +1733,26 @@ export async function getSharedUsers(noteId: string) {
     const cached = getCached<any[]>(cacheKey);
     if (cached) return cached;
 
-    // Get all collaborations for this note
-    const collaborations = await databases.listDocuments(
-      APPWRITE_DATABASE_ID,
-      APPWRITE_TABLE_ID_COLLABORATORS,
-      [Query.equal('noteId', noteId)]
-    );
-
-    if (!collaborations.documents.length) {
-      setCached(cacheKey, []);
+    // Fetch the note to read its permissions
+    const note = await getNote(noteId);
+    if (!note || !note.$permissions) {
       return [];
     }
 
-    // Batch fetch user details instead of individual queries
-    const userIds = collaborations.documents
-      .map((collab: any) => collab.userId)
-      .filter(Boolean);
-
-    if (!userIds.length) {
-      setCached(cacheKey, []);
-      return [];
-    }
-
-    // Fetch all users in a single batch query (or multiple batches if > 100)
+    // Extract user IDs and permissions from the document's $permissions array
     const sharedUsers: any[] = [];
+    const targetUserIds = extractUserIdsFromPermissions(note.$permissions)
+      .filter(id => id !== note.userId); // Exclude the owner
+
+    if (targetUserIds.length === 0) {
+      setCached(cacheKey, []);
+      return [];
+    }
+
+    // Fetch user profiles from the Appwrite Users table
     const batchSize = 100;
-    
-    for (let i = 0; i < userIds.length; i += batchSize) {
-      const batch = userIds.slice(i, i + batchSize);
+    for (let i = 0; i < targetUserIds.length; i += batchSize) {
+      const batch = targetUserIds.slice(i, i + batchSize);
       try {
         const usersRes = await databases.listDocuments(
           APPWRITE_DATABASE_ID,
@@ -1797,28 +1760,24 @@ export async function getSharedUsers(noteId: string) {
           [Query.equal('$id', batch), Query.limit(batch.length)] as any
         );
 
-        const userMap: Record<string, any> = {};
         for (const user of usersRes.documents as any[]) {
-          userMap[user.$id] = user;
-        }
+          const profilePicId = (user?.prefs && user.prefs.profilePicId)
+            ? user.prefs.profilePicId
+            : (user?.avatar || null);
 
-        // Map back to collaborations data
-        for (const collab of collaborations.documents as any[]) {
-          if (userMap[collab.userId]) {
-            const user = userMap[collab.userId];
-            const profilePicId = (user?.prefs && user.prefs.profilePicId)
-              ? user.prefs.profilePicId
-              : (user?.avatar || null);
+          // Determine highest permission level based on $permissions array
+          let highestPermission = 'read';
+          if (note.$permissions.includes(`delete("user:${user.$id}")`)) highestPermission = 'admin';
+          else if (note.$permissions.includes(`update("user:${user.$id}")`)) highestPermission = 'write';
 
-            sharedUsers.push({
-              id: collab.userId,
-              name: user.name,
-              email: user.email,
-              permission: collab.permission,
-              collaborationId: collab.$id,
-              profilePicId
-            });
-          }
+          sharedUsers.push({
+            id: user.$id,
+            name: user.name,
+            email: user.email,
+            permission: highestPermission,
+            collaborationId: `${noteId}-${user.$id}`, // Fallback for UI keys
+            profilePicId
+          });
         }
       } catch (batchErr) {
         console.error('Batch user fetch failed:', batchErr);
@@ -1844,26 +1803,15 @@ export async function removeNoteSharing(noteId: string, targetUserId: string) {
       throw new Error("Only note owner can remove sharing");
     }
 
-    // Find and delete the collaboration record
-    const collaborations = await databases.listDocuments(
-      APPWRITE_DATABASE_ID,
-      APPWRITE_TABLE_ID_COLLABORATORS,
-      [
-        Query.equal('noteId', noteId),
-        Query.equal('userId', targetUserId)
-      ]
-    );
+    // Call our server API to securely remove the user's DLS permissions
+    const response = await fetch(`/api/notes/${noteId}/share?targetUserId=${encodeURIComponent(targetUserId)}`, {
+      method: 'DELETE',
+    });
 
-    if (collaborations.documents.length > 0) {
-      await databases.deleteDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_TABLE_ID_COLLABORATORS,
-        collaborations.documents[0].$id
-      );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to remove share via API');
     }
-
-    // NOTE: Permission removal is now handled by the notify-on-share 
-    // server function triggered by the collaborator document deletion.
 
     return { success: true };
   } catch (error: any) {
@@ -1882,69 +1830,40 @@ export async function getSharedNotes(): Promise<{ documents: Notes[], total: num
     const cached = getCached<{ documents: Notes[], total: number }>(cacheKey);
     if (cached) return cached;
 
-    // Get all collaborations where current user is a collaborator
-    const collaborations = await databases.listDocuments(
+    // A shared note is one that we have read access to (automatically filtered by Appwrite)
+    // but the owner (userId) is NOT the current user.
+    const notesRes = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
-      APPWRITE_TABLE_ID_COLLABORATORS,
-      [Query.equal('userId', currentUser.$id)]
+      APPWRITE_TABLE_ID_NOTES,
+      [Query.notEqual('userId', currentUser.$id)]
     );
 
-    if (!collaborations.documents.length) {
-      const result = { documents: [], total: 0 };
-      setCached(cacheKey, result);
-      return result;
-    }
-
-    // Batch fetch note details instead of individual queries
-    const noteIds = collaborations.documents
-      .map((collab: any) => collab.noteId)
-      .filter(Boolean);
-
-    if (!noteIds.length) {
-      const result = { documents: [], total: 0 };
-      setCached(cacheKey, result);
-      return result;
-    }
-
-    // Fetch all notes in batches
     const sharedNotes: Notes[] = [];
-    const batchSize = 100;
+    
+    for (const doc of notesRes.documents as any[]) {
+      const note = doc as any;
+      
+      // Determine permission level for the current user
+      let myPerm = 'read';
+      const perms = note.$permissions || [];
+      if (perms.includes(`delete("user:${currentUser.$id}")`)) myPerm = 'admin';
+      else if (perms.includes(`update("user:${currentUser.$id}")`)) myPerm = 'write';
 
-    for (let i = 0; i < noteIds.length; i += batchSize) {
-      const batch = noteIds.slice(i, i + batchSize);
-      try {
-        const notesRes = await databases.listDocuments(
-          APPWRITE_DATABASE_ID,
-          APPWRITE_TABLE_ID_NOTES,
-          [Query.equal('$id', batch), Query.limit(batch.length)] as any
-        );
-
-        const noteMap: Record<string, any> = {};
-        for (const note of notesRes.documents as any[]) {
-          noteMap[note.$id] = note;
-        }
-
-        // Map collaborations to notes with sharing metadata
-        for (const collab of collaborations.documents as any[]) {
-          if (noteMap[collab.noteId]) {
-            const note = noteMap[collab.noteId] as any;
-            (note).sharedPermission = collab.permission;
-            (note).sharedAt = collab.invitedAt;
-            if (!(note as any).attachments || !Array.isArray((note as any).attachments)) {
-              (note as any).attachments = [];
-            }
-            sharedNotes.push(note as Notes);
-          }
-        }
-      } catch (batchErr) {
-        console.error('Batch note fetch failed:', batchErr);
+      note.sharedPermission = myPerm;
+      note.sharedAt = note.$updatedAt || note.$createdAt; // Rough estimate since we don't track invite times anymore
+      
+      if (!(note as any).attachments || !Array.isArray((note as any).attachments)) {
+        note.attachments = [];
       }
+      
+      sharedNotes.push(note as Notes);
     }
 
     const result = {
       documents: sharedNotes,
       total: sharedNotes.length
     };
+    
     setCached(cacheKey, result);
     return result;
   } catch (error: any) {
@@ -1961,17 +1880,12 @@ export async function getNoteWithSharing(noteId: string): Promise<(Notes & { isS
     const note = await getNote(noteId);
     
     // Check if note is shared with current user
-    const collaboration = await databases.listDocuments(
-      APPWRITE_DATABASE_ID,
-      APPWRITE_TABLE_ID_COLLABORATORS,
-      [
-        Query.equal('noteId', noteId),
-        Query.equal('userId', currentUser.$id)
-      ]
-    );
+    const isSharedWithUser = note.userId !== currentUser.$id;
 
     let sharedBy = null;
-    if (collaboration.documents.length > 0 && note.userId && note.userId !== currentUser.$id) {
+    let sharePermission = undefined;
+
+    if (isSharedWithUser && note.userId) {
       // Get details about who shared this note
       try {
         sharedBy = await databases.getDocument(
@@ -1982,12 +1896,17 @@ export async function getNoteWithSharing(noteId: string): Promise<(Notes & { isS
       } catch (error: any) {
         console.error('Error fetching note owner details:', error);
       }
+
+      sharePermission = 'read';
+      const perms = (note as any).$permissions || [];
+      if (perms.includes(`delete("user:${currentUser.$id}")`)) sharePermission = 'admin';
+      else if (perms.includes(`update("user:${currentUser.$id}")`)) sharePermission = 'write';
     }
 
     return {
       ...note,
-      isSharedWithUser: collaboration.documents.length > 0,
-      sharePermission: collaboration.documents.length > 0 ? collaboration.documents[0].permission : undefined,
+      isSharedWithUser,
+      sharePermission,
       sharedBy: sharedBy ? { name: sharedBy.name, email: sharedBy.email } : null
     };
   } catch (error: any) {

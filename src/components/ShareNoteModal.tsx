@@ -264,12 +264,13 @@ export function ShareNoteModal({ isOpen, onOpenChange, noteId, noteTitle }: Shar
   };
 
   const handleUpdatePermission = async (collab: SharedUser, newPerm: 'read' | 'write' | 'admin') => {
-    if (collab.permission === newPerm || !collab.collaborationId) return;
+    if (collab.permission === newPerm) return;
     const prevPerm = collab.permission;
-    setUpdatingCollab(collab.collaborationId);
+    setUpdatingCollab(collab.collaborationId || collab.id);
     setSharedUsers(prev => prev.map(u => u.id === collab.id ? { ...u, permission: newPerm } : u));
     try {
-      await updateCollaborator(collab.collaborationId, { permission: newPerm as any });
+      // Calling shareNoteWithUserId will upsert the permissions on the Note document
+      await shareNoteWithUserId(noteId, collab.id, newPerm);
       setSuccessMsg('Permission updated');
     } catch (err: any) {
       const msg = err && typeof err === 'object' && 'message' in err ? String((err as any).message) : String(err);
