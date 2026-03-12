@@ -127,7 +127,11 @@ export class AppwriteService {
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_NOTES,
       ID.unique(),
-      noteData
+      noteData,
+      [
+        Permission.read(Role.any()),
+        // No update/delete for ghosts until claimed
+      ]
     );
   }
 

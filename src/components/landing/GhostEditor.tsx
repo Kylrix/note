@@ -54,6 +54,7 @@ export const GhostEditor = () => {
     const [prevNotes, setPrevNotes] = useState<GhostNoteRef[]>([]);
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const [isContentCopied, setIsContentCopied] = useState(false);
+    const [isTitleManuallyEdited, setIsTitleManuallyEdited] = useState(false);
 
     // Load history and secret
     useEffect(() => {
@@ -70,6 +71,22 @@ export const GhostEditor = () => {
             localStorage.setItem(GHOST_SECRET_KEY, crypto.randomUUID());
         }
     }, []);
+
+    // Seamless auto-title logic mirroring CreateNoteForm.tsx
+    useEffect(() => {
+        if (isTitleManuallyEdited) return;
+
+        const generatedTitle = buildAutoTitleFromContent(content);
+        // buildAutoTitleFromContent returns 'Untitled Note' if empty, 
+        // we only want to set it if there's actual content to avoid 'Untitled Note' showing up immediately
+        if (content.trim()) {
+            if (generatedTitle !== title) {
+                setTitle(generatedTitle);
+            }
+        } else {
+            setTitle('');
+        }
+    }, [content, isTitleManuallyEdited, title]);
 
     const handleCreateAndCopyLink = async () => {
         if (!content.trim()) {
@@ -215,7 +232,10 @@ export const GhostEditor = () => {
                                 fullWidth
                                 placeholder="Note Title"
                                 value={title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                onChange={(e) => {
+                                    setTitle(e.target.value);
+                                    setIsTitleManuallyEdited(true);
+                                }}
                                 variant="standard"
                                 InputProps={{
                                     disableUnderline: true,

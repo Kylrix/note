@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode, useCa
 import { useRouter, usePathname } from 'next/navigation';
 import { getCurrentUser, getUser, createUser, updateUser, account } from '@/lib/appwrite';
 import { getEffectiveUsername } from '@/lib/utils';
+import { GhostNoteClaimer } from '@/components/landing/GhostNoteClaimer';
 
 // Lazy load email verification reminder (loading screen removed for instant app feel)
 const EmailVerificationReminder = lazy(() => import('./EmailVerificationReminder').then(m => ({ default: m.EmailVerificationReminder })));
@@ -485,6 +486,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider value={value}>
       {children}
+      <GhostNoteClaimer />
       <Suspense fallback={null}>
         <EmailVerificationReminder />
       </Suspense>
