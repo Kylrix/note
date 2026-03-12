@@ -255,10 +255,9 @@ export function NotesProvider({ children }: { children: ReactNode }) {
     const sub = realtime.subscribe(channel, (response) => {
       const payload = response.payload as Notes;
       
-      // Only handle notes belonging to the current user (or public notes)
-      // Check both userId and owner_id as fallback if schema changed
+      // Only handle notes belonging to the current user
       const isOwner = payload.userId === user.$id || (payload as any).owner_id === user.$id;
-      if (!isOwner && !payload.isPublic) return;
+      if (!isOwner) return;
 
       const isCreate = response.events.some(e => e.endsWith('.create'));
       const isUpdate = response.events.some(e => e.endsWith('.update'));

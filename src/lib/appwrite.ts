@@ -872,14 +872,8 @@ export async function listNotes(queries: any[] = [], limit: number = 100) {
     if (!user || !user.$id) {
       return { documents: [], total: 0 };
     }
-    // We include Query.isNull('userId') to catch legacy notes that haven't been migrated to use the 
-    // custom 'userId' attribute yet. Appwrite's built-in row-level security ensures users only see
-    // documents they have permission to access.
     queries = [
-      Query.or([
-        Query.equal('userId', user.$id),
-        Query.isNull('userId')
-      ])
+      Query.equal('userId', user.$id)
     ];
   }
 
@@ -1894,10 +1888,15 @@ export async function getSharedNotes(): Promise<{ documents: Notes[], total: num
 
     // A shared note is one that we have read access to (automatically filtered by Appwrite)
     // but the owner (userId) is NOT the current user.
+    // We also exclude ghost notes (userId is null) and public notes to strictly show "Private" shared notes.
     const notesRes = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       APPWRITE_TABLE_ID_NOTES,
-      [Query.notEqual('userId', currentUser.$id)]
+      [
+        Query.notEqual('userId', currentUser.$id),
+        Query.isNotNull('userId'),
+        Query.equal('isPublic', false)
+      ]
     );
 
     const sharedNotes: Notes[] = [];
@@ -2614,12 +2613,9 @@ export async function listNotesPaginated(options: ListNotesPaginatedOptions = {}
     if (!effectiveUserId) {
       return { documents: [], total: 0, nextCursor: null, hasMore: false };
     }
-    // Handle legacy notes without the userId attribute populated
+    
     baseQueries = [
-      Query.or([
-        Query.equal('userId', effectiveUserId),
-        Query.isNull('userId')
-      ])
+      Query.equal('userId', effectiveUserId)
     ];
   }
 
