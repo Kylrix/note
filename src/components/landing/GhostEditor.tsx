@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     Box, 
     TextField, 
@@ -26,8 +26,7 @@ import {
     ExternalLink,
     Clock,
     Shield,
-    Share2,
-    Lock
+    Share2
 } from 'lucide-react';
 import { AppwriteService } from '@/lib/appwrite';
 import toast from 'react-hot-toast';
