@@ -84,7 +84,7 @@ export default function GlobalShortcuts() {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [openOverlay, router]);
+  }, [openOverlay, router, upsertNote]);
 
   return (
     <Suspense fallback={null}>

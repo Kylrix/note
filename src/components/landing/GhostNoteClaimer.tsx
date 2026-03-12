@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useAuth } from '@/components/ui/AuthContext';
-import { functions, ID } from '@/lib/appwrite';
+import { functions } from '@/lib/appwrite';
 
 const GHOST_STORAGE_KEY = 'kylrix_ghost_notes_v2';
 const GHOST_SECRET_KEY = 'kylrix_ghost_secret_v2';
