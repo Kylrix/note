@@ -78,16 +78,35 @@ export function EcosystemPortal({ open: controlledOpen, onClose: controlledOnClo
         )
     );
 
-    const handleAppClick = (subdomain: string, label: string, appId: string) => {
-        // Shift + Click OR default for some apps opens in a virtual window
+    const getCurrentSubdomain = () => {
+        if (typeof window === 'undefined') return null;
+        const host = window.location.hostname;
+        if (host === 'localhost' || host === '127.0.0.1') {
+            const port = window.location.port;
+            const ports: Record<string, string> = {
+                '3000': 'accounts',
+                '3001': 'note',
+                '3002': 'vault',
+                '3003': 'flow',
+                '3004': 'connect',
+                '3005': 'kylrix'
+            };
+            return ports[port] || null;
+        }
+        const segments = host.split('.');
+        if (segments.length <= 2) return 'kylrix';
+        return segments[0];
+    };
+
+    const handleAppClick = (subdomain: string, _label: string, _appId: string) => {
+        const currentSubdomain = getCurrentSubdomain();
+        if (subdomain === currentSubdomain) {
+            onClose();
+            return;
+        }
+
         const url = getEcosystemUrl(subdomain);
-        launchWindow({
-            title: label,
-            url: `${url}?is_embedded=true`,
-            mode: 'remote',
-            appId,
-            dimensions: { width: 1000, height: 750 } // Prefer larger default for work nodes
-        });
+        window.location.href = url;
         onClose();
     };
 
