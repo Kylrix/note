@@ -3,7 +3,6 @@
 import React, { Suspense, lazy } from 'react';
 import { SidebarProvider, useSidebar } from '@/components/ui/SidebarContext';
 import { DynamicSidebarProvider, useDynamicSidebar, DynamicSidebar } from '@/components/ui/DynamicSidebar';
-import { NotesProvider } from '@/contexts/NotesContext';
 
 // Lazy load navigation components for faster initial render
 const DesktopSidebar = lazy(() => import('@/components/Navigation').then(m => ({ default: m.DesktopSidebar })));
@@ -71,9 +70,7 @@ export default function AppLayout({
   return (
     <SidebarProvider>
       <DynamicSidebarProvider>
-        <NotesProvider>
-          <AppLayoutContent>{children}</AppLayoutContent>
-        </NotesProvider>
+        <AppLayoutContent>{children}</AppLayoutContent>
       </DynamicSidebarProvider>
     </SidebarProvider>
   );

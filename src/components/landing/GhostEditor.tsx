@@ -472,7 +472,7 @@ export const GhostEditor = () => {
                             {/* Chronic User CTA */}
                             <Box sx={{ mt: 4, p: 3, borderRadius: '24px', bgcolor: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
                                 <Typography variant="subtitle2" sx={{ fontWeight: 900, mb: 1, color: '#6366F1' }}>
-                                    Don't Lose Your Spark!
+                                    Don&apos;t Lose Your Spark!
                                 </Typography>
                                 <Typography variant="caption" sx={{ display: 'block', mb: 2, opacity: 0.8 }}>
                                     These notes are currently floating in the mesh. Secure them permanently to edit or delete.

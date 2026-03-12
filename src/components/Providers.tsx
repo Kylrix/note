@@ -16,6 +16,7 @@ import { EcosystemPortal } from "@/components/common/EcosystemPortal";
 import { EcosystemEvents } from "@/components/common/EcosystemEvents";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { SudoProvider } from "@/contexts/SudoContext";
+import { NotesProvider } from "@/contexts/NotesContext";
 
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { darkTheme } from "@/theme/theme";
@@ -39,24 +40,26 @@ export function Providers({ children }: { children: React.ReactNode }) {
                         <NotificationProvider>
                             <KernelProvider>
                                 <SudoProvider>
-                                    <IslandProvider>
-                                        <ToastProvider>
-                                            <OverlayProvider>
-                                                <LoadingProvider>
-                                                    <ContextMenuProvider>
-                                                        <RouteGuard>
-                                                            {children}
-                                                        </RouteGuard>
-                                                        <Overlay />
-                                                        <GlobalContextMenu />
-                                                        <GlobalShortcuts />
-                                                        <EcosystemPortal />
-                                                        <EcosystemEvents />
-                                                    </ContextMenuProvider>
-                                                </LoadingProvider>
-                                            </OverlayProvider>
-                                        </ToastProvider>
-                                    </IslandProvider>
+                                    <NotesProvider>
+                                        <IslandProvider>
+                                            <ToastProvider>
+                                                <OverlayProvider>
+                                                    <LoadingProvider>
+                                                        <ContextMenuProvider>
+                                                            <RouteGuard>
+                                                                {children}
+                                                            </RouteGuard>
+                                                            <Overlay />
+                                                            <GlobalContextMenu />
+                                                            <GlobalShortcuts />
+                                                            <EcosystemPortal />
+                                                            <EcosystemEvents />
+                                                        </ContextMenuProvider>
+                                                    </LoadingProvider>
+                                                </OverlayProvider>
+                                            </ToastProvider>
+                                        </IslandProvider>
+                                    </NotesProvider>
                                 </SudoProvider>
                             </KernelProvider>
                         </NotificationProvider>
