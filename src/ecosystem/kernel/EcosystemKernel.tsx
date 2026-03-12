@@ -37,7 +37,7 @@ const PremiumIcon = ({ name, size = 18, color = 'currentColor' }: { name: string
   return <IconComponent size={size} color={color} strokeWidth={1.5} />;
 };
 import { getEcosystemUrl as _getEcosystemUrl } from '@/constants/ecosystem';
-import { MeshProtocol, MeshMessage } from '@/lib/ecosystem/mesh';
+import { MeshProtocol, MeshMessage, NodeIdentity } from '@/lib/ecosystem/mesh';
 import { ecosystemSecurity } from '@/lib/ecosystem/security';
 
 /**

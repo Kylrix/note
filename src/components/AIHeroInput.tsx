@@ -7,7 +7,7 @@ import {
   IconButton, 
   Typography, 
   Button, 
-  Grid2 as Grid, 
+  Grid, 
   useTheme,
   InputAdornment
 } from '@mui/material';

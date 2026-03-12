@@ -287,7 +287,7 @@ export default function SettingsPage() {
                                                         primary={pk.params?.name || `Passkey ${idx + 1}`}
                                                         secondary="Secure Hardware Key"
                                                         primaryTypographyProps={{ fontWeight: 800, fontSize: '0.85rem', fontFamily: 'var(--font-satoshi)' }}
-                                                        secondaryTypographyProps={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em', opacity: 0.4 }}
+                                                        secondaryTypographyProps={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em', sx: { opacity: 0.4 } }}
                                                     />
                                                 </ListItem>
                                             </React.Fragment>
@@ -453,7 +453,7 @@ export default function SettingsPage() {
             />
 
             <PasskeySetup
-                isOpen={passkeySetupOpen}
+                open={passkeySetupOpen}
                 onClose={() => setPasskeySetupOpen(false)}
                 userId={user?.$id || ""}
                 onSuccess={() => {

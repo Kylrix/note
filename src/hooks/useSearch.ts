@@ -250,7 +250,8 @@ export function useSearch<T extends { $id: string; [key: string]: any }>({
         setTotalCount(data.length);
       }
     }
-  }, [dataVersion, searchQuery, useLocalSearch, ...dependencies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataVersion, searchQuery, useLocalSearch, data, ...dependencies]);
   
   return {
     // Data state

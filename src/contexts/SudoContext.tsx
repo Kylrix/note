@@ -52,9 +52,9 @@ export function SudoProvider({ children }: { children: ReactNode }) {
         <SudoContext.Provider value={{ requestSudo, isUnlocked }}>
             {children}
             <SudoModal
-                isOpen={isSudoOpen}
+                open={isSudoOpen}
                 onSuccess={handleSuccess}
-                onCancel={handleCancel}
+                onClose={handleCancel}
             />
         </SudoContext.Provider>
     );

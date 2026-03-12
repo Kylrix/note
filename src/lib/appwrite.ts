@@ -94,6 +94,20 @@ export class AppwriteService {
     );
   }
 
+  static async deleteKeychainEntry(id: string): Promise<boolean> {
+    try {
+      await databases.deleteDocument(
+        KEEP_DATABASE_ID,
+        KEEP_COLLECTION_ID_KEYCHAIN,
+        id
+      );
+      return true;
+    } catch (e: any) {
+      console.error('deleteKeychainEntry error', e);
+      return false;
+    }
+  }
+
   static async setMasterpassFlag(userId: string, email: string) {
     try {
       // Check if user doc exists in NOTE database

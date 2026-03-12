@@ -279,8 +279,8 @@ export function NotesProvider({ children }: { children: ReactNode }) {
     });
     
     return () => {
-      if (typeof unsubscribe === 'function') {
-        unsubscribe();
+      if (unsubscribe) {
+        (unsubscribe as any)();
       }
     };
   }, [isAuthenticated, user?.$id]);

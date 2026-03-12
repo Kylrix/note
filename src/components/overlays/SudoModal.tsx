@@ -29,15 +29,15 @@ import { PasskeySetup } from "./PasskeySetup";
 import toast from "react-hot-toast";
 
 interface SudoModalProps {
-    isOpen: boolean;
+    open: boolean;
     onSuccess: () => void;
-    onCancel: () => void;
+    onClose: () => void;
 }
 
 export default function SudoModal({
-    isOpen,
+    open,
     onSuccess,
-    onCancel,
+    onClose,
 }: SudoModalProps) {
     const { user } = useAuth();
     const [password, setPassword] = useState("");
@@ -103,7 +103,7 @@ export default function SudoModal({
 
     // Check if user has passkey and PIN set up
     useEffect(() => {
-        if (isOpen && user?.$id) {
+        if (open && user?.$id) {
             const pinSet = ecosystemSecurity.isPinSet();
             setHasPin(pinSet);
 
@@ -115,7 +115,7 @@ export default function SudoModal({
                 setHasMasterpass(passwordPresent);
 
                 // Enforce Master Password setup if missing
-                if (!passwordPresent && isOpen) {
+                if (!passwordPresent && open) {
                     setMode("initialize");
                     setIsDetecting(false);
                     return;
@@ -144,7 +144,7 @@ export default function SudoModal({
             setIsDetecting(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen, user?.$id]);
+    }, [open, user?.$id]);
 
     const handlePasswordVerify = async (e?: React.FormEvent) => {
         e?.preventDefault();
@@ -224,11 +224,11 @@ export default function SudoModal({
 
 
     const handlePasskeyVerify = async () => {
-        if (!user?.$id || !isOpen) return;
+        if (!user?.$id || !open) return;
         setPasskeyLoading(true);
         try {
             const success = await unlockWithPasskey(user.$id);
-            if (success && isOpen) {
+            if (success && open) {
                 toast.success("Verified via Passkey");
                 onSuccess();
             }
@@ -242,7 +242,7 @@ export default function SudoModal({
     if (showPasskeyIncentive && user) {
         return (
             <PasskeySetup
-                isOpen={true}
+                open={true}
                 onClose={() => {
                     setShowPasskeyIncentive(false);
                     onSuccess();
@@ -259,8 +259,8 @@ export default function SudoModal({
 
     return (
         <Dialog
-            open={isOpen}
-            onClose={onCancel}
+            open={open}
+            onClose={onClose}
             maxWidth="xs"
             fullWidth
             TransitionComponent={Fade}
@@ -278,7 +278,7 @@ export default function SudoModal({
         >
             <DialogTitle sx={{ textAlign: 'center', pt: 4, pb: 1, position: 'relative' }}>
                 <IconButton
-                    onClick={onCancel}
+                    onClick={onClose}
                     sx={{
                         position: 'absolute',
                         right: 16,

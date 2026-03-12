@@ -25,7 +25,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Fingerprint } from "lucide-react";
 
 interface PasskeySetupProps {
-  isOpen: boolean;
+  open: boolean;
   onClose: () => void;
   userId: string;
   onSuccess: () => void;
@@ -42,7 +42,7 @@ function arrayBufferToBase64(buffer: ArrayBuffer): string {
 }
 
 export function PasskeySetup({
-  isOpen,
+  open,
   onClose,
   userId,
   onSuccess,
@@ -137,7 +137,7 @@ export function PasskeySetup({
         attestation: "none" as const,
       };
 
-      const regResp = await startRegistration(registrationOptions);
+      const regResp = await startRegistration({ optionsJSON: registrationOptions });
 
       const encoder = new TextEncoder();
       const credentialData = encoder.encode(regResp.id + userId);
@@ -210,7 +210,7 @@ export function PasskeySetup({
 
   return (
     <Dialog 
-      open={isOpen} 
+      open={open} 
       onClose={handleClose}
       PaperProps={{
         sx: {

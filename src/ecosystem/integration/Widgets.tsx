@@ -28,7 +28,7 @@ import { VaultStatus } from './VaultStatus';
 import { FocusStatus } from './FocusStatus';
 
 const WidgetWrapper = ({ 
-    _title, 
+    title, 
     children, 
     onExpand,
     appColor = '#00F0FF'
