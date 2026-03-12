@@ -10,7 +10,6 @@ import {
     Toolbar, 
     Stack, 
     CircularProgress,
-    Avatar,
     Typography
 } from '@mui/material';
 import Logo from '@/components/common/Logo';
@@ -18,7 +17,7 @@ import { Button } from '@/components/ui/Button';
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, user, openIDMWindow, isAuthenticating } = useAuth();
+  const { isAuthenticated, isLoading, openIDMWindow, isAuthenticating } = useAuth();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -38,12 +37,6 @@ export default function Home() {
 
   // If authenticated, we show nothing (it will redirect)
   if (isAuthenticated) return null;
-
-  const getUserInitials = (user: any): string => {
-    if (user?.name) return user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-    if (user?.email) return user.email.slice(0, 2).toUpperCase();
-    return 'U';
-  };
 
   return (
     <Box sx={{ 

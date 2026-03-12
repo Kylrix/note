@@ -21,7 +21,7 @@ import {
   Brush as PencilIcon,
 } from '@mui/icons-material';
 import { Button } from '@/components/ui/Button';
-import { AUTO_TITLE_CONFIG, buildAutoTitleFromContent } from '@/constants/noteTitle';
+import { buildAutoTitleFromContent } from '@/constants/noteTitle';
 import { useOverlay } from '@/components/ui/OverlayContext';
 import { useToast } from '@/components/ui/Toast';
 import { createNote as appwriteCreateNote } from '@/lib/appwrite';
