@@ -16,7 +16,11 @@ import {
     Container,
     Grid,
     Card,
-    CardContent
+    CardContent,
+    Menu,
+    MenuItem,
+    ListItemIcon,
+    ListItemText
 } from '@mui/material';
 import { 
     Copy as CopyIcon, 
@@ -26,7 +30,9 @@ import {
     ExternalLink,
     Clock,
     Shield,
-    Share2
+    Share2,
+    Trash2,
+    MoreVertical
 } from 'lucide-react';
 import { AppwriteService } from '@/lib/appwrite';
 import toast from 'react-hot-toast';
@@ -122,21 +128,51 @@ export const GhostEditor = () => {
     const [isContentCopied, setIsContentCopied] = useState(false);
     const [isTitleManuallyEdited, setIsTitleManuallyEdited] = useState(false);
 
+    // Context Menu State
+    const [contextMenu, setContextMenu] = useState<{
+        mouseX: number;
+        mouseY: number;
+        noteId: string | null;
+    } | null>(null);
+
     // Load history and secret
     useEffect(() => {
-        const history = localStorage.getItem(GHOST_STORAGE_KEY);
-        if (history) {
+        const loadHistory = () => {
             try {
-                setPrevNotes(JSON.parse(history));
+                const history = localStorage.getItem(GHOST_STORAGE_KEY);
+                if (history) {
+                    const parsed = JSON.parse(history);
+                    if (Array.isArray(parsed)) {
+                        setPrevNotes(parsed);
+                    }
+                }
             } catch (e) {
                 console.error('Failed to parse ghost history', e);
             }
-        }
+        };
+
+        loadHistory();
+        
+        // Listen for storage changes (Safari/Other tabs)
+        window.addEventListener('storage', loadHistory);
 
         if (!localStorage.getItem(GHOST_SECRET_KEY)) {
             localStorage.setItem(GHOST_SECRET_KEY, crypto.randomUUID());
         }
+
+        return () => window.removeEventListener('storage', loadHistory);
     }, []);
+
+    const saveHistory = (history: GhostNoteRef[]) => {
+        try {
+            localStorage.setItem(GHOST_STORAGE_KEY, JSON.stringify(history));
+            setPrevNotes(history);
+            // Dispatch storage event manually for Safari/same-window consistency
+            window.dispatchEvent(new Event('storage'));
+        } catch (e) {
+            console.error('Failed to save ghost history', e);
+        }
+    };
 
     // Seamless auto-title logic
     useEffect(() => {
@@ -179,8 +215,7 @@ export const GhostEditor = () => {
                 // Update history
                 const newRef = { id: note.$id, title: finalTitle, createdAt: new Date().toISOString() };
                 const updatedHistory = [newRef, ...prevNotes].slice(0, 10);
-                setPrevNotes(updatedHistory);
-                localStorage.setItem(GHOST_STORAGE_KEY, JSON.stringify(updatedHistory));
+                saveHistory(updatedHistory);
 
                 // Clear editor
                 setTitle('');
@@ -203,6 +238,45 @@ export const GhostEditor = () => {
         setIsContentCopied(true);
         toast.success("Content copied");
         setTimeout(() => setIsContentCopied(false), 2000);
+    };
+
+    const handleContextMenu = (event: React.MouseEvent, noteId: string) => {
+        event.preventDefault();
+        setContextMenu(
+            contextMenu === null
+                ? {
+                      mouseX: event.clientX + 2,
+                      mouseY: event.clientY - 6,
+                      noteId
+                  }
+                : null,
+        );
+    };
+
+    const handleCloseContextMenu = () => {
+        setContextMenu(null);
+    };
+
+    const handleDeleteNote = (noteId: string | null) => {
+        if (!noteId) return;
+        
+        const confirmDelete = window.confirm("Removing this note from your sparks will mean you lose control over it (even though it will still exist for its 7-day lifespan). Proceed?");
+        
+        if (confirmDelete) {
+            const updatedHistory = prevNotes.filter(n => n.id !== noteId);
+            saveHistory(updatedHistory);
+            toast.success("Spark removed from stash");
+        }
+        handleCloseContextMenu();
+    };
+
+    const handleDeleteAll = () => {
+        const confirmDelete = window.confirm("This will clear your entire local stash. You will lose access to manage these notes. Proceed?");
+        if (confirmDelete) {
+            saveHistory([]);
+            toast.success("All sparks cleared");
+        }
+        handleCloseContextMenu();
     };
 
     const hasHistory = prevNotes.length > 0;
@@ -443,33 +517,49 @@ export const GhostEditor = () => {
                             border: '1px solid rgba(255, 255, 255, 0.05)',
                             height: 'fit-content'
                         }}>
-                            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 3 }}>
-                                <HistoryIcon size={20} color={theme.palette.primary.main} />
-                                <Typography variant="h6" sx={{ fontWeight: 900, fontFamily: 'var(--font-clash)' }}>
-                                    Your Recent Sparks
-                                </Typography>
+                            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 3, justifyContent: 'space-between' }}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <HistoryIcon size={20} color={theme.palette.primary.main} />
+                                    <Typography variant="h6" sx={{ fontWeight: 900, fontFamily: 'var(--font-clash)' }}>
+                                        Your Recent Sparks
+                                    </Typography>
+                                </Stack>
+                                <Tooltip title="Clear Stash">
+                                    <IconButton size="small" onClick={handleDeleteAll} sx={{ color: 'rgba(255,255,255,0.2)', '&:hover': { color: '#FF453A' } }}>
+                                        <Trash2 size={16} />
+                                    </IconButton>
+                                </Tooltip>
                             </Stack>
 
                             <Stack spacing={2}>
                                 {prevNotes.map((note) => (
-                                    <Card key={note.id} sx={{ 
-                                        bgcolor: 'rgba(255, 255, 255, 0.03)', 
-                                        borderRadius: '20px',
-                                        border: '1px solid rgba(255, 255, 255, 0.05)',
-                                        transition: 'all 0.2s',
-                                        position: 'relative',
-                                        '&:hover': {
-                                            transform: 'translateX(4px)',
-                                            bgcolor: 'rgba(255, 255, 255, 0.05)',
-                                            borderColor: 'rgba(99, 102, 241, 0.2)'
-                                        }
-                                    }}>
+                                    <Card 
+                                        key={note.id} 
+                                        onContextMenu={(e) => handleContextMenu(e, note.id)}
+                                        sx={{ 
+                                            bgcolor: 'rgba(255, 255, 255, 0.03)', 
+                                            borderRadius: '20px',
+                                            border: '1px solid rgba(255, 255, 255, 0.05)',
+                                            transition: 'all 0.2s',
+                                            position: 'relative',
+                                            '&:hover': {
+                                                transform: 'translateX(4px)',
+                                                bgcolor: 'rgba(255, 255, 255, 0.05)',
+                                                borderColor: 'rgba(99, 102, 241, 0.2)'
+                                            }
+                                        }}
+                                    >
                                         <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                                             <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                                                 <Typography variant="subtitle2" noWrap sx={{ fontWeight: 800, mb: 0.5, flex: 1, pr: 1 }}>
                                                     {note.title}
                                                 </Typography>
-                                                <GhostClock createdAt={note.createdAt} />
+                                                <Stack direction="row" spacing={0.5} alignItems="center">
+                                                    <GhostClock createdAt={note.createdAt} />
+                                                    <IconButton size="small" onClick={(e) => handleContextMenu(e, note.id)} sx={{ color: 'rgba(255,255,255,0.2)' }}>
+                                                        <MoreVertical size={14} />
+                                                    </IconButton>
+                                                </Stack>
                                             </Stack>
                                             <Stack direction="row" justifyContent="space-between" alignItems="center">
                                                 <Typography variant="caption" sx={{ opacity: 0.4 }}>
@@ -487,6 +577,51 @@ export const GhostEditor = () => {
                                     </Card>
                                 ))}
                             </Stack>
+
+                            {/* Context Menu for Sparks */}
+                            <Menu
+                                open={contextMenu !== null}
+                                onClose={handleCloseContextMenu}
+                                anchorReference="anchorPosition"
+                                anchorPosition={
+                                    contextMenu !== null
+                                        ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+                                        : undefined
+                                }
+                                slotProps={{
+                                    paper: {
+                                        sx: {
+                                            minWidth: 180,
+                                            bgcolor: 'rgba(10, 10, 10, 0.95)',
+                                            backdropFilter: 'blur(25px) saturate(180%)',
+                                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                                            borderRadius: '12px',
+                                            backgroundImage: 'none',
+                                            py: 0.5,
+                                            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5)',
+                                        }
+                                    }
+                                }}
+                            >
+                                <MenuItem 
+                                    onClick={() => handleDeleteNote(contextMenu?.noteId || null)}
+                                    sx={{ 
+                                        px: 2, 
+                                        py: 1, 
+                                        gap: 1.5,
+                                        color: '#FF453A',
+                                        '&:hover': { bgcolor: 'rgba(255, 69, 58, 0.1)' }
+                                    }}
+                                >
+                                    <ListItemIcon sx={{ minWidth: 'auto', color: 'inherit' }}>
+                                        <Trash2 size={16} />
+                                    </ListItemIcon>
+                                    <ListItemText 
+                                        primary="Remove from Stash" 
+                                        slotProps={{ primary: { sx: { fontSize: '0.8rem', fontWeight: 700, fontFamily: 'var(--font-satoshi)' } } }}
+                                    />
+                                </MenuItem>
+                            </Menu>
 
                             {/* Chronic User CTA */}
                             <Box sx={{ mt: 4, p: 3, borderRadius: '24px', bgcolor: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
