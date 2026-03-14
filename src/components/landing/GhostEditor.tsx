@@ -54,6 +54,7 @@ import { useToast } from '@/components/ui/Toast';
 
 const GHOST_STORAGE_KEY = 'kylrix_ghost_notes_v2';
 const GHOST_SECRET_KEY = 'kylrix_ghost_secret_v2';
+const GHOST_PREF_LIFESPAN = 'kylrix_ghost_pref_lifespan_v2';
 const MAX_LIFESPAN_DAYS = 7;
 const MAX_LIFESPAN_MS = MAX_LIFESPAN_DAYS * 24 * 60 * 60 * 1000;
 const MAX_CONTENT_LENGTH = 65000;
@@ -158,13 +159,6 @@ export const GhostEditor = () => {
     const [lifespanMs, setLifespanMs] = useState(7 * 24 * 60 * 60 * 1000); // Default 7 days
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-    // Context Menu State
-    const [contextMenu, setContextMenu] = useState<{
-        mouseX: number;
-        mouseY: number;
-        noteId: string | null;
-    } | null>(null);
-
     // Load history and secret
     useEffect(() => {
         const loadHistory = () => {
@@ -225,6 +219,12 @@ export const GhostEditor = () => {
                         setPrevNotes(valid);
                     }
                 }
+
+                // Load preferred lifespan
+                const prefLifespan = localStorage.getItem(GHOST_PREF_LIFESPAN);
+                if (prefLifespan) {
+                    setLifespanMs(Number(prefLifespan));
+                }
             } catch (e) {
                 console.error('Failed to parse ghost history', e);
             }
@@ -241,6 +241,11 @@ export const GhostEditor = () => {
 
         return () => window.removeEventListener('storage', loadHistory);
     }, []);
+
+    const saveLifespanPref = (ms: number) => {
+        setLifespanMs(ms);
+        localStorage.setItem(GHOST_PREF_LIFESPAN, ms.toString());
+    };
 
     const saveHistory = (history: GhostNoteRef[]) => {
         try {
@@ -449,17 +454,42 @@ export const GhostEditor = () => {
                     }}>
                         {/* Action Buttons in Header Area */}
                         <Stack direction="row" spacing={1} sx={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
-                            <Tooltip title="Note Settings" placement="top">
+                            <Tooltip title={`Lifespan: ${LIFESPAN_OPTIONS.find(o => o.value === lifespanMs)?.label || 'Custom'}`} placement="top">
                                 <IconButton
                                     onClick={() => setIsSettingsOpen(true)}
                                     sx={{ 
+                                        width: 40,
+                                        height: 40,
                                         bgcolor: 'rgba(255, 255, 255, 0.05)',
-                                        color: 'rgba(255, 255, 255, 0.4)',
+                                        color: theme.palette.primary.main,
                                         border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        position: 'relative',
                                         '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)', color: 'white' }
                                     }}
                                 >
-                                    <SettingsIcon size={20} />
+                                    <svg width="40" height="40" style={{ position: 'absolute' }}>
+                                        <circle
+                                            cx="20"
+                                            cy="20"
+                                            r="18"
+                                            fill="transparent"
+                                            stroke="currentColor"
+                                            strokeWidth="1"
+                                            strokeDasharray="3 3"
+                                            opacity="0.3"
+                                        />
+                                    </svg>
+                                    <Typography 
+                                        variant="caption" 
+                                        sx={{ 
+                                            fontWeight: 900, 
+                                            fontSize: '0.65rem',
+                                            fontFamily: 'var(--font-jetbrains-mono)',
+                                            textTransform: 'uppercase'
+                                        }}
+                                    >
+                                        {LIFESPAN_OPTIONS.find(o => o.value === lifespanMs)?.label.split(' ')[0].toLowerCase() || '7d'}
+                                    </Typography>
                                 </IconButton>
                             </Tooltip>
 
@@ -882,7 +912,7 @@ export const GhostEditor = () => {
                         </FormLabel>
                         <RadioGroup
                             value={lifespanMs}
-                            onChange={(e) => setLifespanMs(Number(e.target.value))}
+                            onChange={(e) => saveLifespanPref(Number(e.target.value))}
                         >
                             <Grid container spacing={1}>
                                 {LIFESPAN_OPTIONS.map((option) => (
