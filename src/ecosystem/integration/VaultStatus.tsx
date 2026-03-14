@@ -1,23 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Button, 
-  Paper, 
-  Typography, 
-  alpha 
+import {
+    Box,
+    Button,
+    Paper,
+    Typography,
+    alpha
 } from '@mui/material';
-import { 
-  Lock,
-  LockKeyholeOpen,
-  Shield
+import {
+    Lock,
+    LockKeyholeOpen,
+    Shield
 } from 'lucide-react';
 
 import { ecosystemSecurity } from '@/lib/ecosystem/security';
 import { AppwriteService } from '@/lib/appwrite';
 import { useAuth } from '@/components/ui/AuthContext';
-import SudoModal from '@/components/overlays/SudoModal';
+import { SudoModal } from '@/components/overlays/SudoModal';
 import { useEffect } from 'react';
 
 export const VaultStatus = () => {
@@ -62,9 +62,9 @@ export const VaultStatus = () => {
             >
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                        <Box sx={{ 
-                            p: 1, 
-                            borderRadius: '10px', 
+                        <Box sx={{
+                            p: 1,
+                            borderRadius: '10px',
                             bgcolor: alpha('#F59E0B', 0.1),
                             color: '#F59E0B',
                             display: 'flex',
@@ -77,16 +77,16 @@ export const VaultStatus = () => {
                             {isInitialized === false ? 'Setup Vault' : (isLocked ? 'Vault Locked' : 'Vault Active')}
                         </Typography>
                     </Box>
-                    <Box sx={{ 
-                        px: 1, 
-                        py: 0.5, 
-                        borderRadius: '6px', 
+                    <Box sx={{
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: '6px',
                         bgcolor: isInitialized === false ? 'rgba(245, 158, 11, 0.1)' : (isLocked ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'),
                         border: `1px solid ${isInitialized === false ? 'rgba(245, 158, 11, 0.2)' : (isLocked ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)')}`
                     }}>
-                        <Typography sx={{ 
-                            fontSize: '10px', 
-                            fontWeight: 900, 
+                        <Typography sx={{
+                            fontSize: '10px',
+                            fontWeight: 900,
                             color: isInitialized === false ? '#F59E0B' : (isLocked ? '#ef4444' : '#10b981'),
                             textTransform: 'uppercase',
                             letterSpacing: '0.05em'
@@ -115,7 +115,7 @@ export const VaultStatus = () => {
                 </Button>
             </Paper>
 
-            <SudoModal 
+            <SudoModal
                 open={isModalOpen}
                 intent={sudoIntent}
                 onSuccess={() => {
