@@ -156,8 +156,13 @@ export const GhostEditor = () => {
     const [isTitleManuallyEdited, setIsTitleManuallyEdited] = useState(false);
     
     // Lifespan Settings
-    const [lifespanMs, setLifespanMs] = useState(7 * 24 * 60 * 60 * 1000); // Default 7 days
+    const [lifespanMs, setLifespanMs] = useState(60 * 60 * 1000); // Default 1 hour
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [contextMenu, setContextMenu] = useState<{
+        mouseX: number;
+        mouseY: number;
+        noteId: string;
+    } | null>(null);
 
     // Load history and secret
     useEffect(() => {
