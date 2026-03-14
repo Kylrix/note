@@ -115,8 +115,8 @@ export class AppwriteService {
   /**
    * Create a Ghost Note (Anonymous)
    */
-  static async createGhostNote(data: { title: string; content: string; format?: string; ghostSecret: string }): Promise<any> {
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  static async createGhostNote(data: { title: string; content: string; format?: string; ghostSecret: string; expiresAt?: string }): Promise<any> {
+    const expiresAt = data.expiresAt || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     const metadata = JSON.stringify({
       isGhost: true,
       ghostSecret: data.ghostSecret,

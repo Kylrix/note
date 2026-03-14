@@ -362,6 +362,17 @@ export default function SudoModal({
                 }
             }}
         >
+            <style>{`
+                @keyframes race {
+                    from { stroke-dashoffset: 240; }
+                    to { stroke-dashoffset: 0; }
+                }
+                @keyframes pulse-hex {
+                    0% { transform: scale(1); opacity: 1; }
+                    50% { transform: scale(1.05); opacity: 0.8; }
+                    100% { transform: scale(1); opacity: 1; }
+                }
+            `}</style>
             <DialogTitle sx={{ textAlign: 'center', pt: 4, pb: 1, position: 'relative' }}>
                 <IconButton
                     onClick={onClose}
@@ -675,34 +686,55 @@ export default function SudoModal({
                         <Box
                             onClick={handlePasskeyVerify}
                             sx={{
-                                width: 72,
-                                height: 72,
-                                borderRadius: '50%',
-                                border: '2px dashed',
-                                borderColor: passkeyLoading ? '#6366F1' : 'rgba(255, 255, 255, 0.2)',
+                                width: 80,
+                                height: 80,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 cursor: 'pointer',
+                                position: 'relative',
                                 transition: 'all 0.3s ease',
-                                animation: passkeyLoading ? 'pulse 2s infinite' : 'none',
                                 '&:hover': {
-                                    borderColor: '#6366F1',
-                                    bgcolor: alpha('#6366F1', 0.05),
                                     transform: 'scale(1.05)'
-                                },
-                                '@keyframes pulse': {
-                                    '0%': { boxShadow: '0 0 0 0 rgba(99, 102, 241, 0.4)' },
-                                    '70%': { boxShadow: '0 0 0 15px rgba(99, 102, 241, 0)' },
-                                    '100%': { boxShadow: '0 0 0 0 rgba(99, 102, 241, 0)' }
                                 }
                             }}
                         >
-                            {passkeyLoading ? (
-                                <CircularProgress size={32} sx={{ color: '#6366F1' }} />
-                            ) : (
-                                <FingerprintIcon sx={{ fontSize: 32, color: "rgba(255, 255, 255, 0.4)" }} />
-                            )}
+                            <svg width="80" height="80" viewBox="0 0 80 80">
+                                <path
+                                    d="M40 5 L70 22.5 L70 57.5 L40 75 L10 57.5 L10 22.5 Z"
+                                    fill="transparent"
+                                    stroke="rgba(255, 255, 255, 0.1)"
+                                    strokeWidth="2"
+                                    strokeDasharray="4 4"
+                                />
+                                {passkeyLoading && (
+                                    <path
+                                        d="M40 5 L70 22.5 L70 57.5 L40 75 L10 57.5 L10 22.5 Z"
+                                        fill="transparent"
+                                        stroke="url(#racingGradient)"
+                                        strokeWidth="3"
+                                        strokeDasharray="60 180"
+                                        style={{
+                                            animation: 'race 2s linear infinite'
+                                        }}
+                                    />
+                                )}
+                                <defs>
+                                    <linearGradient id="racingGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#6366F1" />
+                                        <stop offset="100%" stopColor="#4F46E5" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <Box sx={{
+                                position: 'absolute',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                animation: passkeyLoading ? 'pulse-hex 2s infinite ease-in-out' : 'none'
+                            }}>
+                                <FingerprintIcon sx={{ fontSize: 32, color: passkeyLoading ? '#6366F1' : 'rgba(255, 255, 255, 0.4)' }} />
+                            </Box>
                         </Box>
 
                         <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.3)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -839,15 +871,17 @@ export default function SudoModal({
                             </Button>
                         )}
 
-                        <Button
-                            fullWidth
-                            variant="text"
-                            size="small"
-                            onClick={() => window.open("https://vault.kylrix.space/masterpass/reset", "_blank")}
-                            sx={{ color: 'error.main', '&:hover': { bgcolor: alpha('#ef4444', 0.1) }, mt: 2 }}
-                        >
-                            Reset Master Password
-                        </Button>
+                        {mode === "password" && (
+                            <Button
+                                fullWidth
+                                variant="text"
+                                size="small"
+                                onClick={() => window.open("https://vault.kylrix.space/masterpass/reset", "_blank")}
+                                sx={{ color: 'error.main', '&:hover': { bgcolor: alpha('#ef4444', 0.1) }, mt: 2 }}
+                            >
+                                Reset Master Password
+                            </Button>
+                        )}
                     </Stack>
                 )}
             </DialogContent>
