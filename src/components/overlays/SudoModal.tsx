@@ -17,14 +17,16 @@ import {
     alpha,
     InputAdornment,
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import FingerprintIcon from "@mui/icons-material/Fingerprint";
-import CloseIcon from "@mui/icons-material/Close";
-import ShieldIcon from "@mui/icons-material/Shield";
-import AppsIcon from "@mui/icons-material/Apps";
-import LogoutIcon from "@mui/icons-material/Logout";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import {
+    Lock,
+    Fingerprint,
+    X,
+    Shield,
+    LayoutGrid,
+    LogOut,
+    Eye,
+    EyeOff,
+} from "lucide-react";
 import { ecosystemSecurity } from "@/lib/ecosystem/security";
 import { AppwriteService } from "@/lib/appwrite";
 import { useAuth } from "@/components/ui/AuthContext";
@@ -39,7 +41,7 @@ interface SudoModalProps {
     intent?: "unlock" | "initialize" | "reset";
 }
 
-export default function SudoModal({
+export function SudoModal({
     open,
     onSuccess,
     onClose,
@@ -335,34 +337,34 @@ export default function SudoModal({
                             border: '3px solid #0a0a0a',
                             zIndex: 1
                         }}>
-                            <ShieldIcon sx={{ fontSize: 14 }} />
+                            <Lock size={14} strokeWidth={3} />
                         </Box>
                     </Box>
                 </Box>
 
                 <Typography variant="h5" sx={{
                     fontWeight: 900,
-                    letterSpacing: '-0.04em',
-                    fontFamily: 'var(--font-clash)',
-                    color: 'white',
+                    letterSpacing: "-0.04em",
+                    fontFamily: "var(--font-clash)",
+                    color: "white",
                     mt: 4
                 }}>
                     {user?.name || "User"}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.4)', mt: 1, fontFamily: 'var(--font-satoshi)' }}>
-                    Security verification required
+                <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.4)", mt: 1, fontFamily: "var(--font-satoshi)", fontWeight: 600 }}>
+                    Enter MasterPass to continue
                 </Typography>
             </DialogTitle>
 
             <DialogContent sx={{ pb: 4 }}>
                 {isDetecting || (loading && !password && mode !== "pin") ? (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-                        <CircularProgress sx={{ color: '#A855F7' }} />
+                    <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+                        <CircularProgress sx={{ color: "#A855F7" }} />
                     </Box>
                 ) : mode === "pin" ? (
                     <Stack spacing={3} sx={{ mt: 2 }}>
                         <Box>
-                            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: 600, mb: 1, display: 'block', textAlign: 'center' }}>
+                            <Typography variant="caption" sx={{ color: "rgba(255, 255, 255, 0.4)", fontWeight: 600, mb: 1, display: "block", textAlign: "center" }}>
                                 ENTER 4-DIGIT PIN
                             </Typography>
                             <TextField
@@ -374,18 +376,18 @@ export default function SudoModal({
                                 autoFocus
                                 inputProps={{
                                     maxLength: 4,
-                                    inputMode: 'numeric',
-                                    style: { textAlign: 'center', fontSize: '2rem', letterSpacing: '0.5em' }
+                                    inputMode: "numeric",
+                                    style: { textAlign: "center", fontSize: "2rem", letterSpacing: "0.5em" }
                                 }}
                                 sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '14px',
-                                        bgcolor: 'rgba(255, 255, 255, 0.03)',
-                                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
-                                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                                        '&.Mui-focused fieldset': { borderColor: '#A855F7' },
+                                    "& .MuiOutlinedInput-root": {
+                                        borderRadius: "14px",
+                                        bgcolor: "rgba(255, 255, 255, 0.03)",
+                                        "& fieldset": { borderColor: "rgba(255, 255, 255, 0.1)" },
+                                        "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.2)" },
+                                        "&.Mui-focused fieldset": { borderColor: "#A855F7" },
                                     },
-                                    '& .MuiInputBase-input': { color: 'white' }
+                                    "& .MuiInputBase-input": { color: "white" }
                                 }}
                             />
                         </Box>
@@ -395,26 +397,26 @@ export default function SudoModal({
                             variant="text"
                             size="small"
                             onClick={() => setMode("password")}
-                            sx={{ color: 'rgba(255, 255, 255, 0.5)', '&:hover': { color: 'white' } }}
+                            sx={{ color: "rgba(255, 255, 255, 0.5)", "&:hover": { color: "white" } }}
                         >
                             Use Master Password
                         </Button>
                     </Stack>
                 ) : mode === "passkey" ? (
-                    <Stack spacing={3} sx={{ mt: 2, alignItems: 'center' }}>
+                    <Stack spacing={3} sx={{ mt: 2, alignItems: "center" }}>
                         <Box
                             onClick={handlePasskeyVerify}
                             sx={{
                                 width: 80,
                                 height: 80,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                transition: 'all 0.3s ease',
-                                '&:hover': {
-                                    transform: 'scale(1.05)'
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                                position: "relative",
+                                transition: "all 0.3s ease",
+                                "&:hover": {
+                                    transform: "scale(1.05)"
                                 }
                             }}
                         >
@@ -434,7 +436,7 @@ export default function SudoModal({
                                         strokeWidth="3"
                                         strokeDasharray="60 180"
                                         style={{
-                                            animation: 'race 2s linear infinite'
+                                            animation: "race 2s linear infinite"
                                         }}
                                     />
                                 )}
@@ -446,17 +448,17 @@ export default function SudoModal({
                                 </defs>
                             </svg>
                             <Box sx={{
-                                position: 'absolute',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                animation: passkeyLoading ? 'pulse-hex 2s infinite ease-in-out' : 'none'
+                                position: "absolute",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                animation: passkeyLoading ? "pulse-hex 2s infinite ease-in-out" : "none"
                             }}>
-                                <FingerprintIcon sx={{ fontSize: 32, color: passkeyLoading ? '#A855F7' : 'rgba(255, 255, 255, 0.4)' }} />
+                                <Fingerprint size={32} color={passkeyLoading ? "#A855F7" : "rgba(255, 255, 255, 0.4)"} />
                             </Box>
                         </Box>
 
-                        <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.3)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                        <Typography variant="caption" sx={{ color: "rgba(255, 255, 255, 0.3)", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>
                             {passkeyLoading ? "CONFIRM ON DEVICE" : "TAP TO VERIFY"}
                         </Typography>
 
@@ -465,7 +467,7 @@ export default function SudoModal({
                             variant="text"
                             size="small"
                             onClick={() => setMode("password")}
-                            sx={{ color: 'rgba(255, 255, 255, 0.5)', '&:hover': { color: 'white' } }}
+                            sx={{ color: "rgba(255, 255, 255, 0.5)", "&:hover": { color: "white" } }}
                         >
                             Use Master Password
                         </Button>
@@ -473,7 +475,7 @@ export default function SudoModal({
                 ) : (
                     <Stack spacing={3} component="form" onSubmit={handlePasswordVerify}>
                         <Box>
-                            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: 600, mb: 1, display: 'block' }}>
+                            <Typography variant="caption" sx={{ color: "rgba(255, 255, 255, 0.4)", fontWeight: 600, mb: 1, display: "block" }}>
                                 MASTER PASSWORD
                             </Typography>
                             <TextField
@@ -487,26 +489,26 @@ export default function SudoModal({
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <LockIcon sx={{ fontSize: 18, color: "rgba(255, 255, 255, 0.3)" }} />
+                                            <Lock size={18} color="rgba(255, 255, 255, 0.3)" />
                                         </InputAdornment>
                                     ),
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: 'rgba(255, 255, 255, 0.3)' }}>
-                                                {showPassword ? <VisibilityOffIcon sx={{ fontSize: 18 }} /> : <VisibilityIcon sx={{ fontSize: 18 }} />}
+                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: "rgba(255, 255, 255, 0.3)" }}>
+                                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
                                 }}
                                 sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '14px',
-                                        bgcolor: 'rgba(255, 255, 255, 0.03)',
-                                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
-                                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                                        '&.Mui-focused fieldset': { borderColor: '#A855F7' },
+                                    "& .MuiOutlinedInput-root": {
+                                        borderRadius: "14px",
+                                        bgcolor: "rgba(255, 255, 255, 0.03)",
+                                        "& fieldset": { borderColor: "rgba(255, 255, 255, 0.1)" },
+                                        "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.2)" },
+                                        "&.Mui-focused fieldset": { borderColor: "#A855F7" },
                                     },
-                                    '& .MuiInputBase-input': { color: 'white' }
+                                    "& .MuiInputBase-input": { color: "white" }
                                 }}
                             />
                         </Box>
@@ -518,40 +520,40 @@ export default function SudoModal({
                             disabled={loading}
                             sx={{
                                 py: 1.8,
-                                borderRadius: '16px',
-                                background: 'linear-gradient(135deg, #A855F7 0%, #7E22CE 100%)',
-                                color: '#FFFFFF',
+                                borderRadius: "16px",
+                                background: "linear-gradient(135deg, #A855F7 0%, #7E22CE 100%)",
+                                color: "#FFFFFF",
                                 fontWeight: 800,
-                                fontFamily: 'var(--font-satoshi)',
-                                textTransform: 'none',
-                                '&:hover': {
-                                    background: 'linear-gradient(135deg, #9333EA 0%, #6B21A8 100%)',
-                                    transform: 'translateY(-1px)',
-                                    boxShadow: '0 8px 25px rgba(168, 85, 247, 0.25)'
+                                fontFamily: "var(--font-satoshi)",
+                                textTransform: "none",
+                                "&:hover": {
+                                    background: "linear-gradient(135deg, #9333EA 0%, #6B21A8 100%)",
+                                    transform: "translateY(-1px)",
+                                    boxShadow: "0 8px 25px rgba(168, 85, 247, 0.25)"
                                 }
                             }}
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : "Confirm Security Entry"}
+                            {loading ? <CircularProgress size={24} color="inherit" /> : "Verify Identity"}
                         </Button>
 
                         {hasPasskey && mode !== "passkey" && (
                             <Button
                                 fullWidth
                                 variant="text"
-                                startIcon={<FingerprintIcon sx={{ fontSize: 18 }} />}
+                                startIcon={<Fingerprint size={18} />}
                                 onClick={() => {
                                     setMode("passkey");
                                     handlePasskeyVerify();
                                 }}
                                 sx={{
-                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    color: "rgba(255, 255, 255, 0.6)",
                                     py: 1.5,
-                                    borderRadius: '14px',
-                                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                                    textTransform: 'none',
-                                    fontFamily: 'var(--font-satoshi)',
+                                    borderRadius: "14px",
+                                    border: "1px solid rgba(255, 255, 255, 0.05)",
+                                    textTransform: "none",
+                                    fontFamily: "var(--font-satoshi)",
                                     fontWeight: 600,
-                                    '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.15)' },
+                                    "&:hover": { color: "white", bgcolor: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.15)" },
                                     mt: 1
                                 }}
                             >
@@ -563,16 +565,16 @@ export default function SudoModal({
                             <Button
                                 fullWidth
                                 variant="text"
-                                startIcon={<AppsIcon sx={{ fontSize: 18 }} />}
+                                startIcon={<LayoutGrid size={18} />}
                                 onClick={() => setMode("pin")}
                                 sx={{
-                                    color: 'rgba(255, 255, 255, 0.5)',
+                                    color: "rgba(255, 255, 255, 0.5)",
                                     py: 1,
-                                    borderRadius: '12px',
-                                    textTransform: 'none',
-                                    fontFamily: 'var(--font-satoshi)',
+                                    borderRadius: "12px",
+                                    textTransform: "none",
+                                    fontFamily: "var(--font-satoshi)",
                                     fontWeight: 500,
-                                    '&:hover': { color: 'white', bgcolor: 'rgba(255, 255, 255, 0.03)' },
+                                    "&:hover": { color: "white", bgcolor: "rgba(255, 255, 255, 0.03)" },
                                     mt: 0.5
                                 }}
                             >
@@ -590,11 +592,11 @@ export default function SudoModal({
                                     window.location.href = `https://vault.kylrix.space/masterpass/reset?callbackUrl=${callbackUrl}`;
                                 }}
                                 sx={{
-                                    color: 'error.main',
-                                    fontSize: '0.75rem',
+                                    color: "error.main",
+                                    fontSize: "0.75rem",
                                     mt: 1,
-                                    '&:hover': { bgcolor: alpha('#ef4444', 0.1) },
-                                    textTransform: 'none',
+                                    "&:hover": { bgcolor: alpha("#ef4444", 0.1) },
+                                    textTransform: "none",
                                     fontWeight: 600
                                 }}
                             >
@@ -602,19 +604,12 @@ export default function SudoModal({
                             </Button>
                         )}
                     </Stack>
-                )}
-            </DialogContent>
+                )
+            }
+        </DialogContent>
 
             <DialogActions sx={{ flexDirection: 'column', p: 4, pt: 0, gap: 2 }}>
-                <Button
-                    variant="text"
-                    size="small"
-                    onClick={handleLogout}
-                    startIcon={<LogoutIcon sx={{ fontSize: 14 }} />}
-                    sx={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: 600, '&:hover': { color: 'white' } }}
-                >
-                    Logout from Account
-                </Button>
+                {/* No logout here */}
             </DialogActions>
         </Dialog>
     );
