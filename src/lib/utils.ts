@@ -16,7 +16,7 @@ export function getUserField<T = any>(user: any, field: string): T | null {
 
 // Convenience accessor for profile picture id
 export function getUserProfilePicId(user: any): string | null {
-  return getUserField<string>(user, 'profilePicId');
+  return getUserField<string>(user, 'avatar') || getUserField<string>(user, 'profilePicId');
 }
 
 // Convenience accessor for auth method

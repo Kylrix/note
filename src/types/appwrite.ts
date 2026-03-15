@@ -123,8 +123,7 @@ export type Users = Models.Document & {
     name: string | null;
     username?: string | null;
     displayName?: string | null;
-    avatarUrl?: string | null;
-    avatarFileId?: string | null;
+    avatar?: string | null;
     bio?: string | null;
     walletAddress: string | null;
     authMethod?: string | null;
@@ -272,7 +271,8 @@ export type AiGenerations = Models.Document & {
     promptHash: string | null;
     prompt: string | null;
     mode: string | null;
-    providerId: string | null; model: string | null; durationMs: number | null; tokensUsed: number | null; success: boolean | null; error: string | null; createdAt: string | null; }
+    providerId: string | null; model: string | null; durationMs: number | null; tokensUsed: number | null; success: boolean | null; error: string | null; createdAt: string | null;
+}
 
 export type Subscriptions = Models.Document & { userId: string; plan: Plan; status: Status | null; currentPeriodStart: string | null; currentPeriodEnd: string | null; seats: number | null; createdAt: string | null; updatedAt: string | null; }
 
@@ -306,7 +306,7 @@ export type Presence = Models.Document & { userId: string; status: Status; devic
 
 export type MessageQueue = Models.Document & { messageId: string; conversationId: string; recipientIds: string[]; pendingFor: string[]; priority: number; retryCount: number; maxRetries: number; status: Status; error: string | null; scheduledFor: string | null; createdAt: string | null; processedAt: string | null; }
 
-export type Conversations = Models.Document & { type: Type; name: string | null; description: string | null; avatarUrl: string | null; avatarFileId: string | null; creatorId: string; participantIds: string[]; adminIds: string[]; moderatorIds: string[]; participantCount: number; maxParticipants: number; isEncrypted: boolean; encryptionVersion: string | null; isPinned: string[]; isMuted: string[]; isArchived: string[]; lastMessageId: string | null; lastMessageText: string | null; lastMessageAt: string | null; lastMessageSenderId: string | null; unreadCount: string | null; settings: string | null; isPublic: boolean; inviteLink: string | null; inviteLinkExpiry: string | null; category: string | null; tags: string[]; createdAt: string | null; updatedAt: string | null; }
+export type Conversations = Models.Document & { type: Type; name: string | null; description: string | null; avatar: string | null; creatorId: string; participantIds: string[]; adminIds: string[]; moderatorIds: string[]; participantCount: number; maxParticipants: number; isEncrypted: boolean; encryptionVersion: string | null; isPinned: string[]; isMuted: string[]; isArchived: string[]; lastMessageId: string | null; lastMessageText: string | null; lastMessageAt: string | null; lastMessageSenderId: string | null; unreadCount: string | null; settings: string | null; isPublic: boolean; inviteLink: string | null; inviteLinkExpiry: string | null; category: string | null; tags: string[]; createdAt: string | null; updatedAt: string | null; }
 
 export type Contacts = Models.Document & { userId: string; contactUserId: string; nickname: string | null; relationship: Relationship; isBlocked: boolean; isFavorite: boolean; notes: string | null; tags: string[]; lastInteraction: string | null; addedAt: string | null; updatedAt: string | null; }
 

@@ -64,7 +64,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
   const commentUser = userMap[comment.userId];
   const isOwner = user?.$id === comment.userId;
   const isDeleted = comment.content === '[Deleted]';
-  
+
   // Efficient identity fallback using canonized helpers
   const displayName = isDeleted ? 'Deleted' : getEffectiveDisplayName(commentUser);
   const username = isDeleted ? null : getEffectiveUsername(commentUser);
@@ -116,10 +116,10 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
   };
 
   return (
-    <Box sx={{ 
-      ml: depth * 3, 
-      mt: 1, 
-      borderLeft: depth > 0 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none', 
+    <Box sx={{
+      ml: depth * 3,
+      mt: 1,
+      borderLeft: depth > 0 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
       pl: depth > 0 ? 2 : 0,
     }}>
       <ListItem
@@ -141,7 +141,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
                 <ReplyIcon fontSize="small" />
               </IconButton>
             )}
-            
+
             {isOwner && !isDeleted && (
               <>
                 <IconButton size="small" onClick={handleMenuOpen}>
@@ -172,14 +172,14 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
           </Box>
         }
       >
-        <Avatar 
-          src={!isDeleted ? commentUser?.avatarUrl || undefined : undefined}
-          sx={{ 
-            width: 32, 
-            height: 32, 
-            mr: 2, 
-            mt: 0.5, 
-            bgcolor: isDeleted ? 'grey.500' : 'primary.main', 
+        <Avatar
+          src={!isDeleted ? commentUser?.avatar || undefined : undefined}
+          sx={{
+            width: 32,
+            height: 32,
+            mr: 2,
+            mt: 0.5,
+            bgcolor: isDeleted ? 'grey.500' : 'primary.main',
             fontSize: 14,
             opacity: isDeleted ? 0.6 : 1
           }}
@@ -195,7 +195,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
                   multiline
                   size="small"
                   value={editContent}
-                  onChange={ (e) => setEditContent(e.target.value)}
+                  onChange={(e) => setEditContent(e.target.value)}
                   autoFocus
                 />
                 <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
@@ -206,8 +206,8 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
             ) : isDeleted ? (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5 }}>
                 <BlockIcon sx={{ fontSize: 16, color: 'text.disabled' }} />
-                <Typography variant="body2" sx={{ 
-                  color: 'text.disabled', 
+                <Typography variant="body2" sx={{
+                  color: 'text.disabled',
                   fontStyle: 'italic',
                   fontSize: '0.85rem',
                   letterSpacing: '0.01em'
@@ -220,13 +220,13 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
           secondary={
             <Box component="span" sx={{ display: 'block', mt: 0.5 }}>
               <Typography variant="caption" color="text.secondary">
-                by <Link 
-                  href={profileLink} 
-                  target="_blank" 
+                by <Link
+                  href={profileLink}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  sx={{ 
-                    fontWeight: 600, 
-                    color: 'primary.main', 
+                  sx={{
+                    fontWeight: 600,
+                    color: 'primary.main',
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' }
                   }}
@@ -291,7 +291,7 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
             rows={2}
             placeholder={`Reply to ${displayName}...`}
             value={replyContent}
-            onChange={ (e) => setReplyContent(e.target.value)}
+            onChange={(e) => setReplyContent(e.target.value)}
             autoFocus
           />
           <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
@@ -304,14 +304,14 @@ function CommentItem({ comment, onReply, onUpdate, onDelete, depth = 0, userMap,
       <Collapse in={showChildren}>
         <Box>
           {comment.children.map((child) => (
-            <CommentItem 
-              key={child.$id} 
-              comment={child} 
-              onReply={onReply} 
+            <CommentItem
+              key={child.$id}
+              comment={child}
+              onReply={onReply}
               onUpdate={onUpdate}
               onDelete={onDelete}
-              depth={depth + 1} 
-              userMap={userMap} 
+              depth={depth + 1}
+              userMap={userMap}
               noteId={noteId}
             />
           ))}
@@ -332,7 +332,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
     try {
       const res = await listComments(noteId);
       const docs = res.documents as unknown as Comments[];
-      
+
       // Sort by date ascending
       const sorted = docs.sort(
         (a, b) => new Date(a.$createdAt).getTime() - new Date(b.$createdAt).getTime()
@@ -387,18 +387,18 @@ export default function CommentsSection({ noteId }: CommentsProps) {
   const handleAddComment = async (parentId: string | null = null, content: string = newComment) => {
     const text = parentId ? content : newComment;
     if (!text.trim()) return;
-    
+
     try {
       const comment = await createComment(noteId, text, parentId);
       const newCommentDoc = comment as unknown as Comments;
       setComments(prev => [...prev, newCommentDoc]);
-      
+
       // If the user who commented isn't in userMap, we might want to refresh or add them
       // For now, we refresh to be safe or just wait for the user to be there
       if (!userMap[newCommentDoc.userId]) {
         fetchComments();
       }
-      
+
       if (!parentId) setNewComment('');
     } catch (error: any) {
       console.error('Failed to add comment:', error);
@@ -408,7 +408,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
   const handleUpdateComment = async (commentId: string, content: string) => {
     try {
       await updateComment(commentId, { content });
-      setComments(prev => 
+      setComments(prev =>
         prev.map(c => c.$id === commentId ? { ...c, content } as Comments : c)
       );
     } catch (error: any) {
@@ -419,13 +419,13 @@ export default function CommentsSection({ noteId }: CommentsProps) {
   const handleDeleteComment = async (commentId: string) => {
     try {
       const hasChildren = comments.some(c => c.parentCommentId === commentId);
-      
+
       if (hasChildren) {
         // Soft delete: preservation of tree structure for Reddit-like behavior
         // We redact the content to [Deleted] instead of hard-deleting the document
         await updateComment(commentId, { content: '[Deleted]' });
         await deleteReactionsForTarget(TargetType.COMMENT, commentId);
-        setComments(prev => 
+        setComments(prev =>
           prev.map(c => c.$id === commentId ? { ...c, content: '[Deleted]' } as Comments : c)
         );
       } else {
@@ -452,7 +452,7 @@ export default function CommentsSection({ noteId }: CommentsProps) {
           label="Add a top-level comment"
           placeholder="Share your thoughts..."
           value={newComment}
-          onChange={ (e) => setNewComment(e.target.value)}
+          onChange={(e) => setNewComment(e.target.value)}
         />
         <Button
           variant="contained"
@@ -472,9 +472,9 @@ export default function CommentsSection({ noteId }: CommentsProps) {
       <List>
         {commentTree.map((comment) => (
           <div key={comment.$id}>
-            <CommentItem 
-              comment={comment} 
-              onReply={(parentId, content) => handleAddComment(parentId, content)} 
+            <CommentItem
+              comment={comment}
+              onReply={(parentId, content) => handleAddComment(parentId, content)}
               onUpdate={handleUpdateComment}
               onDelete={handleDeleteComment}
               userMap={userMap}
